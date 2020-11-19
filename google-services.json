@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "447024610572",
+    "firebase_url": "https://freediverdb.firebaseio.com",
+    "project_id": "freediverdb",
+    "storage_bucket": "freediverdb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:447024610572:android:19cbd7b64dc2ba25569d29",
+        "android_client_info": {
+          "package_name": "com.project.freediverapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "447024610572-sj5pt57vgvv33oouh5ddo6bh3sgr16bq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcNaDJVD1HLW_pRqOo_ZRfy0YH72CoLfE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "447024610572-sj5pt57vgvv33oouh5ddo6bh3sgr16bq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
