@@ -22,7 +22,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="80dp"
         android:layout_marginRight="80dp"
-        android:hint="Username123"
+        android:hint="@string/username"
         android:id="@+id/textedit_username"
         android:textColor="@android:color/black"
         android:textColorHint="@android:color/black"/>
@@ -32,13 +32,13 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="80dp"
         android:layout_marginRight="80dp"
-        android:hint="Password"
+        android:hint="@string/password"
         android:id="@+id/textedit_password"
         android:textColor="@android:color/black"
         android:textColorHint="@android:color/black"/>
     
     <Button
-        android:text="Login"
+        android:text="@string/login"
         android:textAllCaps="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -46,5 +46,14 @@
         android:layout_marginRight="80dp"
         android:id="@+id/button_login"
         android:layout_marginBottom="30dp"/>
+
+    <Button
+        android:text="@string/register"
+        android:textAllCaps="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:id="@+id/button_register"/>
 
 </LinearLayout>
