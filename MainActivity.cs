@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Android;
 using Android.App;
 using Android.Bluetooth;
@@ -15,7 +16,10 @@ using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 using FreediverApp.BluetoothCommunication;
+using Microcharts.Droid;
+using Microcharts;
 using ActionBarDrawerToggle = Android.Support.V7.App.ActionBarDrawerToggle;
+using SkiaSharp;
 
 namespace FreediverApp
 {
@@ -24,6 +28,7 @@ namespace FreediverApp
     {
         private BluetoothAdapter bt_adapter;
         private BluetoothDeviceReceiver bt_receiver;
+        private ChartView chartView;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -38,6 +43,9 @@ namespace FreediverApp
             Button btn_scan = FindViewById<Button>(Resource.Id.btn_scan);
             btn_scan.Click += Btn_scan_Click;
 
+            chartView = FindViewById<ChartView>(Resource.Id.chartView);
+            generateChart();
+
             DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
             drawer.AddDrawerListener(toggle);
@@ -45,6 +53,70 @@ namespace FreediverApp
 
             NavigationView navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
             navigationView.SetNavigationItemSelectedListener(this);
+        }
+
+        private void generateChart() 
+        {
+            List<ChartEntry> dataList = new List<ChartEntry>();
+
+            dataList.Add(new ChartEntry(0)
+            {
+                Label = "0:05",
+                ValueLabel = "0",
+                Color = SKColor.Parse("#5cf739")
+            });
+
+            dataList.Add(new ChartEntry(5)
+            {
+                Label = "0:10",
+                ValueLabel = "5",
+                Color = SKColor.Parse("#f7c139")
+            });
+
+            dataList.Add(new ChartEntry(8)
+            {
+                Label = "0:15",
+                ValueLabel = "8",
+                Color = SKColor.Parse("#f75939")
+            });
+
+            dataList.Add(new ChartEntry(8)
+            {
+                Label = "0:20",
+                ValueLabel = "8",
+                Color = SKColor.Parse("#f75939")
+            });
+
+            dataList.Add(new ChartEntry(9)
+            {
+                Label = "0:25",
+                ValueLabel = "9",
+                Color = SKColor.Parse("#f75939")
+            });
+
+            dataList.Add(new ChartEntry(8)
+            {
+                Label = "0:30",
+                ValueLabel = "8",
+                Color = SKColor.Parse("#f75939")
+            });
+
+            dataList.Add(new ChartEntry(4)
+            {
+                Label = "0:35",
+                ValueLabel = "4",
+                Color = SKColor.Parse("f7c139")
+            });
+
+            dataList.Add(new ChartEntry(1)
+            {
+                Label = "0:40",
+                ValueLabel = "4",
+                Color = SKColor.Parse("#5cf739")
+            });
+
+            var chart = new LineChart { Entries = dataList, LabelTextSize = 30f };
+            chartView.Chart = chart;
         }
 
         private void Btn_scan_Click(object sender, EventArgs e)
