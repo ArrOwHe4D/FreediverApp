@@ -191,7 +191,10 @@ namespace FreediverApp
             }
             else if (id == Resource.Id.nav_gallery)
             {
+                if (true)
+                {
 
+                }
             }
             else if (id == Resource.Id.nav_slideshow)
             {
