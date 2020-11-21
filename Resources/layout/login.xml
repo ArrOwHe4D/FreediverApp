@@ -22,7 +22,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="80dp"
         android:layout_marginRight="80dp"
-        android:hint="Username1"
+        android:hint="Username123"
         android:id="@+id/textedit_username"
         android:textColor="@android:color/black"
         android:textColorHint="@android:color/black"/>
