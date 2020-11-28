@@ -20,7 +20,6 @@ namespace FreediverApp
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.LoginProblemsPage);
-            // Create your application here
         }
     }
 }

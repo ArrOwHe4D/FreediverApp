@@ -185,22 +185,22 @@ namespace FreediverApp
         {
             int id = item.ItemId;
 
-            if (id == Resource.Id.nav_camera)
+            if (id == Resource.Id.nav_dive_sessions)
             {
                 // Handle the camera action
             }
-            else if (id == Resource.Id.nav_gallery)
+            else if (id == Resource.Id.nav_connected_devices)
             {
                 if (true)
                 {
 
                 }
             }
-            else if (id == Resource.Id.nav_slideshow)
+            else if (id == Resource.Id.nav_profile)
             {
 
             }
-            else if (id == Resource.Id.nav_manage)
+            else if (id == Resource.Id.nav_settings)
             {
 
             }
