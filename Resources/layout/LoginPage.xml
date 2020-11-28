@@ -10,8 +10,8 @@
     
     <ImageView
         android:src="@drawable/freediver_app_icon"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_width="230dp"
+        android:layout_height="240dp"
         android:layout_marginTop="20dp"
         android:layout_gravity="center"
         android:id="@+id/imageview_logo"/>
@@ -44,8 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="80dp"
         android:layout_marginRight="80dp"
-        android:id="@+id/button_login"
-        android:layout_marginBottom="30dp"/>
+        android:id="@+id/button_login"/>
 
     <Button
         android:text="@string/register"
@@ -54,6 +53,17 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="80dp"
         android:layout_marginRight="80dp"
+        android:layout_marginBottom="10dp"
         android:id="@+id/button_register"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/cant_login"
+        android:gravity="center"
+        android:textColor="@color/colorLink"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:id="@+id/textview_cantlogin"/>
 
 </LinearLayout>

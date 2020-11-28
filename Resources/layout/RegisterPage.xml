@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+        
+    <TextView
+        android:text="@string/register"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@android:color/black"
+        android:id="@+id/textview_register" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:hint="@string/email"
+        android:id="@+id/textedit_email"
+        android:textColor="@android:color/black"
+        android:textColorHint="@android:color/black"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:hint="@string/username"
+        android:id="@+id/textedit_username"
+        android:textColor="@android:color/black"
+        android:textColorHint="@android:color/black"/>
+
+     <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:hint="@string/password"
+        android:id="@+id/textedit_password"
+        android:textColor="@android:color/black"
+        android:textColorHint="@android:color/black"/>
+
+     <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:hint="@string/firstname"
+        android:id="@+id/textedit_firstname"
+        android:textColor="@android:color/black"
+        android:textColorHint="@android:color/black"/>
+
+     <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:hint="@string/lastname"
+        android:id="@+id/textedit_lastname"
+        android:textColor="@android:color/black"
+        android:textColorHint="@android:color/black"/>
+
+     <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:hint="@string/date_of_birth"
+        android:id="@+id/datepicker_date_of_birth"
+        android:textColor="@android:color/black"
+        android:textColorHint="@android:color/black"/>
+
+     <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:hint="@string/weight"
+        android:id="@+id/textedit_weight"
+        android:textColor="@android:color/black"
+        android:textColorHint="@android:color/black"/>
+
+     <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:hint="@string/height"
+        android:id="@+id/textedit_height"
+        android:textColor="@android:color/black"
+        android:textColorHint="@android:color/black"/>
+
+     <Button
+        android:text="@string/create_account"
+        android:textAllCaps="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:id="@+id/button_register"/>
+
+</LinearLayout>

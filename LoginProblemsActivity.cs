@@ -12,14 +12,14 @@ using Android.Widget;
 
 namespace FreediverApp
 {
-    [Activity(Label = "RegisterActivity")]
-    public class RegisterActivity : Activity
+    [Activity(Label = "LoginProblemsActivity")]
+    public class LoginProblemsActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
-            SetContentView(Resource.Layout.RegisterPage);
+            SetContentView(Resource.Layout.LoginProblemsPage);
             // Create your application here
         }
     }

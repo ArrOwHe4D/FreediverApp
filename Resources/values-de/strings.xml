@@ -1,6 +1,6 @@
 ﻿<resources>
   <!--Common Strings-->
-  <string name="app_name">FreediverApp</string>
+  <string name="app_name">Freediver App</string>
   <string name="navigation_drawer_open">Open navigation drawer</string>
   <string name="navigation_drawer_close">Close navigation drawer</string>
   <string name="action_settings">Settings</string>
@@ -10,8 +10,11 @@
   <string name="logout">Ausloggen</string>
   <string name="register">Registrieren</string>
   <string name="cant_login">Probleme beim Einloggen?</string>
+  <string name="email">E-Mail</string>
   <string name="username">Benutzername</string>
+  <string name="username_or_email">Benutzername/E-Mail</string>
   <string name="password">Passwort</string>
+  <string name="recover_password">Passwort wiederherstellen</string>
   <string name="firstname">Vorname</string>
   <string name="lastname">Nachname</string>
   <string name="date_of_birth">Geburtsdatum</string>
@@ -25,7 +28,7 @@
   <string name="max_depth">Max Tiefe</string>
   <string name="location">Standort</string>
   <string name="weather_condition">Wetterverhältnisse</string>
-  <string name="total_dive_time">Tauchzeit insgesamt</string>
+  <string name="total_dive_time">Gesamte Tauchzeit</string>
   <string name="connected_devices">Verbundene Geräte</string>
   <string name="account">Profil</string>
   <string name="app_settings">Einstellungen</string>
