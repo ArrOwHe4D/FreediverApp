@@ -6,14 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:minWidth="25px"
-    android:minHeight="25px">
-    
+    android:minHeight="25px"
+    android:gravity="center">
+
     <ImageView
         android:src="@drawable/freediver_app_icon"
         android:layout_width="230dp"
         android:layout_height="240dp"
         android:layout_marginTop="20dp"
-        android:layout_gravity="center"
         android:id="@+id/imageview_logo"/>
 
     <EditText
@@ -24,7 +24,7 @@
         android:layout_marginRight="80dp"
         android:hint="@string/username"
         android:id="@+id/textedit_username"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/black"        
         android:textColorHint="@android:color/black"/>
 
     <EditText
@@ -36,7 +36,7 @@
         android:id="@+id/textedit_password"
         android:textColor="@android:color/black"
         android:textColorHint="@android:color/black"/>
-    
+
     <Button
         android:text="@string/login"
         android:textAllCaps="false"

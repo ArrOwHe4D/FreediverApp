@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -14,7 +15,7 @@
         android:id="@+id/textedit_username"
         android:textColor="@android:color/black"
         android:textColorHint="@android:color/black"/>
-    
+
     <Button
         android:text="@string/recover_password"
         android:textAllCaps="false"
