@@ -12,14 +12,22 @@ using Android.Widget;
 
 namespace FreediverApp
 {
-    [Activity(Label = "@string/app_name")]
+    [Activity(Label = "Bluetooth Devices")]
     public class BluetoothDevicesActivity : Activity
     {
+        private List<string> mItems;
+        private ListView mListView;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.BluetoothDevicesPage);
+
+            mListView = FindViewById<ListView>(Resource.Id.lv_con_devices);
+
+            mItems = new List<string>();
+            mItems.Add("Device1");
+            mItems.Add("Device2");
         }
     }
 }
