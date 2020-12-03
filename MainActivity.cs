@@ -191,14 +191,12 @@ namespace FreediverApp
             }
             else if (id == Resource.Id.nav_connected_devices)
             {
-                if (true)
-                {
 
-                }
             }
             else if (id == Resource.Id.nav_profile)
             {
-
+                var accountPanelActivity = new Intent(this, typeof(AccountPanelActivity));
+                StartActivity(accountPanelActivity);
             }
             else if (id == Resource.Id.nav_settings)
             {

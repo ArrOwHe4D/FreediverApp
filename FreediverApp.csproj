@@ -65,6 +65,7 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountPanelActivity.cs" />
     <Compile Include="BluetoothCommunication\BluetoothDeviceReceiver.cs" />
     <Compile Include="BluetoothDevicesActivity.cs" />
     <Compile Include="DatabaseConnector\DatabaseConnector.cs" />
@@ -195,7 +196,11 @@
     <AndroidResource Include="Resources\drawable\logout_icon.png" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< Updated upstream
     <AndroidResource Include="Resources\layout\BluetoothDevicesPage.xml">
+=======
+    <AndroidResource Include="Resources\layout\AccountPanelPage.xml">
+>>>>>>> Stashed changes
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
