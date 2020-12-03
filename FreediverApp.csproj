@@ -196,11 +196,10 @@
     <AndroidResource Include="Resources\drawable\logout_icon.png" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< Updated upstream
     <AndroidResource Include="Resources\layout\BluetoothDevicesPage.xml">
-=======
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <AndroidResource Include="Resources\layout\AccountPanelPage.xml">
->>>>>>> Stashed changes
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

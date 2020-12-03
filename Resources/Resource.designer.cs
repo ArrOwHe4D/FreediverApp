@@ -5013,7 +5013,6 @@ namespace FreediverApp
 			public const int list_item = 2131230880;
 			
 			// aapt resource value: 0x7F0800A1
-<<<<<<< Updated upstream
 			public const int lv_con_devices = 2131230881;
 			
 			// aapt resource value: 0x7F0800A2
@@ -5261,7 +5260,7 @@ namespace FreediverApp
 			
 			// aapt resource value: 0x7F0800F2
 			public const int search_src_text = 2131230962;
-=======
+
 			public const int masked = 2131230881;
 			
 			// aapt resource value: 0x7F0800A2
@@ -5515,7 +5514,6 @@ namespace FreediverApp
 			
 			// aapt resource value: 0x7F0800F3
 			public const int select_dialog_listview = 2131230963;
->>>>>>> Stashed changes
 			
 			// aapt resource value: 0x7F0800F3
 			public const int search_voice_btn = 2131230963;
@@ -5523,7 +5521,6 @@ namespace FreediverApp
 			// aapt resource value: 0x7F0800F5
 			public const int selected = 2131230965;
 			
-<<<<<<< Updated upstream
 			// aapt resource value: 0x7F0800F4
 			public const int select_dialog_listview = 2131230964;
 			
@@ -5712,7 +5709,7 @@ namespace FreediverApp
 			
 			// aapt resource value: 0x7F080131
 			public const int topPanel = 2131231025;
-=======
+
 			// aapt resource value: 0x7F0800F5
 			public const int shortcut = 2131230965;
 			
@@ -5895,7 +5892,6 @@ namespace FreediverApp
 			
 			// aapt resource value: 0x7F080130
 			public const int topPanel = 2131231024;
->>>>>>> Stashed changes
 			
 			// aapt resource value: 0x7F080008
 			public const int TOP_END = 2131230728;
@@ -5903,7 +5899,6 @@ namespace FreediverApp
 			// aapt resource value: 0x7F080009
 			public const int TOP_START = 2131230729;
 			
-<<<<<<< Updated upstream
 			// aapt resource value: 0x7F080132
 			public const int touch_outside = 2131231026;
 			
@@ -5957,7 +5952,7 @@ namespace FreediverApp
 			
 			// aapt resource value: 0x7F080143
 			public const int wrap_content = 2131231043;
-=======
+
 			// aapt resource value: 0x7F080131
 			public const int touch_outside = 2131231025;
 			
@@ -6011,7 +6006,6 @@ namespace FreediverApp
 			
 			// aapt resource value: 0x7F080142
 			public const int wrap_content = 2131231042;
->>>>>>> Stashed changes
 			
 			static Id()
 			{
@@ -6242,11 +6236,9 @@ namespace FreediverApp
 			public const int activity_main = 2131427357;
 			
 			// aapt resource value: 0x7F0B001E
-<<<<<<< Updated upstream
 			public const int BluetoothDevicesPage = 2131427358;
-=======
+
 			public const int app_bar_main = 2131427358;
->>>>>>> Stashed changes
 			
 			// aapt resource value: 0x7F0B001F
 			public const int browser_actions_context_menu_page = 2131427359;
