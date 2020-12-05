@@ -191,7 +191,8 @@ namespace FreediverApp
             }
             else if (id == Resource.Id.nav_connected_devices)
             {
-
+                var bluetoothDevicesPanelActivity = new Intent(this, typeof(BluetoothDevicesActivity));
+                StartActivity(bluetoothDevicesPanelActivity);
             }
             else if (id == Resource.Id.nav_profile)
             {
