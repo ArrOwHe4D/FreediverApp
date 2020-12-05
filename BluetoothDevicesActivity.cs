@@ -30,19 +30,9 @@ namespace FreediverApp
 
             SetContentView(Resource.Layout.BluetoothDevicesPage);
 
-            //TESTING AREA------------
-            bt_receiver = new BluetoothDeviceReceiver();
-            foreach (BluetoothDevice bd in bt_receiver.foundDevices)
-            {
-                if (!mItems.Contains(bd.Name))
-                    mItems.Add(bd.Name);
-            }
-            //------------------------
-
-
             mListView = FindViewById<ListView>(Resource.Id.lv_con_devices);
             mItems = new List<string>();
-            mItems = getBluetoothDevices();
+            //mItems = getBluetoothDevices();
 
             ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, mItems);
             mListView.Adapter = adapter;
@@ -50,12 +40,26 @@ namespace FreediverApp
 
         private List<string> getBluetoothDevices()
         {
+            bt_receiver = new BluetoothDeviceReceiver();
+
+            RegisterReceiver(bt_receiver, new IntentFilter(BluetoothDevice.ActionFound));
             List<string> foundDevices = new List<string>();
-            BluetoothAdapter adapter = BluetoothAdapter.DefaultAdapter;
-            adapter.StartDiscovery();
-            if (adapter.IsEnabled)
+            /*BluetoothAdapter adapter*/ 
+            bt_receiver.m_adapter = BluetoothAdapter.DefaultAdapter;
+            bt_receiver.m_adapter.StartDiscovery();
+            //adapter.StartDiscovery();
+
+            //TESTING AREA------------
+            foreach (BluetoothDevice bd in bt_receiver.foundDevices)
             {
-                List<BluetoothDevice> devices = adapter.BondedDevices.ToList();
+                if (!foundDevices.Contains(bd.Name))
+                    foundDevices.Add(bd.Name);
+            }
+            //------------------------
+
+            if (bt_receiver.m_adapter.IsEnabled)
+            {
+                List<BluetoothDevice> devices = bt_receiver.m_adapter.BondedDevices.ToList();
                 foreach (var device in devices)
                 {
                     foundDevices.Add(device.Name);

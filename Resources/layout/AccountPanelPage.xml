@@ -68,6 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:layout_marginLeft="4dp"
                     android:layout_gravity="center_horizontal"
                     android:text="@string/account_information"
                     android:textColor="@android:color/black"
@@ -85,15 +86,15 @@
                     android:layout_marginTop="8dp"
                     android:text="@string/email"
                     android:textColor="@android:color/black"
-                    android:textSize="10pt"/>
+                    android:textSize="8pt"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="testuser@testprovider.eu"
+                    android:text=": testuser@provider.eu"
                     android:textColor="@android:color/black"
-                    android:textSize="10pt"/>
+                    android:textSize="8pt"/>
 
                 <ImageView
                     android:layout_width="wrap_content"

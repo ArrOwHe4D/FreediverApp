@@ -16,7 +16,7 @@ using Android.Widget;
 
 namespace FreediverApp
 {
-    [Activity(Label = "AccountPanelActivity")]
+    [Activity(Label = "Freediver App - Profile", Theme = "@style/AppTheme.NoActionBar")]
     public class AccountPanelActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener
     {
         protected override void OnCreate(Bundle savedInstanceState)
