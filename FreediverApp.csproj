@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountPanelActivity.cs" />
+    <Compile Include="DiveSessionDetailViewActivity.cs" />
     <Compile Include="BluetoothCommunication\BluetoothDeviceReceiver.cs" />
     <Compile Include="BluetoothDevicesActivity.cs" />
     <Compile Include="DatabaseConnector\DatabaseConnector.cs" />
@@ -200,6 +201,11 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\AccountPanelPage.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\DiveSessionDetailViewPage.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
