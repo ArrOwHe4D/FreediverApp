@@ -202,6 +202,11 @@ namespace FreediverApp
             {
 
             }
+            else if (id == Resource.Id.nav_logout) 
+            {
+                var loginActivity = new Intent(this, typeof(LoginActivity));
+                StartActivity(loginActivity);
+            }
             else if (id == Resource.Id.nav_share)
             {
 

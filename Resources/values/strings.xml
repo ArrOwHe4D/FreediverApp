@@ -1,14 +1,18 @@
 <resources>
     <!--Common Strings-->
-    <string name="app_name">FreediverApp</string>
+    <string name="app_name">Freediver App</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
+
+    <!--Page Headers-->
+    <string name="page_header_accountpanel">Freediver App - Account Panel</string>
 
     <!--Language Strings (EN_US)-->
     <string name="login">Login</string>
     <string name="logout">Logout</string>
     <string name="register">Register</string>
+    <string name="registered_since">registered since: </string>
     <string name="cant_login">Can´t login?</string>
     <string name="email">E-Mail</string>
     <string name="username">Username</string>
@@ -31,6 +35,7 @@
     <string name="total_dive_time">Total Dive Time</string>
     <string name="connected_devices">Connected Devices</string>
     <string name="account">Account</string>
+    <string name="account_information">Account Information</string>
     <string name="app_settings">App Settings</string>
     <string name="language">Language</string>
     <string name="design">Design</string>  
