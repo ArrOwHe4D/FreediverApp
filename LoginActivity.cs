@@ -18,6 +18,7 @@ namespace FreediverApp
         private TextView textview_cantlogin;
         private Button button_register, button_login;
         private EditText textedit_username, textedit_password;
+        private Button button1;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -39,6 +40,11 @@ namespace FreediverApp
 
             textview_cantlogin = FindViewById<TextView>(Resource.Id.textview_cantlogin);
             textview_cantlogin.Click += redirectToLoginProblemsActivity;
+
+            button1 = FindViewById<Button>(Resource.Id.DiveSessionDetail);
+            button1.Click += redirectToDiveSessionDetailViewActivity;
+
+
         }
 
         private void login(object sender, EventArgs eventArgs)
@@ -66,5 +72,12 @@ namespace FreediverApp
             var registerActivity = new Intent(this, typeof(RegisterActivity));
             StartActivity(registerActivity);
         }
+
+        private void redirectToDiveSessionDetailViewActivity(object sender, EventArgs eventArgs)
+        {
+            var diveSessionDetailActivity = new Intent(this, typeof(DiveSessionDetailViewActivity));
+            StartActivity(diveSessionDetailActivity);
+        }
+
     }
 }
