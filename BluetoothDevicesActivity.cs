@@ -30,6 +30,16 @@ namespace FreediverApp
 
             SetContentView(Resource.Layout.BluetoothDevicesPage);
 
+            //TESTING AREA------------
+            bt_receiver = new BluetoothDeviceReceiver();
+            foreach (BluetoothDevice bd in bt_receiver.foundDevices)
+            {
+                if (!mItems.Contains(bd.Name))
+                    mItems.Add(bd.Name);
+            }
+            //------------------------
+
+
             mListView = FindViewById<ListView>(Resource.Id.lv_con_devices);
             mItems = new List<string>();
             mItems = getBluetoothDevices();
