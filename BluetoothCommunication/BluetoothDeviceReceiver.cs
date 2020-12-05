@@ -1,13 +1,20 @@
 ﻿using System;
 using Android.Bluetooth;
 using Android.Content;
+using System.Collections.Generic;
 
 namespace FreediverApp.BluetoothCommunication
 {
     public class BluetoothDeviceReceiver : BroadcastReceiver
     {
+        public List<BluetoothDevice> foundDevices;
+
+        public BluetoothAdapter m_adapter;
+
+
         public override void OnReceive(Context context, Intent intent)
         {
+            foundDevices = new List<BluetoothDevice>();
             var action = intent.Action;
 
             if (action != BluetoothDevice.ActionFound)
@@ -16,7 +23,7 @@ namespace FreediverApp.BluetoothCommunication
             BluetoothDevice device = (BluetoothDevice)intent.GetParcelableExtra(BluetoothDevice.ExtraDevice);
 
             if (device.BondState != Bond.Bonded)
-                Console.WriteLine($"Found device with id: {device.Name} and MAC-Address: {device.Address}"); 
+                foundDevices.Add(device);
         }
     }
 }

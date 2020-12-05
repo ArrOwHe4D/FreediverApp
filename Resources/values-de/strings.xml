@@ -9,6 +9,7 @@
   <string name="login">Einloggen</string>
   <string name="logout">Ausloggen</string>
   <string name="register">Registrieren</string>
+  <string name="registered_since">Registriert seit: </string>
   <string name="cant_login">Probleme beim Einloggen?</string>
   <string name="email">E-Mail</string>
   <string name="username">Benutzername</string>
@@ -31,6 +32,7 @@
   <string name="total_dive_time">Gesamte Tauchzeit</string>
   <string name="connected_devices">Verbundene Geräte</string>
   <string name="account">Profil</string>
+  <string name="account_information">Account Daten</string>
   <string name="app_settings">Einstellungen</string>
   <string name="language">Sprache</string>
   <string name="design">Farbthema</string>

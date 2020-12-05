@@ -50,15 +50,15 @@ namespace FreediverApp
         private void login(object sender, EventArgs eventArgs)
         {
             //Dummy Login since we have no db connection yet
-            if (textedit_username.Text == "Freediver" && textedit_password.Text == "123")
-            {
+            //if (textedit_username.Text == "Freediver" && textedit_password.Text == "123")
+            //{
                 var mainMenu = new Intent(this, typeof(MainActivity));
                 StartActivity(mainMenu);
-            }
-            else
-            {
-                Toast.MakeText(this, "You entered a wrong user id or password!", ToastLength.Long).Show();
-            }
+            //}
+            //else
+            //{
+            //    Toast.MakeText(this, "You entered a wrong user id or password!", ToastLength.Long).Show();
+            //}
         }
 
         private void redirectToLoginProblemsActivity(object sender, EventArgs eventArgs) 

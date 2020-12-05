@@ -187,11 +187,13 @@ namespace FreediverApp
 
             if (id == Resource.Id.nav_dive_sessions)
             {
-                // Handle the camera action
+                var diveSessionDetailActivity = new Intent(this, typeof(DiveSessionDetailViewActivity));
+                StartActivity(diveSessionDetailActivity);
             }
             else if (id == Resource.Id.nav_connected_devices)
             {
-
+                var bluetoothDevicesPanelActivity = new Intent(this, typeof(BluetoothDevicesActivity));
+                StartActivity(bluetoothDevicesPanelActivity);
             }
             else if (id == Resource.Id.nav_profile)
             {
@@ -201,6 +203,11 @@ namespace FreediverApp
             else if (id == Resource.Id.nav_settings)
             {
 
+            }
+            else if (id == Resource.Id.nav_logout) 
+            {
+                var loginActivity = new Intent(this, typeof(LoginActivity));
+                StartActivity(loginActivity);
             }
             else if (id == Resource.Id.nav_share)
             {
