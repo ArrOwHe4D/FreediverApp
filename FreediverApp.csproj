@@ -206,17 +206,15 @@
     <AndroidResource Include="Resources\layout\AccountPanelPage.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
-  </ItemGroup>
+    <AndroidResource Include="Resources\layout\DiveSessionDetailViewPage.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>    
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\profile_dummy_icon.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon_pencil.png" />
-      <SubType>Designer</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\layout\DiveSessionDetailViewPage.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
