@@ -20,46 +20,41 @@ namespace FreediverApp
     [Activity(Label = "Bluetooth Devices")]
     public class BluetoothDevicesActivity : Activity
     {
-        private List<string> mItems;
-        private ListView mListView;
-        private BluetoothDeviceReceiver bt_receiver;
+        private List<string> items;
+        private List<BluetoothDevice> discoveredDevices;
+        private ListView listView;
+        private BluetoothDeviceReceiver btReceiver;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
+            btReceiver = new BluetoothDeviceReceiver();
+
             SetContentView(Resource.Layout.BluetoothDevicesPage);
 
-            mListView = FindViewById<ListView>(Resource.Id.lv_con_devices);
-            mItems = new List<string>();
-            //mItems = getBluetoothDevices();
+            listView = FindViewById<ListView>(Resource.Id.lv_con_devices);
+          
+            discoveredDevices = getUnknownDevices();
+            items = getBondedBluetoothDevices();
 
-            ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, mItems);
-            mListView.Adapter = adapter;
+            ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, items);
+            listView.Adapter = adapter;
         }
 
-        private List<string> getBluetoothDevices()
+        private List<BluetoothDevice> getUnknownDevices()
         {
-            bt_receiver = new BluetoothDeviceReceiver();
+            RegisterReceiver(btReceiver, new IntentFilter(BluetoothDevice.ActionFound));
+            return btReceiver.foundDevices;
+        }
 
-            RegisterReceiver(bt_receiver, new IntentFilter(BluetoothDevice.ActionFound));
-            List<string> foundDevices = new List<string>();
-            /*BluetoothAdapter adapter*/ 
-            bt_receiver.m_adapter = BluetoothAdapter.DefaultAdapter;
-            bt_receiver.m_adapter.StartDiscovery();
-            //adapter.StartDiscovery();
-
-            //TESTING AREA------------
-            foreach (BluetoothDevice bd in bt_receiver.foundDevices)
+        private List<string> getBondedBluetoothDevices()
+        {           
+            List<string> foundDevices = new List<string>();         
+           
+            if (btReceiver.m_adapter.IsEnabled)
             {
-                if (!foundDevices.Contains(bd.Name))
-                    foundDevices.Add(bd.Name);
-            }
-            //------------------------
-
-            if (bt_receiver.m_adapter.IsEnabled)
-            {
-                List<BluetoothDevice> devices = bt_receiver.m_adapter.BondedDevices.ToList();
+                List<BluetoothDevice> devices = btReceiver.m_adapter.BondedDevices.ToList();
                 foreach (var device in devices)
                 {
                     foundDevices.Add(device.Name);
