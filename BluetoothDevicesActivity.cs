@@ -20,46 +20,87 @@ namespace FreediverApp
     [Activity(Label = "Bluetooth Devices")]
     public class BluetoothDevicesActivity : Activity
     {
-        private List<string> mItems;
-        private ListView mListView;
-        private BluetoothDeviceReceiver bt_receiver;
+        private List<string> items;
+        private List<BluetoothDevice> discoveredDevices;
+        private ListView listView;
+        private BluetoothDeviceReceiver btReceiver;
+        private Button btnScan;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
+            btReceiver = new BluetoothDeviceReceiver();
+            btReceiver.m_adapter = BluetoothAdapter.DefaultAdapter;
+
             SetContentView(Resource.Layout.BluetoothDevicesPage);
 
-            mListView = FindViewById<ListView>(Resource.Id.lv_con_devices);
-            mItems = new List<string>();
-            //mItems = getBluetoothDevices();
+            listView = FindViewById<ListView>(Resource.Id.lv_con_devices);
+            btnScan = FindViewById<Button>(Resource.Id.bt_scan_btn);
 
-            ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, mItems);
-            mListView.Adapter = adapter;
+            btnScan.Click += scanButtonOnClick;
+          
+            discoveredDevices = getUnknownDevices();
+            items = getBondedBluetoothDevices();
+
+            ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, items);
+            listView.Adapter = adapter;
         }
 
-        private List<string> getBluetoothDevices()
+        private void scanButtonOnClick(object sender, EventArgs eventArgs) 
         {
-            bt_receiver = new BluetoothDeviceReceiver();
+            discoveredDevices = btReceiver.foundDevices;
 
-            RegisterReceiver(bt_receiver, new IntentFilter(BluetoothDevice.ActionFound));
-            List<string> foundDevices = new List<string>();
-            /*BluetoothAdapter adapter*/ 
-            bt_receiver.m_adapter = BluetoothAdapter.DefaultAdapter;
-            bt_receiver.m_adapter.StartDiscovery();
-            //adapter.StartDiscovery();
-
-            //TESTING AREA------------
-            foreach (BluetoothDevice bd in bt_receiver.foundDevices)
+            if (discoveredDevices != null)
             {
-                if (!foundDevices.Contains(bd.Name))
-                    foundDevices.Add(bd.Name);
+                foreach (var device in discoveredDevices)
+                {
+                    if (!items.Contains(device.Name))
+                    {
+                        items.Add(device.Name);
+                    }
+                }
             }
-            //------------------------
 
-            if (bt_receiver.m_adapter.IsEnabled)
+            ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, items);
+            listView.Adapter = adapter;
+        }
+
+        private List<BluetoothDevice> getUnknownDevices()
+        {
+            RegisterReceiver(btReceiver, new IntentFilter(BluetoothDevice.ActionFound));
+
+            const int locationPermissionsRequestCode = 1000;
+
+            var locationPermissions = new[]
             {
-                List<BluetoothDevice> devices = bt_receiver.m_adapter.BondedDevices.ToList();
+                Manifest.Permission.AccessCoarseLocation,
+                Manifest.Permission.AccessFineLocation
+            };
+
+            var coarseLocationPermissionGranted = ContextCompat.CheckSelfPermission(this, Manifest.Permission.AccessCoarseLocation);
+
+            var fineLocationPermissionGranted = ContextCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation);
+
+            if (coarseLocationPermissionGranted == Permission.Denied || fineLocationPermissionGranted == Permission.Denied)
+                ActivityCompat.RequestPermissions(this, locationPermissions, locationPermissionsRequestCode);
+
+            if (btReceiver.m_adapter != null) 
+            {
+                //BluetoothDeviceReceiver.Adapter.StartDiscovery();
+                btReceiver.m_adapter.StartDiscovery();
+            }
+                
+            return btReceiver.foundDevices;
+        }
+
+        private List<string> getBondedBluetoothDevices()
+        {           
+            List<string> foundDevices = new List<string>();         
+           
+            if (btReceiver.m_adapter.IsEnabled)
+            {
+                List<BluetoothDevice> devices = btReceiver.m_adapter.BondedDevices.ToList();
                 foreach (var device in devices)
                 {
                     foundDevices.Add(device.Name);
