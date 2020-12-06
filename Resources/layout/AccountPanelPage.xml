@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:p4="http://xamarin.com/mono/android/designer"
     android:orientation="vertical"
     android:minWidth="25px"
@@ -51,25 +52,25 @@
     <android.support.v7.widget.CardView
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:cardElevation="4dp"
+        app:contentPadding="12dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:gravity="center">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginLeft="4dp"
-                    android:layout_gravity="center_horizontal"
                     android:text="@string/account_information"
                     android:textColor="@android:color/black"
                     android:textSize="16pt"/>
@@ -78,33 +79,238 @@
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:gravity="center">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/email"
+                    android:layout_weight=".25"
+                    android:text="@string/email_acc_panel"
                     android:textColor="@android:color/black"
                     android:textSize="8pt"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text=": testuser@provider.eu"
+                    android:layout_weight=".25"
+                    android:singleLine="true"
+                    android:text="testuser@provider.eu"
                     android:textColor="@android:color/black"
-                    android:textSize="8pt"/>
+                    android:textSize="8pt"
+                    android:id="@+id/txtview_email"/>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/icon_pencil"/>
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/icon_pencil"
+                    android:contentDescription="change" 
+                    android:id="@+id/btn_pencil_email"/>
 
             </TableRow>
-     
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".25"
+                    android:text="@string/password_acc_panel"
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".25"
+                    android:text="*******"
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"
+                    android:id="@+id/txtview_password"/>
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/icon_pencil"
+                    android:contentDescription="change" 
+                    android:id="@+id/btn_pencil_password"/>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".25"
+                    android:text="@string/firstname_acc_panel"
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".25"
+                    android:text="Max"
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"
+                    android:id="@+id/txtview_firstname"/>
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/icon_pencil"
+                    android:contentDescription="change" 
+                    android:id="@+id/btn_pencil_firstname"/>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".25"
+                    android:text="@string/lastname_acc_panel"
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".25"
+                    android:text="Mustermann"
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"
+                    android:id="@+id/txtview_lastname"/>
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/icon_pencil"
+                    android:contentDescription="change" 
+                    android:id="@+id/btn_pencil_lastname"/>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".25"
+                    android:text="@string/date_of_birth_acc_panel"
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".25"
+                    android:text="10.09.1990"
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"
+                    android:id="@+id/txtview_date_of_birth"/>
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/icon_pencil"
+                    android:contentDescription="change" 
+                    android:id="@+id/btn_pencil_date_of_birth"/>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".25"
+                    android:text="@string/height_acc_panel"
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".25"
+                    android:text="183 cm"
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"
+                    android:id="@+id/txtview_height"/>
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/icon_pencil"
+                    android:contentDescription="change" 
+                    android:id="@+id/btn_pencil_height"/>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".25"
+                    android:text="@string/weight_acc_panel"
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".25"
+                    android:text="80 kg"
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"
+                    android:id="@+id/txtview_weight"/>
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/icon_pencil"
+                    android:contentDescription="change" 
+                    android:id="@+id/btn_pencil_weight"/>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <Button
+                    android:text="@string/delete_account"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="#bf1515"/>
+
+            </TableRow>
+
         </TableLayout>
-        
+
     </android.support.v7.widget.CardView>
 
 </LinearLayout>
