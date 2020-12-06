@@ -12,14 +12,15 @@ using Android.Widget;
 
 namespace FreediverApp
 {
-    [Activity(Label = "Activity1")]
+    [Activity(Label = "DivesPerSessionActivity")]
     public class DivesPerSessionActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
-            // Create your application here
+            SetContentView(Resource.Layout.DivesPerSessionPage);
+            
         }
     }
 }

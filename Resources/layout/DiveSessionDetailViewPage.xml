@@ -7,20 +7,22 @@
     android:layout_height="match_parent"
     android:minWidth="25px"
     android:minHeight="25px">
-    <EditText
+    <TextView
+        android:text="19.02.2020"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:id="@+id/editText1"
-        android:text="Datum"
-        android:inputType="none"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:layout_marginTop="20dp"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:id="@+id/textView1" />
 
     <android.support.v7.widget.CardView
         app:cardCornerRadius="4dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/cardView1">
@@ -63,30 +65,43 @@
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
-    <EditText
-        android:layout_width="wrap_content"
+    <TextView
+        android:text="Wetter: "
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:id="@+id/txtWetter"
-        android:text="Wetter: " />
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:id="@+id/txtStandort"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/textView3" />
+    <TextView
         android:text="Standort: "
-        android:autoLink="none" />
-    <EditText
-        android:layout_width="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:id="@+id/txtAufenthaltImWasser"
-        android:text="Aufenthalt im Wasser: " />
-    <EditText
-        android:layout_width="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/textView4" />
+    <TextView
+        android:text="Aufenthalt im Wasser: "
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:id="@+id/txtNotizen"
-        android:text="Notizen: " />
+        android:layout_marginLeft="10dp"
+        android:id="@+id/textView5" />
+    <TextView
+        android:text="Notizen: "
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/textView6" />
+    <Button
+        android:text="Tauchgänge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:id="@+id/btnDivesPerSession" />
 
 </LinearLayout>
