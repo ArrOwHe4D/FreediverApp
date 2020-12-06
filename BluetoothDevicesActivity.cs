@@ -24,16 +24,21 @@ namespace FreediverApp
         private List<BluetoothDevice> discoveredDevices;
         private ListView listView;
         private BluetoothDeviceReceiver btReceiver;
+        private Button btnScan;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
             btReceiver = new BluetoothDeviceReceiver();
+            btReceiver.m_adapter = BluetoothAdapter.DefaultAdapter;
 
             SetContentView(Resource.Layout.BluetoothDevicesPage);
 
             listView = FindViewById<ListView>(Resource.Id.lv_con_devices);
+            btnScan = FindViewById<Button>(Resource.Id.bt_scan_btn);
+
+            btnScan.Click += scanButtonOnClick;
           
             discoveredDevices = getUnknownDevices();
             items = getBondedBluetoothDevices();
@@ -42,9 +47,50 @@ namespace FreediverApp
             listView.Adapter = adapter;
         }
 
+        private void scanButtonOnClick(object sender, EventArgs eventArgs) 
+        {
+            discoveredDevices = btReceiver.foundDevices;
+
+            if (discoveredDevices != null)
+            {
+                foreach (var device in discoveredDevices)
+                {
+                    if (!items.Contains(device.Name))
+                    {
+                        items.Add(device.Name);
+                    }
+                }
+            }
+
+            ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, items);
+            listView.Adapter = adapter;
+        }
+
         private List<BluetoothDevice> getUnknownDevices()
         {
             RegisterReceiver(btReceiver, new IntentFilter(BluetoothDevice.ActionFound));
+
+            const int locationPermissionsRequestCode = 1000;
+
+            var locationPermissions = new[]
+            {
+                Manifest.Permission.AccessCoarseLocation,
+                Manifest.Permission.AccessFineLocation
+            };
+
+            var coarseLocationPermissionGranted = ContextCompat.CheckSelfPermission(this, Manifest.Permission.AccessCoarseLocation);
+
+            var fineLocationPermissionGranted = ContextCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation);
+
+            if (coarseLocationPermissionGranted == Permission.Denied || fineLocationPermissionGranted == Permission.Denied)
+                ActivityCompat.RequestPermissions(this, locationPermissions, locationPermissionsRequestCode);
+
+            if (btReceiver.m_adapter != null) 
+            {
+                //BluetoothDeviceReceiver.Adapter.StartDiscovery();
+                btReceiver.m_adapter.StartDiscovery();
+            }
+                
             return btReceiver.foundDevices;
         }
 

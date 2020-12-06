@@ -16,7 +16,7 @@ using Android.Widget;
 
 namespace FreediverApp
 {
-    [Activity(Label = "Freediver App - Profile", Theme = "@style/AppTheme.NoActionBar")]
+    [Activity(Label = "Freediver App - Profile", Theme = "@style/AppTheme")]
     public class AccountPanelActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener
     {
         // use edit buttons as Imageviews as it is easier and costs less resources
