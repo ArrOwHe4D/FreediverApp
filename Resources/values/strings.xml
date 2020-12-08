@@ -45,6 +45,8 @@
     <string name="account_information">Account Information</string>
     <string name="app_settings">App Settings</string>
     <string name="language">Language</string>
-    <string name="design">Design</string>  
+    <string name="design">Design</string>
+    <string name="dive_progression">Dive Progression</string>
+    
 
 </resources>
