@@ -40,7 +40,7 @@ namespace FreediverApp
 
             btnScan.Click += scanButtonOnClick;
           
-            discoveredDevices = getUnknownDevices();
+            discoveredDevices = getUnknownBluetoothDevices();
             items = getBondedBluetoothDevices();
 
             ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, items);
@@ -66,7 +66,7 @@ namespace FreediverApp
             listView.Adapter = adapter;
         }
 
-        private List<BluetoothDevice> getUnknownDevices()
+        private List<BluetoothDevice> getUnknownBluetoothDevices()
         {
             RegisterReceiver(btReceiver, new IntentFilter(BluetoothDevice.ActionFound));
 
