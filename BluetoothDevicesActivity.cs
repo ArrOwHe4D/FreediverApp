@@ -17,11 +17,11 @@ using Android.Support.V4.App;
 
 namespace FreediverApp
 {
-    [Activity(Label = "Bluetooth Devices")]
+    [Activity(Label = "Bluetooth Devices",Theme = "@style/AppTheme.NoActionBar")]
     public class BluetoothDevicesActivity : Activity
     {
         private List<string> items;
-        private List<BluetoothDevice> discoveredDevices;
+        private List<BluetoothDevice> Devices;
         private ListView listView;
         private BluetoothDeviceReceiver btReceiver;
         private Button btnScan;
@@ -39,21 +39,29 @@ namespace FreediverApp
             btnScan = FindViewById<Button>(Resource.Id.bt_scan_btn);
 
             btnScan.Click += scanButtonOnClick;
-          
-            discoveredDevices = getUnknownBluetoothDevices();
-            items = getBondedBluetoothDevices();
+
+            Devices = new List<BluetoothDevice>();
+            addDevicesToList(getBondedBluetoothDevices());
+            addDevicesToList(getUnknownBluetoothDevices());           
+            items = devicesNames(Devices);
 
             ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, items);
             listView.Adapter = adapter;
+            listView.ItemClick += ListView_ItemClick;
+        }
+
+        private void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        {
+            Console.WriteLine(listView.SelectedItem.ToString());
         }
 
         private void scanButtonOnClick(object sender, EventArgs eventArgs) 
         {
-            discoveredDevices = btReceiver.foundDevices;
+            Devices = btReceiver.foundDevices;
 
-            if (discoveredDevices != null)
+            if (Devices != null)
             {
-                foreach (var device in discoveredDevices)
+                foreach (var device in Devices)
                 {
                     if (!items.Contains(device.Name))
                     {
@@ -64,6 +72,15 @@ namespace FreediverApp
 
             ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, items);
             listView.Adapter = adapter;
+        }
+
+        private List<BluetoothDevice> getBondedBluetoothDevices()
+        {
+            if (btReceiver.m_adapter.IsEnabled)
+            {
+               return btReceiver.m_adapter.BondedDevices.ToList();               
+            }
+            return new List<BluetoothDevice>();
         }
 
         private List<BluetoothDevice> getUnknownBluetoothDevices()
@@ -87,26 +104,29 @@ namespace FreediverApp
 
             if (btReceiver.m_adapter != null) 
             {
-                //BluetoothDeviceReceiver.Adapter.StartDiscovery();
                 btReceiver.m_adapter.StartDiscovery();
             }
                 
             return btReceiver.foundDevices;
         }
 
-        private List<string> getBondedBluetoothDevices()
-        {           
-            List<string> foundDevices = new List<string>();         
-           
-            if (btReceiver.m_adapter.IsEnabled)
+        private List<String> devicesNames(List<BluetoothDevice> _devices)
+        {
+            List<String> temp = new List<string>();
+            for (int i = 0; i < _devices.Count; i++)
             {
-                List<BluetoothDevice> devices = btReceiver.m_adapter.BondedDevices.ToList();
-                foreach (var device in devices)
-                {
-                    foundDevices.Add(device.Name);
-                }              
-            }            
-            return foundDevices;
+                temp.Add(_devices.ElementAt(i).Name);
+            }
+            return temp;
+        }
+
+        private void addDevicesToList(List<BluetoothDevice> _devices)
+        {
+            for (int i = 0; i < _devices.Count; i++)
+            {
+                if (Devices.Contains(_devices.ElementAt(i)))
+                    Devices.Add(_devices.ElementAt(i));
+            }
         }
     }
 }
