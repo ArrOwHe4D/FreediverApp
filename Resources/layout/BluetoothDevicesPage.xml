@@ -18,7 +18,8 @@
     
     <Button
         android:text="Scan for Bluetooth Devices"
-        android:layout_marginLeft="140px"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/bt_scan_btn" />
