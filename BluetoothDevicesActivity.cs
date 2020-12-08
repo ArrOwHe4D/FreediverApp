@@ -35,6 +35,7 @@ namespace FreediverApp
 
             SetContentView(Resource.Layout.BluetoothDevicesPage);
 
+            items = new List<string>();
             listView = FindViewById<ListView>(Resource.Id.lv_con_devices);
             btnScan = FindViewById<Button>(Resource.Id.bt_scan_btn);
 
@@ -52,7 +53,9 @@ namespace FreediverApp
 
         private void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            Console.WriteLine(listView.SelectedItem.ToString());
+            
+            //Toast.MakeText(this, listView.SelectedItemPosition.ToString(), ToastLength.Long).Show();
+            //Console.WriteLine(listView.SelectedItemPosition.ToString());
         }
 
         private void scanButtonOnClick(object sender, EventArgs eventArgs) 
@@ -122,10 +125,13 @@ namespace FreediverApp
 
         private void addDevicesToList(List<BluetoothDevice> _devices)
         {
-            for (int i = 0; i < _devices.Count; i++)
+            if (_devices != null)
             {
-                if (Devices.Contains(_devices.ElementAt(i)))
-                    Devices.Add(_devices.ElementAt(i));
+                for (int i = 0; i < _devices.Count; i++)
+                {
+                    if (!Devices.Contains(_devices.ElementAt(i)))
+                        Devices.Add(_devices.ElementAt(i));
+                }
             }
         }
     }
