@@ -41,24 +41,20 @@ namespace FreediverApp
             textview_cantlogin = FindViewById<TextView>(Resource.Id.textview_cantlogin);
             textview_cantlogin.Click += redirectToLoginProblemsActivity;
 
-            button1 = FindViewById<Button>(Resource.Id.DiveSessionDetail);
-            button1.Click += redirectToDiveSessionDetailViewActivity;
-
-
         }
 
         private void login(object sender, EventArgs eventArgs)
         {
             //Dummy Login since we have no db connection yet
-            //if (textedit_username.Text == "Freediver" && textedit_password.Text == "123")
-            //{
+            if (textedit_username.Text == "Freediver" && textedit_password.Text == "123")
+            {
                 var mainMenu = new Intent(this, typeof(MainActivity));
                 StartActivity(mainMenu);
-            //}
-            //else
-            //{
-            //    Toast.MakeText(this, "You entered a wrong user id or password!", ToastLength.Long).Show();
-            //}
+            }
+            else
+            {
+                Toast.MakeText(this, "you entered a wrong user id or password!", ToastLength.Long).Show();
+            }
         }
 
         private void redirectToLoginProblemsActivity(object sender, EventArgs eventArgs) 
