@@ -202,7 +202,8 @@ namespace FreediverApp
             }
             else if (id == Resource.Id.nav_settings)
             {
-
+                var settingsActivity = new Intent(this, typeof(SettingsActivity));
+                StartActivity(settingsActivity);
             }
             else if (id == Resource.Id.nav_logout) 
             {
