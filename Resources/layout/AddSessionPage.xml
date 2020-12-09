@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">    
+    
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="100">
+    <TextView
+        android:text="Verbunden mit:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="70"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/tvwConnected" />
+    <TextView
+        android:text="Tauchcomputer-RX2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="30"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/tvwConnectedV" />
+    </LinearLayout>
+
+    
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="100">
+    <TextView
+        android:text="Standort: "
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="70"        
+        android:layout_marginLeft="10dp"
+        android:id="@+id/tvwLocation" />
+    <TextView
+        android:text="Köln"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="30"        
+        android:layout_marginLeft="10dp"
+        android:id="@+id/tvwLocationV" />
+    </LinearLayout>
+    
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="100">
+    <TextView
+        android:text="Wetter: "
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="70"       
+        android:layout_marginLeft="10dp"
+        android:id="@+id/tvwWeather" />
+        <TextView
+        android:text="Sonnig | 22C°"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="30"        
+        android:layout_marginLeft="10dp"
+        android:id="@+id/tvwWeatherV" />
+    </LinearLayout>
+    
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="100">
+    <TextView
+        android:text="Datum: "
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="70"        
+        android:layout_marginLeft="10dp"
+        android:id="@+id/tvwDate" />
+    <TextView
+        android:text="9.12.2020"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="30"        
+        android:layout_marginLeft="10dp"
+        android:id="@+id/tvwDateV" />
+    </LinearLayout>   
+    
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="100">
+    <TextView
+        android:text="Tauchzeit: "
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="70"        
+        android:layout_marginLeft="10dp"
+        android:id="@+id/tvwDiveTime" />
+    <TextView
+        android:text="1:13:54 Std"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="30"        
+        android:layout_marginLeft="10dp"
+        android:id="@+id/tvwDiveTimeV" />
+    </LinearLayout>
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="100">
+    <Button
+        android:text="Abbrechen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="50"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/btnCancel" /> 
+    <Button
+        android:text="Hinzufügen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="50"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/btnAddSession" /> 
+    </LinearLayout>
+
+    
+    
+
+</LinearLayout>
+

@@ -212,7 +212,8 @@ namespace FreediverApp
             }
             else if (id == Resource.Id.nav_share)
             {
-
+                var sessionsActivity = new Intent(this, typeof(SessionsActivity));
+                StartActivity(sessionsActivity);
             }
             else if (id == Resource.Id.nav_send)
             {
