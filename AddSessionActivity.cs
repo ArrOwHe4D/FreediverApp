@@ -30,6 +30,8 @@ namespace FreediverApp
         }
         void btnAddSession_Click(object sender, EventArgs eventArgs)
         {
+            //SessionsActivity.dives
+            User.curUser.diveSessions.Add(new DiveSession("9.12.2020"));
             var sessionsActivity = new Intent(this, typeof(SessionsActivity));
             StartActivity(sessionsActivity);
         }
