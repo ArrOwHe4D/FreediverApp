@@ -20,6 +20,8 @@ using Microcharts.Droid;
 using Microcharts;
 using ActionBarDrawerToggle = Android.Support.V7.App.ActionBarDrawerToggle;
 using SkiaSharp;
+using FragmentTransaction = Android.App.FragmentTransaction;
+using FreediverApp.FragmentActivities;
 
 namespace FreediverApp
 {
@@ -38,13 +40,12 @@ namespace FreediverApp
             Android.Support.V7.Widget.Toolbar toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
 
+            //set default bluetooth adapter
             bt_adapter = BluetoothAdapter.DefaultAdapter;
 
-            Button btn_scan = FindViewById<Button>(Resource.Id.btn_scan);
-            btn_scan.Click += Btn_scan_Click;
-
-            chartView = FindViewById<ChartView>(Resource.Id.chartView);
-            generateChart();
+            FragmentTransaction menuTransaction = this.FragmentManager.BeginTransaction();
+            MainFragment mainContent = new MainFragment();
+            menuTransaction.Add(Resource.Id.framelayout, mainContent).Commit();
 
             DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
@@ -53,6 +54,7 @@ namespace FreediverApp
 
             NavigationView navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
             navigationView.SetNavigationItemSelectedListener(this);
+
         }
 
         private void generateChart() 
@@ -184,6 +186,7 @@ namespace FreediverApp
         public bool OnNavigationItemSelected(IMenuItem item)
         {
             int id = item.ItemId;
+            FragmentTransaction menuTransaction = this.FragmentManager.BeginTransaction();
 
             if (id == Resource.Id.nav_dive_sessions)
             {
@@ -192,32 +195,23 @@ namespace FreediverApp
             }
             else if (id == Resource.Id.nav_connected_devices)
             {
-                var bluetoothDevicesPanelActivity = new Intent(this, typeof(BluetoothDevicesActivity));
-                StartActivity(bluetoothDevicesPanelActivity);
+                BluetoothDevicesFragment bluetoothDevicesFragment = new BluetoothDevicesFragment();
+                menuTransaction.Replace(Resource.Id.framelayout, bluetoothDevicesFragment).AddToBackStack(null).Commit();
             }
             else if (id == Resource.Id.nav_profile)
             {
-                var accountPanelActivity = new Intent(this, typeof(AccountPanelActivity));
-                StartActivity(accountPanelActivity);
+                AccountPanelFragment accountPanelFragment = new AccountPanelFragment();
+                menuTransaction.Replace(Resource.Id.framelayout, accountPanelFragment).AddToBackStack(null).Commit();
             }
             else if (id == Resource.Id.nav_settings)
             {
-                var settingsActivity = new Intent(this, typeof(SettingsActivity));
-                StartActivity(settingsActivity);
+                SettingsFragment settingsFragment = new SettingsFragment();
+                menuTransaction.Replace(Resource.Id.framelayout, settingsFragment).AddToBackStack(null).Commit();
             }
             else if (id == Resource.Id.nav_logout) 
             {
                 var loginActivity = new Intent(this, typeof(LoginActivity));
                 StartActivity(loginActivity);
-            }
-            else if (id == Resource.Id.nav_share)
-            {
-                var sessionsActivity = new Intent(this, typeof(SessionsActivity));
-                StartActivity(sessionsActivity);
-            }
-            else if (id == Resource.Id.nav_send)
-            {
-
             }
 
             DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);

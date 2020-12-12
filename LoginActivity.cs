@@ -18,7 +18,6 @@ namespace FreediverApp
         private TextView textview_cantlogin;
         private Button button_register, button_login;
         private EditText textedit_username, textedit_password;
-        private Button button1;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -49,7 +48,7 @@ namespace FreediverApp
 
             var mainMenu = new Intent(this, typeof(MainActivity));
             StartActivity(mainMenu);
-            
+
             //if (textedit_username.Text == "Freediver" && textedit_password.Text == "123")
             //{
             //    var mainMenu = new Intent(this, typeof(MainActivity));

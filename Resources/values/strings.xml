@@ -47,6 +47,9 @@
     <string name="language">Language</string>
     <string name="design">Design</string>
     <string name="dive_progression">Dive Progression</string>
+    <string-array name="languages_array">
+      <item>English</item>
+      <item>German</item>
+    </string-array>
     
-
 </resources>

@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"/>
 
             <View
-                android:background="#e2e2e2"
+                android:background="?android:attr/colorPrimaryDark"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
 

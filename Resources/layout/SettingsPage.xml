@@ -51,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:minWidth="35px"
                     android:minHeight="35px"
-                    android:id="@+id/spinner1"/>
+                    android:id="@+id/spinnerDesign"/>
 
             </LinearLayout>
 
@@ -77,7 +77,7 @@
                     android:layout_height="wrap_content"
                     android:minWidth="35px"
                     android:minHeight="35px"
-                    android:id="@+id/spinner2"/>
+                    android:id="@+id/spinnerLanguage"/>
 
             </LinearLayout>
 
@@ -89,7 +89,7 @@
                 android:layout_marginLeft="80dp"
                 android:layout_marginRight="80dp"
                 android:layout_marginTop="10dp"
-                android:id="@+id/save_btn"/>
+                android:id="@+id/btnSave"/>
 
         </LinearLayout>
 
