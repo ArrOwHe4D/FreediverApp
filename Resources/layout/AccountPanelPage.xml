@@ -21,7 +21,7 @@
         <Refractored.Controls.CircleImageView
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:src="@drawable/profile_dummy_icon"
+            android:src="@drawable/freediver_app_icon"
             android:id="@+id/imageview_profile"/>
 
         <LinearLayout
@@ -33,6 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginLeft="8dp"
                 android:text="@string/username"
                 android:textColor="@android:color/black"
                 android:textSize="10pt"/>
@@ -41,6 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginLeft="8dp"
                 android:text="registered since: 10.09.2020"
                 android:textColor="@android:color/black"
                 android:textSize="8pt"/>
@@ -305,7 +307,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center">
-
+                
                 <Button
                     android:text="@string/delete_account"
                     android:layout_width="match_parent"
