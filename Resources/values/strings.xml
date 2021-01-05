@@ -7,6 +7,10 @@
 
     <!--Page Headers-->
     <string name="page_header_accountpanel">Freediver App - Account Panel</string>
+    <string name="page_header_divesessions">Freediver App - Divesessions</string>
+    <string name="page_header_connected_devices">Freediver App - Connected Devices</string>
+    <string name="page_header_settings">Freediver App - Settings</string>
+    <string name="page_header_divesessions">Freediver App - Divesessions</string>
 
     <!--Language Strings (EN_US)-->
     <string name="login">Login</string>

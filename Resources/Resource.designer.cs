@@ -6614,61 +6614,70 @@ namespace FreediverApp
 			public const int page_header_accountpanel = 2131755143;
 			
 			// aapt resource value: 0x7F100088
-			public const int password = 2131755144;
+			public const int page_header_connected_devices = 2131755144;
 			
 			// aapt resource value: 0x7F100089
-			public const int password_acc_panel = 2131755145;
+			public const int page_header_divesessions = 2131755145;
 			
 			// aapt resource value: 0x7F10008A
-			public const int password_toggle_content_description = 2131755146;
+			public const int page_header_settings = 2131755146;
 			
 			// aapt resource value: 0x7F10008B
-			public const int path_password_eye = 2131755147;
+			public const int password = 2131755147;
 			
 			// aapt resource value: 0x7F10008C
-			public const int path_password_eye_mask_strike_through = 2131755148;
+			public const int password_acc_panel = 2131755148;
 			
 			// aapt resource value: 0x7F10008D
-			public const int path_password_eye_mask_visible = 2131755149;
+			public const int password_toggle_content_description = 2131755149;
 			
 			// aapt resource value: 0x7F10008E
-			public const int path_password_strike_through = 2131755150;
+			public const int path_password_eye = 2131755150;
 			
 			// aapt resource value: 0x7F10008F
-			public const int project_id = 2131755151;
+			public const int path_password_eye_mask_strike_through = 2131755151;
 			
 			// aapt resource value: 0x7F100090
-			public const int recover_password = 2131755152;
+			public const int path_password_eye_mask_visible = 2131755152;
 			
 			// aapt resource value: 0x7F100091
-			public const int register = 2131755153;
+			public const int path_password_strike_through = 2131755153;
 			
 			// aapt resource value: 0x7F100092
-			public const int registered_since = 2131755154;
+			public const int project_id = 2131755154;
 			
 			// aapt resource value: 0x7F100093
-			public const int search_menu_title = 2131755155;
+			public const int recover_password = 2131755155;
 			
 			// aapt resource value: 0x7F100094
-			public const int status_bar_notification_info_overflow = 2131755156;
+			public const int register = 2131755156;
 			
 			// aapt resource value: 0x7F100095
-			public const int total_dive_time = 2131755157;
+			public const int registered_since = 2131755157;
 			
 			// aapt resource value: 0x7F100096
-			public const int username = 2131755158;
+			public const int search_menu_title = 2131755158;
 			
 			// aapt resource value: 0x7F100097
-			public const int username_or_email = 2131755159;
+			public const int status_bar_notification_info_overflow = 2131755159;
 			
 			// aapt resource value: 0x7F100098
-			public const int weather_condition = 2131755160;
+			public const int total_dive_time = 2131755160;
 			
 			// aapt resource value: 0x7F100099
-			public const int weight = 2131755161;
+			public const int username = 2131755161;
 			
 			// aapt resource value: 0x7F10009A
-			public const int weight_acc_panel = 2131755162;
+			public const int username_or_email = 2131755162;
+			
+			// aapt resource value: 0x7F10009B
+			public const int weather_condition = 2131755163;
+			
+			// aapt resource value: 0x7F10009C
+			public const int weight = 2131755164;
+			
+			// aapt resource value: 0x7F10009D
+			public const int weight_acc_panel = 2131755165;
 			
 			static String()
 			{

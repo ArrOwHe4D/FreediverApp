@@ -47,7 +47,6 @@ namespace FreediverApp
 
             button_register = FindViewById<Button>(Resource.Id.button_register);
             button_register.Click += createAccount;
-
         }
 
         private void createAccount(object sender, EventArgs eventArgs) 
@@ -79,7 +78,7 @@ namespace FreediverApp
                 DatabaseReference newUserRef = DBConnector.GetDatabase().GetReference("users").Push();
                 newUserRef.SetValue(userData);
             });
-            saveDataDialog.SetNegativeButton("Cancel", (senderAlert, argas) =>
+            saveDataDialog.SetNegativeButton("Cancel", (senderAlert, args) =>
             {
                 saveDataDialog.Dispose();
             });
