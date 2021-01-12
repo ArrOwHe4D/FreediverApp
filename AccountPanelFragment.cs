@@ -51,8 +51,8 @@ namespace FreediverApp
             retrieveUserData();
 
             //fill the textviews with the account data of the current user
-            if (userList.Count > 0)
-                fillUserData(userList);
+            //if (userList.Count > 0)
+                //fillUserData(userList);
 
             return view;
         }
