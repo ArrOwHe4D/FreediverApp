@@ -7,28 +7,18 @@ namespace FreediverApp.DatabaseConnector
     class LoginInfoListener : Java.Lang.Object, IValueEventListener
     {
         EventHandler OnChange;
-        string username, email;
+        User userdata;
 
-        public LoginInfoListener(EventHandler OnChange, string username, string email)
-        {
-            this.OnChange = OnChange;
-            this.username = username;
-            this.email = email;
-        }
+        public LoginInfoListener(EventHandler OnChange) => this.OnChange = OnChange;
 
         public class LoginInfoEventArgs : EventArgs 
         {
-            public LoginInfoEventArgs(bool usernameFound, bool emailFound) 
+            public LoginInfoEventArgs(User userdata) 
             {
-                this.usernameFound = usernameFound;
-                this.emailFound = emailFound;
+                this.userdata = userdata;
             }
 
             public User userdata { get; set; }
-
-            public bool usernameFound { get; set; }
-
-            public bool emailFound { get; set; }
         }
 
         public void Create() 
@@ -44,17 +34,23 @@ namespace FreediverApp.DatabaseConnector
 
         public void OnDataChange(DataSnapshot snapshot)
         {
-            var data = snapshot.Children.ToEnumerable<DataSnapshot>();
-            User user = new User();
+            //var data = snapshot.Children.ToEnumerable<DataSnapshot>();
+            //User user = new User();
 
-            if (OnChange != null && snapshot.Value != null && snapshot.HasChild(username))
-            {
-                OnChange.Invoke(this, new LoginInfoEventArgs(true, false));
-            }
-            else if (OnChange != null && snapshot.Value != null && snapshot.HasChild(email)) 
-            {
-                OnChange.Invoke(this, new LoginInfoEventArgs(false, true));
-            }
+            //foreach (DataSnapshot record in snapshot.Children.ToEnumerable()) 
+            //{
+            //    //var user = record.GetValue(Java.Lang.Class.FromType(typeof(User))) as User;
+            //}
+
+
+            //if (OnChange != null && snapshot.Value != null && snapshot.HasChild(username))
+            //{
+            //   // OnChange.Invoke(this, new LoginInfoEventArgs(true, false));
+            //}
+            //else if (OnChange != null && snapshot.Value != null && snapshot.HasChild(email)) 
+            //{
+            //    //OnChange.Invoke(this, new LoginInfoEventArgs());
+            //}
         }
     }
 }

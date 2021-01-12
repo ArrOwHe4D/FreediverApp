@@ -16,8 +16,10 @@ namespace FreediverApp
         private TextView textviewCantLogin;
         private Button buttonRegister, buttonLogin;
         private EditText texteditUsername, texteditPassword;
-        private LoginInfoListener loginInfoListener;
-        private User loginUser;
+
+        private UserDataListener userDataListener;
+        private List<User> userList;
+        private bool dataretrieved = false;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -25,7 +27,6 @@ namespace FreediverApp
 
             SetContentView(Resource.Layout.LoginPage);
 
-            //Init UI Components
             buttonLogin = FindViewById<Button>(Resource.Id.button_login);
             buttonLogin.Click += login;
 
@@ -39,41 +40,18 @@ namespace FreediverApp
 
             textviewCantLogin = FindViewById<TextView>(Resource.Id.textview_cantlogin);
             textviewCantLogin.Click += redirectToLoginProblemsActivity;
+
+            userList = new List<User>();
         }
 
         private void login(object sender, EventArgs eventArgs)
         {
-            //Dummy Login since we have no db connection yet
-            //var loginInfoListener = new LoginInfoListener((sender, e) =>
-            //{
-            //    bool found = false;//(e as LoginInfoListener.LoginInfoEventArgs).found;
-            //    string username = (e as LoginInfoListener.LoginInfoEventArgs).userdata.username;
-            //    string password = (e as LoginInfoListener.LoginInfoEventArgs).userdata.password;
+            retrieveUserData();
 
-            //    if (found)
-            //    {
-            //        var mainMenu = new Intent(this, typeof(MainActivity));
-            //        StartActivity(mainMenu);
-            //    }
-            //    else 
-            //    {
-            //        Toast.MakeText(this, "Your username or password was wrong, please try again!", ToastLength.Long);
-            //    }
-
-            //}, texteditUsername.Text, texteditPassword.Text);
-
-            var dbRef = DBConnector.GetDatabase().GetReference("users");
-            Query query = dbRef.OrderByChild("username").EqualTo(texteditUsername.Text);
-
-            if (texteditUsername.Text == "Freediver" && texteditPassword.Text == "123")
+            if (!dataretrieved) 
             {
-                var mainMenu = new Intent(this, typeof(MainActivity));
-                StartActivity(mainMenu);
-            }
-            else
-            {
-                Toast.MakeText(this, "you entered a wrong user id or password!", ToastLength.Long).Show();
-            }
+                Toast.MakeText(this, "You entered a wrong user id or password!", ToastLength.Long).Show();
+            }         
         }
 
         private void redirectToLoginProblemsActivity(object sender, EventArgs eventArgs) 
@@ -92,6 +70,32 @@ namespace FreediverApp
         {
             var diveSessionDetailActivity = new Intent(this, typeof(DiveSessionDetailViewActivity));
             StartActivity(diveSessionDetailActivity);
+        }
+
+        public void retrieveUserData() 
+        {
+            userDataListener = new UserDataListener();
+            userDataListener.Query("users", "username", texteditUsername.Text);
+            userDataListener.UserDataRetrieved += userDataListener_UserDataRetrieved;
+        }
+
+        private void userDataListener_UserDataRetrieved(object sender, UserDataListener.UserDataEventArgs e) 
+        {
+            userList = e.Users;
+            dataretrieved = true;
+            
+            if (userList.Count > 0)
+            {
+                if (userList[0].username == texteditUsername.Text && userList[0].password == Encryptor.Encrypt(texteditPassword.Text))
+                {
+                    TemporaryData.USER_EMAIL = userList[0].email;
+                    TemporaryData.USER_ID = userList[0].id;
+                    TemporaryData.USER_NAME = userList[0].username;
+
+                    var mainMenu = new Intent(this, typeof(MainActivity));
+                    StartActivity(mainMenu);
+                }
+            } 
         }
     }
 }

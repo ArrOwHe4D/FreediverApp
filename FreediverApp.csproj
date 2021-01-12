@@ -67,7 +67,9 @@
   <ItemGroup>
     <Compile Include="AccountPanelFragment.cs" />
     <Compile Include="AddSessionActivity.cs" />
+    <Compile Include="DatabaseConnector\Encryptor.cs" />
     <Compile Include="DatabaseConnector\LoginInfoListener.cs" />
+    <Compile Include="DatabaseConnector\TemporaryData.cs" />
     <Compile Include="DatabaseConnector\UserDataListener.cs" />
     <Compile Include="DiveSession.cs" />
     <Compile Include="DiveSessionDetailViewActivity.cs" />

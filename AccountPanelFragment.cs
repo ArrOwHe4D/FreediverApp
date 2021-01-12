@@ -13,10 +13,10 @@ namespace FreediverApp
         // use edit buttons as Imageviews as it is easier and costs less resources
         private ImageView btnPencilEmail, btnPencilPassword, btnPencilFirstname, btnPencilLastname, btnPencilDateOfBirth, btnPencilHeight, btnPencilWeight;
         private TextView txtViewEmail, txtViewPassword, txtViewFirstname, txtViewLastname, txtViewDateOfBirth, txtViewHeight, txtViewWeight;
+        private TextView titleUsername;
 
-        //UserDataListener userDataListener;
-
-        List<User> userList;
+        private UserDataListener userDataListener;
+        private List<User> userList;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -47,38 +47,24 @@ namespace FreediverApp
             txtViewHeight = view.FindViewById<TextView>(Resource.Id.txtview_height);
             txtViewWeight = view.FindViewById<TextView>(Resource.Id.txtview_weight);
 
-            //get userdata from db
-            retrieveUserData();
+            titleUsername = view.FindViewById<TextView>(Resource.Id.title_username);
 
-            //fill the textviews with the account data of the current user
-            //if (userList.Count > 0)
-                //fillUserData(userList);
+            //get userdata from db
+            retrieveAccountData();
 
             return view;
         }
 
-        //retrieve userdata from db listener
-        public void retrieveUserData() 
-        {
-            //userDataListener = new UserDataListener();
-            //userDataListener.Create();
-            //userDataListener.UserDataRetrieved += UserDataListener_UserDataRetrieved;
-        }
-
-        private void UserDataListener_UserDataRetrieved(object sender, UserDataListener.UserDataEventArgs e) 
-        {
-            userList = e.Users;
-        }
-
         private void fillUserData(List<User> userdata) 
         {
+            titleUsername.Text = userdata[0].username;
             txtViewEmail.Text = userdata[0].email;
-            //txtViewPassword.Text = userdata[0].password;
+            txtViewPassword.Text = "********";
             txtViewFirstname.Text = userdata[0].firstname;
             txtViewLastname.Text = userdata[0].lastname;
             txtViewDateOfBirth.Text = userdata[0].dateOfBirth;
-            txtViewWeight.Text = userdata[0].weight;
-            txtViewHeight.Text = userdata[0].height;
+            txtViewWeight.Text = userdata[0].weight + " kg";
+            txtViewHeight.Text = userdata[0].height + " cm"; 
         }
 
         public void editEmail(object sender, EventArgs eventArgs) 
@@ -103,6 +89,20 @@ namespace FreediverApp
 
             Android.Support.V7.App.AlertDialog dialog = dialogBuilder.Create();
             dialog.Show();
+        }
+
+        public void retrieveAccountData() 
+        {
+            userDataListener = new UserDataListener();
+            string id = TemporaryData.USER_ID;
+            userDataListener.Query("users", "username", TemporaryData.USER_NAME);
+            userDataListener.UserDataRetrieved += UserDataListener_UserDataRetrieved;
+        }
+
+        private void UserDataListener_UserDataRetrieved(object sender, UserDataListener.UserDataEventArgs e)
+        {
+            userList = e.Users;
+            fillUserData(userList);
         }
     }
 }

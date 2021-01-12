@@ -1,5 +1,4 @@
 ﻿using System;
-
 using Android.App;
 using Android.OS;
 using Android.Widget;
@@ -9,7 +8,7 @@ using Firebase.Database;
 using FreediverApp.DatabaseConnector;
 using DBConnector = FreediverApp.DatabaseConnector.DatabaseConnector;
 using Android.Content;
-using static FreediverApp.DatabaseConnector.LoginInfoListener;
+using System.Collections.Generic;
 
 namespace FreediverApp
 {
@@ -25,6 +24,9 @@ namespace FreediverApp
             texteditDateOfBirth, 
             texteditWeight, 
             texteditHeight;
+
+        private UserDataListener userDataListener;
+        private List<User> userList;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -43,10 +45,26 @@ namespace FreediverApp
 
             button_register = FindViewById<Button>(Resource.Id.button_register);
             button_register.Click += createAccount;
+
+            userList = new List<User>();
+            setupDataListener();
+        }
+
+        private void setupDataListener() 
+        {
+            userDataListener = new UserDataListener();
+            userDataListener.Query("users", "email", texteditEmail.Text);
+            userDataListener.UserDataRetrieved += UserDataListener_UserDataRetrieved;
+        }
+
+        private void UserDataListener_UserDataRetrieved(object sender, UserDataListener.UserDataEventArgs e)
+        {
+            userList = e.Users;   
         }
 
         private void createAccount(object sender, EventArgs eventArgs) 
         {
+            setupDataListener();
             string email = texteditEmail.Text;
             string username = texteditUsername.Text;
             string password = texteditPassword.Text;
@@ -67,39 +85,34 @@ namespace FreediverApp
             {
                 Toast.MakeText(this, "Please fill all the fields in order to register a new account!", ToastLength.Long).Show();
             }
-            else 
+            else
             {
-                //DatabaseReference dbRef = DBConnector.GetDatabase().GetReference("users");
-                //DatabaseReference userRef = dbRef.Child("username");
-                //DatabaseReference emailRef = dbRef.Child("email");
+                bool userNameExists = false;
+                bool emailExists = false;
 
-                bool dataAlreadyExists = false;
-
-                var userListener = new LoginInfoListener((sender, e) =>
+                if (userList.Count > 0) 
                 {
-                    bool userNameExists = (e as LoginInfoEventArgs).usernameFound;
-                    bool emailExists = (e as LoginInfoEventArgs).emailFound;
+                    userNameExists = userList[0].username.Equals(texteditUsername.Text);
+                    emailExists = userList[0].email.Equals(texteditEmail.Text);
+                }
+                
+                if (userNameExists)
+                {
+                    Toast.MakeText(this, "This username is already in use, please choose another one!", ToastLength.Long).Show();
+                    return;
+                }
+                else if (emailExists)
+                {
+                    Toast.MakeText(this, "This email is already in use, please choose another one!", ToastLength.Long).Show();
+                    return;
+                }
 
-                    if (userNameExists)
-                    {
-                        Toast.MakeText(this, "This username is already in use, please choose another one!", ToastLength.Long).Show();
-                        dataAlreadyExists = true;
-                    }
-                    else if (emailExists)
-                    {
-                        Toast.MakeText(this, "This email is already in use, please choose another one!", ToastLength.Long).Show();
-                        dataAlreadyExists = true;
-                    }
-                }, username, email);
-
-                userListener.Create();
-
-                if (!dataAlreadyExists) 
+                if (!userNameExists && !emailExists)
                 {
                     HashMap userData = new HashMap();
                     userData.Put("email", email);
                     userData.Put("username", username);
-                    userData.Put("password", password);
+                    userData.Put("password", Encryptor.Encrypt(password));
                     userData.Put("firstname", firstname);
                     userData.Put("lastname", lastname);
                     userData.Put("birthday", dateofbirth);

@@ -36,7 +36,8 @@
                 android:layout_marginLeft="8dp"
                 android:text="@string/username"
                 android:textColor="@android:color/black"
-                android:textSize="10pt"/>
+                android:textSize="10pt"
+                android:id="@+id/title_username"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -94,8 +95,9 @@
                     android:textSize="8pt"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight=".25"
                     android:singleLine="true"
                     android:text="testuser@provider.eu"
                     android:textColor="@android:color/black"

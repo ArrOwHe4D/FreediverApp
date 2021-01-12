@@ -7,7 +7,7 @@ namespace FreediverApp.DatabaseConnector
 {
     public class UserDataListener : Java.Lang.Object, IValueEventListener
     {
-        List<User> userList;
+        List<User> userList = new List<User>();
 
         public event EventHandler<UserDataEventArgs> UserDataRetrieved;
 
@@ -16,10 +16,16 @@ namespace FreediverApp.DatabaseConnector
             internal List<User> Users { get; set; }
         }
 
-        public void Create() 
+        public void GetAllUsers() 
         {
             DatabaseReference userRef = DatabaseConnector.GetDatabase().GetReference("users");
             userRef.AddValueEventListener(this);
+        }
+
+        public void Query(string tablename, string field, string value) 
+        {
+            DatabaseReference userRef = DatabaseConnector.GetDatabase().GetReference(tablename);
+            userRef.OrderByChild(field).EqualTo(value).AddValueEventListener(this);
         }
 
         public void OnCancelled(DatabaseError error)
@@ -31,9 +37,10 @@ namespace FreediverApp.DatabaseConnector
         {
             if (snapshot.Value != null) 
             {
-                var child = snapshot.Children.ToEnumerable<DataSnapshot>();
+                var records = snapshot.Children.ToEnumerable<DataSnapshot>();
+                userList.Clear();
 
-                foreach (DataSnapshot dataRecord in child)
+                foreach (DataSnapshot dataRecord in records)
                 {
                     User user = new User();
                     user.id = dataRecord.Key;
@@ -47,7 +54,7 @@ namespace FreediverApp.DatabaseConnector
                     user.height = dataRecord.Child("height").Value.ToString();
                     userList.Add(user);
                 }
-                UserDataRetrieved.Invoke(this, new UserDataEventArgs { Users = userList });
+                UserDataRetrieved.Invoke(this, new UserDataEventArgs{ Users = userList });
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.OS;
 using Android.Views;
+using Android.Widget;
 using Microcharts;
 using Microcharts.Droid;
 using SkiaSharp;
@@ -23,12 +24,13 @@ namespace FreediverApp.FragmentActivities
         {
             var view = inflater.Inflate(Resource.Layout.content_main, container, false);
 
-
             //Button btn_scan = view.FindViewById<Button>(Resource.Id.btn_scan);
             //btn_scan.Click += view.Btn_scan_Click;
 
             chartView = view.FindViewById<ChartView>(Resource.Id.chartView);
             generateChart();
+
+            Toast.MakeText(this.Context, "Login successful!", ToastLength.Long).Show();
 
             return view;
         }
