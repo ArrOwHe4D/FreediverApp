@@ -1,29 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Support.Design.Widget;
-using Android.Support.V4.View;
-using Android.Support.V4.Widget;
-using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
+using FreediverApp.DatabaseConnector;
 
 namespace FreediverApp
 {
-#pragma warning disable CS0618 // Type or member is obsolete
-
     public class AccountPanelFragment : Fragment
     {
         // use edit buttons as Imageviews as it is easier and costs less resources
-        ImageView btnPencilEmail, btnPencilPassword, btnPencilFirstname, btnPencilLastname, btnPencilDateOfBirth, btnPencilHeight, btnPencilWeight;
+        private ImageView btnPencilEmail, btnPencilPassword, btnPencilFirstname, btnPencilLastname, btnPencilDateOfBirth, btnPencilHeight, btnPencilWeight;
+        private TextView txtViewEmail, txtViewPassword, txtViewFirstname, txtViewLastname, txtViewDateOfBirth, txtViewHeight, txtViewWeight;
 
-        TextView txtViewEmail, txtViewPassword, txtViewFirstname, txtViewLastname, txtViewDateOfBirth, txtViewHeight, txtViewWeight;
+        //UserDataListener userDataListener;
+
+        List<User> userList;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -54,7 +47,38 @@ namespace FreediverApp
             txtViewHeight = view.FindViewById<TextView>(Resource.Id.txtview_height);
             txtViewWeight = view.FindViewById<TextView>(Resource.Id.txtview_weight);
 
+            //get userdata from db
+            retrieveUserData();
+
+            //fill the textviews with the account data of the current user
+            if (userList.Count > 0)
+                fillUserData(userList);
+
             return view;
+        }
+
+        //retrieve userdata from db listener
+        public void retrieveUserData() 
+        {
+            //userDataListener = new UserDataListener();
+            //userDataListener.Create();
+            //userDataListener.UserDataRetrieved += UserDataListener_UserDataRetrieved;
+        }
+
+        private void UserDataListener_UserDataRetrieved(object sender, UserDataListener.UserDataEventArgs e) 
+        {
+            userList = e.Users;
+        }
+
+        private void fillUserData(List<User> userdata) 
+        {
+            txtViewEmail.Text = userdata[0].email;
+            //txtViewPassword.Text = userdata[0].password;
+            txtViewFirstname.Text = userdata[0].firstname;
+            txtViewLastname.Text = userdata[0].lastname;
+            txtViewDateOfBirth.Text = userdata[0].dateOfBirth;
+            txtViewWeight.Text = userdata[0].weight;
+            txtViewHeight.Text = userdata[0].height;
         }
 
         public void editEmail(object sender, EventArgs eventArgs) 
@@ -81,5 +105,4 @@ namespace FreediverApp
             dialog.Show();
         }
     }
-#pragma warning restore CS0618 // Type or member is obsolete
 }

@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
-using Android.Support.V7;
 using Java.Util;
 using SupportV7 = Android.Support.V7.App;
 using Firebase.Database;
+using FreediverApp.DatabaseConnector;
 using DBConnector = FreediverApp.DatabaseConnector.DatabaseConnector;
+using Android.Content;
+using static FreediverApp.DatabaseConnector.LoginInfoListener;
 
 namespace FreediverApp
 {
@@ -60,30 +56,75 @@ namespace FreediverApp
             string weight = texteditWeight.Text;
             string height = texteditHeight.Text;
 
-            HashMap userData = new HashMap();
-            userData.Put("email", email);
-            userData.Put("username", username);
-            userData.Put("password", password);
-            userData.Put("firstname", firstname);
-            userData.Put("lastname", lastname);
-            userData.Put("birthday", dateofbirth);
-            userData.Put("weight", weight);
-            userData.Put("height", height);
-
-            SupportV7.AlertDialog.Builder saveDataDialog = new SupportV7.AlertDialog.Builder(this);
-            saveDataDialog.SetTitle("Save User Information");
-            saveDataDialog.SetMessage("Are you sure?");
-            saveDataDialog.SetPositiveButton("Accept", (senderAlert, args) =>
+            if (string.IsNullOrEmpty(email) ||
+                string.IsNullOrEmpty(username) ||
+                string.IsNullOrEmpty(password) ||
+                string.IsNullOrEmpty(firstname) ||
+                string.IsNullOrEmpty(lastname) ||
+                string.IsNullOrEmpty(dateofbirth) ||
+                string.IsNullOrEmpty(weight) ||
+                string.IsNullOrEmpty(height))
             {
-                DatabaseReference newUserRef = DBConnector.GetDatabase().GetReference("users").Push();
-                newUserRef.SetValue(userData);
-            });
-            saveDataDialog.SetNegativeButton("Cancel", (senderAlert, args) =>
+                Toast.MakeText(this, "Please fill all the fields in order to register a new account!", ToastLength.Long).Show();
+            }
+            else 
             {
-                saveDataDialog.Dispose();
-            });
+                //DatabaseReference dbRef = DBConnector.GetDatabase().GetReference("users");
+                //DatabaseReference userRef = dbRef.Child("username");
+                //DatabaseReference emailRef = dbRef.Child("email");
 
-            saveDataDialog.Show();
+                bool dataAlreadyExists = false;
+
+                var userListener = new LoginInfoListener((sender, e) =>
+                {
+                    bool userNameExists = (e as LoginInfoEventArgs).usernameFound;
+                    bool emailExists = (e as LoginInfoEventArgs).emailFound;
+
+                    if (userNameExists)
+                    {
+                        Toast.MakeText(this, "This username is already in use, please choose another one!", ToastLength.Long).Show();
+                        dataAlreadyExists = true;
+                    }
+                    else if (emailExists)
+                    {
+                        Toast.MakeText(this, "This email is already in use, please choose another one!", ToastLength.Long).Show();
+                        dataAlreadyExists = true;
+                    }
+                }, username, email);
+
+                userListener.Create();
+
+                if (!dataAlreadyExists) 
+                {
+                    HashMap userData = new HashMap();
+                    userData.Put("email", email);
+                    userData.Put("username", username);
+                    userData.Put("password", password);
+                    userData.Put("firstname", firstname);
+                    userData.Put("lastname", lastname);
+                    userData.Put("birthday", dateofbirth);
+                    userData.Put("weight", weight);
+                    userData.Put("height", height);
+
+                    SupportV7.AlertDialog.Builder saveDataDialog = new SupportV7.AlertDialog.Builder(this);
+                    saveDataDialog.SetTitle("Save User Information");
+                    saveDataDialog.SetMessage("Are you sure?");
+
+                    saveDataDialog.SetPositiveButton("Accept", (senderAlert, args) =>
+                    {
+                        DatabaseReference newUserRef = DBConnector.GetDatabase().GetReference("users").Push();
+                        newUserRef.SetValue(userData);
+                        var loginActivity = new Intent(this, typeof(LoginActivity));
+                        StartActivity(loginActivity);
+                    });
+                    saveDataDialog.SetNegativeButton("Cancel", (senderAlert, args) =>
+                    {
+                        saveDataDialog.Dispose();
+                    });
+
+                    saveDataDialog.Show();
+                }
+            }
         }
     }
 }

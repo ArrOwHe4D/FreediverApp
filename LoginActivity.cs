@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
+using Firebase.Database;
+using FreediverApp.DatabaseConnector;
+using DBConnector = FreediverApp.DatabaseConnector.DatabaseConnector;
 
 namespace FreediverApp
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
     public class LoginActivity : Activity
     {
-        private TextView textview_cantlogin;
-        private Button button_register, button_login;
-        private EditText textedit_username, textedit_password;
+        private TextView textviewCantLogin;
+        private Button buttonRegister, buttonLogin;
+        private EditText texteditUsername, texteditPassword;
+        private LoginInfoListener loginInfoListener;
+        private User loginUser;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -26,38 +26,54 @@ namespace FreediverApp
             SetContentView(Resource.Layout.LoginPage);
 
             //Init UI Components
-            button_login = FindViewById<Button>(Resource.Id.button_login);
-            button_login.Click += login;
+            buttonLogin = FindViewById<Button>(Resource.Id.button_login);
+            buttonLogin.Click += login;
 
-            textedit_username = FindViewById<EditText>(Resource.Id.textedit_username);
+            texteditUsername = FindViewById<EditText>(Resource.Id.textedit_username);
 
-            textedit_password = FindViewById<EditText>(Resource.Id.textedit_password);
-            textedit_password.InputType = Android.Text.InputTypes.TextVariationPassword | Android.Text.InputTypes.ClassText;
+            texteditPassword = FindViewById<EditText>(Resource.Id.textedit_password);
+            texteditPassword.InputType = Android.Text.InputTypes.TextVariationPassword | Android.Text.InputTypes.ClassText;
 
-            button_register = FindViewById<Button>(Resource.Id.button_register);
-            button_register.Click += redirectToRegisterActivity;
+            buttonRegister = FindViewById<Button>(Resource.Id.button_register);
+            buttonRegister.Click += redirectToRegisterActivity;
 
-            textview_cantlogin = FindViewById<TextView>(Resource.Id.textview_cantlogin);
-            textview_cantlogin.Click += redirectToLoginProblemsActivity;
-
+            textviewCantLogin = FindViewById<TextView>(Resource.Id.textview_cantlogin);
+            textviewCantLogin.Click += redirectToLoginProblemsActivity;
         }
 
         private void login(object sender, EventArgs eventArgs)
         {
             //Dummy Login since we have no db connection yet
-
-            var mainMenu = new Intent(this, typeof(MainActivity));
-            StartActivity(mainMenu);
-
-            //if (textedit_username.Text == "Freediver" && textedit_password.Text == "123")
+            //var loginInfoListener = new LoginInfoListener((sender, e) =>
             //{
-            //    var mainMenu = new Intent(this, typeof(MainActivity));
-            //    StartActivity(mainMenu);
-            //}
-            //else
-            //{
-            //    Toast.MakeText(this, "you entered a wrong user id or password!", ToastLength.Long).Show();
-            //}
+            //    bool found = false;//(e as LoginInfoListener.LoginInfoEventArgs).found;
+            //    string username = (e as LoginInfoListener.LoginInfoEventArgs).userdata.username;
+            //    string password = (e as LoginInfoListener.LoginInfoEventArgs).userdata.password;
+
+            //    if (found)
+            //    {
+            //        var mainMenu = new Intent(this, typeof(MainActivity));
+            //        StartActivity(mainMenu);
+            //    }
+            //    else 
+            //    {
+            //        Toast.MakeText(this, "Your username or password was wrong, please try again!", ToastLength.Long);
+            //    }
+
+            //}, texteditUsername.Text, texteditPassword.Text);
+
+            var dbRef = DBConnector.GetDatabase().GetReference("users");
+            Query query = dbRef.OrderByChild("username").EqualTo(texteditUsername.Text);
+
+            if (texteditUsername.Text == "Freediver" && texteditPassword.Text == "123")
+            {
+                var mainMenu = new Intent(this, typeof(MainActivity));
+                StartActivity(mainMenu);
+            }
+            else
+            {
+                Toast.MakeText(this, "you entered a wrong user id or password!", ToastLength.Long).Show();
+            }
         }
 
         private void redirectToLoginProblemsActivity(object sender, EventArgs eventArgs) 
@@ -77,6 +93,5 @@ namespace FreediverApp
             var diveSessionDetailActivity = new Intent(this, typeof(DiveSessionDetailViewActivity));
             StartActivity(diveSessionDetailActivity);
         }
-
     }
 }

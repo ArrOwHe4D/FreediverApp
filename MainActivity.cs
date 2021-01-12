@@ -14,14 +14,14 @@ using Android.Support.V4.View;
 using Android.Support.V4.Widget;
 using Android.Support.V7.App;
 using Android.Views;
-using Android.Widget;
 using FreediverApp.BluetoothCommunication;
+using FreediverApp.FragmentActivities;
 using Microcharts.Droid;
 using Microcharts;
-using ActionBarDrawerToggle = Android.Support.V7.App.ActionBarDrawerToggle;
 using SkiaSharp;
 using FragmentTransaction = Android.App.FragmentTransaction;
-using FreediverApp.FragmentActivities;
+using ActionBarDrawerToggle = Android.Support.V7.App.ActionBarDrawerToggle;
+
 
 namespace FreediverApp
 {
