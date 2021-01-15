@@ -17,192 +17,146 @@ namespace FreediverApp
         public string location;
         public string date;
         public string duration;
+        private string heartFreqMax;
         public string HeartFreqMax
         {
-            get{
-                try
+            get
+            {
+                if (heartFreqMax != null)
                 {
-                    string heartFreqMax = dives.First().GetHeartFreqMax();
-                    foreach (var item in dives)
-                    {
-                        if (Convert.ToInt32(item.GetHeartFreqMax()) > Convert.ToInt32(heartFreqMax))
-                        {
-                            heartFreqMax = item.GetHeartFreqMax();
-                        }
-                    }
                     return heartFreqMax;
                 }
-                catch (Exception)
+                else
                 {
-                    return "error";
-                }                
+                    UpdateHeartFreqMax();
+                    return heartFreqMax;
+                }
             }
-            set { }
-        }        
+            set { heartFreqMax = value; }
+        }
+        private string heartFreqMin;
         public string HeartFreqMin
         {
             get
             {
-                try
+                if (heartFreqMin != null)
                 {
-                    string heartFreqMin = dives.First().GetHeartFreqMin();
-                    foreach (var item in dives)
-                    {
-                        if (Convert.ToInt32(item.GetHeartFreqMin()) > Convert.ToInt32(heartFreqMin))
-                        {
-                            heartFreqMin = item.GetHeartFreqMin();
-                        }
-                    }
                     return heartFreqMin;
                 }
-                catch (Exception)
+                else
                 {
-                    return "error";
-                }                
+                    UpdateHeartFreqMin();
+                    return heartFreqMin;
+                }
             }
-            set { }
-        }        
+            set { heartFreqMin = value; }
+        }
+        private string luminanceMax;
         public string LuminanceMax
         {
             get
             {
-                try
+                if (luminanceMax != null)
                 {
-                    string luminanceMax = dives.First().GetLuminanceMax();
-                    foreach (var item in dives)
-                    {
-                        if (Convert.ToInt32(item.GetLuminanceMax()) > Convert.ToInt32(luminanceMax))
-                        {
-                            luminanceMax = item.GetLuminanceMax();
-                        }
-                    }
                     return luminanceMax;
                 }
-                catch (Exception)
+                else
                 {
-                    return "error";
-                }                
+                    UpdateLuminanceMax();
+                    return luminanceMax;
+                }
             }
-            set { }
-        }       
+            set { luminanceMax = value; }
+        }
+        private string luminanceMin;
         public string LuminanceMin
         {
             get
             {
-                try
+                if (luminanceMin != null)
                 {
-                    string luminanceMin = dives.First().GetLuminanceMin();
-                    foreach (var item in dives)
-                    {
-                        if (Convert.ToInt32(item.GetLuminanceMin()) > Convert.ToInt32(luminanceMin))
-                        {
-                            luminanceMin = item.GetLuminanceMin();
-                        }
-                    }
                     return luminanceMin;
                 }
-                catch (Exception)
+                else
                 {
-                    return "error";
-                }                
+                    UpdateLuminanceMin();
+                    return luminanceMin;
+                }
             }
-            set { }
+            set { luminanceMin = value; }
         }
-        public string maxDepth;        
+        public string maxDepth;
+
+        private string oxygenSaturationMax;
         public string OxygenSaturationMax
         {
             get
             {
-                try
+                if (oxygenSaturationMax != null)
                 {
-                    string oxygenSaturationMax = dives.First().GetOxygenSaturationMax();
-                    foreach (var item in dives)
-                    {
-                        if (Convert.ToInt32(item.GetOxygenSaturationMax()) > Convert.ToInt32(oxygenSaturationMax))
-                        {
-                            oxygenSaturationMax = item.GetOxygenSaturationMax();
-                        }
-                    }
                     return oxygenSaturationMax;
                 }
-                catch (Exception)
+                else
                 {
-                    return "error";
-                }                
+                    UpdateOxygenSaturationMax();
+                    return oxygenSaturationMax;
+                }
             }
-            set { }
-        }        
+            set { oxygenSaturationMax = value; }
+        }
+        private string oxygenSaturationMin;
         public string OxygenSaturationMin
         {
             get
             {
-                try
+                if (oxygenSaturationMin != null)
                 {
-                    string oxygenSaturationMin = dives.First().GetOxygenSaturationMin();
-                    foreach (var item in dives)
-                    {
-                        if (Convert.ToInt32(item.GetOxygenSaturationMin()) > Convert.ToInt32(oxygenSaturationMin))
-                        {
-                            oxygenSaturationMin = item.GetOxygenSaturationMin();
-                        }
-                    }
                     return oxygenSaturationMin;
                 }
-                catch (Exception)
+                else
                 {
-                    return "error";
-                }                
+                    UpdateOxygenSaturationMin();
+                    return oxygenSaturationMin;
+                }
             }
-            set { }
+            set { oxygenSaturationMin = value; }
         }
         public string refUser;
         public string timestampBegin;
-        public string timestampEnd;        
+        public string timestampEnd;
+        private string waterTemperatureMax;
         public string WaterTemperatureMax
         {
             get
             {
-                try
+                if (waterTemperatureMax != null)
                 {
-                    string waterTemperatureMax = dives.First().GetWaterTemperatureMax();
-                    foreach (var item in dives)
-                    {
-                        if (Convert.ToInt32(item.GetWaterTemperatureMax()) > Convert.ToInt32(waterTemperatureMax))
-                        {
-                            waterTemperatureMax = item.GetWaterTemperatureMax();
-                        }
-                    }
                     return waterTemperatureMax;
                 }
-                catch (Exception)
+                else
                 {
-                    return "error";
-                }                
+                    UpdateWaterTemperatureMax();
+                    return waterTemperatureMax;
+                }
             }
-            set { }
-        }        
+            set { waterTemperatureMax = value; }
+        }
+        private string waterTemperatureMin;
         public string WaterTemperatureMin
         {
             get
             {
-                try
+                if (waterTemperatureMin != null)
                 {
-                    string waterTemperatureMin = dives.First().GetWaterTemperatureMin();
-                    foreach (var item in dives)
-                    {
-                        if (Convert.ToInt32(item.GetWaterTemperatureMin()) > Convert.ToInt32(waterTemperatureMin))
-                        {
-                            waterTemperatureMin = item.GetWaterTemperatureMin();
-                        }
-                    }
                     return waterTemperatureMin;
                 }
-                catch (Exception)
+                else
                 {
-                    return "error";
-                }                
+                    UpdateWaterTemperatureMin();
+                    return waterTemperatureMin;
+                }
             }
-            set { }
+            set { waterTemperatureMin = value; }
         }
         public List<Dive> dives = new List<Dive>();
         //needed?
@@ -218,6 +172,178 @@ namespace FreediverApp
         public DiveSession(string _date)
         {
             date = _date;
+        }
+
+        public void UpdateMaxMinValues()
+        {
+            UpdateHeartFreqMax();
+            UpdateHeartFreqMin();
+            UpdateLuminanceMax();
+            UpdateLuminanceMin();
+            UpdateOxygenSaturationMax();
+            UpdateOxygenSaturationMin();
+            UpdateWaterTemperatureMax();
+            UpdateWaterTemperatureMin();
+        }
+
+        private void UpdateWaterTemperatureMin()
+        {
+            try
+            {
+                string _waterTemperatureMin = dives.First().GetWaterTemperatureMin();
+                foreach (var item in dives)
+                {
+                    if (Convert.ToInt32(item.GetWaterTemperatureMin()) > Convert.ToInt32(_waterTemperatureMin))
+                    {
+                        _waterTemperatureMin = item.GetWaterTemperatureMin();
+                    }
+                }
+                waterTemperatureMin = _waterTemperatureMin;
+            }
+            catch (Exception)
+            {
+               waterTemperatureMin = "error";
+            }
+        }
+
+        private void UpdateWaterTemperatureMax()
+        {
+            try
+            {
+                string _waterTemperatureMax = dives.First().GetWaterTemperatureMax();
+                foreach (var item in dives)
+                {
+                    if (Convert.ToInt32(item.GetWaterTemperatureMax()) > Convert.ToInt32(_waterTemperatureMax))
+                    {
+                        _waterTemperatureMax = item.GetWaterTemperatureMax();
+                    }
+                }
+                waterTemperatureMax = _waterTemperatureMax;
+            }
+            catch (Exception)
+            {
+                waterTemperatureMax = "error";
+            }
+        }
+
+        private void UpdateOxygenSaturationMin()
+        {
+            try
+            {
+                string _oxygenSaturationMin = dives.First().GetOxygenSaturationMin();
+                foreach (var item in dives)
+                {
+                    if (Convert.ToInt32(item.GetOxygenSaturationMin()) > Convert.ToInt32(_oxygenSaturationMin))
+                    {
+                        _oxygenSaturationMin = item.GetOxygenSaturationMin();
+                    }
+                }
+                oxygenSaturationMin = _oxygenSaturationMin;
+            }
+            catch (Exception)
+            {
+                oxygenSaturationMin = "error";
+            }
+        }
+
+        private void UpdateOxygenSaturationMax()
+        {
+            try
+            {
+                string _oxygenSaturationMax = dives.First().GetOxygenSaturationMax();
+                foreach (var item in dives)
+                {
+                    if (Convert.ToInt32(item.GetOxygenSaturationMax()) > Convert.ToInt32(_oxygenSaturationMax))
+                    {
+                        _oxygenSaturationMax = item.GetOxygenSaturationMax();
+                    }
+                }
+                oxygenSaturationMax = _oxygenSaturationMax;
+            }
+            catch (Exception)
+            {
+                oxygenSaturationMax = "error";
+            }
+        }
+
+        private void UpdateLuminanceMin()
+        {
+            try
+            {
+                string _luminanceMin = dives.First().GetLuminanceMin();
+                foreach (var item in dives)
+                {
+                    if (Convert.ToInt32(item.GetLuminanceMin()) > Convert.ToInt32(_luminanceMin))
+                    {
+                        _luminanceMin = item.GetLuminanceMin();
+                    }
+                }
+                luminanceMin = _luminanceMin;
+            }
+            catch (Exception)
+            {
+                luminanceMin = "error";
+            }
+        }
+
+        private void UpdateLuminanceMax()
+        {
+            try
+            {
+                string _luminanceMax = dives.First().GetLuminanceMax();
+                foreach (var item in dives)
+                {
+                    if (Convert.ToInt32(item.GetLuminanceMax()) > Convert.ToInt32(_luminanceMax))
+                    {
+                        _luminanceMax = item.GetLuminanceMax();
+                    }
+                }
+                luminanceMax = _luminanceMax;
+            }
+            catch (Exception)
+            {
+                luminanceMax = "error";
+            }
+        }
+
+        private void UpdateHeartFreqMin()
+        {
+            try
+            {
+                string _heartFreqMin = dives.First().GetHeartFreqMin();
+                foreach (var item in dives)
+                {
+                    if (Convert.ToInt32(item.GetHeartFreqMin()) > Convert.ToInt32(_heartFreqMin))
+                    {
+                        _heartFreqMin = item.GetHeartFreqMin();
+                    }
+                }
+                heartFreqMin = _heartFreqMin;
+            }
+            catch (Exception)
+            {
+                heartFreqMin = "error";
+            }
+        }
+
+        private void UpdateHeartFreqMax()
+        {
+            try
+            {
+                string _heartFreqMax = dives.First().GetHeartFreqMax();
+                foreach (var item in dives)
+                {
+                    if (Convert.ToInt32(item.GetHeartFreqMax()) > Convert.ToInt32(_heartFreqMax))
+                    {
+                        _heartFreqMax = item.GetHeartFreqMax();
+                    }
+                }
+                heartFreqMax = _heartFreqMax;
+            }
+            catch (Exception)
+            {
+                heartFreqMax = "error";
+            }
         }
     }
 }
