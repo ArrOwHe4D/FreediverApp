@@ -74,18 +74,18 @@ namespace FreediverApp.DatabaseConnector
                         DiveSession divesession = new DiveSession();
                         divesession.date = dataRecord.Child("date").Value.ToString();
                         divesession.duration = dataRecord.Child("duration").Value.ToString();
-                        divesession.heartFreqMax = dataRecord.Child("heart_freq_max").Value.ToString();
-                        divesession.heartFreqMin = dataRecord.Child("heart_freq_min").Value.ToString();
-                        divesession.luminanceMax = dataRecord.Child("luminance_max").Value.ToString();
-                        divesession.luminanceMin = dataRecord.Child("luminance_min").Value.ToString();
+                        divesession.HeartFreqMax = dataRecord.Child("heart_freq_max").Value.ToString();
+                        divesession.HeartFreqMin = dataRecord.Child("heart_freq_min").Value.ToString();
+                        divesession.LuminanceMax = dataRecord.Child("luminance_max").Value.ToString();
+                        divesession.LuminanceMin = dataRecord.Child("luminance_min").Value.ToString();
                         divesession.maxDepth = dataRecord.Child("max_depth").Value.ToString();
-                        divesession.oxygenSaturationMax = dataRecord.Child("oxygen_saturation_max").Value.ToString();
-                        divesession.oxygenSaturationMin = dataRecord.Child("oxygen_saturation_min").Value.ToString();
+                        divesession.OxygenSaturationMax = dataRecord.Child("oxygen_saturation_max").Value.ToString();
+                        divesession.OxygenSaturationMin = dataRecord.Child("oxygen_saturation_min").Value.ToString();
                         divesession.refUser = dataRecord.Child("ref_user").Value.ToString();
                         divesession.timestampBegin = dataRecord.Child("timestamp_begin").Value.ToString();
                         divesession.timestampEnd = dataRecord.Child("timestamp_end").Value.ToString();
-                        divesession.waterTemperatureMax = dataRecord.Child("water_temp_max").Value.ToString();
-                        divesession.waterTemperatureMin = dataRecord.Child("water_temp_min").Value.ToString();
+                        divesession.WaterTemperatureMax = dataRecord.Child("water_temp_max").Value.ToString();
+                        divesession.WaterTemperatureMin = dataRecord.Child("water_temp_min").Value.ToString();
                         divesessionList.Add(divesession);
                     }
                     break;

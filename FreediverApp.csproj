@@ -70,6 +70,7 @@
     <Compile Include="DatabaseConnector\Encryptor.cs" />
     <Compile Include="DatabaseConnector\TemporaryData.cs" />
     <Compile Include="DatabaseConnector\FirebaseDataListener.cs" />
+    <Compile Include="Dive.cs" />
     <Compile Include="DiveSession.cs" />
     <Compile Include="DiveSessionDetailViewActivity.cs" />
     <Compile Include="BluetoothCommunication\BluetoothDeviceReceiver.cs" />

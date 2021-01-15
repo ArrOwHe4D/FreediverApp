@@ -37,6 +37,7 @@ namespace FreediverApp
                     return "error";
                 }                
             }
+            set { }
         }        
         public string HeartFreqMin
         {
@@ -59,6 +60,7 @@ namespace FreediverApp
                     return "error";
                 }                
             }
+            set { }
         }        
         public string LuminanceMax
         {
@@ -81,6 +83,7 @@ namespace FreediverApp
                     return "error";
                 }                
             }
+            set { }
         }       
         public string LuminanceMin
         {
@@ -103,6 +106,7 @@ namespace FreediverApp
                     return "error";
                 }                
             }
+            set { }
         }
         public string maxDepth;        
         public string OxygenSaturationMax
@@ -126,6 +130,7 @@ namespace FreediverApp
                     return "error";
                 }                
             }
+            set { }
         }        
         public string OxygenSaturationMin
         {
@@ -148,6 +153,7 @@ namespace FreediverApp
                     return "error";
                 }                
             }
+            set { }
         }
         public string refUser;
         public string timestampBegin;
@@ -173,6 +179,7 @@ namespace FreediverApp
                     return "error";
                 }                
             }
+            set { }
         }        
         public string WaterTemperatureMin
         {
@@ -195,6 +202,7 @@ namespace FreediverApp
                     return "error";
                 }                
             }
+            set { }
         }
         public List<Dive> dives = new List<Dive>();
         //needed?

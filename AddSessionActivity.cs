@@ -28,17 +28,48 @@ namespace FreediverApp
             btnCancel = FindViewById<Button>(Resource.Id.btnCancel);
             btnCancel.Click += btnCancel_Click;
         }
-        void btnAddSession_Click(object sender, EventArgs eventArgs)
+        private void btnAddSession_Click(object sender, EventArgs eventArgs)
         {
             //SessionsActivity.dives
             User.curUser.diveSessions.Add(new DiveSession("9.12.2020"));
             var sessionsActivity = new Intent(this, typeof(SessionsActivity));
             StartActivity(sessionsActivity);
         }
-        void btnCancel_Click(object sender, EventArgs eventArgs)
+        private void btnCancel_Click(object sender, EventArgs eventArgs)
         {
             var sessionsActivity = new Intent(this, typeof(SessionsActivity));
             StartActivity(sessionsActivity);
         }
+
+        private DiveSession SampleData()
+        {
+            DiveSession ds = new DiveSession();
+
+            for (int i = 0; i < 3; i++)
+            {
+                Dive d = new Dive();
+                for (int u = 0; u < 100; u++)
+                {
+                    Measurepoint m = new Measurepoint()
+                    {
+                        acceleration = "",
+                        heartFreq = "",
+                        heartVar = "",
+                        depth = "",
+                        duration = "",
+                        magnetSensorData = "",
+                        refDivesession = "",
+                        gyroscope = "",
+                        luminance = "",
+                        oxygenSaturation = "",
+                        waterTemperature = ""                        
+                    };
+                    d.measurepoints.Add(m);
+                }
+                ds.dives.Add(d);
+            }
+            return ds;
+        }
+
     }
 }
