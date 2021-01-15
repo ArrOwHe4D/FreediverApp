@@ -13,17 +13,17 @@ namespace FreediverApp
 {
     class Measurepoint
     {
-        public string acceleration;
-        public string depth;
-        public string duration;
-        public string gyroscope;
-        public string heartFreq;
-        public string heartVar;
-        public string luminance;
-        public string magnetSensorData;
-        public string oxygenSaturation;
-        public string refDivesession;
-        public string waterTemperature;
+        public string acceleration; // string
+        public string depth; // float
+        public string duration; // float
+        public string gyroscope; // string
+        public string heartFreq; // int
+        public string heartVar; // int
+        public string luminance; // int
+        public string magnetSensorData; //
+        public string oxygenSaturation; // int
+        public string refDivesession; //
+        public string waterTemperature; // float
 
         public Measurepoint() { }
 
