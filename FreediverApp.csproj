@@ -68,9 +68,8 @@
     <Compile Include="AccountPanelFragment.cs" />
     <Compile Include="AddSessionActivity.cs" />
     <Compile Include="DatabaseConnector\Encryptor.cs" />
-    <Compile Include="DatabaseConnector\LoginInfoListener.cs" />
     <Compile Include="DatabaseConnector\TemporaryData.cs" />
-    <Compile Include="DatabaseConnector\UserDataListener.cs" />
+    <Compile Include="DatabaseConnector\FirebaseDataListener.cs" />
     <Compile Include="DiveSession.cs" />
     <Compile Include="DiveSessionDetailViewActivity.cs" />
     <Compile Include="BluetoothCommunication\BluetoothDeviceReceiver.cs" />
@@ -81,6 +80,7 @@
     <Compile Include="LoginActivity.cs" />
     <Compile Include="LoginProblemsActivity.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="Measurepoint.cs" />
     <Compile Include="RegisterActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

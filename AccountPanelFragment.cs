@@ -15,7 +15,7 @@ namespace FreediverApp
         private TextView txtViewEmail, txtViewPassword, txtViewFirstname, txtViewLastname, txtViewDateOfBirth, txtViewHeight, txtViewWeight;
         private TextView titleUsername;
 
-        private UserDataListener userDataListener;
+        private FirebaseDataListener userDataListener;
         private List<User> userList;
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -93,13 +93,13 @@ namespace FreediverApp
 
         public void retrieveAccountData() 
         {
-            userDataListener = new UserDataListener();
+            userDataListener = new FirebaseDataListener();
             string id = TemporaryData.USER_ID;
-            userDataListener.Query("users", "username", TemporaryData.USER_NAME);
-            userDataListener.UserDataRetrieved += UserDataListener_UserDataRetrieved;
+            userDataListener.QueryParameterized("users", "username", TemporaryData.USER_NAME);
+            userDataListener.DataRetrieved += UserDataListener_UserDataRetrieved;
         }
 
-        private void UserDataListener_UserDataRetrieved(object sender, UserDataListener.UserDataEventArgs e)
+        private void UserDataListener_UserDataRetrieved(object sender, FirebaseDataListener.DataEventArgs e)
         {
             userList = e.Users;
             fillUserData(userList);

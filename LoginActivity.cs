@@ -17,9 +17,8 @@ namespace FreediverApp
         private Button buttonRegister, buttonLogin;
         private EditText texteditUsername, texteditPassword;
 
-        private UserDataListener userDataListener;
+        private FirebaseDataListener userDataListener;
         private List<User> userList;
-        private bool dataretrieved = false;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -46,12 +45,7 @@ namespace FreediverApp
 
         private void login(object sender, EventArgs eventArgs)
         {
-            retrieveUserData();
-
-            if (!dataretrieved) 
-            {
-                Toast.MakeText(this, "You entered a wrong user id or password!", ToastLength.Long).Show();
-            }         
+            retrieveUserData();      
         }
 
         private void redirectToLoginProblemsActivity(object sender, EventArgs eventArgs) 
@@ -74,20 +68,21 @@ namespace FreediverApp
 
         public void retrieveUserData() 
         {
-            userDataListener = new UserDataListener();
-            userDataListener.Query("users", "username", texteditUsername.Text);
-            userDataListener.UserDataRetrieved += userDataListener_UserDataRetrieved;
+            userDataListener = new FirebaseDataListener();
+            userDataListener.QueryParameterized("users", "username", texteditUsername.Text);
+            userDataListener.DataRetrieved += userDataListener_UserDataRetrieved;
         }
 
-        private void userDataListener_UserDataRetrieved(object sender, UserDataListener.UserDataEventArgs e) 
+        private void userDataListener_UserDataRetrieved(object sender, FirebaseDataListener.DataEventArgs e) 
         {
             userList = e.Users;
-            dataretrieved = true;
-            
-            if (userList.Count > 0)
+
+            if (userList != null)
             {
+                //username was found now check for password match
                 if (userList[0].username == texteditUsername.Text && userList[0].password == Encryptor.Encrypt(texteditPassword.Text))
                 {
+                    //set temporary user data 
                     TemporaryData.USER_EMAIL = userList[0].email;
                     TemporaryData.USER_ID = userList[0].id;
                     TemporaryData.USER_NAME = userList[0].username;
@@ -95,7 +90,15 @@ namespace FreediverApp
                     var mainMenu = new Intent(this, typeof(MainActivity));
                     StartActivity(mainMenu);
                 }
-            } 
+                else 
+                {
+                    Toast.MakeText(this, "You entered a wrong user id or password!", ToastLength.Long).Show();
+                }
+            }
+            else 
+            {
+                Toast.MakeText(this, "You entered a wrong user id or password!", ToastLength.Long).Show();
+            }
         }
     }
 }

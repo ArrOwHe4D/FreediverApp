@@ -25,7 +25,7 @@ namespace FreediverApp
             texteditWeight, 
             texteditHeight;
 
-        private UserDataListener userDataListener;
+        private FirebaseDataListener userDataListener;
         private List<User> userList;
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -52,12 +52,12 @@ namespace FreediverApp
 
         private void setupDataListener() 
         {
-            userDataListener = new UserDataListener();
-            userDataListener.Query("users", "email", texteditEmail.Text);
-            userDataListener.UserDataRetrieved += UserDataListener_UserDataRetrieved;
+            userDataListener = new FirebaseDataListener();
+            userDataListener.QueryParameterized("users", "email", texteditEmail.Text);
+            userDataListener.DataRetrieved += UserDataListener_UserDataRetrieved;
         }
 
-        private void UserDataListener_UserDataRetrieved(object sender, UserDataListener.UserDataEventArgs e)
+        private void UserDataListener_UserDataRetrieved(object sender, FirebaseDataListener.DataEventArgs e)
         {
             userList = e.Users;   
         }
@@ -74,13 +74,13 @@ namespace FreediverApp
             string weight = texteditWeight.Text;
             string height = texteditHeight.Text;
 
-            if (string.IsNullOrEmpty(email) ||
-                string.IsNullOrEmpty(username) ||
-                string.IsNullOrEmpty(password) ||
-                string.IsNullOrEmpty(firstname) ||
-                string.IsNullOrEmpty(lastname) ||
-                string.IsNullOrEmpty(dateofbirth) ||
-                string.IsNullOrEmpty(weight) ||
+            if (string.IsNullOrEmpty(email)         ||
+                string.IsNullOrEmpty(username)      ||
+                string.IsNullOrEmpty(password)      ||   
+                string.IsNullOrEmpty(firstname)     ||
+                string.IsNullOrEmpty(lastname)      ||
+                string.IsNullOrEmpty(dateofbirth)   ||
+                string.IsNullOrEmpty(weight)        ||
                 string.IsNullOrEmpty(height))
             {
                 Toast.MakeText(this, "Please fill all the fields in order to register a new account!", ToastLength.Long).Show();
