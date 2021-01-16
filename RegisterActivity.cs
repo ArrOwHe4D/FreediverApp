@@ -90,12 +90,12 @@ namespace FreediverApp
                 bool userNameExists = false;
                 bool emailExists = false;
 
-                if (userList.Count > 0) 
+                if (userList != null) 
                 {
                     userNameExists = userList[0].username.Equals(texteditUsername.Text);
                     emailExists = userList[0].email.Equals(texteditEmail.Text);
                 }
-                
+
                 if (userNameExists)
                 {
                     Toast.MakeText(this, "This username is already in use, please choose another one!", ToastLength.Long).Show();
@@ -106,36 +106,39 @@ namespace FreediverApp
                     Toast.MakeText(this, "This email is already in use, please choose another one!", ToastLength.Long).Show();
                     return;
                 }
-
-                if (!userNameExists && !emailExists)
+                else 
                 {
-                    HashMap userData = new HashMap();
-                    userData.Put("email", email);
-                    userData.Put("username", username);
-                    userData.Put("password", Encryptor.Encrypt(password));
-                    userData.Put("firstname", firstname);
-                    userData.Put("lastname", lastname);
-                    userData.Put("birthday", dateofbirth);
-                    userData.Put("weight", weight);
-                    userData.Put("height", height);
-
-                    SupportV7.AlertDialog.Builder saveDataDialog = new SupportV7.AlertDialog.Builder(this);
-                    saveDataDialog.SetTitle("Save User Information");
-                    saveDataDialog.SetMessage("Are you sure?");
-
-                    saveDataDialog.SetPositiveButton("Accept", (senderAlert, args) =>
+                    if (!userNameExists && !emailExists)
                     {
-                        DatabaseReference newUserRef = DBConnector.GetDatabase().GetReference("users").Push();
-                        newUserRef.SetValue(userData);
-                        var loginActivity = new Intent(this, typeof(LoginActivity));
-                        StartActivity(loginActivity);
-                    });
-                    saveDataDialog.SetNegativeButton("Cancel", (senderAlert, args) =>
-                    {
-                        saveDataDialog.Dispose();
-                    });
+                        HashMap userData = new HashMap();
+                        userData.Put("email", email);
+                        userData.Put("username", username);
+                        userData.Put("password", Encryptor.Encrypt(password));
+                        userData.Put("firstname", firstname);
+                        userData.Put("lastname", lastname);
+                        userData.Put("birthday", dateofbirth);
+                        userData.Put("weight", weight);
+                        userData.Put("height", height);
+                        userData.Put("registerdate", DateTime.Now.Date.ToString("dd.MM.yyyy"));
 
-                    saveDataDialog.Show();
+                        SupportV7.AlertDialog.Builder saveDataDialog = new SupportV7.AlertDialog.Builder(this);
+                        saveDataDialog.SetTitle("Save User Information");
+                        saveDataDialog.SetMessage("Are you sure?");
+
+                        saveDataDialog.SetPositiveButton("Accept", (senderAlert, args) =>
+                        {
+                            DatabaseReference newUserRef = DBConnector.GetDatabase().GetReference("users").Push();
+                            newUserRef.SetValue(userData);
+                            var loginActivity = new Intent(this, typeof(LoginActivity));
+                            StartActivity(loginActivity);
+                        });
+                        saveDataDialog.SetNegativeButton("Cancel", (senderAlert, args) =>
+                        {
+                            saveDataDialog.Dispose();
+                        });
+
+                        saveDataDialog.Show();
+                    }
                 }
             }
         }

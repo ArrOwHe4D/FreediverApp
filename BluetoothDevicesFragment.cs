@@ -61,17 +61,24 @@ namespace FreediverApp
 
         private void scanButtonOnClick(object sender, EventArgs eventArgs) 
         {
-            Devices = btReceiver.foundDevices;
-
-            if (Devices != null)
+            if (btReceiver.m_adapter.IsEnabled)
             {
-                foreach (var device in Devices)
+                Devices = btReceiver.foundDevices;
+
+                if (Devices != null)
                 {
-                    if (!items.Contains(device.Name))
+                    foreach (var device in Devices)
                     {
-                        items.Add(device.Name + " (" + device.Address + ")");
+                        if (!items.Contains(device.Name))
+                        {
+                            items.Add(device.Name + " (" + device.Address + ")");
+                        }
                     }
                 }
+            }
+            else 
+            {
+                Toast.MakeText(Context, "Please enable Bluetooth on your device to be able to scan for bluetooth devices!", ToastLength.Long).Show();
             }
 
             ArrayAdapter<string> adapter = new ArrayAdapter<string>(this.Context, Android.Resource.Layout.SimpleListItem1, items);
@@ -106,7 +113,7 @@ namespace FreediverApp
             if (coarseLocationPermissionGranted == Permission.Denied || fineLocationPermissionGranted == Permission.Denied)
                 ActivityCompat.RequestPermissions(this.Activity, locationPermissions, locationPermissionsRequestCode);
 
-            if (btReceiver.m_adapter != null) 
+            if (btReceiver.m_adapter != null && btReceiver.m_adapter.IsEnabled)
             {
                 btReceiver.m_adapter.StartDiscovery();
             }
@@ -114,12 +121,12 @@ namespace FreediverApp
             return btReceiver.foundDevices;
         }
 
-        private List<String> devicesNames(List<BluetoothDevice> _devices)
+        private List<string> devicesNames(List<BluetoothDevice> _devices)
         {
-            List<String> temp = new List<string>();
+            List<string> temp = new List<string>();
             for (int i = 0; i < _devices.Count; i++)
             {
-                temp.Add(_devices.ElementAt(i).Name);
+                temp.Add(_devices.ElementAt(i).Name + " (" + _devices.ElementAt(i).Address + ")");
             }
             return temp;
         }

@@ -63,6 +63,7 @@ namespace FreediverApp.DatabaseConnector
                         user.dateOfBirth = dataRecord.Child("birthday").Value.ToString();
                         user.weight = dataRecord.Child("weight").Value.ToString();
                         user.height = dataRecord.Child("height").Value.ToString();
+                        user.registerdate = dataRecord.Child("registerdate").Value.ToString();
                         userList.Add(user);
                     }
                     break;

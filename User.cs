@@ -14,6 +14,7 @@ namespace FreediverApp
         public string dateOfBirth;
         public string weight;
         public string height;
+        public string registerdate;
 
         public List<DiveSession> diveSessions = new List<DiveSession>();
 

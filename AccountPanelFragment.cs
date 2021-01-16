@@ -13,7 +13,7 @@ namespace FreediverApp
         // use edit buttons as Imageviews as it is easier and costs less resources
         private ImageView btnPencilEmail, btnPencilPassword, btnPencilFirstname, btnPencilLastname, btnPencilDateOfBirth, btnPencilHeight, btnPencilWeight;
         private TextView txtViewEmail, txtViewPassword, txtViewFirstname, txtViewLastname, txtViewDateOfBirth, txtViewHeight, txtViewWeight;
-        private TextView titleUsername;
+        private TextView titleUsername, titleRegisteredSince;
 
         private FirebaseDataListener userDataListener;
         private List<User> userList;
@@ -48,6 +48,7 @@ namespace FreediverApp
             txtViewWeight = view.FindViewById<TextView>(Resource.Id.txtview_weight);
 
             titleUsername = view.FindViewById<TextView>(Resource.Id.title_username);
+            titleRegisteredSince = view.FindViewById<TextView>(Resource.Id.title_registered_since);
 
             //get userdata from db
             retrieveAccountData();
@@ -56,8 +57,9 @@ namespace FreediverApp
         }
 
         private void fillUserData(List<User> userdata) 
-        {
+        {   
             titleUsername.Text = userdata[0].username;
+            titleRegisteredSince.Text = "registered since: " + userdata[0].registerdate;
             txtViewEmail.Text = userdata[0].email;
             txtViewPassword.Text = "********";
             txtViewFirstname.Text = userdata[0].firstname;
