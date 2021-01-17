@@ -115,6 +115,12 @@ namespace FreediverApp.DatabaseConnector
             }
         }
 
+        public void deleteEntity(string tablename, string id) 
+        {
+            DatabaseReference entityRef = DatabaseConnector.GetDatabase().GetReference(tablename + "/" + id);
+            entityRef.RemoveValue();
+        }
+
         public void OnDataChange(DataSnapshot snapshot)
         {
             if (snapshot.Value != null)

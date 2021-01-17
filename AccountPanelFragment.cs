@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Android.App;
+using Android.Content;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
 using FreediverApp.DatabaseConnector;
+using SupportV7 = Android.Support.V7.App;
 
 namespace FreediverApp
 {
@@ -14,6 +16,7 @@ namespace FreediverApp
         private ImageView btnPencilEmail, btnPencilPassword, btnPencilFirstname, btnPencilLastname, btnPencilDateOfBirth, btnPencilHeight, btnPencilWeight;
         private TextView txtViewEmail, txtViewPassword, txtViewFirstname, txtViewLastname, txtViewDateOfBirth, txtViewHeight, txtViewWeight;
         private TextView titleUsername, titleRegisteredSince;
+        private Button btnDeleteAccount;
 
         private FirebaseDataListener userDataListener;
         private List<User> userList;
@@ -35,6 +38,10 @@ namespace FreediverApp
             btnPencilDateOfBirth = view.FindViewById<ImageView>(Resource.Id.btn_pencil_date_of_birth);
             btnPencilHeight = view.FindViewById<ImageView>(Resource.Id.btn_pencil_height);
             btnPencilWeight = view.FindViewById<ImageView>(Resource.Id.btn_pencil_weight);
+
+            btnDeleteAccount = view.FindViewById<Button>(Resource.Id.button_delete_account);
+
+            btnDeleteAccount.Click += deleteUserAccount;
 
             btnPencilEmail.Click += editEmail;
 
@@ -58,15 +65,18 @@ namespace FreediverApp
 
         private void fillUserData(List<User> userdata) 
         {   
-            titleUsername.Text = userdata[0].username;
-            titleRegisteredSince.Text = "registered since: " + userdata[0].registerdate;
-            txtViewEmail.Text = userdata[0].email;
-            txtViewPassword.Text = "********";
-            txtViewFirstname.Text = userdata[0].firstname;
-            txtViewLastname.Text = userdata[0].lastname;
-            txtViewDateOfBirth.Text = userdata[0].dateOfBirth;
-            txtViewWeight.Text = userdata[0].weight + " kg";
-            txtViewHeight.Text = userdata[0].height + " cm"; 
+            if (userdata != null) 
+            {
+                titleUsername.Text = userdata[0].username;
+                titleRegisteredSince.Text = "registered since: " + userdata[0].registerdate;
+                txtViewEmail.Text = userdata[0].email;
+                txtViewPassword.Text = "********";
+                txtViewFirstname.Text = userdata[0].firstname;
+                txtViewLastname.Text = userdata[0].lastname;
+                txtViewDateOfBirth.Text = userdata[0].dateOfBirth;
+                txtViewWeight.Text = userdata[0].weight + " kg";
+                txtViewHeight.Text = userdata[0].height + " cm";
+            }
         }
 
         public void editEmail(object sender, EventArgs eventArgs) 
@@ -105,6 +115,26 @@ namespace FreediverApp
         {
             userList = e.Users;
             fillUserData(userList);
+        }
+
+        private void deleteUserAccount(object sender, EventArgs e) 
+        {
+            SupportV7.AlertDialog.Builder deleteUserDialog = new SupportV7.AlertDialog.Builder(this.Context);
+            deleteUserDialog.SetTitle("Delete User Account");
+            deleteUserDialog.SetMessage("Are you sure?");
+
+            deleteUserDialog.SetPositiveButton("Accept", (senderAlert, args) =>
+            {
+                userDataListener.deleteEntity("users", TemporaryData.USER_ID);
+                var loginActivity = new Intent(this.Context, typeof(LoginActivity));
+                StartActivity(loginActivity);
+            });
+            deleteUserDialog.SetNegativeButton("Cancel", (senderAlert, args) =>
+            {
+                deleteUserDialog.Dispose();
+            });
+
+            deleteUserDialog.Show();
         }
     }
 }
