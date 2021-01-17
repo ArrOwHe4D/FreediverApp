@@ -19,8 +19,8 @@
         android:orientation="horizontal">
 
         <Refractored.Controls.CircleImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:src="@drawable/freediver_app_icon"
             android:id="@+id/imageview_profile"/>
 
@@ -64,8 +64,8 @@
         android:layout_height="match_parent">
 
         <TableLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <TableRow
                 android:layout_width="match_parent"
@@ -78,16 +78,6 @@
                     android:text="@string/account_information"
                     android:textColor="@android:color/black"
                     android:textSize="16pt"/>
-                <TextView
-                    android:minWidth="30px"
-                    android:minHeight="30px"
-                    xmlns="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/textView1" />
-                <TextView
-                    android:minWidth="30px"
-                    android:minHeight="30px"
-                    xmlns="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/textView2" />
 
             </TableRow>
 
@@ -327,16 +317,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:backgroundTint="#bf1515"/>
-                <TextView
-                    android:minWidth="30px"
-                    android:minHeight="30px"
-                    xmlns="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/textView3" />
-                <TextView
-                    android:minWidth="30px"
-                    android:minHeight="30px"
-                    xmlns="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/textView4" />
 
             </TableRow>
 
