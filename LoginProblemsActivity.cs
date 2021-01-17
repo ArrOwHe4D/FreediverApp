@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
+﻿using Android.App;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 
 namespace FreediverApp
@@ -15,11 +7,17 @@ namespace FreediverApp
     [Activity(Label = "LoginProblemsActivity")]
     public class LoginProblemsActivity : Activity
     {
+        private EditText txtUsernameEmail;
+        private Button btnRecoverPassword;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.LoginProblemsPage);
+
+            txtUsernameEmail = FindViewById<EditText>(Resource.Id.textedit_username_email);
+            btnRecoverPassword = FindViewById<Button>(Resource.Id.button_recover_password);
         }
     }
 }

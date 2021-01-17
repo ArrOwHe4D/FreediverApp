@@ -11,7 +11,6 @@ namespace FreediverApp.BluetoothCommunication
 
         public BluetoothAdapter m_adapter;
 
-
         public override void OnReceive(Context context, Intent intent)
         {
             foundDevices = new List<BluetoothDevice>();

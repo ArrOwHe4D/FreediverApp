@@ -5,14 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:text="@string/restore_account"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:layout_marginTop="20dp"
+        android:textColor="@android:color/black"
+        android:id="@+id/textview_register"/>
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="80dp"
         android:layout_marginRight="80dp"
         android:hint="@string/username_or_email"
-        android:id="@+id/textedit_username"
+        android:id="@+id/textedit_username_email"
         android:textColor="@android:color/black"
         android:textColorHint="@android:color/black"/>
 
@@ -23,6 +34,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="80dp"
         android:layout_marginRight="80dp"
-        android:id="@+id/button_login"/>
+        android:id="@+id/button_recover_password"/>
 
 </LinearLayout>
