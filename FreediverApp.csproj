@@ -67,6 +67,8 @@
   <ItemGroup>
     <Compile Include="AccountPanelFragment.cs" />
     <Compile Include="AddSessionActivity.cs" />
+    <Compile Include="BluetoothDeviceViewHolder.cs" />
+    <Compile Include="CustomListViewAdapter.cs" />
     <Compile Include="DatabaseConnector\Encryptor.cs" />
     <Compile Include="DatabaseConnector\TemporaryData.cs" />
     <Compile Include="DatabaseConnector\FirebaseDataListener.cs" />
@@ -79,6 +81,7 @@
     <Compile Include="DiveSessionsFragment.cs" />
     <Compile Include="DivesPerSessionActivity.cs" />
     <Compile Include="FragmentActivities\MainFragment.cs" />
+    <Compile Include="ImageManager.cs" />
     <Compile Include="LoginActivity.cs" />
     <Compile Include="LoginProblemsActivity.cs" />
     <Compile Include="MainActivity.cs" />
@@ -92,9 +95,6 @@
   </ItemGroup>
   <ItemGroup>
     <GoogleServicesJson Include="google-services.json" />
-    <None Include="..\.editorconfig">
-      <Link>.editorconfig</Link>
-    </None>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
@@ -134,6 +134,9 @@
     <PackageReference Include="Xamarin.Android.Support.Core.Utils" Version="28.0.0.3" />
     <PackageReference Include="Xamarin.Android.Support.CustomTabs" Version="28.0.0.3" />
     <PackageReference Include="Xamarin.Android.Support.v7.AppCompat">
+      <Version>28.0.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Android.Support.v7.RecyclerView">
       <Version>28.0.0.3</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.Browser">
@@ -244,6 +247,14 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\button_round.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ListViewCell.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_info.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

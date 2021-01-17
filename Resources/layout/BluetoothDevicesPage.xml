@@ -3,24 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:gravity="center"
     android:layout_height="match_parent"
-    android:minWidth="25px"
-    android:minHeight="25px"
     android:id="@+id/linearLayout1">
     <ListView
-        android:minWidth="25px"
-        android:minHeight="25px"
-        android:layout_width="383.0dp"
-        android:layout_height="436.0dp"
         android:id="@+id/lv_con_devices"
-        android:layout_marginBottom="0.0dp" />  
-    
-    <Button
-        android:text="Scan for Bluetooth Devices"
-        android:layout_marginLeft="80dp"
-        android:layout_marginRight="80dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/bt_scan_btn" />
+        android:fastScrollEnabled="true"/>      
+    <Button
+        android:text="Scan for Bluetooth Devices"
+        android:layout_below="@+id/lv_con_devices"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bt_scan_btn"/>
 </LinearLayout>
