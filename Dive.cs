@@ -174,5 +174,22 @@ namespace FreediverApp
                 return "error";
             }
         }
+
+        public string GetTotalTime()
+        {
+            float time = 0;
+            foreach (var item in measurepoints)
+            {
+                try
+                {
+                    time += (float)Convert.ToDouble(item.duration);
+                }
+                catch (Exception)
+                {
+                    
+                }
+            }
+            return time.ToString();            
+        }
     }
 }

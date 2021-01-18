@@ -345,5 +345,22 @@ namespace FreediverApp
                 heartFreqMax = "error";
             }
         }
+
+        public void UpdateDuration()
+        {
+            float dur = 0;
+
+            foreach (var item in dives)
+            {
+                try
+                {
+                    dur += (float)Convert.ToDouble(item.GetTotalTime());
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+        }
     }
 }
