@@ -62,9 +62,15 @@ namespace FreediverApp
             }
 
             var holder = (BluetoothDeviceViewHolder)view.Tag;
-            //holder.Photo.SetImageDrawable(ImageManager.Get(parent.Context));
+            holder.Photo.SetImageDrawable((Drawable)Resource.Drawable.icon_info);
             holder.Name.Text = bt_devices[position].Name;
             holder.MacAdress.Text = bt_devices[position].Address;
+            /*
+            if(bt_devices[position].Connected())
+                holder.ConState.Text = "Connected";
+            else
+                holder.ConState.Text = "Not Conncted";
+            */
             //holder.ConState.Text = bt_devices[position].
 
             return view;
