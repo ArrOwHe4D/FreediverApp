@@ -84,6 +84,7 @@ namespace FreediverApp
                     TemporaryData.USER_EMAIL = userList[0].email;
                     TemporaryData.USER_ID = userList[0].id;
                     TemporaryData.USER_NAME = userList[0].username;
+                    User.curUser = userList[0];
 
                     var mainMenu = new Intent(this, typeof(MainActivity));
                     StartActivity(mainMenu);

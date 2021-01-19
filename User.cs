@@ -39,6 +39,6 @@ namespace FreediverApp
             this.height = height;
         }
         
-        public static User curUser = new User(new List<DiveSession>() {new DiveSession("22.11.2020"), new DiveSession("23.11.2020"), new DiveSession("25.11.2020"), });
+        public static User curUser = new User(new List<DiveSession>() { new DiveSession("22.11.2020"), new DiveSession("23.11.2020"), new DiveSession("25.11.2020") });
     }
 }
