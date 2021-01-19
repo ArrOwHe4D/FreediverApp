@@ -22,7 +22,7 @@ namespace FreediverApp
 
             btnDivesPerSession = FindViewById<Button>(Resource.Id.btnDivesPerSession);
             btnDivesPerSession.Click += redirectToDivesPerSessionActivity;
-            tvwSessionName = FindViewById<TextView>(Resource.Id.tvwDdvSessionName);
+            tvwSessionName = FindViewById<TextView>(Resource.Id.diveDetailViewSessionName);
 
             tvwSessionName.Text = User.curUser.curDiveSession.date + " " + User.curUser.curDiveSession.location;
         }
