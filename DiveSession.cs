@@ -13,14 +13,22 @@ namespace FreediverApp
         public string weatherTemperature;
         public string weatherWindSpeed;
         public string duration;
+        private string id;
+        public string Id
+        {
+            get { return id; }
+        }
         
         public List<Dive> dives = new List<Dive>();
 
-        public DiveSession() { }
-
-        public DiveSession(string _date)
+        public DiveSession() 
         {
-            date = _date;
+            id = refUser + "_" + System.Guid.NewGuid();
+        }
+
+        public DiveSession(string _id)
+        {
+            id = _id;
         }
 
         public void UpdateDuration()
@@ -38,6 +46,7 @@ namespace FreediverApp
 
                 }
             }
+            watertime = dur.ToString();
         }
     }
 }

@@ -17,7 +17,15 @@
         public string refDive; // string (id)
         public string waterTemperature; // float
 
-        public Measurepoint() { }
+        public Measurepoint(string _refDive) 
+        {
+            refDive = _refDive;
+        }
+
+        public Measurepoint()
+        {
+
+        }
 
     }
 }

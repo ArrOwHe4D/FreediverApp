@@ -11,6 +11,19 @@ namespace FreediverApp
         public string refDivesession;
         public string timestampBegin;
         public string timestampEnd;
+        private string id;
+        public string Id
+        {
+            get { return id; }
+        }
+
+        public Dive(string _refDiveSession, string reihenfolge)
+        {
+            refDivesession = _refDiveSession;
+            id = refDivesession + "_" + reihenfolge;
+        }
+
+        public Dive() { } 
 
         private string heartFreqMax;
         public string HeartFreqMax

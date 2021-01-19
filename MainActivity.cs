@@ -189,8 +189,8 @@ namespace FreediverApp
 
             if (id == Resource.Id.nav_dive_sessions)
             {
-                var diveSessionDetailActivity = new Intent(this, typeof(DiveSessionDetailViewActivity));
-                StartActivity(diveSessionDetailActivity);
+                var diveSessionsActivity = new Intent(this, typeof(SessionsActivity));
+                StartActivity(diveSessionsActivity);
             }
             else if (id == Resource.Id.nav_connected_devices)
             {
