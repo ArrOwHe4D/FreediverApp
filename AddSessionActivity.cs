@@ -109,18 +109,16 @@ namespace FreediverApp
                         depth = dep.ToString(),
                         duration = dur.ToString(),
                         magnetSensorData = "kp",
-                        refDivesession = "kp",
+                        refDive = "kp",
                         gyroscope = "kp",
                         luminance = lumi.ToString(),
                         oxygenSaturation = oxySat.ToString(),
                         waterTemperature = watTemp.ToString()                        
                     };
                     d.measurepoints.Add(m);
-                }
-                ds.dives.Add(d);
+                }                
+                ds.dives.Add(d);                
             }
-
-            ds.UpdateMaxMinValues();
             ds.UpdateDuration();
             return ds;
         }
