@@ -22,7 +22,6 @@ using SkiaSharp;
 using FragmentTransaction = Android.App.FragmentTransaction;
 using ActionBarDrawerToggle = Android.Support.V7.App.ActionBarDrawerToggle;
 
-
 namespace FreediverApp
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = false)]

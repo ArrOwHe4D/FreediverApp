@@ -123,7 +123,7 @@ namespace FreediverApp.DatabaseConnector
                         measurepoint.gyroscope_z = dataRecord.Child("gyroscope_z").Value.ToString();
                         measurepoint.heartFreq = dataRecord.Child("heart_freq").Value.ToString();
                         measurepoint.heartVar = dataRecord.Child("heart_var").Value.ToString();
-                        measurepoint.luminance = dataRecord.Child("luminance").Value.ToString();                        
+						measurepoint.luminance = dataRecord.Child("luminance").Value.ToString();
                         measurepoint.oxygenSaturation = dataRecord.Child("oxygen_saturation").Value.ToString();
                         measurepoint.refDive = dataRecord.Child("ref_dive").Value.ToString();
                         measurepoint.waterTemperature = dataRecord.Child("water_temp").Value.ToString();

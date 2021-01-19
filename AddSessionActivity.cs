@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 using Firebase.Database;
 using Java.Util;
@@ -133,7 +127,8 @@ namespace FreediverApp
                         heartFreq = hf.ToString(),
                         heartVar = hv.ToString(),
                         depth = dep.ToString(),
-                        duration = dur.ToString(),                                              
+						duration = dur.ToString(),
+                        refDive = "kp",
                         gyroscope_x = "kp",
                         gyroscope_y = "kp",
                         gyroscope_z = "kp",

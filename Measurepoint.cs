@@ -1,15 +1,4 @@
-﻿using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace FreediverApp
+﻿namespace FreediverApp
 {
     class Measurepoint
     {
@@ -23,7 +12,7 @@ namespace FreediverApp
         public string gyroscope_z; // string
         public string heartFreq; // int
         public string heartVar; // int
-        public string luminance; // int        
+        public string luminance; // int
         public string oxygenSaturation; // int
         public string refDive; // string (id)
         public string waterTemperature; // float
