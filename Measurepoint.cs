@@ -23,13 +23,20 @@ namespace FreediverApp
         public string gyroscope_z; // string
         public string heartFreq; // int
         public string heartVar; // int
-        public string luminance; // int
-        public string magnetSensorData; //
+        public string luminance; // int        
         public string oxygenSaturation; // int
         public string refDive; // string (id)
         public string waterTemperature; // float
 
-        public Measurepoint() { }
+        public Measurepoint(string _refDive) 
+        {
+            refDive = _refDive;
+        }
+
+        public Measurepoint()
+        {
+
+        }
 
     }
 }

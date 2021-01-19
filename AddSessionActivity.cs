@@ -9,6 +9,9 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Firebase.Database;
+using Java.Util;
+using DBConnector = FreediverApp.DatabaseConnector.DatabaseConnector;
 
 namespace FreediverApp
 {
@@ -17,6 +20,12 @@ namespace FreediverApp
     {
         private Button btnAddSession;
         private Button btnCancel;
+        private TextView tvwConnected;
+        private TextView tvwLocation;
+        private TextView tvwWeather;
+        private TextView tvwDate;
+        private TextView tvwDiveTime;
+        private DiveSession diveSession;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -27,11 +36,22 @@ namespace FreediverApp
             btnAddSession.Click += btnAddSession_Click;
             btnCancel = FindViewById<Button>(Resource.Id.btnCancel);
             btnCancel.Click += btnCancel_Click;
+            tvwConnected = FindViewById<TextView>(Resource.Id.tvwConnectedV);
+            tvwLocation = FindViewById<TextView>(Resource.Id.tvwLocationV);
+            tvwWeather = FindViewById<TextView>(Resource.Id.tvwWeatherV);
+            tvwDate = FindViewById<TextView>(Resource.Id.tvwDateV);
+            tvwDiveTime = FindViewById<TextView>(Resource.Id.tvwDiveTimeV);
+
+            diveSession = SampleData();
+            tvwLocation.Text = diveSession.location;
+            tvwWeather.Text = diveSession.weatherCondition + " | " + diveSession.weatherTemperature;
+            tvwDate.Text = diveSession.date;
+            tvwDiveTime.Text = diveSession.watertime;
         }
         private void btnAddSession_Click(object sender, EventArgs eventArgs)
         {
             //SessionsActivity.dives
-            User.curUser.diveSessions.Add(new DiveSession("9.12.2020"));
+            User.curUser.diveSessions.Add(diveSession);
             var sessionsActivity = new Intent(this, typeof(SessionsActivity));
             StartActivity(sessionsActivity);
         }
@@ -42,17 +62,21 @@ namespace FreediverApp
         }
 
         string[] locations = new string[] { "Koeln", "Leverkusen", "Gummersbach", "Kiel", "Bremerhafen" };
+        string[] conditions = new string[] { "sonnig", "regnerisch", "bewölkt" };
         private DiveSession SampleData()
         {
             DiveSession ds = new DiveSession();
-            Random rand = new Random();
+            System.Random rand = new System.Random();
             ds.date = DateTime.Now.ToShortDateString();
             ds.location = locations[rand.Next(locations.Length)];
-            
+            ds.weatherTemperature = rand.Next(5, 26) + "C°";
+            ds.weatherCondition = conditions[rand.Next(conditions.Length)];
+            ds.weatherWindSpeed = rand.Next(5, 15) + "Km/h";
+
 
             for (int i = 0; i < 3; i++)
             {
-                Dive d = new Dive();
+                Dive d = new Dive(ds.Id, i.ToString());                
                 #region Measurepoints start values
                 int hf = rand.Next(90, 130);
                 int hv = rand.Next(750, 800);
@@ -101,16 +125,18 @@ namespace FreediverApp
                         }                        
                     }
                     #endregion
-                    Measurepoint m = new Measurepoint()
+                    Measurepoint m = new Measurepoint(d.Id)
                     {
-                        acceleration = "kp",
+                        accelerator_x = "kp",
+                        accelerator_y = "kp",
+                        accelerator_z = "kp",
                         heartFreq = hf.ToString(),
                         heartVar = hv.ToString(),
                         depth = dep.ToString(),
-                        duration = dur.ToString(),
-                        magnetSensorData = "kp",
-                        refDive = "kp",
-                        gyroscope = "kp",
+                        duration = dur.ToString(),                                              
+                        gyroscope_x = "kp",
+                        gyroscope_y = "kp",
+                        gyroscope_z = "kp",
                         luminance = lumi.ToString(),
                         oxygenSaturation = oxySat.ToString(),
                         waterTemperature = watTemp.ToString()                        
@@ -121,6 +147,79 @@ namespace FreediverApp
             }
             ds.UpdateDuration();
             return ds;
+        }
+
+        private void SaveDiveSession(DiveSession ds)
+        {
+            HashMap diveSessionData = new HashMap();
+            diveSessionData.Put("date", ds.date);
+            diveSessionData.Put("location", ds.location);
+            diveSessionData.Put("ref_user", ds.refUser);
+            diveSessionData.Put("watertime", ds.watertime);
+            diveSessionData.Put("weather_condition", ds.weatherCondition);
+            diveSessionData.Put("weather_temp", ds.weatherTemperature);
+            diveSessionData.Put("weather_wind_speed", ds.weatherWindSpeed);
+            diveSessionData.Put("id", ds.Id);
+
+
+            DatabaseReference newUserRef = DBConnector.GetDatabase().GetReference("users").Push();
+            newUserRef.SetValue(diveSessionData);
+
+            foreach (var item in ds.dives)
+            {
+                SaveDive(item);
+            }
+        }
+
+        private void SaveDive(Dive d)
+        {
+            HashMap diveData = new HashMap();
+            diveData.Put("duration", d.GetTotalTime());
+            diveData.Put("heart_freq_max", d.HeartFreqMax);
+            diveData.Put("heart_freq_min", d.HeartFreqMin);
+            diveData.Put("luminance_max", d.LuminanceMax);
+            diveData.Put("luminance_min", d.LuminanceMin);
+            diveData.Put("max_depth", d.maxDepth);
+            diveData.Put("oxygen_saturation_max", d.OxygenSaturationMax);
+            diveData.Put("oxygen_saturation_min", d.OxygenSaturationMin);
+            diveData.Put("ref_divesession", d.refDivesession);
+            diveData.Put("timestamp_begin", d.timestampBegin);
+            diveData.Put("timestamp_end", d.timestampEnd);
+            diveData.Put("water_temp_max", d.WaterTemperatureMax);
+            diveData.Put("water_temp_min", d.WaterTemperatureMin);
+            diveData.Put("id", d.Id);
+
+
+            DatabaseReference newUserRef = DBConnector.GetDatabase().GetReference("users").Push();
+            newUserRef.SetValue(diveData);
+
+            foreach (var item in d.measurepoints)
+            {
+                SaveMeasurepoint(item);
+            }
+        }
+
+        private void SaveMeasurepoint(Measurepoint m)
+        {
+            HashMap measurepointData = new HashMap();
+            measurepointData.Put("accelerator_x", m.accelerator_x);
+            measurepointData.Put("accelerator_y", m.accelerator_y);
+            measurepointData.Put("accelerator_z", m.accelerator_z);
+            measurepointData.Put("depth", m.depth);
+            measurepointData.Put("duration", m.duration);
+            measurepointData.Put("gyroscope_x", m.gyroscope_x);
+            measurepointData.Put("gyroscope_y", m.gyroscope_y);
+            measurepointData.Put("gyroscope_z", m.gyroscope_z);
+            measurepointData.Put("heart_freq", m.heartFreq);
+            measurepointData.Put("heart_var", m.heartVar);
+            measurepointData.Put("luminance", m.luminance);
+            measurepointData.Put("oxygen_saturation", m.oxygenSaturation);
+            measurepointData.Put("ref_dive", m.refDive);
+            measurepointData.Put("water_temp", m.waterTemperature);
+
+
+            DatabaseReference newUserRef = DBConnector.GetDatabase().GetReference("users").Push();
+            newUserRef.SetValue(measurepointData);            
         }
 
     }

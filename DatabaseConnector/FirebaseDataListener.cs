@@ -90,7 +90,7 @@ namespace FreediverApp.DatabaseConnector
                 {
                     foreach (DataSnapshot dataRecord in dataResult)
                     {
-                        Dive dive = new Dive();
+                        Dive dive = new Dive();                        
                         dive.duration = dataRecord.Child("duration").Value.ToString();
                         dive.HeartFreqMax = dataRecord.Child("heart_freq_max").Value.ToString();
                         dive.HeartFreqMin = dataRecord.Child("heart_freq_min").Value.ToString();
@@ -98,7 +98,7 @@ namespace FreediverApp.DatabaseConnector
                         dive.LuminanceMin = dataRecord.Child("luminance_min").Value.ToString();
                         dive.maxDepth = dataRecord.Child("max_depth").Value.ToString();
                         dive.OxygenSaturationMax = dataRecord.Child("oxygen_saturation_max").Value.ToString();
-                        dive.OxygenSaturationMin = dataRecord.Child("oxygen_saturation_min").Value.ToString();
+                        dive.OxygenSaturationMin = dataRecord.Child("oxygen_saturation_min").Value.ToString();                           
                         dive.refDivesession = dataRecord.Child("ref_divesession").Value.ToString();
                         dive.timestampBegin = dataRecord.Child("timestamp_begin").Value.ToString();
                         dive.timestampEnd = dataRecord.Child("timestamp_end").Value.ToString();
@@ -123,8 +123,7 @@ namespace FreediverApp.DatabaseConnector
                         measurepoint.gyroscope_z = dataRecord.Child("gyroscope_z").Value.ToString();
                         measurepoint.heartFreq = dataRecord.Child("heart_freq").Value.ToString();
                         measurepoint.heartVar = dataRecord.Child("heart_var").Value.ToString();
-                        measurepoint.luminance = dataRecord.Child("luminance").Value.ToString();
-                        measurepoint.magnetSensorData = dataRecord.Child("magnet_sensor_data").Value.ToString();
+                        measurepoint.luminance = dataRecord.Child("luminance").Value.ToString();                        
                         measurepoint.oxygenSaturation = dataRecord.Child("oxygen_saturation").Value.ToString();
                         measurepoint.refDive = dataRecord.Child("ref_dive").Value.ToString();
                         measurepoint.waterTemperature = dataRecord.Child("water_temp").Value.ToString();
