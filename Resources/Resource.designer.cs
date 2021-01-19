@@ -5602,94 +5602,97 @@ namespace FreediverApp
 			public const int tvwDateV = 2131296599;
 			
 			// aapt resource value: 0x7F090158
-			public const int tvwDiveTime = 2131296600;
+			public const int tvwDdvSessionName = 2131296600;
 			
 			// aapt resource value: 0x7F090159
-			public const int tvwDiveTimeV = 2131296601;
+			public const int tvwDiveTime = 2131296601;
 			
 			// aapt resource value: 0x7F09015A
-			public const int tvwLocation = 2131296602;
+			public const int tvwDiveTimeV = 2131296602;
 			
 			// aapt resource value: 0x7F09015B
-			public const int tvwLocationV = 2131296603;
+			public const int tvwLocation = 2131296603;
 			
 			// aapt resource value: 0x7F09015C
-			public const int tvwWeather = 2131296604;
+			public const int tvwLocationV = 2131296604;
 			
 			// aapt resource value: 0x7F09015D
-			public const int tvwWeatherV = 2131296605;
+			public const int tvwWeather = 2131296605;
 			
 			// aapt resource value: 0x7F09015E
-			public const int txtview_btdv_con_state = 2131296606;
+			public const int tvwWeatherV = 2131296606;
 			
 			// aapt resource value: 0x7F09015F
-			public const int txtview_btdv_mac_adress = 2131296607;
+			public const int txtview_btdv_con_state = 2131296607;
 			
 			// aapt resource value: 0x7F090160
-			public const int txtview_btdv_name = 2131296608;
+			public const int txtview_btdv_mac_adress = 2131296608;
 			
 			// aapt resource value: 0x7F090161
-			public const int txtview_date_of_birth = 2131296609;
+			public const int txtview_btdv_name = 2131296609;
 			
 			// aapt resource value: 0x7F090162
-			public const int txtview_email = 2131296610;
+			public const int txtview_date_of_birth = 2131296610;
 			
 			// aapt resource value: 0x7F090163
-			public const int txtview_firstname = 2131296611;
+			public const int txtview_email = 2131296611;
 			
 			// aapt resource value: 0x7F090164
-			public const int txtview_height = 2131296612;
+			public const int txtview_firstname = 2131296612;
 			
 			// aapt resource value: 0x7F090165
-			public const int txtview_lastname = 2131296613;
+			public const int txtview_height = 2131296613;
 			
 			// aapt resource value: 0x7F090166
-			public const int txtview_password = 2131296614;
+			public const int txtview_lastname = 2131296614;
 			
 			// aapt resource value: 0x7F090167
-			public const int txtview_weight = 2131296615;
+			public const int txtview_password = 2131296615;
 			
 			// aapt resource value: 0x7F090168
-			public const int @unchecked = 2131296616;
+			public const int txtview_weight = 2131296616;
 			
 			// aapt resource value: 0x7F090169
-			public const int uniform = 2131296617;
+			public const int @unchecked = 2131296617;
 			
 			// aapt resource value: 0x7F09016A
-			public const int unlabeled = 2131296618;
+			public const int uniform = 2131296618;
 			
 			// aapt resource value: 0x7F09016B
-			public const int up = 2131296619;
+			public const int unlabeled = 2131296619;
 			
 			// aapt resource value: 0x7F09016C
-			public const int useLogo = 2131296620;
+			public const int up = 2131296620;
 			
 			// aapt resource value: 0x7F09016D
-			public const int userInput = 2131296621;
+			public const int useLogo = 2131296621;
 			
 			// aapt resource value: 0x7F09016E
-			public const int view1 = 2131296622;
+			public const int userInput = 2131296622;
 			
 			// aapt resource value: 0x7F09016F
-			public const int view_offset_helper = 2131296623;
+			public const int view1 = 2131296623;
 			
 			// aapt resource value: 0x7F090170
-			public const int view_tree_saved_state_registry_owner = 2131296624;
+			public const int view_offset_helper = 2131296624;
 			
 			// aapt resource value: 0x7F090171
-			public const int visible = 2131296625;
+			public const int view_tree_saved_state_registry_owner = 2131296625;
 			
 			// aapt resource value: 0x7F090172
-			public const int visible_removing_fragment_view_tag = 2131296626;
+			public const int visible = 2131296626;
 			
 			// aapt resource value: 0x7F090173
-			public const int wide = 2131296627;
+			public const int visible_removing_fragment_view_tag = 2131296627;
 			
 			// aapt resource value: 0x7F090174
-			public const int withText = 2131296628;
+			public const int wide = 2131296628;
 			
 			// aapt resource value: 0x7F090175
-			public const int wrap_content = 2131296629;
+			public const int withText = 2131296629;
+			
+			// aapt resource value: 0x7F090176
+			public const int wrap_content = 2131296630;
 			
 			static Id()
 			{

@@ -43,9 +43,9 @@ namespace FreediverApp
             tvwDiveTime.Text = diveSession.watertime;
         }
         private void btnAddSession_Click(object sender, EventArgs eventArgs)
-        {
-            //SessionsActivity.dives
+        {            
             User.curUser.diveSessions.Add(diveSession);
+            SaveDiveSession(diveSession);
             var sessionsActivity = new Intent(this, typeof(SessionsActivity));
             StartActivity(sessionsActivity);
         }
@@ -59,7 +59,7 @@ namespace FreediverApp
         string[] conditions = new string[] { "sonnig", "regnerisch", "bewölkt" };
         private DiveSession SampleData()
         {
-            DiveSession ds = new DiveSession();
+            DiveSession ds = new DiveSession(User.curUser.id);
             System.Random rand = new System.Random();
             ds.date = DateTime.Now.ToShortDateString();
             ds.location = locations[rand.Next(locations.Length)];
@@ -157,8 +157,8 @@ namespace FreediverApp
             diveSessionData.Put("id", ds.Id);
 
 
-            DatabaseReference newUserRef = DBConnector.GetDatabase().GetReference("users").Push();
-            newUserRef.SetValue(diveSessionData);
+            DatabaseReference newDiveSessionsRef = DBConnector.GetDatabase().GetReference("divesessions").Push();
+            newDiveSessionsRef.SetValue(diveSessionData);
 
             foreach (var item in ds.dives)
             {
@@ -185,8 +185,8 @@ namespace FreediverApp
             diveData.Put("id", d.Id);
 
 
-            DatabaseReference newUserRef = DBConnector.GetDatabase().GetReference("users").Push();
-            newUserRef.SetValue(diveData);
+            DatabaseReference newDivesrRef = DBConnector.GetDatabase().GetReference("dives").Push();
+            newDivesrRef.SetValue(diveData);
 
             foreach (var item in d.measurepoints)
             {
@@ -211,8 +211,10 @@ namespace FreediverApp
             measurepointData.Put("oxygen_saturation", m.oxygenSaturation);
             measurepointData.Put("ref_dive", m.refDive);
             measurepointData.Put("water_temp", m.waterTemperature);
-            DatabaseReference newUserRef = DBConnector.GetDatabase().GetReference("users").Push();
-            newUserRef.SetValue(measurepointData);
+
+
+            DatabaseReference newMeasurepointsRef = DBConnector.GetDatabase().GetReference("measurepoints").Push();
+            newMeasurepointsRef.SetValue(measurepointData);
         }
 
     }

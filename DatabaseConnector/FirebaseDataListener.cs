@@ -82,6 +82,7 @@ namespace FreediverApp.DatabaseConnector
                         divesession.weatherCondition = dataRecord.Child("weather_condition").Value.ToString();
                         divesession.weatherTemperature = dataRecord.Child("weather_temp").Value.ToString();
                         divesession.weatherWindSpeed = dataRecord.Child("weather_wind_speed").Value.ToString();
+                        divesession.Id = dataRecord.Child("id").Value.ToString();
                         divesessionList.Add(divesession);
                     }
                     break;
@@ -104,6 +105,7 @@ namespace FreediverApp.DatabaseConnector
                         dive.timestampEnd = dataRecord.Child("timestamp_end").Value.ToString();
                         dive.WaterTemperatureMax = dataRecord.Child("water_temp_max").Value.ToString();
                         dive.WaterTemperatureMin = dataRecord.Child("water_temp_min").Value.ToString();
+                        dive.Id = dataRecord.Child("id").Value.ToString();
                         diveList.Add(dive);
                     }
                     break;

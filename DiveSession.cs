@@ -17,18 +17,19 @@ namespace FreediverApp
         public string Id
         {
             get { return id; }
+            set { id = value; }
         }
         
         public List<Dive> dives = new List<Dive>();
 
-        public DiveSession() 
+        public DiveSession(string _refUser) 
         {
+            refUser = _refUser;
             id = refUser + "_" + System.Guid.NewGuid();
         }
 
-        public DiveSession(string _id)
-        {
-            id = _id;
+        public DiveSession()
+        {            
         }
 
         public void UpdateDuration()

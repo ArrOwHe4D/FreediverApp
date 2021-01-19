@@ -15,6 +15,7 @@ namespace FreediverApp
         public string Id
         {
             get { return id; }
+            set { id = value; }
         }
 
         public Dive(string _refDiveSession, string reihenfolge)

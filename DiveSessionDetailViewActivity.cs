@@ -12,6 +12,7 @@ namespace FreediverApp
     {
 
         private Button btnDivesPerSession;
+        private TextView tvwSessionName;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -21,6 +22,9 @@ namespace FreediverApp
 
             btnDivesPerSession = FindViewById<Button>(Resource.Id.btnDivesPerSession);
             btnDivesPerSession.Click += redirectToDivesPerSessionActivity;
+            tvwSessionName = FindViewById<TextView>(Resource.Id.tvwDdvSessionName);
+
+            tvwSessionName.Text = User.curUser.curDiveSession.date + " " + User.curUser.curDiveSession.location;
         }
 
         private void redirectToDivesPerSessionActivity(object sender, EventArgs eventArgs)
