@@ -46,6 +46,7 @@ namespace FreediverApp
         {            
             User.curUser.diveSessions.Add(diveSession);
             SaveDiveSession(diveSession);
+            SampleData();
             var sessionsActivity = new Intent(this, typeof(SessionsActivity));
             StartActivity(sessionsActivity);
         }

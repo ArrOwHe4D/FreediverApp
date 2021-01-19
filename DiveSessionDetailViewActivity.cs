@@ -13,6 +13,12 @@ namespace FreediverApp
 
         private Button btnDivesPerSession;
         private TextView tvwSessionName;
+        private TextView tvwLocation;
+        private TextView tvwDate;
+        private TextView tvwWeather;
+        private TextView tvwTimeInWater;
+        private TextView tvwNotes;
+
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -22,9 +28,17 @@ namespace FreediverApp
 
             btnDivesPerSession = FindViewById<Button>(Resource.Id.btnDivesPerSession);
             btnDivesPerSession.Click += redirectToDivesPerSessionActivity;
-            tvwSessionName = FindViewById<TextView>(Resource.Id.diveDetailViewSessionName);
+            tvwSessionName = FindViewById<TextView>(Resource.Id.tvwDsdvSessionName);
+            tvwLocation = FindViewById<TextView>(Resource.Id.tvwDsdvLocationV);
+            //tvwDate = FindViewById<TextView>(Resource.Id.);
+            tvwWeather = FindViewById<TextView>(Resource.Id.tvwDsdvWeatherV);
+            tvwTimeInWater = FindViewById<TextView>(Resource.Id.tvwDsdvTimeInWaterV);
+            tvwNotes = FindViewById<TextView>(Resource.Id.tvwDsdvNotesV);
 
             tvwSessionName.Text = User.curUser.curDiveSession.date + " " + User.curUser.curDiveSession.location;
+            tvwLocation.Text = User.curUser.curDiveSession.location;
+            tvwWeather.Text = User.curUser.curDiveSession.weatherCondition + " | " + User.curUser.curDiveSession.weatherTemperature;
+            tvwTimeInWater.Text = User.curUser.curDiveSession.watertime;
         }
 
         private void redirectToDivesPerSessionActivity(object sender, EventArgs eventArgs)

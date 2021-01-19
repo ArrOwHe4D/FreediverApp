@@ -65,7 +65,7 @@ namespace FreediverApp
                 {
                     if (item.date != null)
                     {
-                        dives.Add(item.date);
+                        dives.Add(item.date + " | " + item.location);
                     }
                 }
 
@@ -83,10 +83,10 @@ namespace FreediverApp
 
         void lvwDive_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            User.curUser.curDiveSession = User.curUser.diveSessions[(int)lvwDive.SelectedItemId];
+            User.curUser.curDiveSession = User.curUser.diveSessions[e.Position];
             var diveSessionDetailViewActivity = new Intent(this, typeof(DiveSessionDetailViewActivity));
             StartActivity(diveSessionDetailViewActivity);
-        }
+        }                
 
         void lvwDive_ItemLongClick(object sender, AdapterView.ItemLongClickEventArgs e)
         {
