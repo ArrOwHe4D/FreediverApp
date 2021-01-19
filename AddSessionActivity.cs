@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 
 namespace FreediverApp
@@ -103,14 +97,17 @@ namespace FreediverApp
                     #endregion
                     Measurepoint m = new Measurepoint()
                     {
-                        acceleration = "kp",
+                        accelerator_x = "kp",
+                        accelerator_y = "kp",
+                        accelerator_z = "kp",
                         heartFreq = hf.ToString(),
                         heartVar = hv.ToString(),
                         depth = dep.ToString(),
                         duration = dur.ToString(),
-                        magnetSensorData = "kp",
                         refDive = "kp",
-                        gyroscope = "kp",
+                        gyroscope_x = "kp",
+                        gyroscope_y = "kp",
+                        gyroscope_z = "kp",
                         luminance = lumi.ToString(),
                         oxygenSaturation = oxySat.ToString(),
                         waterTemperature = watTemp.ToString()                        

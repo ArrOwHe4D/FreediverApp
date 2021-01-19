@@ -4,9 +4,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Widget;
-using Firebase.Database;
 using FreediverApp.DatabaseConnector;
-using DBConnector = FreediverApp.DatabaseConnector.DatabaseConnector;
 
 namespace FreediverApp
 {

@@ -4,7 +4,6 @@ namespace FreediverApp
 {
     class User
     {
-
         public string id;
         public string username;
         public string password;
