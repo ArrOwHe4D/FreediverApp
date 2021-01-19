@@ -22,7 +22,7 @@ namespace FreediverApp
         public string luminance; // int
         public string magnetSensorData; //
         public string oxygenSaturation; // int
-        public string refDivesession; //
+        public string refDive; //
         public string waterTemperature; // float
 
         public Measurepoint() { }

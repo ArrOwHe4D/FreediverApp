@@ -12,6 +12,7 @@ namespace FreediverApp.DatabaseConnector
         //If we need a new type of table you should add a new list to handle the retrieved Data for that case
         List<User> userList = new List<User>();
         List<DiveSession> divesessionList = new List<DiveSession>();
+        List<Dive> diveList = new List<Dive>();
         List<Measurepoint> measurePointList = new List<Measurepoint>();
 
         public event EventHandler<DataEventArgs> DataRetrieved;
@@ -74,20 +75,30 @@ namespace FreediverApp.DatabaseConnector
                     {
                         DiveSession divesession = new DiveSession();
                         divesession.date = dataRecord.Child("date").Value.ToString();
-                        divesession.duration = dataRecord.Child("duration").Value.ToString();
-                        divesession.HeartFreqMax = dataRecord.Child("heart_freq_max").Value.ToString();
-                        divesession.HeartFreqMin = dataRecord.Child("heart_freq_min").Value.ToString();
-                        divesession.LuminanceMax = dataRecord.Child("luminance_max").Value.ToString();
-                        divesession.LuminanceMin = dataRecord.Child("luminance_min").Value.ToString();
-                        divesession.maxDepth = dataRecord.Child("max_depth").Value.ToString();
-                        divesession.OxygenSaturationMax = dataRecord.Child("oxygen_saturation_max").Value.ToString();
-                        divesession.OxygenSaturationMin = dataRecord.Child("oxygen_saturation_min").Value.ToString();
-                        divesession.refUser = dataRecord.Child("ref_user").Value.ToString();
-                        divesession.timestampBegin = dataRecord.Child("timestamp_begin").Value.ToString();
-                        divesession.timestampEnd = dataRecord.Child("timestamp_end").Value.ToString();
-                        divesession.WaterTemperatureMax = dataRecord.Child("water_temp_max").Value.ToString();
-                        divesession.WaterTemperatureMin = dataRecord.Child("water_temp_min").Value.ToString();
+                        divesession.duration = dataRecord.Child("duration").Value.ToString();                        
+                        divesession.refUser = dataRecord.Child("ref_user").Value.ToString();                        
                         divesessionList.Add(divesession);
+                    }
+                    break;
+                }
+                case "dive":
+                {
+                    foreach (DataSnapshot dataRecord in dataResult)
+                    {
+                        Dive dive = new Dive();                        
+                        dive.HeartFreqMax = dataRecord.Child("heart_freq_max").Value.ToString();
+                        dive.HeartFreqMin = dataRecord.Child("heart_freq_min").Value.ToString();
+                        dive.LuminanceMax = dataRecord.Child("luminance_max").Value.ToString();
+                        dive.LuminanceMin = dataRecord.Child("luminance_min").Value.ToString();
+                        dive.maxDepth = dataRecord.Child("max_depth").Value.ToString();
+                        dive.OxygenSaturationMax = dataRecord.Child("oxygen_saturation_max").Value.ToString();
+                        dive.OxygenSaturationMin = dataRecord.Child("oxygen_saturation_min").Value.ToString();                        
+                        dive.timestampBegin = dataRecord.Child("timestamp_begin").Value.ToString();
+                        dive.timestampEnd = dataRecord.Child("timestamp_end").Value.ToString();
+                        dive.WaterTemperatureMax = dataRecord.Child("water_temp_max").Value.ToString();
+                        dive.WaterTemperatureMin = dataRecord.Child("water_temp_min").Value.ToString();
+                        dive.refDivesession = dataRecord.Child("ref_divesession").Value.ToString();
+                        diveList.Add(dive);
                     }
                     break;
                 }
@@ -105,7 +116,7 @@ namespace FreediverApp.DatabaseConnector
                         measurepoint.luminance = dataRecord.Child("luminance").Value.ToString();
                         measurepoint.magnetSensorData = dataRecord.Child("magnet_sensor_data").Value.ToString();
                         measurepoint.oxygenSaturation = dataRecord.Child("oxygen_saturation").Value.ToString();
-                        measurepoint.refDivesession = dataRecord.Child("ref_divesession").Value.ToString();
+                        measurepoint.refDive = dataRecord.Child("ref_divesession").Value.ToString();
                         measurepoint.waterTemperature = dataRecord.Child("water_temp").Value.ToString();
                         measurePointList.Add(measurepoint);
                     }
