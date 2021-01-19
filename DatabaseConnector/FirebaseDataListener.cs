@@ -22,6 +22,7 @@ namespace FreediverApp.DatabaseConnector
             internal List<User> Users { get; set; }
             internal List<DiveSession> DiveSessions { get; set; }
             internal List<Measurepoint> Measurepoints { get; set; }
+            internal List<Dive> Dives { get; set; }
         }
 
         public void QueryFullTable(string tablename) 
@@ -81,7 +82,7 @@ namespace FreediverApp.DatabaseConnector
                     }
                     break;
                 }
-                case "dive":
+                case "dives":
                 {
                     foreach (DataSnapshot dataRecord in dataResult)
                     {
@@ -148,7 +149,7 @@ namespace FreediverApp.DatabaseConnector
             else 
             {
                 //if no data was returned also invoke the dataRetrievedEvent but set all datalists to null
-                DataRetrieved.Invoke(this, new DataEventArgs { Users = null, DiveSessions = null, Measurepoints = null });
+                DataRetrieved.Invoke(this, new DataEventArgs { Users = null, DiveSessions = null, Dives = null, Measurepoints = null });
             }
         }
 
@@ -158,15 +159,19 @@ namespace FreediverApp.DatabaseConnector
 
             if (tablename == "users")
             {
-                DataRetrieved.Invoke(this, new DataEventArgs { Users = userList, DiveSessions = null, Measurepoints = null });
+                DataRetrieved.Invoke(this, new DataEventArgs { Users = userList, DiveSessions = null, Dives = null, Measurepoints = null });
             }
             else if (tablename == "divesessions")
             {
-                DataRetrieved.Invoke(this, new DataEventArgs { DiveSessions = divesessionList, Users = null, Measurepoints = null });
+                DataRetrieved.Invoke(this, new DataEventArgs { DiveSessions = divesessionList, Users = null, Dives = null, Measurepoints = null });
             }
-            else if (tablename == "measurepoints") 
+            else if (tablename == "dives") 
             {
-                DataRetrieved.Invoke(this, new DataEventArgs { Measurepoints = measurePointList, Users = null, DiveSessions = null });
+                DataRetrieved.Invoke(this, new DataEventArgs { Dives = diveList, Users = null, DiveSessions = null, Measurepoints = null });
+            }
+            else if (tablename == "measurepoints")
+            {
+                DataRetrieved.Invoke(this, new DataEventArgs { Measurepoints = measurePointList, Users = null, DiveSessions = null, Dives = null });
             }
         }
 
@@ -174,6 +179,7 @@ namespace FreediverApp.DatabaseConnector
         {
             userList.Clear();
             divesessionList.Clear();
+            diveList.Clear();
             measurePointList.Clear();
         }
     }
