@@ -14,19 +14,17 @@ namespace FreediverApp
 {
     class DiveSession
     {
-        public string location;
         public string date;
+        public string location;
+        public string refUser;
+        public string watertime;
+        public string weatherCondition;
+        public string weatherTemperature;
+        public string weatherWindSpeed;
         public string duration;
         
         public List<Dive> dives = new List<Dive>();
-        //needed?
-        string temperature;
-        string weather;
-        int timeInWater;
-        //List<Dive> dives = new List<Dive>();
 
-        //static DiveSession cur;
-        public string refUser;
         public DiveSession() { }
 
         public DiveSession(string _date)

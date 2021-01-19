@@ -14,6 +14,7 @@ namespace FreediverApp
     class Dive
     {
         public List<Measurepoint> measurepoints = new List<Measurepoint>();
+        public string duration;
         public string refDivesession;
         public string timestampBegin;
         public string timestampEnd;
