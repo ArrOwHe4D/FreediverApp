@@ -46,7 +46,6 @@ namespace FreediverApp
 
                 }
             }
-
             watertime = dur.ToString();
         }
     }

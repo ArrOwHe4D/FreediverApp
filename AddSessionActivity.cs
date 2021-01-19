@@ -211,10 +211,8 @@ namespace FreediverApp
             measurepointData.Put("oxygen_saturation", m.oxygenSaturation);
             measurepointData.Put("ref_dive", m.refDive);
             measurepointData.Put("water_temp", m.waterTemperature);
-
-
             DatabaseReference newUserRef = DBConnector.GetDatabase().GetReference("users").Push();
-            newUserRef.SetValue(measurepointData);            
+            newUserRef.SetValue(measurepointData);
         }
 
     }
