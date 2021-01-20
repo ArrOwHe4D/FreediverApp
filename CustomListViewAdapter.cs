@@ -47,24 +47,19 @@ namespace FreediverApp
             if(view == null)
             {
                 view = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.ListViewCell, parent, false);
-                var info_icon = view.FindViewById<ImageView>(Resource.Drawable.icon_info);
-                var btdv_name = view.FindViewById<TextView>(Resource.Id.txtview_btdv_name);
-                var btdv_mac_adress = view.FindViewById<TextView>(Resource.Id.txtview_btdv_mac_adress);
-                var btdv_con_state = view.FindViewById<TextView>(Resource.Id.txtview_btdv_con_state);
-
                 view.Tag = new BluetoothDeviceViewHolder(view);
             }
 
             var holder = (BluetoothDeviceViewHolder)view.Tag;
-            Uri uri = Uri.Parse("R.Drawable.icon_info");
             holder.Photo.SetImageResource(Resource.Drawable.icon_info);
             holder.Name.Text = bt_devices[position].Name;
             holder.MacAdress.Text = bt_devices[position].Address;
-            BluetoothSocket socket = bt_devices[position].CreateInsecureRfcommSocketToServiceRecord(uuid);
-            if (socket.IsConnected)
-                holder.ConState.Text = "Connected";
-            else
-                holder.ConState.Text = "Not Conncected";
+            holder.ConState.Text = bt_devices[position].BondState == Bond.Bonded ? "Paired" : "Not Connected"; 
+            //BluetoothSocket socket = bt_devices[position].CreateInsecureRfcommSocketToServiceRecord(uuid);
+            //if (socket.IsConnected)
+            //    holder.ConState.Text = "Connected";
+            //else
+            //    holder.ConState.Text = "Not Conncected";
             return view;
         }
 
