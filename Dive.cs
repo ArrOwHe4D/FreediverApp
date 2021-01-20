@@ -341,5 +341,39 @@ namespace FreediverApp
             }
             return time.ToString();            
         }
+
+        public string GetMaxDepth()
+        {
+            try
+            {
+                int maxDepth = Convert.ToInt32(measurepoints.First().depth);
+                foreach (var item in measurepoints)
+                {
+                    if (Convert.ToInt32(item.depth) > maxDepth)
+                    {
+                        maxDepth = Convert.ToInt32(item.depth);
+                    }
+                }
+                return maxDepth.ToString();
+            }
+            catch (Exception)
+            {
+                return "error";
+            }
+        }
+
+        public void UpdateAll()
+        {
+            heartFreqMax = GetHeartFreqMax();
+            heartFreqMin = GetHeartFreqMin();
+            luminanceMax = GetLuminanceMax();
+            luminanceMin = GetLuminanceMin();
+            oxygenSaturationMax = GetOxygenSaturationMax();
+            oxygenSaturationMin = GetOxygenSaturationMin();
+            waterTemperatureMax = GetWaterTemperatureMax();
+            waterTemperatureMin = GetWaterTemperatureMin();
+            maxDepth = GetMaxDepth();
+            duration = GetTotalTime();
+        }
     }
 }
