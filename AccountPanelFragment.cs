@@ -106,7 +106,6 @@ namespace FreediverApp
         public void retrieveAccountData() 
         {
             userDataListener = new FirebaseDataListener();
-            string id = TemporaryData.USER_ID;
             userDataListener.QueryParameterized("users", "username", TemporaryData.USER_NAME);
             userDataListener.DataRetrieved += UserDataListener_UserDataRetrieved;
         }

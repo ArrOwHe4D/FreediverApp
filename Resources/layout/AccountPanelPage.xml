@@ -18,7 +18,7 @@
         android:layout_marginTop="4dp"
         android:orientation="horizontal">
 
-        <Refractored.Controls.CircleImageView
+        <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:src="@drawable/freediver_app_icon"
