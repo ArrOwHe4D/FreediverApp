@@ -56,7 +56,7 @@ namespace FreediverApp
             }
 
             var holder = (BluetoothDeviceViewHolder)view.Tag;
-            Uri uri = Uri.Parse("android.resource://com.project.freediverapp/Resources/drawable/icon_info");
+            Uri uri = Uri.Parse("R.Drawable.icon_info");
             holder.Photo.SetImageDrawable(ImageManager.Get(parent.Context, uri.ToString()));
             holder.Name.Text = bt_devices[position].Name;
             holder.MacAdress.Text = bt_devices[position].Address;
