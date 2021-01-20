@@ -22,7 +22,7 @@ namespace FreediverApp
         private TextView tvwNotes;
         private FirebaseDataListener diveDataListener;
         private FirebaseDataListener measurepointDataListener;
-        private List<Measurepoint> measurepointList;
+        private List<Measurepoint> measurepointList = new List<Measurepoint>();
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -45,7 +45,7 @@ namespace FreediverApp
 
             RetrieveDiveData();
         }
-
+        
         private void RetrieveDiveData()
         {
             diveDataListener = new FirebaseDataListener();
@@ -56,23 +56,31 @@ namespace FreediverApp
         private void DiveDataListener_DataRetrieved(object sender, FirebaseDataListener.DataEventArgs e)
         {            
             User.curUser.curDiveSession.dives = e.Dives;
+            //GetMeasurepoints();
+        }
+        int counter = 0;
+        private void GetMeasurepoints()
+        {
+            counter++;
             foreach (var item in User.curUser.curDiveSession.dives)
             {
                 RetrieveMeasurepointData(item);
-                item.measurepoints = measurepointList;
+                item.measurepoints = measurepointList;                                
             }
         }
 
         private void RetrieveMeasurepointData(Dive d)
-        {
+        {            
             measurepointDataListener = new FirebaseDataListener();
             measurepointDataListener.QueryParameterized("measurepoints", "ref_dive", d.Id);
             measurepointDataListener.DataRetrieved += MeasurepointDataListener_DataRetrieved;
-        }
-
+        }        
         private void MeasurepointDataListener_DataRetrieved(object sender, FirebaseDataListener.DataEventArgs e)
         {
-            measurepointList = e.Measurepoints;
+            lock (measurepointList)
+            {
+                measurepointList = e.Measurepoints;
+            }                      
         }
 
         private void redirectToDivesPerSessionActivity(object sender, EventArgs eventArgs)

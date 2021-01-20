@@ -89,7 +89,7 @@ namespace FreediverApp
                     hf += rand.Next(-1, 2);
                     hv += rand.Next(-3, 4);
                     oxySat += rand.Next(-1, 2);
-                    if (oxySat >= 85)
+                    if (oxySat <= 85)
                     {
                         oxySat++;
                     }

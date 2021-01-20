@@ -17,6 +17,7 @@ namespace FreediverApp
 
         public List<DiveSession> diveSessions = new List<DiveSession>();
         public DiveSession curDiveSession;
+        public Dive curDive;
 
         public User() 
         {

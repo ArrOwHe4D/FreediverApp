@@ -327,39 +327,47 @@ namespace FreediverApp
 
         public string GetTotalTime()
         {
-            float time = 0;
-            foreach (var item in measurepoints)
+            //float time = 0;
+            //foreach (var item in measurepoints)
+            //{
+            //    try
+            //    {
+            //        time += (float)Convert.ToDouble(item.duration);
+            //    }
+            //    catch (Exception)
+            //    {
+
+            //    }
+            //}
+
+            try
             {
-                try
-                {
-                    time += (float)Convert.ToDouble(item.duration);
-                }
-                catch (Exception)
-                {
-                    
-                }
+                return Math.Round(Convert.ToDouble(measurepoints.Last().duration), 2).ToString();
             }
-            return time.ToString();            
+            catch (Exception)
+            {
+                return "error";
+            }                        
         }
 
         public string GetMaxDepth()
         {
             try
             {
-                int maxDepth = Convert.ToInt32(measurepoints.First().depth);
+                double maxDepth = Convert.ToDouble(measurepoints.First().depth);
                 foreach (var item in measurepoints)
                 {
-                    if (Convert.ToInt32(item.depth) > maxDepth)
+                    if (Convert.ToDouble(item.depth) > maxDepth)
                     {
-                        maxDepth = Convert.ToInt32(item.depth);
+                        maxDepth = Convert.ToDouble(item.depth);
                     }
                 }
-                return maxDepth.ToString();
+                return Math.Round(maxDepth, 2).ToString();
             }
             catch (Exception)
             {
                 return "error";
-            }
+            }            
         }
 
         public void UpdateAll()

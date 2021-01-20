@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -35,35 +36,167 @@
 
             <TextView
                 android:layout_margin="16dp"
-                android:text=""
-                android:textAlignment="center"
+                android:text="Last Dive (9m deep and 00:40 Seconds long)"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView1" />
+                android:layout_height="wrap_content"/>
 
             <View
-                android:background="#e2e2e2"
+                android:background="?android:attr/colorPrimaryDark"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:id="@+id/view1" />
+                android:layout_height="1dp"/>
 
             <LinearLayout
                 android:layout_gravity="bottom"
                 android:padding="10dp"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/linearLayout1">
+                android:layout_height="wrap_content">
 
                 <Microcharts.Droid.ChartView
-                    android:id="@+id/chartView"
+                    android:id="@+id/cvwDdvDiveDia"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"/>
 
-            </LinearLayout>
+             </LinearLayout>
 
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="100"
+        tools:ignore="MissingDimension">
+        <TextView
+            android:text="Maximale Tiefe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="70"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/tvwDdvDepth" />
+        <TextView
+            android:text="1m"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/tvwDdvDepthV" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="100"
+        tools:ignore="MissingDimension">
+        <TextView
+            android:text="Dauer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="70"            
+            android:layout_marginLeft="10dp"
+            android:id="@+id/tvwDdvDuration" />
+        <TextView
+            android:text="10s"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"            
+            android:layout_marginLeft="10dp"
+            android:id="@+id/tvwDdvDurationV" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="100"
+        tools:ignore="MissingDimension">
+        <TextView
+            android:text="Maximale Herzfreqenz"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="70"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/tvwDdvMaxHeartF" />
+        <TextView
+            android:text="180"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/tvwDdvMaxHeartFV" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="100"
+        tools:ignore="MissingDimension">
+        <TextView
+            android:text="Minimale Herzfreqenz"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="70"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/tvwDdvMinHeartF" />
+        <TextView
+            android:text="90"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/tvwDdvMinHeartFV" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="100"
+        tools:ignore="MissingDimension">
+        <TextView
+            android:text="Maximale Sauerstoffsättigung"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="70"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/tvwDdvMaxOxy" />
+        <TextView
+            android:text="99"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/tvwDdvMaxOxyV" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="100"
+        tools:ignore="MissingDimension">
+        <TextView
+            android:text="Minimale Sauerstoffsättigung"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="70"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/tvwDdvMinOxy" />
+        <TextView
+            android:text="90"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/tvwDdvMinOxyV" />
+    </LinearLayout>
 
 </LinearLayout>
