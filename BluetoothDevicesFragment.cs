@@ -17,7 +17,6 @@ namespace FreediverApp
 {
     public class BluetoothDevicesFragment : Fragment
     {
-        private List<string> items;
         private List<BluetoothDevice> Devices;
         private ListView listView;
         private BluetoothDeviceReceiver btReceiver;
@@ -35,7 +34,6 @@ namespace FreediverApp
             btReceiver = new BluetoothDeviceReceiver();
             btReceiver.m_adapter = BluetoothAdapter.DefaultAdapter;
 
-            items = new List<string>();
             listView = view.FindViewById<ListView>(Resource.Id.lv_con_devices);
             btnScan = view.FindViewById<Button>(Resource.Id.bt_scan_btn);
 
@@ -44,7 +42,6 @@ namespace FreediverApp
             Devices = new List<BluetoothDevice>();
             addDevicesToList(getBondedBluetoothDevices());
             addDevicesToList(getUnknownBluetoothDevices());
-            items = devicesNames(Devices);
 
             listView.Adapter = new CustomListViewAdapter(Devices);
             listView.ItemClick += ListView_ItemClick;
@@ -54,34 +51,31 @@ namespace FreediverApp
 
         private void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            //Toast.MakeText(this, listView.SelectedItemPosition.ToString(), ToastLength.Long).Show();
-            //Console.WriteLine(listView.SelectedItemPosition.ToString());
+            try
+            {
+                Devices.ElementAt(e.Position).CreateBond();
+                listView.Adapter = new CustomListViewAdapter(Devices);
+            }
+            catch (Exception ex) 
+            {
+                Toast.MakeText(Context, "Pairing with selected device failed!", ToastLength.Long);
+            }  
         }
 
         private void scanButtonOnClick(object sender, EventArgs eventArgs) 
         {
             if (btReceiver.m_adapter.IsEnabled)
             {
-                Devices = btReceiver.foundDevices;
-
                 if (Devices != null)
                 {
-                    foreach (var device in Devices)
-                    {
-                        if (!items.Contains(device.Name))
-                        {
-                            items.Add(device.Name + " (" + device.Address + ")");
-                        }
-                    }
+                    addDevicesToList(btReceiver.foundDevices);
                 }
             }
             else 
             {
                 Toast.MakeText(Context, "Please enable Bluetooth on your device to be able to scan for bluetooth devices!", ToastLength.Long).Show();
             }
-
-            ArrayAdapter<string> adapter = new ArrayAdapter<string>(this.Context, Android.Resource.Layout.SimpleListItem1, items);
-            listView.Adapter = adapter;
+            listView.Adapter = new CustomListViewAdapter(Devices);
         }
 
         private List<BluetoothDevice> getBondedBluetoothDevices()
@@ -118,16 +112,6 @@ namespace FreediverApp
             }
                 
             return btReceiver.foundDevices;
-        }
-
-        private List<string> devicesNames(List<BluetoothDevice> _devices)
-        {
-            List<string> temp = new List<string>();
-            for (int i = 0; i < _devices.Count; i++)
-            {
-                temp.Add(_devices.ElementAt(i).Name + " (" + _devices.ElementAt(i).Address + ")");
-            }
-            return temp;
         }
 
         private void addDevicesToList(List<BluetoothDevice> _devices)

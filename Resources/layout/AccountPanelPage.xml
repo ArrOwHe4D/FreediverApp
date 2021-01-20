@@ -18,7 +18,7 @@
         android:layout_marginTop="4dp"
         android:orientation="horizontal">
 
-        <Refractored.Controls.CircleImageView
+        <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:src="@drawable/freediver_app_icon"
@@ -31,8 +31,7 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="8dp"
+                android:layout_height="30dp"
                 android:layout_marginLeft="8dp"
                 android:text="@string/username"
                 android:textColor="@android:color/black"
@@ -41,8 +40,7 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="8dp"
+                android:layout_height="30dp"
                 android:layout_marginLeft="8dp"
                 android:text="registered since: 10.09.2020"
                 android:textColor="@android:color/black"

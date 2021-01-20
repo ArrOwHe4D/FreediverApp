@@ -1,20 +1,25 @@
 
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/linearLayout1">
-    <ListView
+    android:id="@+id/frameLayout">
+
+     <ListView
         android:id="@+id/lv_con_devices"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fastScrollEnabled="true"/>      
-    <Button
-        android:text="Scan for Bluetooth Devices"
-        android:layout_below="@+id/lv_con_devices"
+        android:fastScrollEnabled="true"/>  
+
+     <Button
+        android:text="Bluetooth Scan"
         android:layout_gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/bt_scan_btn"/>
-</LinearLayout>
+
+</RelativeLayout>
