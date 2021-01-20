@@ -1,16 +1,7 @@
-﻿using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
+﻿using Android.Views;
 using Android.Widget;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FreediverApp.BluetoothCommunication;
 using Android.Bluetooth;
-using Android.Support.V7.RecyclerView;
 using Android.Graphics.Drawables;
 using static Android.Support.V7.Widget.RecyclerView;
 using Java.Util;

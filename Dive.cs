@@ -1,19 +1,169 @@
-﻿using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace FreediverApp
 {
     class Dive
     {
         public List<Measurepoint> measurepoints = new List<Measurepoint>();
+        public string duration;
+        public string refDivesession;
+        public string timestampBegin;
+        public string timestampEnd;
+        private string id;
+        public string Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
+
+        public Dive(string _refDiveSession, string reihenfolge)
+        {
+            refDivesession = _refDiveSession;
+            id = refDivesession + "_" + reihenfolge;
+        }
+
+        public Dive() { } 
+
+        private string heartFreqMax;
+        public string HeartFreqMax
+        {
+            get
+            {
+                if (heartFreqMax != null)
+                {
+                    return heartFreqMax;
+                }
+                else
+                {
+                    heartFreqMax = GetHeartFreqMax();
+                    return heartFreqMax;
+                }
+            }
+            set { heartFreqMax = value; }
+        }
+        private string heartFreqMin;
+        public string HeartFreqMin
+        {
+            get
+            {
+                if (heartFreqMin != null)
+                {
+                    return heartFreqMin;
+                }
+                else
+                {
+                    heartFreqMin = GetHeartFreqMin();
+                    return heartFreqMin;
+                }
+            }
+            set { heartFreqMin = value; }
+        }
+        private string luminanceMax;
+        public string LuminanceMax
+        {
+            get
+            {
+                if (luminanceMax != null)
+                {
+                    return luminanceMax;
+                }
+                else
+                {
+                    luminanceMax = GetLuminanceMax();
+                    return luminanceMax;
+                }
+            }
+            set { luminanceMax = value; }
+        }
+        private string luminanceMin;
+        public string LuminanceMin
+        {
+            get
+            {
+                if (luminanceMin != null)
+                {
+                    return luminanceMin;
+                }
+                else
+                {
+                    luminanceMin = GetLuminanceMin();
+                    return luminanceMin;
+                }
+            }
+            set { luminanceMin = value; }
+        }
+        public string maxDepth;
+
+        private string oxygenSaturationMax;
+        public string OxygenSaturationMax
+        {
+            get
+            {
+                if (oxygenSaturationMax != null)
+                {
+                    return oxygenSaturationMax;
+                }
+                else
+                {
+                    oxygenSaturationMax = GetOxygenSaturationMax();
+                    return oxygenSaturationMax;
+                }
+            }
+            set { oxygenSaturationMax = value; }
+        }
+        private string oxygenSaturationMin;
+        public string OxygenSaturationMin
+        {
+            get
+            {
+                if (oxygenSaturationMin != null)
+                {
+                    return oxygenSaturationMin;
+                }
+                else
+                {
+                    oxygenSaturationMin = GetOxygenSaturationMin();
+                    return oxygenSaturationMin;
+                }
+            }
+            set { oxygenSaturationMin = value; }
+        }                
+        private string waterTemperatureMax;
+        public string WaterTemperatureMax
+        {
+            get
+            {
+                if (waterTemperatureMax != null)
+                {
+                    return waterTemperatureMax;
+                }
+                else
+                {
+                    waterTemperatureMax = GetWaterTemperatureMax();
+                    return waterTemperatureMax;
+                }
+            }
+            set { waterTemperatureMax = value; }
+        }
+        private string waterTemperatureMin;
+        public string WaterTemperatureMin
+        {
+            get
+            {
+                if (waterTemperatureMin != null)
+                {
+                    return waterTemperatureMin;
+                }
+                else
+                {
+                    waterTemperatureMin = GetWaterTemperatureMin();
+                    return waterTemperatureMin;
+                }
+            }
+            set { waterTemperatureMin = value; }
+        }
 
         public string GetHeartFreqMax()
         {

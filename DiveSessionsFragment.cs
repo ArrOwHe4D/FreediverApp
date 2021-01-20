@@ -2,7 +2,6 @@
 using Android.OS;
 using Android.Views;
 
-
 namespace FreediverApp
 {
     public class DiveSessionsFragment : Fragment

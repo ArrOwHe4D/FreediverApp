@@ -4,7 +4,6 @@ namespace FreediverApp
 {
     class User
     {
-
         public string id;
         public string username;
         public string password;
@@ -17,6 +16,7 @@ namespace FreediverApp
         public string registerdate;
 
         public List<DiveSession> diveSessions = new List<DiveSession>();
+        public DiveSession curDiveSession;
 
         public User() 
         {
@@ -40,6 +40,6 @@ namespace FreediverApp
             this.height = height;
         }
         
-        public static User curUser = new User(new List<DiveSession>() {new DiveSession("22.11.2020"), new DiveSession("23.11.2020"), new DiveSession("25.11.2020"), });
+        public static User curUser = new User(new List<DiveSession>() { new DiveSession("22.11.2020"), new DiveSession("23.11.2020"), new DiveSession("25.11.2020") });
     }
 }
