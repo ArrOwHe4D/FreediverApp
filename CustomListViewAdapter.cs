@@ -5,6 +5,7 @@ using Android.Bluetooth;
 using Android.Graphics.Drawables;
 using static Android.Support.V7.Widget.RecyclerView;
 using Java.Util;
+using Android.Net;
 
 namespace FreediverApp
 {
@@ -55,7 +56,8 @@ namespace FreediverApp
             }
 
             var holder = (BluetoothDeviceViewHolder)view.Tag;
-            holder.Photo.SetImageDrawable((Drawable)Resource.Drawable.icon_info);
+            Uri uri = Uri.Parse("android.resource://com.project.freediverapp/Resources/drawable/icon_info");
+            holder.Photo.SetImageDrawable(ImageManager.Get(parent.Context, uri.ToString()));
             holder.Name.Text = bt_devices[position].Name;
             holder.MacAdress.Text = bt_devices[position].Address;
             BluetoothSocket socket = bt_devices[position].CreateInsecureRfcommSocketToServiceRecord(uuid);
