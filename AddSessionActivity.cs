@@ -129,7 +129,7 @@ namespace FreediverApp
                         heartVar = hv.ToString(),
                         depth = dep.ToString(),
 						duration = dur.ToString(),
-                        refDive = "kp",
+                        refDive = d.Id,
                         gyroscope_x = "kp",
                         gyroscope_y = "kp",
                         gyroscope_z = "kp",
@@ -138,7 +138,10 @@ namespace FreediverApp
                         waterTemperature = watTemp.ToString()                        
                     };
                     d.measurepoints.Add(m);
-                }                
+                }
+                d.timestampBegin = "kp";
+                d.timestampEnd = "kp";                
+                d.UpdateAll();
                 ds.dives.Add(d);                
             }
             ds.UpdateDuration();
