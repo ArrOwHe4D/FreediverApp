@@ -46,8 +46,7 @@ namespace FreediverApp
             addDevicesToList(getUnknownBluetoothDevices());
             items = devicesNames(Devices);
 
-            ArrayAdapter<string> adapter = new ArrayAdapter<string>(this.Context, Android.Resource.Layout.SimpleListItem1, items);
-            listView.Adapter = adapter;
+            listView.Adapter = new CustomListViewAdapter(Devices);
             listView.ItemClick += ListView_ItemClick;
 
             return view;
