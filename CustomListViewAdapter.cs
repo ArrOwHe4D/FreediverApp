@@ -3,12 +3,15 @@ using Android.Widget;
 using System.Collections.Generic;
 using Android.Bluetooth;
 using Android.Graphics.Drawables;
+using static Android.Support.V7.Widget.RecyclerView;
+using Java.Util;
 
 namespace FreediverApp
 {
     public class CustomListViewAdapter : BaseAdapter<BluetoothDevice>
     {
         List<BluetoothDevice> bt_devices;
+        private UUID uuid;
 
         public CustomListViewAdapter(List<BluetoothDevice> bt_devices)
         {
@@ -55,14 +58,11 @@ namespace FreediverApp
             holder.Photo.SetImageDrawable((Drawable)Resource.Drawable.icon_info);
             holder.Name.Text = bt_devices[position].Name;
             holder.MacAdress.Text = bt_devices[position].Address;
-            /*
-            if(bt_devices[position].Connected())
+            BluetoothSocket socket = bt_devices[position].CreateInsecureRfcommSocketToServiceRecord(uuid);
+            if (socket.IsConnected)
                 holder.ConState.Text = "Connected";
             else
-                holder.ConState.Text = "Not Conncted";
-            */
-            //holder.ConState.Text = bt_devices[position].
-
+                holder.ConState.Text = "Not Conncected";
             return view;
         }
 
