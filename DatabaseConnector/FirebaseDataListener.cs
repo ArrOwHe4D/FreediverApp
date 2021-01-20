@@ -143,6 +143,12 @@ namespace FreediverApp.DatabaseConnector
             entityRef.RemoveValue();
         }
 
+        public void deleteTable(string tablename) 
+        {
+            DatabaseReference tableRef = DatabaseConnector.GetDatabase().GetReference(tablename);
+            tableRef.RemoveValue();
+        }
+
         public void OnDataChange(DataSnapshot snapshot)
         {
             if (snapshot.Value != null)
