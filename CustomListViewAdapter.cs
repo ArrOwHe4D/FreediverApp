@@ -57,7 +57,7 @@ namespace FreediverApp
 
             var holder = (BluetoothDeviceViewHolder)view.Tag;
             Uri uri = Uri.Parse("R.Drawable.icon_info");
-            holder.Photo.SetImageDrawable(ImageManager.Get(parent.Context, uri.ToString()));
+            holder.Photo.SetImageResource(Resource.Drawable.icon_info);
             holder.Name.Text = bt_devices[position].Name;
             holder.MacAdress.Text = bt_devices[position].Address;
             BluetoothSocket socket = bt_devices[position].CreateInsecureRfcommSocketToServiceRecord(uuid);

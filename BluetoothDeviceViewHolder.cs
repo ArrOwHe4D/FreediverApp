@@ -13,10 +13,10 @@ namespace FreediverApp
 
         public BluetoothDeviceViewHolder(View itemView) : base(itemView)
         {
-            Photo = itemView.FindViewById<ImageView>(Resource.Drawable.icon_info);
+            Photo = itemView.FindViewById<ImageView>(Resource.Id.imgview_btdv_info);
             Name = itemView.FindViewById<TextView>(Resource.Id.txtview_btdv_name);
             MacAdress = itemView.FindViewById<TextView>(Resource.Id.txtview_btdv_mac_adress);
-            MacAdress = itemView.FindViewById<TextView>(Resource.Id.txtview_btdv_con_state);
+            ConState = itemView.FindViewById<TextView>(Resource.Id.txtview_btdv_con_state);
         }
     }
 }
