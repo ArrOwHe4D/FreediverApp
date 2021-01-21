@@ -21,14 +21,15 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="100"
+        android:layout_weight="80"
+        android:layout_marginLeft="3dp"
         tools:ignore="MissingDimension">
 
         <TextView
             android:text="Verbunden mit:"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="70"
+            android:layout_weight="40"
             android:layout_marginTop="30dp"
             android:layout_marginLeft="10dp"
             android:textColor="@android:color/black"
@@ -39,7 +40,7 @@
             android:text="Tauchcomputer-RX2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="30"
+            android:layout_weight="40"
             android:layout_marginTop="30dp"
             android:layout_marginLeft="10dp"
             android:textColor="@android:color/black"
@@ -52,14 +53,15 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="100"
+        android:layout_weight="80"
+        android:layout_marginLeft="3dp"
         tools:ignore="MissingDimension">
         
         <TextView
             android:text="Standort: "
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="70"
+            android:layout_weight="40"
             android:layout_marginLeft="10dp"
             android:textColor="@android:color/black"
             android:textSize="8pt"
@@ -69,7 +71,7 @@
             android:text="Köln"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="30"
+            android:layout_weight="40"
             android:layout_marginLeft="10dp"
             android:textColor="@android:color/black"
             android:textSize="8pt"
@@ -82,14 +84,15 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="100"
+        android:layout_weight="80"
+        android:layout_marginLeft="3dp"
         tools:ignore="MissingDimension">
 
         <TextView
             android:text="Wetter: "
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="70"
+            android:layout_weight="40"
             android:layout_marginLeft="10dp"
             android:textColor="@android:color/black"
             android:textSize="8pt"
@@ -99,7 +102,7 @@
             android:text="Sonnig | 22C°"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="30"
+            android:layout_weight="40"
             android:layout_marginLeft="10dp"
             android:textColor="@android:color/black"
             android:textSize="8pt"
@@ -112,14 +115,15 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="100"
+        android:layout_weight="80"
+        android:layout_marginLeft="3dp"
         tools:ignore="MissingDimension">
 
         <TextView
             android:text="Datum: "
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="70"
+            android:layout_weight="40"
             android:layout_marginLeft="10dp"
             android:textColor="@android:color/black"
             android:textSize="8pt"
@@ -129,7 +133,7 @@
             android:text="9.12.2020"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="30"
+            android:layout_weight="40"
             android:layout_marginLeft="10dp"
             android:textColor="@android:color/black"
             android:textSize="8pt"
@@ -142,14 +146,15 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="100"
+        android:layout_weight="80"
+        android:layout_marginLeft="3dp"
         tools:ignore="MissingDimension">
 
         <TextView
             android:text="Tauchzeit: "
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="70"
+            android:layout_weight="40"
             android:layout_marginLeft="10dp"
             android:textColor="@android:color/black"
             android:textSize="8pt"
@@ -159,7 +164,7 @@
             android:text="1:13:54 Std"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="30"
+            android:layout_weight="40"
             android:layout_marginLeft="10dp"
             android:textColor="@android:color/black"
             android:textSize="8pt"
@@ -172,28 +177,32 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="100"
+        android:layout_weight="10"
         tools:ignore="MissingDimension">
 
         <Button
-            android:text="Abbrechen"
+            android:text="Hinzufügen"
+            android:textColor="@android:color/white"
+            android:backgroundTint="?android:attr/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="50"
+            android:layout_weight="5"
             android:layout_marginBottom="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:id="@+id/btnCancel" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:id="@+id/btnAddSession" />
 
         <Button
-            android:text="Hinzufügen"
+            android:text="Abbrechen"
+            android:textColor="@android:color/white"
+            android:backgroundTint="?android:attr/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="50"
+            android:layout_weight="5"
             android:layout_marginBottom="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:id="@+id/btnAddSession" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:id="@+id/btnCancel" />
 
     </LinearLayout>
 

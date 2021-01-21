@@ -41,6 +41,8 @@
 
     <Button
         android:text="@string/login"
+        android:textColor="@android:color/white"
+        android:backgroundTint="?android:attr/colorPrimary"
         android:textAllCaps="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -50,6 +52,8 @@
 
     <Button
         android:text="@string/register"
+        android:textColor="@android:color/white"
+        android:backgroundTint="?android:attr/colorPrimary"
         android:textAllCaps="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

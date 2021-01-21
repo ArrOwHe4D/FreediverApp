@@ -29,6 +29,8 @@
 
     <Button
         android:text="@string/recover_password"
+        android:textColor="@android:color/white"
+        android:backgroundTint="?android:attr/colorPrimary"
         android:textAllCaps="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

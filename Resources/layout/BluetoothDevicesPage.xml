@@ -45,6 +45,8 @@
 
     <Button
         android:text="Bluetooth Scan"
+        android:textColor="@android:color/white"
+        android:backgroundTint="?android:attr/colorPrimary"
         android:layout_gravity="center_horizontal"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
