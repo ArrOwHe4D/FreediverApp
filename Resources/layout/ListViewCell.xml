@@ -4,6 +4,13 @@
     android:layout_width="fill_parent"  
     android:layout_height="fill_parent">
     
+    <ImageView
+        android:id="@+id/imgview_btdv_bticon"
+        android:background="@drawable/icon_connected_devices"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="12dp"/>
+
     <TextView
         android:id="@+id/txtview_btdv_name"
         android:text="BluetoothDevice name"
@@ -12,8 +19,9 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:textColor="@android:color/black"
-        android:paddingLeft="5dp"
+        android:paddingLeft="30dp"
         android:paddingTop="5dp"/>    
+
     <TextView
         android:id="@+id/txtview_btdv_mac_adress"        
         android:text="BluetoothDevice mac-adress"
@@ -21,8 +29,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
-        android:paddingLeft="5dp"
+        android:paddingLeft="30dp"
         android:layout_below="@+id/txtview_btdv_name"/>
+
     <TextView
         android:id="@+id/txtview_btdv_con_state"
         android:text="Connected"
@@ -33,6 +42,7 @@
         android:layout_toLeftOf="@+id/imgview_btdv_info"        
         android:paddingRight="5dp"
         android:paddingTop="5dp"/>  
+
     <ImageView
         android:id="@+id/imgview_btdv_info"
         android:layout_width="30dp"
@@ -40,4 +50,5 @@
         android:layout_alignParentRight="true"
         android:paddingRight="5dp"
         android:paddingTop="5dp"/>
+
 </RelativeLayout>
