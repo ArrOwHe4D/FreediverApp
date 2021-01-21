@@ -15,6 +15,7 @@ using Fragment = Android.App.Fragment;
 
 namespace FreediverApp
 {
+    [Obsolete]
     public class BluetoothDevicesFragment : Fragment
     {
         private List<BluetoothDevice> Devices;
