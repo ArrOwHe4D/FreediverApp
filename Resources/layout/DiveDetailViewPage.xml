@@ -8,16 +8,17 @@
     android:layout_height="match_parent"
     android:minWidth="25px"
     android:minHeight="25px">
+
     <TextView
         android:text="Tauchgang #1"
-        android:textAlignment="center"
-        android:layout_marginTop="20dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minWidth="25px"
-        android:minHeight="25px"
-        android:id="@+id/diveDetailViewSessionName" />
+        android:textSize="30dp"
+        android:layout_marginTop="20dp"
+        android:textColor="@android:color/black"
+        android:id="@+id/diveDetailViewSessionName"/>
 
     <android.support.v7.widget.CardView
         app:cardCornerRadius="4dp"
@@ -67,136 +68,173 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="100"
+        android:layout_weight="60"
         tools:ignore="MissingDimension">
+
         <TextView
             android:text="Maximale Tiefe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="70"
+            android:layout_weight="40"
             android:layout_marginLeft="10dp"
+            android:textColor="@android:color/black"
+            android:textSize="8pt"
             android:id="@+id/tvwDdvDepth" />
+
         <TextView
             android:text="1m"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="30"
+            android:layout_weight="40"
             android:layout_marginLeft="10dp"
+            android:textColor="@android:color/black"
+            android:textSize="8pt"
             android:id="@+id/tvwDdvDepthV" />
     </LinearLayout>
-
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="100"
+        android:layout_weight="60"
         tools:ignore="MissingDimension">
+
         <TextView
             android:text="Dauer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="70"            
+            android:layout_weight="40"            
             android:layout_marginLeft="10dp"
+            android:textColor="@android:color/black"
+            android:textSize="8pt"
             android:id="@+id/tvwDdvDuration" />
+
         <TextView
             android:text="10s"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="30"            
+            android:layout_weight="40"            
             android:layout_marginLeft="10dp"
+            android:textColor="@android:color/black"
+            android:textSize="8pt"
             android:id="@+id/tvwDdvDurationV" />
-    </LinearLayout>
 
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="100"
+        android:layout_weight="60"
         tools:ignore="MissingDimension">
+
         <TextView
             android:text="Maximale Herzfreqenz"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="70"
+            android:layout_weight="40"
             android:layout_marginLeft="10dp"
+            android:textColor="@android:color/black"
+            android:textSize="8pt"
             android:id="@+id/tvwDdvMaxHeartF" />
+
         <TextView
             android:text="180"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="30"
+            android:layout_weight="40"
             android:layout_marginLeft="10dp"
+            android:textColor="@android:color/black"
+            android:textSize="8pt"
             android:id="@+id/tvwDdvMaxHeartFV" />
-    </LinearLayout>
 
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="100"
+        android:layout_weight="60"
         tools:ignore="MissingDimension">
+
         <TextView
             android:text="Minimale Herzfreqenz"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="70"
+            android:layout_weight="40"
             android:layout_marginLeft="10dp"
+            android:textColor="@android:color/black"
+            android:textSize="8pt"
             android:id="@+id/tvwDdvMinHeartF" />
+
         <TextView
             android:text="90"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="30"
+            android:layout_weight="40"
             android:layout_marginLeft="10dp"
+            android:textColor="@android:color/black"
+            android:textSize="8pt"
             android:id="@+id/tvwDdvMinHeartFV" />
-    </LinearLayout>
 
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="100"
+        android:layout_weight="60"
         tools:ignore="MissingDimension">
+
         <TextView
             android:text="Maximale Sauerstoffsättigung"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="70"
+            android:layout_weight="40"
             android:layout_marginLeft="10dp"
+            android:textColor="@android:color/black"
+            android:textSize="8pt"
             android:id="@+id/tvwDdvMaxOxy" />
+
         <TextView
             android:text="99"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="30"
+            android:layout_weight="40"
             android:layout_marginLeft="10dp"
+            android:textColor="@android:color/black"
+            android:textSize="8pt"
             android:id="@+id/tvwDdvMaxOxyV" />
+
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="100"
+        android:layout_weight="60"
         tools:ignore="MissingDimension">
+
         <TextView
             android:text="Minimale Sauerstoffsättigung"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="70"
+            android:layout_weight="40"
             android:layout_marginLeft="10dp"
+            android:textColor="@android:color/black"
+            android:textSize="8pt"
             android:id="@+id/tvwDdvMinOxy" />
+
         <TextView
             android:text="90"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="30"
+            android:layout_weight="40"
             android:layout_marginLeft="10dp"
+            android:textColor="@android:color/black"
+            android:textSize="8pt"
             android:id="@+id/tvwDdvMinOxyV" />
+
     </LinearLayout>
 
 </LinearLayout>

@@ -34,12 +34,14 @@
   <string name="delete_account">Account Löschen</string>
   <string name="dive_session">Tauchsitzung</string>
   <string name="dive_sessions">Tauchsitzungen</string>
+  <string name="add_dive_session">Divesession Hinzufügen</string>
   <string name="depth">Tiefe</string>
   <string name="max_depth">Max Tiefe</string>
   <string name="location">Standort</string>
   <string name="weather_condition">Wetterverhältnisse</string>
   <string name="total_dive_time">Gesamte Tauchzeit</string>
   <string name="connected_devices">Verbundene Geräte</string>
+  <string name="bluetooth_devices">Bluetooth Geräte</string>
   <string name="account">Profil</string>
   <string name="account_information">Account Daten</string>
   <string name="app_settings">Einstellungen</string>

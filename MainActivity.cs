@@ -24,27 +24,19 @@ using ActionBarDrawerToggle = Android.Support.V7.App.ActionBarDrawerToggle;
 
 namespace FreediverApp
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = false)]
+    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener
     {
-        private BluetoothAdapter bt_adapter;
-        private BluetoothDeviceReceiver bt_receiver;
-        private ChartView chartView;
-
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
+
             SetContentView(Resource.Layout.activity_main);
+
             Android.Support.V7.Widget.Toolbar toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
-
-            //set default bluetooth adapter
-            bt_adapter = BluetoothAdapter.DefaultAdapter;
-
-            FragmentTransaction menuTransaction = this.FragmentManager.BeginTransaction();
-            MainFragment mainContent = new MainFragment();
-            menuTransaction.Add(Resource.Id.framelayout, mainContent).Commit();
 
             DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
@@ -54,102 +46,9 @@ namespace FreediverApp
             NavigationView navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
             navigationView.SetNavigationItemSelectedListener(this);
 
-        }
-
-        private void generateChart() 
-        {
-            List<ChartEntry> dataList = new List<ChartEntry>();
-
-            dataList.Add(new ChartEntry(0)
-            {
-                Label = "0:05",
-                ValueLabel = "0",
-                Color = SKColor.Parse("#5cf739")
-            });
-
-            dataList.Add(new ChartEntry(5)
-            {
-                Label = "0:10",
-                ValueLabel = "5",
-                Color = SKColor.Parse("#f7c139")
-            });
-
-            dataList.Add(new ChartEntry(8)
-            {
-                Label = "0:15",
-                ValueLabel = "8",
-                Color = SKColor.Parse("#f75939")
-            });
-
-            dataList.Add(new ChartEntry(8)
-            {
-                Label = "0:20",
-                ValueLabel = "8",
-                Color = SKColor.Parse("#f75939")
-            });
-
-            dataList.Add(new ChartEntry(9)
-            {
-                Label = "0:25",
-                ValueLabel = "9",
-                Color = SKColor.Parse("#f75939")
-            });
-
-            dataList.Add(new ChartEntry(8)
-            {
-                Label = "0:30",
-                ValueLabel = "8",
-                Color = SKColor.Parse("#f75939")
-            });
-
-            dataList.Add(new ChartEntry(4)
-            {
-                Label = "0:35",
-                ValueLabel = "4",
-                Color = SKColor.Parse("f7c139")
-            });
-
-            dataList.Add(new ChartEntry(1)
-            {
-                Label = "0:40",
-                ValueLabel = "4",
-                Color = SKColor.Parse("#5cf739")
-            });
-
-            var chart = new LineChart { Entries = dataList, LabelTextSize = 30f };
-            chartView.Chart = chart;
-        }
-
-        private void Btn_scan_Click(object sender, EventArgs e)
-        {
-            const int locationPermissionsRequestCode = 1000;
-
-            var locationPermissions = new[]
-            {
-                Manifest.Permission.AccessCoarseLocation,
-                Manifest.Permission.AccessFineLocation
-            };
-
-            var coarseLocationPermissionGranted = ContextCompat.CheckSelfPermission(this, Manifest.Permission.AccessCoarseLocation);
-
-            var fineLocationPermissionGranted = ContextCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation);
-
-            if (coarseLocationPermissionGranted == Permission.Denied || fineLocationPermissionGranted == Permission.Denied)
-                ActivityCompat.RequestPermissions(this, locationPermissions, locationPermissionsRequestCode);
-
-            bt_receiver = new BluetoothDeviceReceiver();
-
-            RegisterReceiver(bt_receiver, new IntentFilter(BluetoothDevice.ActionFound));
-
-            if (BluetoothAdapter.DefaultAdapter != null && BluetoothAdapter.DefaultAdapter.IsEnabled) 
-            {
-                foreach (var pairedDevice in BluetoothAdapter.DefaultAdapter.BondedDevices) 
-                {
-                    Console.WriteLine($"Found paired device with name: {pairedDevice.Name} and MAC-Address: {pairedDevice.Address}");
-                }
-            }
-
-            BluetoothAdapter.DefaultAdapter.StartDiscovery();
+            FragmentTransaction menuTransaction = this.FragmentManager.BeginTransaction();
+            MainFragment mainContent = new MainFragment();
+            menuTransaction.Add(Resource.Id.framelayout, mainContent).Commit();
         }
 
         public override void OnBackPressed()
@@ -189,8 +88,8 @@ namespace FreediverApp
 
             if (id == Resource.Id.nav_dive_sessions)
             {
-                var diveSessionsActivity = new Intent(this, typeof(SessionsActivity));
-                StartActivity(diveSessionsActivity);
+                DiveSessionsFragment divesessionsFragment = new DiveSessionsFragment();
+                menuTransaction.Replace(Resource.Id.framelayout, divesessionsFragment).AddToBackStack(null).Commit();
             }
             else if (id == Resource.Id.nav_connected_devices)
             {

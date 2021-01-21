@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.OS;
 using Android.Widget;
 using FreediverApp.DatabaseConnector;
@@ -9,7 +10,7 @@ using FreediverApp.DatabaseConnector;
 namespace FreediverApp
 {
 
-    [Activity(Label = "Activity1")]
+    [Activity(Label = "Activity1", ScreenOrientation = ScreenOrientation.Portrait)]
     public class DiveSessionDetailViewActivity : Activity
     {
 

@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.OS;
 using Android.Widget;
 using System;
@@ -7,7 +8,7 @@ using System.Collections.Generic;
 
 namespace FreediverApp
 {
-    [Activity(Label = "DivesPerSessionActivity")]
+    [Activity(Label = "DivesPerSessionActivity", ScreenOrientation = ScreenOrientation.Portrait)]
     public class DivesPerSessionActivity : Activity
     {
         private ListView lvwDive;

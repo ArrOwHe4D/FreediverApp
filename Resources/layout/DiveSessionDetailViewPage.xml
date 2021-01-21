@@ -8,16 +8,17 @@
     android:layout_height="match_parent"
     android:minWidth="25px"
     android:minHeight="25px">
+
     <TextView
         android:text="19.02.2020"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
+        android:textSize="30dp"
         android:layout_marginTop="20dp"
-        android:minWidth="25px"
-        android:minHeight="25px"
-        android:id="@+id/tvwDsdvSessionName" />
+        android:textColor="@android:color/black"
+        android:id="@+id/tvwDsdvSessionName"/>
 
     <android.support.v7.widget.CardView
         app:cardCornerRadius="4dp"
@@ -66,6 +67,7 @@
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -74,24 +76,29 @@
         tools:ignore="MissingDimension">
         
         <TextView
-        android:text="Standort: "
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="70"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:id="@+id/tvwDsdvLocation" />
+            android:text="Standort: "
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="70"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@android:color/black"
+            android:textSize="8pt"
+            android:id="@+id/tvwDsdvLocation" />
 
         <TextView
-        android:text="-"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="30"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:id="@+id/tvwDsdvLocationV" />
+            android:text="-"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@android:color/black"
+            android:textSize="8pt"
+            android:id="@+id/tvwDsdvLocationV" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -102,24 +109,29 @@
         tools:ignore="MissingDimension">
         
         <TextView
-        android:text="Wetter: "
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="70"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:id="@+id/tvwDsdvWeather" />
+            android:text="Wetter: "
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="70"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@android:color/black"
+            android:textSize="8pt"
+            android:id="@+id/tvwDsdvWeather" />
 
         <TextView
-        android:text="-"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="30"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:id="@+id/tvwDsdvWeatherV" />
+            android:text="-"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@android:color/black"
+            android:textSize="8pt"
+            android:id="@+id/tvwDsdvWeatherV" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -130,24 +142,29 @@
         tools:ignore="MissingDimension">
         
         <TextView
-        android:text="Aufenthalt im Wasser: "
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="70"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:id="@+id/tvwDsdvTimeInWater" />
+            android:text="Aufenthalt im Wasser: "
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="70"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@android:color/black"
+            android:textSize="8pt"
+            android:id="@+id/tvwDsdvTimeInWater" />
 
         <TextView
-        android:text="-"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="30"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:id="@+id/tvwDsdvTimeInWaterV" />
+            android:text="-"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@android:color/black"
+            android:textSize="8pt"
+            android:id="@+id/tvwDsdvTimeInWaterV" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -158,24 +175,29 @@
         tools:ignore="MissingDimension">
         
         <TextView
-        android:text="Notizen: "
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="70"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:id="@+id/tvwDsdvNotes" />
+            android:text="Notizen: "
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="70"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@android:color/black"
+            android:textSize="8pt"
+            android:id="@+id/tvwDsdvNotes" />
 
         <TextView
-        android:text="-"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="30"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:id="@+id/tvwDsdvNotesV" />
+            android:text="-"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@android:color/black"
+            android:textSize="8pt"
+            android:id="@+id/tvwDsdvNotesV" />
+
     </LinearLayout>    
 
     <Button

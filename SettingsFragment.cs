@@ -6,6 +6,7 @@ using Android.Widget;
 
 namespace FreediverApp
 {
+    [Obsolete]
     public class SettingsFragment : Fragment
     {
         private Spinner languageSpinner, designSpinner;

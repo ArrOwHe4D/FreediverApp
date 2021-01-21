@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.OS;
 using Android.Widget;
 using FreediverApp.DatabaseConnector;
 
 namespace FreediverApp
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
+    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait)]
     public class LoginActivity : Activity
     {
         private TextView textviewCantLogin;

@@ -1,21 +1,16 @@
 ﻿using Android.App;
-using Android.Content;
+using Android.Content.PM;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 using FreediverApp.DatabaseConnector;
 using Microcharts;
 using Microcharts.Droid;
 using SkiaSharp;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace FreediverApp
 {
-    [Activity(Label = "DiveDetailViewActivity")]
+    [Activity(Label = "DiveDetailViewActivity", ScreenOrientation = ScreenOrientation.Portrait)]
     public class DiveDetailViewActivity : Activity
     {
         TextView tvwDepth;

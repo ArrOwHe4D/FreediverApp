@@ -1,6 +1,6 @@
 ﻿using System;
 using Android.App;
-using Android.Content;
+using Android.Content.PM;
 using Android.OS;
 using Android.Widget;
 using Firebase.Database;
@@ -9,7 +9,7 @@ using DBConnector = FreediverApp.DatabaseConnector.DatabaseConnector;
 
 namespace FreediverApp
 {
-    [Activity(Label = "AddSessionActivity")]
+    [Activity(Label = "AddSessionActivity", ScreenOrientation = ScreenOrientation.Portrait)]
     public class AddSessionActivity : Activity
     {
         private Button btnAddSession;
@@ -42,22 +42,24 @@ namespace FreediverApp
             tvwDate.Text = diveSession.date;
             tvwDiveTime.Text = diveSession.watertime;
         }
+
         private void btnAddSession_Click(object sender, EventArgs eventArgs)
         {            
             User.curUser.diveSessions.Add(diveSession);
             SaveDiveSession(diveSession);
             SampleData();
-            var sessionsActivity = new Intent(this, typeof(SessionsActivity));
-            StartActivity(sessionsActivity);
+
+            Finish();
         }
+
         private void btnCancel_Click(object sender, EventArgs eventArgs)
         {
-            var sessionsActivity = new Intent(this, typeof(SessionsActivity));
-            StartActivity(sessionsActivity);
+            Finish();
         }
 
         string[] locations = new string[] { "Koeln", "Leverkusen", "Gummersbach", "Kiel", "Bremerhafen" };
         string[] conditions = new string[] { "sonnig", "regnerisch", "bewölkt" };
+
         private DiveSession SampleData()
         {
             DiveSession ds = new DiveSession(User.curUser.id);

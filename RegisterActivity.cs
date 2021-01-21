@@ -9,10 +9,11 @@ using FreediverApp.DatabaseConnector;
 using DBConnector = FreediverApp.DatabaseConnector.DatabaseConnector;
 using Android.Content;
 using System.Collections.Generic;
+using Android.Content.PM;
 
 namespace FreediverApp
 {
-    [Activity(Label = "RegisterActivity")]
+    [Activity(Label = "RegisterActivity", ScreenOrientation = ScreenOrientation.Portrait)]
     public class RegisterActivity : Activity
     {
         private Button button_register;

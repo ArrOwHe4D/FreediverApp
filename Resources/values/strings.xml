@@ -39,12 +39,14 @@
     <string name="delete_account">Delete Account</string>
     <string name="dive_session">Dive Session</string>
     <string name="dive_sessions">Dive Sessions</string>
+    <string name="add_dive_session">Add Divesession</string>
     <string name="depth">Depth</string>
     <string name="max_depth">Max Depth</string>
     <string name="location">Location</string>
     <string name="weather_condition">Weather Condition</string>
     <string name="total_dive_time">Total Dive Time</string>
     <string name="connected_devices">Connected Devices</string>
+    <string name="bluetooth_devices">Bluetooth Devices</string>
     <string name="account">Account</string>
     <string name="account_information">Account Information</string>
     <string name="app_settings">App Settings</string>
