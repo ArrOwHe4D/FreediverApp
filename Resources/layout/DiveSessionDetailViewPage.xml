@@ -58,7 +58,7 @@
                 android:id="@+id/linearLayout1">
 
                 <Microcharts.Droid.ChartView
-                    android:id="@+id/chartView"
+                    android:id="@+id/chartview_divesession_detail"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"/>
 

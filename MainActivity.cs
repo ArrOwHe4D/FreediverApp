@@ -1,24 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using Android;
-using Android.App;
-using Android.Bluetooth;
+﻿using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
-using Android.Support.V4.App;
-using Android.Support.V4.Content;
 using Android.Support.V4.View;
 using Android.Support.V4.Widget;
 using Android.Support.V7.App;
 using Android.Views;
-using FreediverApp.BluetoothCommunication;
 using FreediverApp.FragmentActivities;
-using Microcharts.Droid;
-using Microcharts;
-using SkiaSharp;
 using FragmentTransaction = Android.App.FragmentTransaction;
 using ActionBarDrawerToggle = Android.Support.V7.App.ActionBarDrawerToggle;
 
