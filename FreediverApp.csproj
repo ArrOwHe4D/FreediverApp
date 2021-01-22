@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="AccountPanelFragment.cs" />
     <Compile Include="AddSessionActivity.cs" />
+    <Compile Include="BluetoothCommunication\BluetoothConnection.cs" />
     <Compile Include="BluetoothDeviceViewHolder.cs" />
     <Compile Include="CustomListViewAdapter.cs" />
     <Compile Include="DatabaseConnector\Encryptor.cs" />

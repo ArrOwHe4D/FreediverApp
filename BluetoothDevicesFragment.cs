@@ -41,7 +41,6 @@ namespace FreediverApp
 
             btnScan.Click += scanButtonOnClick;
 
-
             listView.Adapter = new CustomListViewAdapter(Devices);
             listView.ItemClick += ListView_ItemClick;
 

@@ -8,10 +8,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Android.Bluetooth;
 
 namespace FreediverApp.BluetoothCommunication
 {
-    class BluetoothConnection
+    public class BluetoothConnection
     {
+        public void getDevice() { this.Device = (from bd in this.Adapter.BondedDevices where bd.Name == "HC-05" select bd).FirstOrDefault(); }
+        public BluetoothAdapter Adapter { get; set; }
+        public BluetoothDevice Device { get; set; }
+        public BluetoothSocket Socket { get; set; }
     }
 }
