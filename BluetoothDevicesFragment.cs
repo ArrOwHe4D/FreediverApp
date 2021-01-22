@@ -12,6 +12,7 @@ using Android;
 using Android.Support.V4.Content;
 using Android.Support.V4.App;
 using Fragment = Android.App.Fragment;
+using SupportV7 = Android.Support.V7.App;
 
 namespace FreediverApp
 {
@@ -35,6 +36,30 @@ namespace FreediverApp
             btReceiver = new BluetoothDeviceReceiver();
             btReceiver.m_adapter = BluetoothAdapter.DefaultAdapter;
 
+            
+
+            if (btReceiver.m_adapter == null)
+            {
+                Toast.MakeText(Context, "Your device does not support Bluetooth!", ToastLength.Long);
+            }
+            else if (!btReceiver.m_adapter.IsEnabled)
+            {
+                SupportV7.AlertDialog.Builder saveDataDialog = new SupportV7.AlertDialog.Builder(Context);
+                saveDataDialog.SetTitle("Bluetooth is not activated!");
+                saveDataDialog.SetMessage("Do you want to activate Bluetooth on your device?");
+
+                saveDataDialog.SetPositiveButton("Accept", (senderAlert, args) =>
+                {
+                    btReceiver.m_adapter.Enable();
+                });
+                saveDataDialog.SetNegativeButton("Cancel", (senderAlert, args) =>
+                {
+                    saveDataDialog.Dispose();
+                });
+
+                saveDataDialog.Show();
+            }
+           
             listView = view.FindViewById<ListView>(Resource.Id.lv_con_devices);
             btnScan = view.FindViewById<Button>(Resource.Id.bt_scan_btn);
 
