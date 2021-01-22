@@ -36,7 +36,16 @@ namespace FreediverApp
             btReceiver = new BluetoothDeviceReceiver();
             btReceiver.m_adapter = BluetoothAdapter.DefaultAdapter;
 
-            
+            listView = view.FindViewById<ListView>(Resource.Id.lv_con_devices);
+            btnScan = view.FindViewById<Button>(Resource.Id.bt_scan_btn);
+
+            btnScan.Click += scanButtonOnClick;
+
+
+            listView.Adapter = new CustomListViewAdapter(Devices);
+            listView.ItemClick += ListView_ItemClick;
+
+            Devices = new List<BluetoothDevice>();
 
             if (btReceiver.m_adapter == null)
             {
@@ -51,6 +60,15 @@ namespace FreediverApp
                 saveDataDialog.SetPositiveButton("Accept", (senderAlert, args) =>
                 {
                     btReceiver.m_adapter.Enable();
+                    if (btReceiver.m_adapter.IsEnabled)
+                    {
+                        Toast.MakeText(Context, "Bluetooth activated!", ToastLength.Long);
+                        discoverDevices();
+                    }
+                    else
+                    {
+                        Toast.MakeText(Context, "Bluetooth activation failed!", ToastLength.Long);
+                    }
                 });
                 saveDataDialog.SetNegativeButton("Cancel", (senderAlert, args) =>
                 {
@@ -59,19 +77,7 @@ namespace FreediverApp
 
                 saveDataDialog.Show();
             }
-           
-            listView = view.FindViewById<ListView>(Resource.Id.lv_con_devices);
-            btnScan = view.FindViewById<Button>(Resource.Id.bt_scan_btn);
-
-            btnScan.Click += scanButtonOnClick;
-
-            Devices = new List<BluetoothDevice>();
-            addDevicesToList(getBondedBluetoothDevices());
-            addDevicesToList(getUnknownBluetoothDevices());
-
-            listView.Adapter = new CustomListViewAdapter(Devices);
-            listView.ItemClick += ListView_ItemClick;
-
+            discoverDevices();
             return view;
         }
 
@@ -150,6 +156,12 @@ namespace FreediverApp
                         Devices.Add(_devices.ElementAt(i));
                 }
             }
+        }
+
+        private void discoverDevices()
+        {
+            addDevicesToList(getBondedBluetoothDevices());
+            addDevicesToList(getUnknownBluetoothDevices());
         }
     }
 }
