@@ -24,8 +24,6 @@ namespace FreediverApp
         private ListView listView;
         private BluetoothDeviceReceiver btReceiver;
         private Button btnScan;
-        private Thread bluetoothListenerThread;
-        private Timer scanTimer;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -47,7 +45,6 @@ namespace FreediverApp
             listView.ItemClick += ListView_ItemClick;
 
             Devices = new List<BluetoothDevice>();
-            bluetoothListenerThread = new Thread(discoverDevices);
 
             if (btReceiver.m_adapter == null)
             {
@@ -65,8 +62,11 @@ namespace FreediverApp
                     if (btReceiver.m_adapter.IsEnabled)
                     {
                         Toast.MakeText(Context, "Bluetooth activated!", ToastLength.Long);
-                        //scanTimer = new Timer(new TimerCallback(tickTimer), null, 0, 500);
-                        bluetoothListenerThread.Start();
+
+                        //If the adapter was successfully activated, start the thread that scans for new bluetooth devices
+                        Thread bluetoothDeviceListenerThread = new Thread(discoverDevices);
+                        bluetoothDeviceListenerThread.IsBackground = true;
+                        bluetoothDeviceListenerThread.Start();
                     }
                     else
                     {
@@ -92,7 +92,7 @@ namespace FreediverApp
             try
             {
                 Devices.ElementAt(e.Position).CreateBond();
-                listView.Adapter = new CustomListViewAdapter(Devices);
+                refreshGui();
             }
             catch (Exception ex) 
             {
@@ -104,11 +104,10 @@ namespace FreediverApp
         {
             if (btReceiver.m_adapter.IsEnabled)
             {
-                if (!bluetoothListenerThread.IsAlive)
-                {
-                    bluetoothListenerThread.Start();
-                } 
-                //scanTimer = new Timer(new TimerCallback(tickTimer), null, 0, 300);
+                // if the user clicks on the scanButton the thread for discovering new Bluetooth Devices is started
+                Thread bluetoothDeviceListenerThread = new Thread(discoverDevices);
+                bluetoothDeviceListenerThread.IsBackground = true;
+                bluetoothDeviceListenerThread.Start();
             }
             else 
             {
@@ -175,21 +174,15 @@ namespace FreediverApp
 
         private void discoverDevices()
         {
-            for (int i = 0; i < 10; i++) 
+            // let the thread search 5 sec for every second it runs and close the thread after the search period has finished
+            for (int i = 0; i < 5; i++) 
             {
                 addDevicesToList(getBondedBluetoothDevices());
                 addDevicesToList(getUnknownBluetoothDevices());
                 Activity.RunOnUiThread(() => { refreshGui(); });
-                Thread.Sleep(500);
+                Thread.Sleep(1000);
             }
-            bluetoothListenerThread.Abort();
-        }
-
-        private void tickTimer(object state)
-        { 
-            Thread listenerThread = new Thread(() => { discoverDevices(); });
-            listenerThread.Start();
-            scanTimer.Change(Timeout.Infinite, Timeout.Infinite);
+            Thread.CurrentThread.Abort();
         }
 
         private void refreshGui() 
