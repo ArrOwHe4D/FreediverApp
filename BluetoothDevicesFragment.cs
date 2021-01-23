@@ -24,20 +24,17 @@ namespace FreediverApp
         private ListView listView;
         private BluetoothDeviceReceiver btReceiver;
         private Button btnScan;
-        private Thread threadListener;
+        private Thread bluetoothListenerThread;
         private Timer scanTimer;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
         }
-       
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {            
             var view = inflater.Inflate(Resource.Layout.BluetoothDevicesPage, container, false);
-
-            threadListener = new Thread(discoverDevices);
 
             btReceiver = new BluetoothDeviceReceiver();
             btReceiver.m_adapter = BluetoothAdapter.DefaultAdapter;
@@ -47,10 +44,10 @@ namespace FreediverApp
 
             btnScan.Click += scanButtonOnClick;
 
-            listView.Adapter = new CustomListViewAdapter(Devices);
             listView.ItemClick += ListView_ItemClick;
 
             Devices = new List<BluetoothDevice>();
+            bluetoothListenerThread = new Thread(discoverDevices);
 
             if (btReceiver.m_adapter == null)
             {
@@ -58,31 +55,35 @@ namespace FreediverApp
             }
             else if (!btReceiver.m_adapter.IsEnabled)
             {
-                SupportV7.AlertDialog.Builder saveDataDialog = new SupportV7.AlertDialog.Builder(Context);
-                saveDataDialog.SetTitle("Bluetooth is not activated!");
-                saveDataDialog.SetMessage("Do you want to activate Bluetooth on your device?");
+                SupportV7.AlertDialog.Builder bluetoothActivationDialog = new SupportV7.AlertDialog.Builder(Context);
+                bluetoothActivationDialog.SetTitle("Bluetooth is not activated!");
+                bluetoothActivationDialog.SetMessage("Do you want to activate Bluetooth on your device?");
 
-                saveDataDialog.SetPositiveButton("Accept", (senderAlert, args) =>
+                bluetoothActivationDialog.SetPositiveButton("Accept", (senderAlert, args) =>
                 {
                     btReceiver.m_adapter.Enable();
                     if (btReceiver.m_adapter.IsEnabled)
                     {
                         Toast.MakeText(Context, "Bluetooth activated!", ToastLength.Long);
-                        discoverDevices();
+                        //scanTimer = new Timer(new TimerCallback(tickTimer), null, 0, 500);
+                        bluetoothListenerThread.Start();
                     }
                     else
                     {
                         Toast.MakeText(Context, "Bluetooth activation failed!", ToastLength.Long);
                     }
                 });
-                saveDataDialog.SetNegativeButton("Cancel", (senderAlert, args) =>
+                bluetoothActivationDialog.SetNegativeButton("Cancel", (senderAlert, args) =>
                 {
-                    saveDataDialog.Dispose();
+                    bluetoothActivationDialog.Dispose();
                 });
 
-                saveDataDialog.Show();
+                bluetoothActivationDialog.Show();
             }
-            discoverDevices();
+            else 
+            {
+                initBluetoothListView();
+            }
             return view;
         }
 
@@ -103,18 +104,16 @@ namespace FreediverApp
         {
             if (btReceiver.m_adapter.IsEnabled)
             {
-                threadListener.Start();
-                scanTimer = new Timer(new TimerCallback(tickTimer), null, 500, 10000);
-                //if (Devices != null)
-                //{
-                //    addDevicesToList(btReceiver.foundDevices);
-                //}
+                if (!bluetoothListenerThread.IsAlive)
+                {
+                    bluetoothListenerThread.Start();
+                } 
+                //scanTimer = new Timer(new TimerCallback(tickTimer), null, 0, 300);
             }
             else 
             {
                 Toast.MakeText(Context, "Please enable Bluetooth on your device to be able to scan for bluetooth devices!", ToastLength.Long).Show();
-            }
-            listView.Adapter = new CustomListViewAdapter(Devices);
+            }       
         }
 
         private List<BluetoothDevice> getBondedBluetoothDevices()
@@ -128,7 +127,7 @@ namespace FreediverApp
 
         private List<BluetoothDevice> getUnknownBluetoothDevices()
         {
-            this.Activity.RegisterReceiver(btReceiver, new IntentFilter(BluetoothDevice.ActionFound));
+            Activity.RegisterReceiver(btReceiver, new IntentFilter(BluetoothDevice.ActionFound));
 
             const int locationPermissionsRequestCode = 1000;
 
@@ -143,7 +142,7 @@ namespace FreediverApp
             var fineLocationPermissionGranted = ContextCompat.CheckSelfPermission(this.Context, Manifest.Permission.AccessFineLocation);
 
             if (coarseLocationPermissionGranted == Permission.Denied || fineLocationPermissionGranted == Permission.Denied)
-                ActivityCompat.RequestPermissions(this.Activity, locationPermissions, locationPermissionsRequestCode);
+                ActivityCompat.RequestPermissions(Activity, locationPermissions, locationPermissionsRequestCode);
 
             if (btReceiver.m_adapter != null && btReceiver.m_adapter.IsEnabled)
             {
@@ -159,23 +158,55 @@ namespace FreediverApp
             {
                 for (int i = 0; i < _devices.Count; i++)
                 {
-                    if (!Devices.Contains(_devices.ElementAt(i)))
+                    List<string> devices = getDeviceNames();
+
+                    if (!devices.Contains(_devices.ElementAt(i).Name))
                         Devices.Add(_devices.ElementAt(i));
                 }
             }
         }
 
-        private void discoverDevices()
+        private void initBluetoothListView() 
         {
             addDevicesToList(getBondedBluetoothDevices());
             addDevicesToList(getUnknownBluetoothDevices());
-            scanTimer.Change(Timeout.Infinite, Timeout.Infinite);
-            listView.Adapter = new CustomListViewAdapter(Devices);
+            refreshGui();
+        }
+
+        private void discoverDevices()
+        {
+            for (int i = 0; i < 10; i++) 
+            {
+                addDevicesToList(getBondedBluetoothDevices());
+                addDevicesToList(getUnknownBluetoothDevices());
+                Activity.RunOnUiThread(() => { refreshGui(); });
+                Thread.Sleep(500);
+            }
+            bluetoothListenerThread.Abort();
         }
 
         private void tickTimer(object state)
+        { 
+            Thread listenerThread = new Thread(() => { discoverDevices(); });
+            listenerThread.Start();
+            scanTimer.Change(Timeout.Infinite, Timeout.Infinite);
+        }
+
+        private void refreshGui() 
         {
-            Thread.Sleep(500);
+            listView.Adapter = new CustomListViewAdapter(Devices);
+        }
+
+        private List<string> getDeviceNames() 
+        {
+            List<string> result = new List<string>();
+
+            for (int i = 0; i < Devices.Count; i++) 
+            {
+                result.Add(Devices.ElementAt(i).Name);
+            }
+
+            return result;
         }
     }
 }
