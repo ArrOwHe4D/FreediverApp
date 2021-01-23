@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Android.Bluetooth;
 using Android.Content;
 using Android.OS;
@@ -23,15 +24,20 @@ namespace FreediverApp
         private ListView listView;
         private BluetoothDeviceReceiver btReceiver;
         private Button btnScan;
+        private Thread threadListener;
+        private Timer scanTimer;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
         }
+       
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {            
             var view = inflater.Inflate(Resource.Layout.BluetoothDevicesPage, container, false);
+
+            threadListener = new Thread(discoverDevices);
 
             btReceiver = new BluetoothDeviceReceiver();
             btReceiver.m_adapter = BluetoothAdapter.DefaultAdapter;
@@ -97,10 +103,12 @@ namespace FreediverApp
         {
             if (btReceiver.m_adapter.IsEnabled)
             {
-                if (Devices != null)
-                {
-                    addDevicesToList(btReceiver.foundDevices);
-                }
+                threadListener.Start();
+                scanTimer = new Timer(new TimerCallback(tickTimer), null, 500, 10000);
+                //if (Devices != null)
+                //{
+                //    addDevicesToList(btReceiver.foundDevices);
+                //}
             }
             else 
             {
@@ -161,6 +169,13 @@ namespace FreediverApp
         {
             addDevicesToList(getBondedBluetoothDevices());
             addDevicesToList(getUnknownBluetoothDevices());
+            scanTimer.Change(Timeout.Infinite, Timeout.Infinite);
+            listView.Adapter = new CustomListViewAdapter(Devices);
+        }
+
+        private void tickTimer(object state)
+        {
+            Thread.Sleep(500);
         }
     }
 }
