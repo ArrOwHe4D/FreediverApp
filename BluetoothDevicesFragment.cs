@@ -25,7 +25,9 @@ namespace FreediverApp
         private BluetoothDeviceReceiver btReceiver;
         private Button btnScan;
         private Thread bluetoothListenerThread;
+        private BluetoothSocket btSocket;
         private Timer scanTimer;
+        private Java.Util.UUID uuid;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -89,15 +91,52 @@ namespace FreediverApp
 
         private void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
+            BluetoothDevice device = Devices.ElementAt(e.Position);
+            Boolean fail = false;
             try
             {
+                btSocket = device.CreateInsecureRfcommSocketToServiceRecord(uuid);
+            }
+
+            catch(Exception exp)
+            {
+                fail = true;
+                Toast.MakeText(Context, "Socket creation failed!", ToastLength.Long);
+            }
+            try
+            {
+                btSocket.Connect();
+            }
+            catch(Exception exp)
+            {
+                try
+                {
+                    fail = true;
+                    btSocket.Close();
+                }
+                catch(Exception exp2)
+                {
+                    Toast.MakeText(Context, "Socket creation failed after connection!", ToastLength.Long);
+                }
+            }
+            if (!fail)
+            {
+                Toast.MakeText(Context, "Connected!", ToastLength.Long);
+            }
+
+            /*
+            try
+            {
+                
                 Devices.ElementAt(e.Position).CreateBond();
                 listView.Adapter = new CustomListViewAdapter(Devices);
+                
             }
             catch (Exception ex) 
             {
                 Toast.MakeText(Context, "Pairing with selected device failed!", ToastLength.Long);
             }  
+            */
         }
 
         private void scanButtonOnClick(object sender, EventArgs eventArgs) 
