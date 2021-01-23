@@ -19,6 +19,8 @@ namespace FreediverApp
         private FirebaseDataListener userDataListener;
         private List<User> userList;
 
+        private ProgressDialog loginDialog;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -44,7 +46,11 @@ namespace FreediverApp
 
         private void login(object sender, EventArgs eventArgs)
         {
-            retrieveUserData();      
+            retrieveUserData();
+            loginDialog = new ProgressDialog(this);
+            loginDialog.SetMessage("Logging in...");
+            loginDialog.SetCancelable(false);
+            loginDialog.Show();
         }
 
         private void redirectToLoginProblemsActivity(object sender, EventArgs eventArgs) 
@@ -87,16 +93,25 @@ namespace FreediverApp
                     TemporaryData.USER_NAME = userList[0].username;
                     User.curUser = userList[0];
 
+                    loginDialog.Cancel();
+                    loginDialog.Dispose();
+                   
                     var mainMenu = new Intent(this, typeof(MainActivity));
                     StartActivity(mainMenu);
                 }
                 else 
                 {
+                    
+                    loginDialog.Cancel();
+                    loginDialog.Dispose();
+                    userList.Clear();
                     Toast.MakeText(this, "You entered a wrong user id or password!", ToastLength.Long).Show();
                 }
             }
             else 
             {
+                loginDialog.Cancel();
+                loginDialog.Dispose();
                 Toast.MakeText(this, "You entered a wrong user id or password!", ToastLength.Long).Show();
             }
         }

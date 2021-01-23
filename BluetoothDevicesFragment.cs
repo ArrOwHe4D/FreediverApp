@@ -61,6 +61,9 @@ namespace FreediverApp
                 bluetoothActivationDialog.SetPositiveButton("Accept", (senderAlert, args) =>
                 {
                     btReceiver.m_adapter.Enable();
+
+                    Thread.Sleep(1500);
+
                     if (btReceiver.m_adapter.IsEnabled)
                     {
                         Toast.MakeText(Context, "Bluetooth activated!", ToastLength.Long);
