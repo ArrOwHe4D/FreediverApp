@@ -24,6 +24,7 @@ namespace FreediverApp
         private ListView listView;
         private BluetoothDeviceReceiver btReceiver;
         private Button btnScan;
+        private ProgressBar scanIndicator;
         private BluetoothSocket btSocket;
         private Java.Util.UUID uuid;
 
@@ -41,6 +42,9 @@ namespace FreediverApp
 
             listView = view.FindViewById<ListView>(Resource.Id.lv_con_devices);
             btnScan = view.FindViewById<Button>(Resource.Id.bt_scan_btn);
+
+            scanIndicator = view.FindViewById<ProgressBar>(Resource.Id.scan_indicator);
+            scanIndicator.Visibility = ViewStates.Gone;
 
             btnScan.Click += scanButtonOnClick;
 
@@ -215,6 +219,7 @@ namespace FreediverApp
         private void discoverDevices()
         {
             // let the thread search 5 sec for every second it runs and close the thread after the search period has finished
+            Activity.RunOnUiThread(() => { scanIndicator.Visibility = ViewStates.Visible; });
             for (int i = 0; i < 5; i++) 
             {
                 addDevicesToList(getBondedBluetoothDevices());
@@ -222,6 +227,7 @@ namespace FreediverApp
                 Activity.RunOnUiThread(() => { refreshGui(); });
                 Thread.Sleep(1000);
             }
+            Activity.RunOnUiThread(() => { scanIndicator.Visibility = ViewStates.Gone; });
             Thread.CurrentThread.Abort();
         }
 

@@ -93,25 +93,20 @@ namespace FreediverApp
                     TemporaryData.USER_NAME = userList[0].username;
                     User.curUser = userList[0];
 
-                    loginDialog.Cancel();
-                    loginDialog.Dispose();
-                   
+                    loginDialog.Dismiss();
                     var mainMenu = new Intent(this, typeof(MainActivity));
                     StartActivity(mainMenu);
                 }
                 else 
                 {
-                    
-                    loginDialog.Cancel();
-                    loginDialog.Dispose();
-                    userList.Clear();
+
+                    loginDialog.Dismiss();
                     Toast.MakeText(this, "You entered a wrong user id or password!", ToastLength.Long).Show();
                 }
             }
             else 
             {
-                loginDialog.Cancel();
-                loginDialog.Dispose();
+                loginDialog.Dismiss();
                 Toast.MakeText(this, "You entered a wrong user id or password!", ToastLength.Long).Show();
             }
         }
