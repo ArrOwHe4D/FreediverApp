@@ -24,6 +24,8 @@ namespace FreediverApp
         private ListView listView;
         private BluetoothDeviceReceiver btReceiver;
         private Button btnScan;
+        private BluetoothSocket btSocket;
+        private Java.Util.UUID uuid;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
