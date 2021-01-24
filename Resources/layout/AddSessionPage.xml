@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -17,161 +18,166 @@
         android:textColor="@android:color/black"
         android:id="@+id/textview_add_divesession"/>
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <android.support.v7.widget.CardView
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:cardElevation="4dp"
+        app:contentPadding="12dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="80"
-        android:layout_marginLeft="3dp"
-        tools:ignore="MissingDimension">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:text="Verbunden mit:"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="40"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="10dp"
-            android:textColor="@android:color/black"
-            android:textSize="8pt"
-            android:id="@+id/tvwConnected" />
+            android:orientation="vertical">
 
-        <TextView
-            android:text="Tauchcomputer-RX2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="40"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="10dp"
-            android:textColor="@android:color/black"
-            android:textSize="8pt"
-            android:id="@+id/tvwConnectedV" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="100"
+                tools:ignore="MissingDimension">
 
-    </LinearLayout>
+                <TextView
+                    android:text="Verbunden mit:"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"
+                    android:id="@+id/tvwConnected" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="80"
-        android:layout_marginLeft="3dp"
-        tools:ignore="MissingDimension">
+                <TextView
+                    android:text="Tauchcomputer-RX2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"
+                    android:id="@+id/tvwConnectedV" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="100"
+                android:layout_marginTop="30dp"
+                tools:ignore="MissingDimension">
         
-        <TextView
-            android:text="Standort: "
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="40"
-            android:layout_marginLeft="10dp"
-            android:textColor="@android:color/black"
-            android:textSize="8pt"
-            android:id="@+id/tvwLocation" />
+                <TextView
+                    android:text="Standort: "
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"
+                    android:id="@+id/tvwLocation" />
 
-        <TextView
-            android:text="Köln"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="40"
-            android:layout_marginLeft="10dp"
-            android:textColor="@android:color/black"
-            android:textSize="8pt"
-            android:id="@+id/tvwLocationV" />
+                <TextView
+                    android:text="Köln"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"
+                    android:id="@+id/tvwLocationV" />
 
-    </LinearLayout>
+            </LinearLayout>
 
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="80"
-        android:layout_marginLeft="3dp"
-        tools:ignore="MissingDimension">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="100"
+                android:layout_marginTop="30dp"
+                tools:ignore="MissingDimension">
 
-        <TextView
-            android:text="Wetter: "
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="40"
-            android:layout_marginLeft="10dp"
-            android:textColor="@android:color/black"
-            android:textSize="8pt"
-            android:id="@+id/tvwWeather" />
+                <TextView
+                    android:text="Wetter: "
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"
+                    android:id="@+id/tvwWeather" />
 
-        <TextView
-            android:text="Sonnig | 22C°"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="40"
-            android:layout_marginLeft="10dp"
-            android:textColor="@android:color/black"
-            android:textSize="8pt"
-            android:id="@+id/tvwWeatherV" />
+                <TextView
+                    android:text="Sonnig | 22C°"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"
+                    android:id="@+id/tvwWeatherV" />
 
-    </LinearLayout>
+            </LinearLayout>
 
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="80"
-        android:layout_marginLeft="3dp"
-        tools:ignore="MissingDimension">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="100"
+                android:layout_marginTop="30dp"
+                tools:ignore="MissingDimension">
 
-        <TextView
-            android:text="Datum: "
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="40"
-            android:layout_marginLeft="10dp"
-            android:textColor="@android:color/black"
-            android:textSize="8pt"
-            android:id="@+id/tvwDate" />
+                <TextView
+                    android:text="Datum: "
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"
+                    android:id="@+id/tvwDate" />
 
-        <TextView
-            android:text="9.12.2020"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="40"
-            android:layout_marginLeft="10dp"
-            android:textColor="@android:color/black"
-            android:textSize="8pt"
-            android:id="@+id/tvwDateV" />
+                <TextView
+                    android:text="9.12.2020"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"
+                    android:id="@+id/tvwDateV" />
 
-    </LinearLayout>
+            </LinearLayout>
 
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="80"
-        android:layout_marginLeft="3dp"
-        tools:ignore="MissingDimension">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="100"
+                android:layout_marginTop="30dp"
+                tools:ignore="MissingDimension">
 
-        <TextView
-            android:text="Tauchzeit: "
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="40"
-            android:layout_marginLeft="10dp"
-            android:textColor="@android:color/black"
-            android:textSize="8pt"
-            android:id="@+id/tvwDiveTime" />
+                <TextView
+                    android:text="Tauchzeit: "
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"
+                    android:id="@+id/tvwDiveTime" />
 
-        <TextView
-            android:text="1:13:54 Std"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="40"
-            android:layout_marginLeft="10dp"
-            android:textColor="@android:color/black"
-            android:textSize="8pt"
-            android:id="@+id/tvwDiveTimeV" />
+                <TextView
+                    android:text="1:13:54 Std"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"
+                    android:id="@+id/tvwDiveTimeV" />
 
-    </LinearLayout>
+            </LinearLayout>
 
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 
     <LinearLayout
         android:orientation="horizontal"
