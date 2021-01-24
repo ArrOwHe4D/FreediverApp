@@ -14,6 +14,7 @@ using Android.Support.V4.Content;
 using Android.Support.V4.App;
 using Fragment = Android.App.Fragment;
 using SupportV7 = Android.Support.V7.App;
+using Java.Util;
 
 namespace FreediverApp
 {
@@ -26,7 +27,6 @@ namespace FreediverApp
         private Button btnScan;
         private ProgressBar scanIndicator;
         private BluetoothSocket btSocket;
-        private Java.Util.UUID uuid;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -102,7 +102,8 @@ namespace FreediverApp
             Boolean fail = false;
             try
             {
-                btSocket = device.CreateInsecureRfcommSocketToServiceRecord(uuid);
+                device.CreateBond();
+                btSocket = device.CreateInsecureRfcommSocketToServiceRecord(UUID.FromString("00001101-0000-1000-8000-00805F9B34FB"));
             }
 
             catch(Exception exp)
