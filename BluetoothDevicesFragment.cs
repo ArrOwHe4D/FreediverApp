@@ -14,7 +14,9 @@ using Android.Support.V4.Content;
 using Android.Support.V4.App;
 using Fragment = Android.App.Fragment;
 using SupportV7 = Android.Support.V7.App;
+using Java.Util;
 using Android.App;
+
 
 namespace FreediverApp
 {
@@ -28,7 +30,6 @@ namespace FreediverApp
         private ProgressBar scanIndicator;
         private Dialog bluetoothConnectionDialog;
         private BluetoothSocket btSocket;
-        private Java.Util.UUID uuid;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -36,7 +37,7 @@ namespace FreediverApp
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-        {            
+        {
             var view = inflater.Inflate(Resource.Layout.BluetoothDevicesPage, container, false);
 
             btReceiver = new BluetoothDeviceReceiver();
@@ -91,7 +92,7 @@ namespace FreediverApp
 
                 bluetoothActivationDialog.Show();
             }
-            else 
+            else
             {
                 initBluetoothListView();
             }
@@ -137,18 +138,18 @@ namespace FreediverApp
 
             /*
             try
-            {   
+            {
                 Devices.ElementAt(e.Position).CreateBond();
                 refreshGui();
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Toast.MakeText(Context, "Pairing with selected device failed!", ToastLength.Long);
-            }  
+            }
             */
         }
 
-        private void scanButtonOnClick(object sender, EventArgs eventArgs) 
+        private void scanButtonOnClick(object sender, EventArgs eventArgs)
         {
             if (btReceiver.m_adapter.IsEnabled)
             {
@@ -157,17 +158,17 @@ namespace FreediverApp
                 bluetoothDeviceListenerThread.IsBackground = true;
                 bluetoothDeviceListenerThread.Start();
             }
-            else 
+            else
             {
                 Toast.MakeText(Context, "Please enable Bluetooth on your device to be able to scan for bluetooth devices!", ToastLength.Long).Show();
-            }       
+            }
         }
 
         private List<BluetoothDevice> getBondedBluetoothDevices()
         {
             if (btReceiver.m_adapter.IsEnabled)
             {
-               return btReceiver.m_adapter.BondedDevices.ToList();               
+               return btReceiver.m_adapter.BondedDevices.ToList();
             }
             return new List<BluetoothDevice>();
         }
@@ -195,7 +196,7 @@ namespace FreediverApp
             {
                 btReceiver.m_adapter.StartDiscovery();
             }
-                
+
             return btReceiver.foundDevices;
         }
 
@@ -213,7 +214,7 @@ namespace FreediverApp
             }
         }
 
-        private void initBluetoothListView() 
+        private void initBluetoothListView()
         {
             addDevicesToList(getBondedBluetoothDevices());
             addDevicesToList(getUnknownBluetoothDevices());
@@ -225,7 +226,7 @@ namespace FreediverApp
         {
             // let the thread search 10 sec for every second it runs and close the thread after the search period has finished
             Activity.RunOnUiThread(() => { scanIndicator.Visibility = ViewStates.Visible; });
-            for (int i = 0; i < 10; i++) 
+            for (int i = 0; i < 10; i++)
             {
                 addDevicesToList(getBondedBluetoothDevices());
                 addDevicesToList(getUnknownBluetoothDevices());
@@ -241,16 +242,16 @@ namespace FreediverApp
             Thread.CurrentThread.Abort();
         }
 
-        private void refreshGui() 
+        private void refreshGui()
         {
             listView.Adapter = new CustomListViewAdapter(Devices);
         }
 
-        private List<string> getDeviceNames() 
+        private List<string> getDeviceNames()
         {
             List<string> result = new List<string>();
 
-            for (int i = 0; i < Devices.Count; i++) 
+            for (int i = 0; i < Devices.Count; i++)
             {
                 result.Add(Devices.ElementAt(i).Name);
             }
@@ -258,7 +259,7 @@ namespace FreediverApp
             return result;
         }
 
-        private void runBluetoothConnectionDialog(BluetoothDevice clickedDevice) 
+        private void runBluetoothConnectionDialog(BluetoothDevice clickedDevice)
         {
             LayoutInflater layoutInflater = LayoutInflater.From(this.Context);
             View dialogView = layoutInflater.Inflate(Resource.Layout.BluetoothConnectionDialog, null);
