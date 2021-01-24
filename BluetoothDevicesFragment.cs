@@ -15,6 +15,8 @@ using Android.Support.V4.App;
 using Fragment = Android.App.Fragment;
 using SupportV7 = Android.Support.V7.App;
 using Java.Util;
+using Android.App;
+
 
 namespace FreediverApp
 {
@@ -26,6 +28,7 @@ namespace FreediverApp
         private BluetoothDeviceReceiver btReceiver;
         private Button btnScan;
         private ProgressBar scanIndicator;
+        private Dialog bluetoothConnectionDialog;
         private BluetoothSocket btSocket;
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -34,7 +37,7 @@ namespace FreediverApp
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-        {            
+        {
             var view = inflater.Inflate(Resource.Layout.BluetoothDevicesPage, container, false);
 
             btReceiver = new BluetoothDeviceReceiver();
@@ -89,7 +92,7 @@ namespace FreediverApp
 
                 bluetoothActivationDialog.Show();
             }
-            else 
+            else
             {
                 initBluetoothListView();
             }
@@ -99,53 +102,54 @@ namespace FreediverApp
         private void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             BluetoothDevice device = Devices.ElementAt(e.Position);
-            Boolean fail = false;
-            try
-            {
-                device.CreateBond();
-                btSocket = device.CreateInsecureRfcommSocketToServiceRecord(UUID.FromString("00001101-0000-1000-8000-00805F9B34FB"));
-            }
+            runBluetoothConnectionDialog(device);
 
-            catch(Exception exp)
-            {
-                fail = true;
-                Toast.MakeText(Context, "Socket creation failed!", ToastLength.Long);
-            }
-            try
-            {
-                btSocket.Connect();
-            }
-            catch(Exception exp)
-            {
-                try
-                {
-                    fail = true;
-                    btSocket.Close();
-                }
-                catch(Exception exp2)
-                {
-                    Toast.MakeText(Context, "Socket creation failed after connection!", ToastLength.Long);
-                }
-            }
-            if (!fail)
-            {
-                Toast.MakeText(Context, "Connected!", ToastLength.Long);
-            }
+            //Boolean fail = false;
+            //try
+            //{
+            //    btSocket = device.CreateInsecureRfcommSocketToServiceRecord(uuid);
+            //}
+
+            //catch(Exception exp)
+            //{
+            //    fail = true;
+            //    Toast.MakeText(Context, "Socket creation failed!", ToastLength.Long);
+            //}
+            //try
+            //{
+            //    btSocket.Connect();
+            //}
+            //catch(Exception exp)
+            //{
+            //    try
+            //    {
+            //        fail = true;
+            //        btSocket.Close();
+            //    }
+            //    catch(Exception exp2)
+            //    {
+            //        Toast.MakeText(Context, "Socket creation failed after connection!", ToastLength.Long);
+            //    }
+            //}
+            //if (!fail)
+            //{
+            //    Toast.MakeText(Context, "Connected!", ToastLength.Long);
+            //}
 
             /*
             try
-            {   
+            {
                 Devices.ElementAt(e.Position).CreateBond();
                 refreshGui();
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Toast.MakeText(Context, "Pairing with selected device failed!", ToastLength.Long);
-            }  
+            }
             */
         }
 
-        private void scanButtonOnClick(object sender, EventArgs eventArgs) 
+        private void scanButtonOnClick(object sender, EventArgs eventArgs)
         {
             if (btReceiver.m_adapter.IsEnabled)
             {
@@ -154,17 +158,17 @@ namespace FreediverApp
                 bluetoothDeviceListenerThread.IsBackground = true;
                 bluetoothDeviceListenerThread.Start();
             }
-            else 
+            else
             {
                 Toast.MakeText(Context, "Please enable Bluetooth on your device to be able to scan for bluetooth devices!", ToastLength.Long).Show();
-            }       
+            }
         }
 
         private List<BluetoothDevice> getBondedBluetoothDevices()
         {
             if (btReceiver.m_adapter.IsEnabled)
             {
-               return btReceiver.m_adapter.BondedDevices.ToList();               
+               return btReceiver.m_adapter.BondedDevices.ToList();
             }
             return new List<BluetoothDevice>();
         }
@@ -192,7 +196,7 @@ namespace FreediverApp
             {
                 btReceiver.m_adapter.StartDiscovery();
             }
-                
+
             return btReceiver.foundDevices;
         }
 
@@ -200,17 +204,17 @@ namespace FreediverApp
         {
             if (_devices != null)
             {
+                List<string> devices = getDeviceNames();
+
                 for (int i = 0; i < _devices.Count; i++)
                 {
-                    List<string> devices = getDeviceNames();
-
                     if (!devices.Contains(_devices.ElementAt(i).Name))
                         Devices.Add(_devices.ElementAt(i));
                 }
             }
         }
 
-        private void initBluetoothListView() 
+        private void initBluetoothListView()
         {
             addDevicesToList(getBondedBluetoothDevices());
             addDevicesToList(getUnknownBluetoothDevices());
@@ -219,9 +223,9 @@ namespace FreediverApp
 
         private void discoverDevices()
         {
-            // let the thread search 5 sec for every second it runs and close the thread after the search period has finished
+            // let the thread search 10 sec for every second it runs and close the thread after the search period has finished
             Activity.RunOnUiThread(() => { scanIndicator.Visibility = ViewStates.Visible; });
-            for (int i = 0; i < 5; i++) 
+            for (int i = 0; i < 10; i++)
             {
                 addDevicesToList(getBondedBluetoothDevices());
                 addDevicesToList(getUnknownBluetoothDevices());
@@ -232,21 +236,54 @@ namespace FreediverApp
             Thread.CurrentThread.Abort();
         }
 
-        private void refreshGui() 
+        private void refreshGui()
         {
             listView.Adapter = new CustomListViewAdapter(Devices);
         }
 
-        private List<string> getDeviceNames() 
+        private List<string> getDeviceNames()
         {
             List<string> result = new List<string>();
 
-            for (int i = 0; i < Devices.Count; i++) 
+            for (int i = 0; i < Devices.Count; i++)
             {
                 result.Add(Devices.ElementAt(i).Name);
             }
 
             return result;
+        }
+
+        private void runBluetoothConnectionDialog(BluetoothDevice clickedDevice)
+        {
+            LayoutInflater layoutInflater = LayoutInflater.From(this.Context);
+            View dialogView = layoutInflater.Inflate(Resource.Layout.BluetoothConnectionDialog, null);
+            SupportV7.AlertDialog.Builder dialogBuilder = new SupportV7.AlertDialog.Builder(this.Context);
+            dialogBuilder.SetView(dialogView);
+            dialogBuilder.SetTitle("Connect to Device");
+            dialogBuilder.SetIcon(Resources.GetDrawable(Resource.Drawable.icon_connected_devices));
+
+            var textViewDeviceName = dialogView.FindViewById<TextView>(Resource.Id.textview_device_name);
+            var textViewMacAddress = dialogView.FindViewById<TextView>(Resource.Id.textview_mac_address);
+            var textViewConState = dialogView.FindViewById<TextView>(Resource.Id.textview_con_state);
+
+            textViewDeviceName.Text = clickedDevice.Name;
+            textViewMacAddress.Text = clickedDevice.Address;
+            textViewConState.Text = clickedDevice.BondState == Bond.Bonded ? "Paired" : "Not Connected";
+
+            var editValueField = dialogView.FindViewById<EditText>(Resource.Id.userInput);
+            dialogBuilder.SetCancelable(false)
+                .SetPositiveButton("Connect", delegate
+                {
+                    //TODO CONNECT TO DEVICE
+                    dialogBuilder.Dispose();
+                })
+                .SetNegativeButton("Cancel", delegate
+                {
+                    dialogBuilder.Dispose();
+                });
+
+            SupportV7.AlertDialog dialog = dialogBuilder.Create();
+            dialog.Show();
         }
     }
 }
