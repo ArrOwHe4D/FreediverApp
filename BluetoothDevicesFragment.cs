@@ -217,6 +217,7 @@ namespace FreediverApp
         {
             addDevicesToList(getBondedBluetoothDevices());
             addDevicesToList(getUnknownBluetoothDevices());
+            btReceiver.m_adapter.CancelDiscovery();
             refreshGui();
         }
 
@@ -228,10 +229,15 @@ namespace FreediverApp
             {
                 addDevicesToList(getBondedBluetoothDevices());
                 addDevicesToList(getUnknownBluetoothDevices());
+
                 Activity.RunOnUiThread(() => { refreshGui(); });
                 Thread.Sleep(1000);
             }
-            Activity.RunOnUiThread(() => { scanIndicator.Visibility = ViewStates.Gone; });
+            Activity.RunOnUiThread(() => 
+            {
+                btReceiver.m_adapter.CancelDiscovery();
+                scanIndicator.Visibility = ViewStates.Gone;  
+            });
             Thread.CurrentThread.Abort();
         }
 
