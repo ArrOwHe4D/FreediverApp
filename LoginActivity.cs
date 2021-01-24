@@ -95,6 +95,7 @@ namespace FreediverApp
 
                     loginDialog.Dismiss();
                     var mainMenu = new Intent(this, typeof(MainActivity));
+                    mainMenu.PutExtra("LoginSucessfull", true);
                     StartActivity(mainMenu);
                 }
                 else 
