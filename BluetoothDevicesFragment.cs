@@ -27,7 +27,6 @@ namespace FreediverApp
     public class BluetoothDevicesFragment : Fragment
     {
         private List<BluetoothDevice> Devices;
-        private List<Plugin.BLE.Abstractions.DeviceBase> bleDevices;
         private ListView listView;
         private BluetoothDeviceReceiver btReceiver;
         private Button btnScan;
@@ -116,8 +115,8 @@ namespace FreediverApp
 
         private void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            Plugin.BLE.Abstractions.DeviceBase device = bleDevices.ElementAt(e.Position);
-            //runBluetoothConnectionDialog(device);
+            var device = (Plugin.BLE.Abstractions.DeviceBase)bleDeviceList[e.Position]; ///ElementAt(e.Position);
+            runBluetoothConnectionDialog(device);
 
             //Boolean fail = false;
             //try
@@ -253,8 +252,8 @@ namespace FreediverApp
 
                 for (int i = 0; i < _devices.Count; i++)
                 {
-                    if (!devices.Contains(_devices.ElementAt(i).Name))
-                        bleDevices.Add(_devices.ElementAt(i));
+                    //if (!devices.Contains(_devices.ElementAt(i).Name))
+                        //bleDevices.Add(_devices.ElementAt(i));
                 }
             }
         }
@@ -323,9 +322,16 @@ namespace FreediverApp
 
             var editValueField = dialogView.FindViewById<EditText>(Resource.Id.userInput);
             dialogBuilder.SetCancelable(false)
-                .SetPositiveButton("Connect", delegate
+                .SetPositiveButton("Connect", async delegate
                 {
-                    //TODO CONNECT TO DEVICE
+                    try
+                    {
+                        await bleAdapter.ConnectToDeviceAsync(clickedDevice);
+                    }
+                    catch 
+                    {
+                        //BTLE Connection error
+                    }
                     dialogBuilder.Dispose();
                 })
                 .SetNegativeButton("Cancel", delegate
