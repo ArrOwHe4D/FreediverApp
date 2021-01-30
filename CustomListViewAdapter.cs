@@ -12,11 +12,17 @@ namespace FreediverApp
     public class CustomListViewAdapter : BaseAdapter<BluetoothDevice>
     {
         List<BluetoothDevice> bt_devices;
+        List<Plugin.BLE.Android.Device> btle_devices;
         private UUID uuid;
 
         public CustomListViewAdapter(List<BluetoothDevice> bt_devices)
         {
             this.bt_devices = bt_devices;
+        }
+
+        public CustomListViewAdapter(List<Plugin.BLE.Android.Device> btle_devices)
+        {
+            this.btle_devices = btle_devices;
         }
 
         public override BluetoothDevice this[int position]
@@ -52,9 +58,9 @@ namespace FreediverApp
 
             var holder = (BluetoothDeviceViewHolder)view.Tag;
             holder.Photo.SetImageResource(Resource.Drawable.icon_info);
-            holder.Name.Text = bt_devices[position].Name;
-            holder.MacAdress.Text = bt_devices[position].Address;
-            holder.ConState.Text = bt_devices[position].BondState == Bond.Bonded ? "Paired" : "Not Connected"; 
+            holder.Name.Text = btle_devices[position].Name;
+            holder.MacAdress.Text = btle_devices[position].Id.ToString();
+            holder.ConState.Text = btle_devices[position].State == Plugin.BLE.Abstractions.DeviceState.Connected ? "Connected" : "Disconnected"; 
             //BluetoothSocket socket = bt_devices[position].CreateInsecureRfcommSocketToServiceRecord(uuid);
             //if (socket.IsConnected)
             //    holder.ConState.Text = "Connected";
