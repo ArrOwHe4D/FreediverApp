@@ -51,6 +51,8 @@ namespace FreediverApp
 
             ble = CrossBluetoothLE.Current;
             bleAdapter = CrossBluetoothLE.Current.Adapter;
+            bleAdapter.ScanTimeout = 5000;
+            bleAdapter.ScanTimeoutElapsed += stopScan;
 
             bleDeviceList = new ObservableCollection<IDevice>();
 
@@ -164,10 +166,14 @@ namespace FreediverApp
 
         private async void scanButtonOnClick(object sender, EventArgs eventArgs)
         {
-            bleDeviceList.Clear();
+            //bleDeviceList.Clear();
+            scanIndicator.Visibility = ViewStates.Visible;
             bleAdapter.DeviceDiscovered += (s, a) =>
             {
-                bleDeviceList.Add(a.Device);
+                if (!bleDeviceList.Contains(a.Device))
+                    bleDeviceList.Add(a.Device);
+                
+                refreshGui();
             };
             await bleAdapter.StartScanningForDevicesAsync();
 
@@ -182,6 +188,11 @@ namespace FreediverApp
             //{
             //    Toast.MakeText(Context, "Please enable Bluetooth on your device to be able to scan for bluetooth devices!", ToastLength.Long).Show();
             //}
+        }
+
+        private void stopScan(object sender, EventArgs eventArgs) 
+        {
+            scanIndicator.Visibility = ViewStates.Gone;
         }
 
         private List<BluetoothDevice> getBondedBluetoothDevices()
@@ -278,7 +289,7 @@ namespace FreediverApp
 
         private void refreshGui()
         {
-            listView.Adapter = new CustomListViewAdapter(Devices);
+            listView.Adapter = new CustomListViewAdapter(bleDeviceList);
         }
 
         private List<string> getDeviceNames()

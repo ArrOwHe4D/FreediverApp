@@ -6,13 +6,16 @@ using Android.Graphics.Drawables;
 using static Android.Support.V7.Widget.RecyclerView;
 using Java.Util;
 using Android.Net;
+using System.Collections.ObjectModel;
+using Plugin.BLE;
+using Plugin.BLE.Abstractions.Contracts;
 
 namespace FreediverApp
 {
-    public class CustomListViewAdapter : BaseAdapter<BluetoothDevice>
+    public class CustomListViewAdapter : BaseAdapter<Plugin.BLE.Abstractions.DeviceBase>
     {
         List<BluetoothDevice> bt_devices;
-        List<Plugin.BLE.Android.Device> btle_devices;
+        ObservableCollection<IDevice> btle_devices;
         private UUID uuid;
 
         public CustomListViewAdapter(List<BluetoothDevice> bt_devices)
@@ -20,16 +23,16 @@ namespace FreediverApp
             this.bt_devices = bt_devices;
         }
 
-        public CustomListViewAdapter(List<Plugin.BLE.Android.Device> btle_devices)
+        public CustomListViewAdapter(ObservableCollection<IDevice> btle_devices)
         {
             this.btle_devices = btle_devices;
         }
 
-        public override BluetoothDevice this[int position]
+        public override Plugin.BLE.Abstractions.DeviceBase this[int position]
         {
             get
             {
-                return bt_devices[position];
+                return (Plugin.BLE.Abstractions.DeviceBase)btle_devices[position];
             }
         }
 
@@ -37,7 +40,7 @@ namespace FreediverApp
         {
             get
             {
-                return bt_devices.Count;
+                return btle_devices.Count;
             }
         }
 
