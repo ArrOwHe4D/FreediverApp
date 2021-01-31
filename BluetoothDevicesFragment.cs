@@ -132,7 +132,7 @@ namespace FreediverApp
             const int locationPermissionsRequestCode = 1000;
 
             var locationPermissions = new[]
-{
+            {
                 Manifest.Permission.AccessCoarseLocation,
                 Manifest.Permission.AccessFineLocation
             };
@@ -231,6 +231,8 @@ namespace FreediverApp
                 {
                     try
                     {
+                        var connPara = new ConnectParameters(true,true);
+                        await bleAdapter.StopScanningForDevicesAsync();
                         await bleAdapter.ConnectToDeviceAsync(clickedDevice);
                         refreshGui();
                     }
