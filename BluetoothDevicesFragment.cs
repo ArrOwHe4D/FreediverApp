@@ -231,10 +231,9 @@ namespace FreediverApp
                 {
                     try
                     {
-                        var connPara = new ConnectParameters(true,true);
-                        await bleAdapter.StopScanningForDevicesAsync();
                         await bleAdapter.ConnectToDeviceAsync(clickedDevice);
                         refreshGui();
+                        await sendDataAsync(clickedDevice);
                     }
                     catch 
                     {
