@@ -27,62 +27,39 @@
                 android:layout_gravity="center"
                 android:textColor="@android:color/black"
                 android:textSize="12pt"
-                android:text="Settings Panel"/>
+                android:text="@string/app_settings"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="40dp"
                 android:layout_marginLeft="60dp"
                 android:layout_marginRight="60dp">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/icon_connected_devices"
+                    android:id="@+id/imageview_bluetooth"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:textColor="@android:color/black"
                     android:textSize="8pt"
-                    android:text="@string/language"/>
+                    android:text="@string/bluetooth"/>
 
-                <Spinner
-                    android:prompt="@string/language"
+                <Switch
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minWidth="35px"
-                    android:minHeight="35px"
-                    android:id="@+id/spinnerDesign"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="60dp"
-                android:layout_marginRight="60dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textColor="@android:color/black"
-                    android:textSize="8pt"
-                    android:text="@string/design"/>
-
-                <Spinner
-                    android:prompt="@string/language"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:minWidth="35px"
-                    android:minHeight="35px"
-                    android:id="@+id/spinnerLanguage"/>
+                    android:id="@+id/switch_bluetooth" />
 
             </LinearLayout>
 
             <Button
-                android:text="Save"
+                android:text="@string/save"
                 android:textColor="@android:color/white"
                 android:backgroundTint="?android:attr/colorPrimary"
                 android:textAllCaps="false"
@@ -90,8 +67,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="80dp"
                 android:layout_marginRight="80dp"
-                android:layout_marginTop="10dp"
-                android:id="@+id/btnSave"/>
+                android:layout_marginTop="60dp"
+                android:id="@+id/button_save"/>
 
         </LinearLayout>
 

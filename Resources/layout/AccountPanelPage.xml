@@ -7,8 +7,7 @@
     android:minWidth="25px"
     android:minHeight="25px"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/linearLayout1">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -63,7 +62,8 @@
 
         <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp">
 
             <TableRow
                 android:layout_width="match_parent"
@@ -76,16 +76,6 @@
                     android:text="@string/account_information"
                     android:textColor="@android:color/black"
                     android:textSize="16pt"/>
-                <TextView
-                    android:minWidth="30px"
-                    android:minHeight="30px"
-                    xmlns="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/textView1" />
-                <TextView
-                    android:minWidth="30px"
-                    android:minHeight="30px"
-                    xmlns="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/textView2" />
 
             </TableRow>
 
@@ -113,13 +103,6 @@
                     android:textSize="8pt"
                     android:id="@+id/txtview_email"/>
 
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/icon_pencil"
-                    android:contentDescription="change" 
-                    android:id="@+id/btn_pencil_email"/>
-
             </TableRow>
 
             <TableRow
@@ -144,13 +127,6 @@
                     android:textColor="@android:color/black"
                     android:textSize="8pt"
                     android:id="@+id/txtview_password"/>
-
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/icon_pencil"
-                    android:contentDescription="change" 
-                    android:id="@+id/btn_pencil_password"/>
 
             </TableRow>
 
@@ -177,13 +153,6 @@
                     android:textSize="8pt"
                     android:id="@+id/txtview_firstname"/>
 
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/icon_pencil"
-                    android:contentDescription="change" 
-                    android:id="@+id/btn_pencil_firstname"/>
-
             </TableRow>
 
             <TableRow
@@ -208,13 +177,6 @@
                     android:textColor="@android:color/black"
                     android:textSize="8pt"
                     android:id="@+id/txtview_lastname"/>
-
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/icon_pencil"
-                    android:contentDescription="change" 
-                    android:id="@+id/btn_pencil_lastname"/>
 
             </TableRow>
 
@@ -241,13 +203,6 @@
                     android:textSize="8pt"
                     android:id="@+id/txtview_date_of_birth"/>
 
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/icon_pencil"
-                    android:contentDescription="change" 
-                    android:id="@+id/btn_pencil_date_of_birth"/>
-
             </TableRow>
 
             <TableRow
@@ -272,13 +227,6 @@
                     android:textColor="@android:color/black"
                     android:textSize="8pt"
                     android:id="@+id/txtview_height"/>
-
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/icon_pencil"
-                    android:contentDescription="change" 
-                    android:id="@+id/btn_pencil_height"/>
 
             </TableRow>
 
@@ -305,13 +253,6 @@
                     android:textSize="8pt"
                     android:id="@+id/txtview_weight"/>
 
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/icon_pencil"
-                    android:contentDescription="change" 
-                    android:id="@+id/btn_pencil_weight"/>
-
             </TableRow>
 
             <TableRow
@@ -327,16 +268,6 @@
                     android:layout_marginTop="10dp"
                     android:backgroundTint="#bf1515"
                     android:id="@+id/button_delete_account"/>
-                <TextView
-                    android:minWidth="30px"
-                    android:minHeight="30px"
-                    xmlns="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/textView3" />
-                <TextView
-                    android:minWidth="30px"
-                    android:minHeight="30px"
-                    xmlns="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/textView4" />
 
             </TableRow>
 

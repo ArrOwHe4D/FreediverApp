@@ -48,5 +48,6 @@
   <string name="language">Sprache</string>
   <string name="design">Farbthema</string>
   <string name="dive_progression">Tauchverlauf</string>
+  <string name="save">Speichern</string>
 
 </resources>

@@ -45,6 +45,7 @@
     <string name="location">Location</string>
     <string name="weather_condition">Weather Condition</string>
     <string name="total_dive_time">Total Dive Time</string>
+    <string name="bluetooth">Bluetooth</string>
     <string name="connected_devices">Connected Devices</string>
     <string name="bluetooth_devices">Bluetooth Devices</string>
     <string name="account">Account</string>
@@ -53,9 +54,6 @@
     <string name="language">Language</string>
     <string name="design">Design</string>
     <string name="dive_progression">Dive Progression</string>
-    <string-array name="languages_array">
-      <item>English</item>
-      <item>German</item>
-    </string-array>
+    <string name="save">Save</string>
     
 </resources>
