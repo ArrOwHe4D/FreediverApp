@@ -17,7 +17,9 @@ using Plugin.BLE.Abstractions.Contracts;
 using IAdapter = Plugin.BLE.Abstractions.Contracts.IAdapter;
 using System.Collections.ObjectModel;
 using Plugin.BLE;
+using Plugin.BLE.Abstractions;
 using Plugin.BLE.Abstractions.EventArgs;
+using System.Threading.Tasks;
 
 namespace FreediverApp
 {
@@ -90,7 +92,7 @@ namespace FreediverApp
 
         private void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            var device = (Plugin.BLE.Abstractions.DeviceBase)bleDeviceList[e.Position]; 
+            var device = (DeviceBase)bleDeviceList[e.Position]; 
             runBluetoothConnectionDialog(device); 
         }
 
@@ -206,7 +208,7 @@ namespace FreediverApp
             bluetoothActivationDialog.Show();
         }
 
-        private void runBluetoothConnectionDialog(Plugin.BLE.Abstractions.DeviceBase clickedDevice)
+        private void runBluetoothConnectionDialog(DeviceBase clickedDevice)
         {
             LayoutInflater layoutInflater = LayoutInflater.From(this.Context);
             View dialogView = layoutInflater.Inflate(Resource.Layout.BluetoothConnectionDialog, null);
@@ -244,6 +246,11 @@ namespace FreediverApp
 
             SupportV7.AlertDialog dialog = dialogBuilder.Create();
             dialog.Show();
+        }
+
+        private async Task sendDataAsync(DeviceBase conDevice)
+        {
+            var services = await conDevice.GetServicesAsync();
         }
     }
 }
