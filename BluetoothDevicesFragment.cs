@@ -230,6 +230,7 @@ namespace FreediverApp
                     try
                     {
                         await bleAdapter.ConnectToDeviceAsync(clickedDevice);
+                        refreshGui();
                     }
                     catch 
                     {
