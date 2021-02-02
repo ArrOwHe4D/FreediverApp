@@ -253,8 +253,11 @@ namespace FreediverApp
         private async Task sendDataAsync(DeviceBase conDevice)
         {
             var service = await conDevice.GetServiceAsync(Guid.Parse("19B10000-E8F3-537E-4F6C-D194768A2214"));
-            var characteristic = await service.GetCharacteristicAsync(Guid.Parse("19b10001-e8f2-537e-4f7c-d104768a1214"));
-            var bytes = characteristic.ReadAsync();
+            var characteristic = await service.GetCharacteristicAsync(Guid.Parse("19B10001-E8F2-537E-4F7C-D104768A1214"));
+            var descriptors = await characteristic.GetDescriptorsAsync();
+            var bytes = await characteristic.ReadAsync(); //await descriptors[0].ReadAsync();
+            Console.WriteLine(System.Text.Encoding.Default.GetString(bytes));
+
         }
     }
 }
