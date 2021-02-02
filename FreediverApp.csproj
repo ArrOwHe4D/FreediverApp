@@ -76,6 +76,7 @@
     <Compile Include="AddSessionActivity.cs" />
     <Compile Include="BluetoothCommunication\BluetoothConnection.cs" />
     <Compile Include="BluetoothCommunication\ConnectedThread.cs" />
+    <Compile Include="BluetoothCommunication\DiveDataConverter.cs" />
     <Compile Include="BluetoothDeviceViewHolder.cs" />
     <Compile Include="CustomListViewAdapter.cs" />
     <Compile Include="DatabaseConnector\Encryptor.cs" />
@@ -134,6 +135,9 @@
   <ItemGroup>
     <PackageReference Include="Microcharts">
       <Version>0.9.5.9</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
     </PackageReference>
     <PackageReference Include="Plugin.BLE">
       <Version>2.1.1</Version>

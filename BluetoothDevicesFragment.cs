@@ -223,7 +223,7 @@ namespace FreediverApp
 
             textViewDeviceName.Text = clickedDevice.Name;
             textViewMacAddress.Text = clickedDevice.Id.ToString();
-            textViewConState.Text = clickedDevice.State == Plugin.BLE.Abstractions.DeviceState.Connected ? "Connected" : "Disconnected";
+            textViewConState.Text = clickedDevice.State == DeviceState.Connected ? "Connected" : "Disconnected";
 
             var editValueField = dialogView.FindViewById<EditText>(Resource.Id.userInput);
             dialogBuilder.SetCancelable(false)
@@ -252,8 +252,8 @@ namespace FreediverApp
 
         private async Task sendDataAsync(DeviceBase conDevice)
         {
-            var service = await conDevice.GetServiceAsync(Guid.Parse("19B10000-E8F3-537E-4F6C-D194768A2214"));
-            var characteristic = await service.GetCharacteristicAsync(Guid.Parse("19b10001-e8f2-537e-4f7c-d104768a1214"));
+            var service = await conDevice.GetServiceAsync(Guid.Parse(BluetoothServiceData.DIVE_SERVICE_ID));
+            var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.DIVE_CHARACTERISTIC_ID));
             var bytes = characteristic.ReadAsync();
         }
     }
