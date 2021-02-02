@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Org.Json;
 
 namespace FreediverApp.BluetoothCommunication
 {
