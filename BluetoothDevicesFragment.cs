@@ -233,7 +233,7 @@ namespace FreediverApp
                     {
                         await bleAdapter.ConnectToDeviceAsync(clickedDevice);
                         refreshGui();
-                        await sendDataAsync(clickedDevice);
+                        await receiveDataAsync(clickedDevice);
                     }
                     catch 
                     {
@@ -250,7 +250,7 @@ namespace FreediverApp
             dialog.Show();
         }
 
-        private async Task sendDataAsync(DeviceBase conDevice)
+        private async Task receiveDataAsync(DeviceBase conDevice)
         {
             var service = await conDevice.GetServiceAsync(Guid.Parse(BluetoothServiceData.DIVE_SERVICE_ID));
             var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.DIVE_CHARACTERISTIC_ID));
@@ -262,6 +262,7 @@ namespace FreediverApp
             var DataConverter = new DiveDataConverter(result);
 
             var resultObject = DataConverter.toJsonObject();
+            Console.WriteLine("Hierhin springen");
         }
     }
 }
