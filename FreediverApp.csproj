@@ -75,6 +75,7 @@
     <Compile Include="AccountPanelFragment.cs" />
     <Compile Include="AddSessionActivity.cs" />
     <Compile Include="BluetoothCommunication\BluetoothConnection.cs" />
+    <Compile Include="BluetoothCommunication\BluetoothServiceData.cs" />
     <Compile Include="BluetoothCommunication\ConnectedThread.cs" />
     <Compile Include="BluetoothCommunication\DiveDataConverter.cs" />
     <Compile Include="BluetoothDeviceViewHolder.cs" />

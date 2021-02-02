@@ -1,7 +1,9 @@
 ﻿using Firebase.Database;
+using Java.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DBConnector = FreediverApp.DatabaseConnector.DatabaseConnector;
 
 //DataListener that handles the retrieval of data from db and returns the data to the activity/fragment by invoking a event
 namespace FreediverApp.DatabaseConnector
@@ -134,6 +136,94 @@ namespace FreediverApp.DatabaseConnector
                     break;
                 }
                 default: { break; }
+            }
+        }
+
+        public void saveEntity(string tablename, object objectToSave) 
+        {
+            HashMap saveData = new HashMap();
+            DatabaseReference tableRef = DBConnector.GetDatabase().GetReference(tablename).Push();
+            
+            switch (tablename) 
+            {
+                case "users":
+                {
+                    var obj = (User)objectToSave;
+                    saveData.Put("email", obj.email);
+                    saveData.Put("username", obj.username);
+                    saveData.Put("password", Encryptor.Encrypt(obj.password));
+                    saveData.Put("firstname", obj.firstname);
+                    saveData.Put("lastname", obj.lastname);
+                    saveData.Put("birthday", obj.dateOfBirth);
+                    saveData.Put("weight", obj.weight);
+                    saveData.Put("height", obj.height);
+                    saveData.Put("registerdate", DateTime.Now.Date.ToString("dd.MM.yyyy"));
+
+                    tableRef.SetValue(saveData);
+                    break;
+                }
+                case "dives": 
+                {
+                    var obj = (Dive)objectToSave;
+                    saveData.Put("duration", obj.GetTotalTime());
+                    saveData.Put("heart_freq_max", obj.HeartFreqMax);
+                    saveData.Put("heart_freq_min", obj.HeartFreqMin);
+                    saveData.Put("luminance_max", obj.LuminanceMax);
+                    saveData.Put("luminance_min", obj.LuminanceMin);
+                    saveData.Put("max_depth", obj.maxDepth);
+                    saveData.Put("oxygen_saturation_max", obj.OxygenSaturationMax);
+                    saveData.Put("oxygen_saturation_min", obj.OxygenSaturationMin);
+                    saveData.Put("ref_divesession", obj.refDivesession);
+                    saveData.Put("timestamp_begin", obj.timestampBegin);
+                    saveData.Put("timestamp_end", obj.timestampEnd);
+                    saveData.Put("water_temp_max", obj.WaterTemperatureMax);
+                    saveData.Put("water_temp_min", obj.WaterTemperatureMin);
+                    saveData.Put("id", obj.Id);
+
+                    tableRef.SetValue(saveData);
+                    break;
+                }
+                case "divesessions":
+                {
+                    var obj = (DiveSession)objectToSave;
+                    saveData.Put("date", obj.date);
+                    saveData.Put("location", obj.location);
+                    saveData.Put("ref_user", obj.refUser);
+                    saveData.Put("watertime", obj.watertime);
+                    saveData.Put("weather_condition", obj.weatherCondition);
+                    saveData.Put("weather_temp", obj.weatherTemperature);
+                    saveData.Put("weather_wind_speed", obj.weatherWindSpeed);
+                    saveData.Put("id", obj.Id);
+
+                    tableRef.SetValue(saveData);
+                    break;
+                }
+                case "measurepoints": 
+                {
+                    var obj = (Measurepoint)objectToSave;
+                    saveData.Put("accelerator_x", obj.accelerator_x);
+                    saveData.Put("accelerator_y", obj.accelerator_y);
+                    saveData.Put("accelerator_z", obj.accelerator_z);
+                    saveData.Put("depth", obj.depth);
+                    saveData.Put("duration", obj.duration);
+                    saveData.Put("gyroscope_x", obj.gyroscope_x);
+                    saveData.Put("gyroscope_y", obj.gyroscope_y);
+                    saveData.Put("gyroscope_z", obj.gyroscope_z);
+                    saveData.Put("heart_freq", obj.heartFreq);
+                    saveData.Put("heart_var", obj.heartVar);
+                    saveData.Put("luminance", obj.luminance);
+                    saveData.Put("oxygen_saturation", obj.oxygenSaturation);
+                    saveData.Put("ref_dive", obj.refDive);
+                    saveData.Put("water_temp", obj.waterTemperature);
+
+                    tableRef.SetValue(saveData);
+                    break;
+                }
+                default: 
+                {
+                    Console.WriteLine($"The table {tablename} does not exist!");
+                    break;
+                }
             }
         }
 

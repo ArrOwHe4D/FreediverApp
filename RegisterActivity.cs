@@ -111,16 +111,7 @@ namespace FreediverApp
                 {
                     if (!userNameExists && !emailExists)
                     {
-                        HashMap userData = new HashMap();
-                        userData.Put("email", email);
-                        userData.Put("username", username);
-                        userData.Put("password", Encryptor.Encrypt(password));
-                        userData.Put("firstname", firstname);
-                        userData.Put("lastname", lastname);
-                        userData.Put("birthday", dateofbirth);
-                        userData.Put("weight", weight);
-                        userData.Put("height", height);
-                        userData.Put("registerdate", DateTime.Now.Date.ToString("dd.MM.yyyy"));
+                        User saveUser = new User("", username, email, password, firstname, lastname, dateofbirth, weight, height);
 
                         SupportV7.AlertDialog.Builder saveDataDialog = new SupportV7.AlertDialog.Builder(this);
                         saveDataDialog.SetTitle("Save User Information");
@@ -128,8 +119,7 @@ namespace FreediverApp
 
                         saveDataDialog.SetPositiveButton("Accept", (senderAlert, args) =>
                         {
-                            DatabaseReference newUserRef = DBConnector.GetDatabase().GetReference("users").Push();
-                            newUserRef.SetValue(userData);
+                            userDataListener.saveEntity("users", saveUser);
                             var loginActivity = new Intent(this, typeof(LoginActivity));
                             StartActivity(loginActivity);
                         });

@@ -252,11 +252,16 @@ namespace FreediverApp
 
         private async Task sendDataAsync(DeviceBase conDevice)
         {
-            var service = await conDevice.GetServiceAsync(Guid.Parse("19B10000-E8F3-537E-4F6C-D194768A2214"));
-            var characteristic = await service.GetCharacteristicAsync(Guid.Parse("19B10001-E8F2-537E-4F7C-D104768A1214"));
-            var descriptors = await characteristic.GetDescriptorsAsync();
-            var bytes = await characteristic.ReadAsync(); //await descriptors[0].ReadAsync();
+            var service = await conDevice.GetServiceAsync(Guid.Parse(BluetoothServiceData.DIVE_SERVICE_ID));
+            var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.DIVE_CHARACTERISTIC_ID));
+            var bytes = await characteristic.ReadAsync();
             Console.WriteLine(System.Text.Encoding.Default.GetString(bytes));
+
+            string result = System.Text.Encoding.Default.GetString(bytes);
+
+            var DataConverter = new DiveDataConverter(result);
+
+            var resultObject = DataConverter.toJsonObject();
         }
     }
 }
