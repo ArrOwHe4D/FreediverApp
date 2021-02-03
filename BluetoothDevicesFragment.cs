@@ -255,8 +255,8 @@ namespace FreediverApp
             var service = await conDevice.GetServiceAsync(Guid.Parse(BluetoothServiceData.DIVE_SERVICE_ID));
             var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.DIVE_CHARACTERISTIC_ID));
             var bytes = await characteristic.ReadAsync();
-            string result = System.Text.Encoding.Default.GetString(bytes).Split('}', StringSplitOptions.RemoveEmptyEntries)[0] + "}";
-
+            string result = System.Text.Encoding.Default.GetString(bytes);
+            result = result.Substring(0, result.IndexOf('}') + 1);
             Console.WriteLine(result);
 
             var DataConverter = new DiveDataConverter(result);
