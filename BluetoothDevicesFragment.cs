@@ -20,6 +20,7 @@ using Plugin.BLE;
 using Plugin.BLE.Abstractions;
 using Plugin.BLE.Abstractions.EventArgs;
 using System.Threading.Tasks;
+using FreediverApp.DatabaseConnector;
 
 namespace FreediverApp
 {
@@ -33,6 +34,7 @@ namespace FreediverApp
         private IBluetoothLE ble;
         private IAdapter bleAdapter;
         private ObservableCollection<IDevice> bleDeviceList;
+        private FirebaseDataListener measurepointsListener;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -233,7 +235,8 @@ namespace FreediverApp
                     {
                         await bleAdapter.ConnectToDeviceAsync(clickedDevice);
                         refreshGui();
-                        await receiveDataAsync(clickedDevice);
+                        object JSOnObject = await receiveDataAsync(clickedDevice);
+                        saveInDatabase(JSOnObject);
                     }
                     catch 
                     {
@@ -250,7 +253,7 @@ namespace FreediverApp
             dialog.Show();
         }
 
-        private async Task receiveDataAsync(DeviceBase conDevice)
+        private async Task<Object> receiveDataAsync(DeviceBase conDevice)
         {
             var service = await conDevice.GetServiceAsync(Guid.Parse(BluetoothServiceData.DIVE_SERVICE_ID));
             var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.DIVE_CHARACTERISTIC_ID));
@@ -261,8 +264,13 @@ namespace FreediverApp
 
             var DataConverter = new DiveDataConverter(result);
 
-            var resultObject = DataConverter.toJsonObject();
-            Console.WriteLine("Hierhin springen");
+           return DataConverter.toJsonObject();
+        }
+
+        private void saveInDatabase(object JSONObject)
+        {
+            measurepointsListener = new FirebaseDataListener();
+            measurepointsListener.saveEntity("measurepoints", JSONObject);
         }
     }
 }
