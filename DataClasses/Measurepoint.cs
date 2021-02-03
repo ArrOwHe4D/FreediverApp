@@ -27,5 +27,9 @@
 
         }
 
+        public Measurepoint(object jsonOject)
+        {
+            int x = 5;
+        }
     }
 }
