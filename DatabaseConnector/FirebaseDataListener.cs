@@ -29,13 +29,13 @@ namespace FreediverApp.DatabaseConnector
 
         public void QueryFullTable(string tablename) 
         {
-            DatabaseReference tableRef = DatabaseConnector.GetDatabase().GetReference(tablename);
+            DatabaseReference tableRef = DBConnector.GetDatabase().GetReference(tablename);
             tableRef.AddValueEventListener(this);
         }
 
         public void QueryParameterized(string tablename, string field, string value) 
         {
-            DatabaseReference tableRef = DatabaseConnector.GetDatabase().GetReference(tablename);
+            DatabaseReference tableRef = DBConnector.GetDatabase().GetReference(tablename);
             tableRef.OrderByChild(field).EqualTo(value).AddValueEventListener(this);
         }
 
@@ -229,13 +229,13 @@ namespace FreediverApp.DatabaseConnector
 
         public void deleteEntity(string tablename, string id) 
         {
-            DatabaseReference entityRef = DatabaseConnector.GetDatabase().GetReference(tablename + "/" + id);
+            DatabaseReference entityRef = DBConnector.GetDatabase().GetReference(tablename + "/" + id);
             entityRef.RemoveValue();
         }
 
         public void deleteTable(string tablename) 
         {
-            DatabaseReference tableRef = DatabaseConnector.GetDatabase().GetReference(tablename);
+            DatabaseReference tableRef = DBConnector.GetDatabase().GetReference(tablename);
             tableRef.RemoveValue();
         }
 
