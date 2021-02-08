@@ -236,14 +236,14 @@ namespace FreediverApp
                         await bleAdapter.ConnectToDeviceAsync(clickedDevice);
                         refreshGui();
                         object jsonObject = await receiveDataAsync(clickedDevice);
-                        Measurepoint mp = new Measurepoint(jsonObject);
-                        saveInDatabase(mp);
+                        saveInDatabase(jsonObject);
                         
                         Console.WriteLine("success :)");
                     }
                     catch 
                     {
                         Toast.MakeText(Context, "Connection to Device failed!", ToastLength.Long).Show();
+                        await bleAdapter.DisconnectDeviceAsync(clickedDevice);
                     }
                     dialogBuilder.Dispose();
                 })
@@ -260,17 +260,15 @@ namespace FreediverApp
         {
             var service = await conDevice.GetServiceAsync(Guid.Parse(BluetoothServiceData.DIVE_SERVICE_ID));
             var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.DIVE_CHARACTERISTIC_ID));
-            var watch = System.Diagnostics.Stopwatch.StartNew();
             var bytes = await characteristic.ReadAsync();
-            watch.Stop();
-            Console.WriteLine("time for byte transmission: " + watch.ElapsedMilliseconds);
+            
             string result = System.Text.Encoding.Default.GetString(bytes);
             result = result.Substring(0, result.IndexOf('}') + 1);
             Console.WriteLine(result);
 
             var DataConverter = new DiveDataConverter(result);
-
-           return DataConverter.toJsonObject();
+            Measurepoint jsonResult = DataConverter.toJsonObject();
+            return jsonResult;
         }
 
         private void saveInDatabase(object JSONObject)

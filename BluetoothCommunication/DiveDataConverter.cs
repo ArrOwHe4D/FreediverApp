@@ -18,9 +18,9 @@ namespace FreediverApp.BluetoothCommunication
             this.jsonObject = toJsonObject();
         }
 
-        public object toJsonObject() 
+        public Measurepoint toJsonObject() 
         {
-            return JsonConvert.DeserializeObject(receivedData);
+            return JsonConvert.DeserializeObject<Measurepoint>(receivedData);
         }
 
         public string toJsonString() 

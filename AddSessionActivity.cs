@@ -127,17 +127,17 @@ namespace FreediverApp
                         accelerator_x = "kp",
                         accelerator_y = "kp",
                         accelerator_z = "kp",
-                        heartFreq = hf.ToString(),
-                        heartVar = hv.ToString(),
+                        heart_freq = hf.ToString(),
+                        heart_var = hv.ToString(),
                         depth = dep.ToString(),
 						duration = dur.ToString(),
-                        refDive = d.Id,
+                        ref_dive = d.Id,
                         gyroscope_x = "kp",
                         gyroscope_y = "kp",
                         gyroscope_z = "kp",
                         luminance = lumi.ToString(),
-                        oxygenSaturation = oxySat.ToString(),
-                        waterTemperature = watTemp.ToString()                        
+                        oxygen_saturation = oxySat.ToString(),
+                        water_temp = watTemp.ToString()                        
                     };
                     d.measurepoints.Add(m);
                 }
@@ -211,12 +211,12 @@ namespace FreediverApp
             measurepointData.Put("gyroscope_x", m.gyroscope_x);
             measurepointData.Put("gyroscope_y", m.gyroscope_y);
             measurepointData.Put("gyroscope_z", m.gyroscope_z);
-            measurepointData.Put("heart_freq", m.heartFreq);
-            measurepointData.Put("heart_var", m.heartVar);
+            measurepointData.Put("heart_freq", m.heart_freq);
+            measurepointData.Put("heart_var", m.heart_var);
             measurepointData.Put("luminance", m.luminance);
-            measurepointData.Put("oxygen_saturation", m.oxygenSaturation);
-            measurepointData.Put("ref_dive", m.refDive);
-            measurepointData.Put("water_temp", m.waterTemperature);
+            measurepointData.Put("oxygen_saturation", m.oxygen_saturation);
+            measurepointData.Put("ref_dive", m.ref_dive);
+            measurepointData.Put("water_temp", m.water_temp);
 
 
             DatabaseReference newMeasurepointsRef = DBConnector.GetDatabase().GetReference("measurepoints").Push();

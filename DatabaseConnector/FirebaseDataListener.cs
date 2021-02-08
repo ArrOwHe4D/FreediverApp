@@ -125,12 +125,12 @@ namespace FreediverApp.DatabaseConnector
                         measurepoint.gyroscope_x = dataRecord.Child("gyroscope_x").Value.ToString();
                         measurepoint.gyroscope_y = dataRecord.Child("gyroscope_y").Value.ToString();
                         measurepoint.gyroscope_z = dataRecord.Child("gyroscope_z").Value.ToString();
-                        measurepoint.heartFreq = dataRecord.Child("heart_freq").Value.ToString();
-                        measurepoint.heartVar = dataRecord.Child("heart_var").Value.ToString();
+                        measurepoint.heart_freq = dataRecord.Child("heart_freq").Value.ToString();
+                        measurepoint.heart_var = dataRecord.Child("heart_var").Value.ToString();
 						measurepoint.luminance = dataRecord.Child("luminance").Value.ToString();
-                        measurepoint.oxygenSaturation = dataRecord.Child("oxygen_saturation").Value.ToString();
-                        measurepoint.refDive = dataRecord.Child("ref_dive").Value.ToString();
-                        measurepoint.waterTemperature = dataRecord.Child("water_temp").Value.ToString();
+                        measurepoint.oxygen_saturation = dataRecord.Child("oxygen_saturation").Value.ToString();
+                        measurepoint.ref_dive = dataRecord.Child("ref_dive").Value.ToString();
+                        measurepoint.water_temp = dataRecord.Child("water_temp").Value.ToString();
                         measurePointList.Add(measurepoint);
                     }
                     break;
@@ -209,12 +209,12 @@ namespace FreediverApp.DatabaseConnector
                     saveData.Put("gyroscope_x", obj.gyroscope_x);
                     saveData.Put("gyroscope_y", obj.gyroscope_y);
                     saveData.Put("gyroscope_z", obj.gyroscope_z);
-                    saveData.Put("heart_freq", obj.heartFreq);
-                    saveData.Put("heart_var", obj.heartVar);
+                    saveData.Put("heart_freq", obj.heart_freq);
+                    saveData.Put("heart_var", obj.heart_var);
                     saveData.Put("luminance", obj.luminance);
-                    saveData.Put("oxygen_saturation", obj.oxygenSaturation);
-                    saveData.Put("ref_dive", obj.refDive);
-                    saveData.Put("water_temp", obj.waterTemperature);
+                    saveData.Put("oxygen_saturation", obj.oxygen_saturation);
+                    saveData.Put("ref_dive", obj.ref_dive);
+                    saveData.Put("water_temp", obj.water_temp);
 
                     tableRef.SetValue(saveData);
                     break;
