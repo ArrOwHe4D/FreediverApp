@@ -235,6 +235,8 @@ namespace FreediverApp
                     {
                         await bleAdapter.ConnectToDeviceAsync(clickedDevice);
                         refreshGui();
+
+
                         object jsonObject = await receiveDataAsync(clickedDevice);
                         saveInDatabase(jsonObject);
                         

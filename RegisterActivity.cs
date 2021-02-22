@@ -44,14 +44,12 @@ namespace FreediverApp
             texteditWeight = FindViewById<EditText>(Resource.Id.textedit_weight);
             texteditHeight = FindViewById<EditText>(Resource.Id.textedit_height);
 
-            button_register = FindViewById<Button>(Resource.Id.button_register);
-            button_register.Click += createAccount;
-
             userList = new List<User>();
-            setupDataListener();
+            button_register = FindViewById<Button>(Resource.Id.button_register);
+            button_register.Click += setupDataListener;
         }
 
-        private void setupDataListener() 
+        private void setupDataListener(object sender, EventArgs e) 
         {
             userDataListener = new FirebaseDataListener();
             userDataListener.QueryParameterized("users", "email", texteditEmail.Text);
@@ -60,12 +58,12 @@ namespace FreediverApp
 
         private void UserDataListener_UserDataRetrieved(object sender, FirebaseDataListener.DataEventArgs e)
         {
-            userList = e.Users;   
+            userList = e.Users;
+            createAccount();
         }
 
-        private void createAccount(object sender, EventArgs eventArgs) 
+        private void createAccount() 
         {
-            setupDataListener();
             string email = texteditEmail.Text;
             string username = texteditUsername.Text;
             string password = texteditPassword.Text;
