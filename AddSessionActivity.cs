@@ -114,6 +114,7 @@ namespace FreediverApp
                         if (dep > 0)
                         {
                             dep -= (float)rand.NextDouble();
+                            if (dep < 0) { dep = 0; }
                             watTemp -= (float)rand.Next(0, 3) / 10;
                             if (lumi < 70)
                             {
