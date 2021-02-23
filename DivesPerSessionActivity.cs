@@ -36,8 +36,8 @@ namespace FreediverApp
             {
                 if (item.duration != null)
                 {
-                    dives.Add("Tauchgang " + count + " | " + Convert.ToDouble(item.duration) + "sec. | " + item.maxDepth + "m");
                     count++;
+                    dives.Add("Tauchgang " + count + " | " + Convert.ToDouble(item.duration) + "sec. | " + item.maxDepth + "m");
                 }
             }
             ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, dives);
@@ -50,6 +50,11 @@ namespace FreediverApp
             {
                 User.curUser.curDive = User.curUser.curDiveSession.dives[e.Position];
                 var addDiveDetailViewActivity = new Intent(this, typeof(DiveDetailViewActivity));
+
+                int index = e.Position;
+                index++;
+
+                addDiveDetailViewActivity.PutExtra("index", index.ToString());
                 StartActivity(addDiveDetailViewActivity);
             }
             catch (Exception)

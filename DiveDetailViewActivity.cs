@@ -13,12 +13,13 @@ namespace FreediverApp
     [Activity(Label = "DiveDetailViewActivity", ScreenOrientation = ScreenOrientation.Portrait)]
     public class DiveDetailViewActivity : Activity
     {
-        TextView tvwDepth;
-        TextView tvwDuration;
-        TextView tvwMaxHF;
-        TextView tvwMinHF;
-        TextView tvwMaxOxy;
-        TextView tvwMinOxy;
+        TextView textViewDiveSessionTitle;
+        TextView textViewDepth;
+        TextView textViewDuration;
+        TextView textViewMaxHF;
+        TextView textViewMinHF;
+        TextView textViewMaxOxy;
+        TextView textViewMinOxy;
         private ChartView chartView;
         private FirebaseDataListener measurepointDataListener;
         private List<Measurepoint> measurepointList;
@@ -30,24 +31,26 @@ namespace FreediverApp
             // Create your application here
             SetContentView(Resource.Layout.DiveDetailViewPage);
             RetrieveMeasurepointData(User.curUser.curDive);
-            tvwDepth = FindViewById<TextView>(Resource.Id.tvwDdvDepthV);
-            tvwDuration = FindViewById<TextView>(Resource.Id.tvwDdvDurationV);
-            tvwMaxHF = FindViewById<TextView>(Resource.Id.tvwDdvMaxHeartFV);
-            tvwMinHF = FindViewById<TextView>(Resource.Id.tvwDdvMinHeartFV);
-            tvwMaxOxy = FindViewById<TextView>(Resource.Id.tvwDdvMaxOxyV);
-            tvwMinOxy = FindViewById<TextView>(Resource.Id.tvwDdvMinOxyV);            
+            textViewDiveSessionTitle = FindViewById<TextView>(Resource.Id.diveDetailViewSessionName);
+            textViewDepth = FindViewById<TextView>(Resource.Id.tvwDdvDepthV);
+            textViewDuration = FindViewById<TextView>(Resource.Id.tvwDdvDurationV);
+            textViewMaxHF = FindViewById<TextView>(Resource.Id.tvwDdvMaxHeartFV);
+            textViewMinHF = FindViewById<TextView>(Resource.Id.tvwDdvMinHeartFV);
+            textViewMaxOxy = FindViewById<TextView>(Resource.Id.tvwDdvMaxOxyV);
+            textViewMinOxy = FindViewById<TextView>(Resource.Id.tvwDdvMinOxyV);            
             chartView = FindViewById<ChartView>(Resource.Id.cvwDdvDiveDia);
             fillTextView();            
         }
 
         private void fillTextView()
         {
-            tvwDepth.Text = User.curUser.curDive.maxDepth;
-            tvwDuration.Text = User.curUser.curDive.duration;
-            tvwMaxHF.Text = User.curUser.curDive.HeartFreqMax;
-            tvwMinHF.Text = User.curUser.curDive.HeartFreqMin;
-            tvwMaxOxy.Text = User.curUser.curDive.OxygenSaturationMax;
-            tvwMinOxy.Text = User.curUser.curDive.OxygenSaturationMin;
+            textViewDiveSessionTitle.Text = "Tauchgang #" + Intent.GetStringExtra("index");
+            textViewDepth.Text = User.curUser.curDive.maxDepth;
+            textViewDuration.Text = User.curUser.curDive.duration;
+            textViewMaxHF.Text = User.curUser.curDive.HeartFreqMax;
+            textViewMinHF.Text = User.curUser.curDive.HeartFreqMin;
+            textViewMaxOxy.Text = User.curUser.curDive.OxygenSaturationMax;
+            textViewMinOxy.Text = User.curUser.curDive.OxygenSaturationMin;
         }
 
         private void RetrieveMeasurepointData(Dive d)
