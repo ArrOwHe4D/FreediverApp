@@ -73,8 +73,9 @@ namespace FreediverApp
         {
             List<ChartEntry> dataList = new List<ChartEntry>();
 
+            int hop = measurepointList.Count / 10;
 
-            for (int i = 0; i < measurepointList.Count - 6; i += 6)
+            for (int i = 0; i < measurepointList.Count; i += hop)
             {
                 SKColor color;
 
