@@ -9,6 +9,7 @@ using FreediverApp.DatabaseConnector;
 using DBConnector = FreediverApp.DatabaseConnector.DatabaseConnector;
 using Android.Content;
 using System.Collections.Generic;
+using System.Net.Mail;
 using Android.Content.PM;
 
 namespace FreediverApp
@@ -82,6 +83,12 @@ namespace FreediverApp
             }
             else
             {
+                if (!isValidEmail(email))
+                {
+                    Toast.MakeText(this, "This email is not valid, please choose another one!", ToastLength.Long).Show();
+                    return;
+                }
+
                 bool userNameExists = false;
                 bool emailExists = false;
 
@@ -152,6 +159,19 @@ namespace FreediverApp
             string.IsNullOrEmpty(texteditDateOfBirth.Text.Trim())  ||
             string.IsNullOrEmpty(texteditWeight.Text.Trim())       ||
             string.IsNullOrEmpty(texteditHeight.Text.Trim());
+        }
+
+        private bool isValidEmail(string email)
+        {
+            try
+            {
+                var emailAdress = new System.Net.Mail.MailAddress(email);
+                return emailAdress.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

@@ -236,10 +236,8 @@ namespace FreediverApp
                         await bleAdapter.ConnectToDeviceAsync(clickedDevice);
                         refreshGui();
 
-
                         object jsonObject = await receiveDataAsync(clickedDevice);
-                        saveInDatabase(jsonObject);
-                        
+                        saveInDatabase(jsonObject);                        
                         Console.WriteLine("success :)");
                     }
                     catch 
@@ -262,9 +260,16 @@ namespace FreediverApp
         {
             var service = await conDevice.GetServiceAsync(Guid.Parse(BluetoothServiceData.DIVE_SERVICE_ID));
             var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.DIVE_CHARACTERISTIC_ID));
-            var bytes = await characteristic.ReadAsync();
-            
+            var bytes = await characteristic.ReadAsync();                        
+
             string result = System.Text.Encoding.Default.GetString(bytes);
+
+            string[] jsonObjects = result.Split('}', StringSplitOptions.RemoveEmptyEntries);
+            foreach(string json in jsonObjects)
+            {
+
+            }
+
             result = result.Substring(0, result.IndexOf('}') + 1);
             Console.WriteLine(result);
 
