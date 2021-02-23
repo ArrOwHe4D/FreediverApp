@@ -93,13 +93,6 @@ namespace FreediverApp
                     return;
                 }
 
-                // Konvertierung funktioniert noch nicht!
-                if (!isValidBirthday(Convert.ToDateTime(dateofbirth)))
-                {
-                    Toast.MakeText(this, "The date of birth is not valid!", ToastLength.Long).Show();
-                    return;
-                }
-
                 bool userNameExists = false;
                 bool emailExists = false;
 
@@ -157,15 +150,6 @@ namespace FreediverApp
             {
                 return false;
             }
-        }
-
-        private bool isValidBirthday(DateTime birthday)
-        {
-            if(DateTime.Now < birthday)
-            {
-                return false;
-            }
-            return true;
         }
     }
 }
