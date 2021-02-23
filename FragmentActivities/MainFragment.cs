@@ -27,8 +27,6 @@ namespace FreediverApp.FragmentActivities
             chartView = view.FindViewById<ChartView>(Resource.Id.chartView);
             generateChart();
 
-            Toast.MakeText(this.Context, "Login successful!", ToastLength.Long).Show();
-
             return view;
         }
 
