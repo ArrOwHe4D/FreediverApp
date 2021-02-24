@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Android.App;
 using Android.OS;
 using Android.Widget;
@@ -89,6 +90,13 @@ namespace FreediverApp
                     return;
                 }
 
+                if (!isValidBirthday(dateofbirth))
+                {
+                    Toast.MakeText(this, "Birthday is not valid!", ToastLength.Long).Show();
+                    return;
+                }
+
+
                 bool userNameExists = false;
                 bool emailExists = false;
 
@@ -169,6 +177,27 @@ namespace FreediverApp
                 return emailAdress.Address == email;
             }
             catch
+            {
+                return false;
+            }
+        }
+
+        private bool isValidBirthday(string birthday)
+        {
+            try
+            {
+                birthday = birthday.Replace('.', Convert.ToChar(@"-"));
+                string pattern = "dd-MM-yyyy";
+
+                DateTime bday;
+                DateTime.TryParseExact(birthday, pattern, null, DateTimeStyles.None, out bday);
+
+                if (bday.Date <= DateTime.Now.Date)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception exp)
             {
                 return false;
             }
