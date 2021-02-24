@@ -46,7 +46,7 @@ namespace FreediverApp
             tvwSessionName.Text = User.curUser.curDiveSession.date + " " + User.curUser.curDiveSession.location;
             tvwLocation.Text = User.curUser.curDiveSession.location;
             tvwWeather.Text = User.curUser.curDiveSession.weatherCondition + " | " + User.curUser.curDiveSession.weatherTemperature;
-            tvwTimeInWater.Text = User.curUser.curDiveSession.watertime + "sec";
+            tvwTimeInWater.Text = User.curUser.curDiveSession.watertime + " sec";
             chartView = FindViewById<ChartView>(Resource.Id.chartview_divesession_detail);
 
             RetrieveDiveData();
