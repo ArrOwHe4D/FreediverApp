@@ -38,7 +38,8 @@
                 android:layout_margin="16dp"
                 android:text="Last Dive (9m deep and 00:40 Seconds long)"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewGraphTitle"/>
 
             <View
                 android:background="?android:attr/colorPrimaryDark"

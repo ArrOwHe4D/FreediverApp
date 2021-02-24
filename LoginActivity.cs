@@ -97,6 +97,7 @@ namespace FreediverApp
                     var mainMenu = new Intent(this, typeof(MainActivity));
                     mainMenu.PutExtra("LoginSucessfull", true);
                     StartActivity(mainMenu);
+                    Toast.MakeText(this, "Login successful!", ToastLength.Long).Show();
                 }
                 else 
                 {
