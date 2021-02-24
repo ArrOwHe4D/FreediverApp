@@ -51,6 +51,7 @@
   <string name="design">Farbthema</string>
   <string name="dive_progression">Tauchverlauf</string>
   <string name="save">Speichern</string>
+  <string name="welcome">Willkommen</string>
 
   <!--Toast Strings (DE)-->
   <string name="login_successful">Login erfolgreich!</string>

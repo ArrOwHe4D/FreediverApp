@@ -57,6 +57,7 @@
     <string name="design">Design</string>
     <string name="dive_progression">Dive Progression</string>
     <string name="save">Save</string>
+    <string name="welcome">Welcome</string>
 
     <!--Toast Strings (EN_US)-->
     <string name="login_successful">Login successful!</string>
