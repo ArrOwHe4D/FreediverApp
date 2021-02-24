@@ -55,7 +55,7 @@ namespace FreediverApp
             if (userdata != null) 
             {
                 titleUsername.Text = userdata[0].username;
-                titleRegisteredSince.Text = "registered since: " + userdata[0].registerdate;
+                titleRegisteredSince.Text = Context.Resources.GetString(Resource.String.registered_since) + " " + userdata[0].registerdate;
                 txtViewEmail.Text = userdata[0].email;
                 txtViewPassword.Text = "********";
                 txtViewFirstname.Text = userdata[0].firstname;
@@ -82,16 +82,17 @@ namespace FreediverApp
         private void deleteUserAccount(object sender, EventArgs e) 
         {
             SupportV7.AlertDialog.Builder deleteUserDialog = new SupportV7.AlertDialog.Builder(this.Context);
-            deleteUserDialog.SetTitle("Delete User Account");
-            deleteUserDialog.SetMessage("Are you sure?");
+            deleteUserDialog.SetTitle(Resource.String.dialog_delete_account);
+            deleteUserDialog.SetMessage(Resource.String.dialog_are_you_sure);
 
-            deleteUserDialog.SetPositiveButton("Accept", (senderAlert, args) =>
+            deleteUserDialog.SetPositiveButton(Resource.String.dialog_accept, (senderAlert, args) =>
             {
                 userDataListener.deleteEntity("users", TemporaryData.USER_ID);
-                var loginActivity = new Intent(this.Context, typeof(LoginActivity));
+                var loginActivity = new Intent(Context, typeof(LoginActivity));
                 StartActivity(loginActivity);
+                Toast.MakeText(Context, Resource.String.account_deleted, ToastLength.Long).Show();
             });
-            deleteUserDialog.SetNegativeButton("Cancel", (senderAlert, args) =>
+            deleteUserDialog.SetNegativeButton(Resource.String.dialog_cancel, (senderAlert, args) =>
             {
                 deleteUserDialog.Dispose();
             });

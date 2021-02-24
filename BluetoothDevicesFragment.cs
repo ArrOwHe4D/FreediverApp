@@ -71,7 +71,7 @@ namespace FreediverApp
 
             if (ble == null) 
             {
-                Toast.MakeText(Context, "Your device does not support Bluetooth!", ToastLength.Long).Show();
+                Toast.MakeText(Context, Resource.String.bluetooth_not_supported, ToastLength.Long).Show();
             }
             if (ble.State == BluetoothState.Off) 
             {
@@ -182,10 +182,10 @@ namespace FreediverApp
         private void runBluetoothActivationDialog() 
         {
             SupportV7.AlertDialog.Builder bluetoothActivationDialog = new SupportV7.AlertDialog.Builder(Context);
-            bluetoothActivationDialog.SetTitle("Bluetooth is not activated!");
-            bluetoothActivationDialog.SetMessage("Do you want to activate Bluetooth on your device?");
+            bluetoothActivationDialog.SetTitle(Resource.String.dialog_bluetooth_not_activated);
+            bluetoothActivationDialog.SetMessage(Resource.String.dialog_do_you_want_to_activate_blueooth);
 
-            bluetoothActivationDialog.SetPositiveButton("Accept", (senderAlert, args) =>
+            bluetoothActivationDialog.SetPositiveButton(Resource.String.dialog_accept, (senderAlert, args) =>
             {
                 btReceiver.m_adapter.Enable();
 
@@ -195,14 +195,14 @@ namespace FreediverApp
 
                 if (btReceiver.m_adapter.IsEnabled)
                 {
-                    Toast.MakeText(Context, "Bluetooth activated!", ToastLength.Long).Show();
+                    Toast.MakeText(Context, Resource.String.bluetooth_activated, ToastLength.Long).Show();
                 }
                 else
                 {
-                    Toast.MakeText(Context, "Bluetooth activation failed!", ToastLength.Long).Show();
+                    Toast.MakeText(Context, Resource.String.bluetooth_activation_failed, ToastLength.Long).Show();
                 }
             });
-            bluetoothActivationDialog.SetNegativeButton("Cancel", (senderAlert, args) =>
+            bluetoothActivationDialog.SetNegativeButton(Resource.String.dialog_cancel, (senderAlert, args) =>
             {
                 bluetoothActivationDialog.Dispose();
             });
@@ -216,7 +216,7 @@ namespace FreediverApp
             View dialogView = layoutInflater.Inflate(Resource.Layout.BluetoothConnectionDialog, null);
             SupportV7.AlertDialog.Builder dialogBuilder = new SupportV7.AlertDialog.Builder(this.Context);
             dialogBuilder.SetView(dialogView);
-            dialogBuilder.SetTitle("Connect to Device");
+            dialogBuilder.SetTitle(Resource.String.dialog_connect_to_device);
             dialogBuilder.SetIcon(Resources.GetDrawable(Resource.Drawable.icon_connected_devices));
 
             var textViewDeviceName = dialogView.FindViewById<TextView>(Resource.Id.textview_device_name);
@@ -229,7 +229,7 @@ namespace FreediverApp
 
             var editValueField = dialogView.FindViewById<EditText>(Resource.Id.userInput);
             dialogBuilder.SetCancelable(false)
-                .SetPositiveButton("Connect", async delegate
+                .SetPositiveButton(Resource.String.dialog_connect, async delegate
                 {
                     try
                     {
@@ -242,12 +242,12 @@ namespace FreediverApp
                     }
                     catch 
                     {
-                        Toast.MakeText(Context, "Connection to Device failed!", ToastLength.Long).Show();
+                        Toast.MakeText(Context, Resource.String.connection_to_device_failed, ToastLength.Long).Show();
                         await bleAdapter.DisconnectDeviceAsync(clickedDevice);
                     }
                     dialogBuilder.Dispose();
                 })
-                .SetNegativeButton("Cancel", delegate
+                .SetNegativeButton(Resource.String.dialog_cancel, delegate
                 {
                     dialogBuilder.Dispose();
                 });

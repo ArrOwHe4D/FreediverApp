@@ -79,13 +79,13 @@ namespace FreediverApp
 
             if (checkFieldsFilled())
             {
-                Toast.MakeText(this, "Please fill all the fields in order to register a new account!", ToastLength.Long).Show();
+                Toast.MakeText(this, Resource.String.register_fill_all_fields, ToastLength.Long).Show();
             }
             else
             {
                 if (!isValidEmail(email))
                 {
-                    Toast.MakeText(this, "This email is not valid, please choose another one!", ToastLength.Long).Show();
+                    Toast.MakeText(this, Resource.String.register_email_not_valid, ToastLength.Long).Show();
                     return;
                 }
 
@@ -111,12 +111,12 @@ namespace FreediverApp
 
                 if (userNameExists && !accountCreated)
                 {
-                    Toast.MakeText(this, "This username is already in use, please choose another one!", ToastLength.Long).Show();
+                    Toast.MakeText(this, Resource.String.register_username_exists, ToastLength.Long).Show();
                     return;
                 }
                 else if (emailExists && !accountCreated)
                 {
-                    Toast.MakeText(this, "This email is already in use, please choose another one!", ToastLength.Long).Show();
+                    Toast.MakeText(this, Resource.String.register_email_exists, ToastLength.Long).Show();
                     return;
                 }
                 else 
@@ -126,18 +126,18 @@ namespace FreediverApp
                         User saveUser = new User("", username, email, password, firstname, lastname, dateofbirth, weight, height);
 
                         SupportV7.AlertDialog.Builder saveDataDialog = new SupportV7.AlertDialog.Builder(this);
-                        saveDataDialog.SetTitle("Save User Information");
-                        saveDataDialog.SetMessage("Are you sure?");
+                        saveDataDialog.SetTitle(Resource.String.dialog_save_user_info);
+                        saveDataDialog.SetMessage(Resource.String.dialog_are_you_sure);
 
-                        saveDataDialog.SetPositiveButton("Accept", (senderAlert, args) =>
+                        saveDataDialog.SetPositiveButton(Resource.String.dialog_accept, (senderAlert, args) =>
                         {
                             userDataListener.saveEntity("users", saveUser);
                             var loginActivity = new Intent(this, typeof(LoginActivity));
                             StartActivity(loginActivity);
                             accountCreated = true;
-                            Toast.MakeText(this, "Your Account has been created!", ToastLength.Long).Show();
+                            Toast.MakeText(this, Resource.String.account_created, ToastLength.Long).Show();
                         });
-                        saveDataDialog.SetNegativeButton("Cancel", (senderAlert, args) =>
+                        saveDataDialog.SetNegativeButton(Resource.String.dialog_cancel, (senderAlert, args) =>
                         {
                             saveDataDialog.Dispose();
                         });

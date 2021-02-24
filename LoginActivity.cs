@@ -48,7 +48,7 @@ namespace FreediverApp
         {
             retrieveUserData();
             loginDialog = new ProgressDialog(this);
-            loginDialog.SetMessage("Logging in...");
+            loginDialog.SetMessage(ApplicationContext.Resources.GetString(Resource.String.dialog_logging_in));
             loginDialog.SetCancelable(false);
             loginDialog.Show();
         }
@@ -95,21 +95,20 @@ namespace FreediverApp
 
                     loginDialog.Dismiss();
                     var mainMenu = new Intent(this, typeof(MainActivity));
-                    mainMenu.PutExtra("LoginSucessfull", true);
                     StartActivity(mainMenu);
-                    Toast.MakeText(this, "Login successful!", ToastLength.Long).Show();
+                    Toast.MakeText(this, Resource.String.login_successful, ToastLength.Long).Show();
                 }
                 else 
                 {
 
                     loginDialog.Dismiss();
-                    Toast.MakeText(this, "You entered a wrong user id or password!", ToastLength.Long).Show();
+                    Toast.MakeText(this, Resource.String.wrong_username_or_pass, ToastLength.Long).Show();
                 }
             }
             else 
             {
                 loginDialog.Dismiss();
-                Toast.MakeText(this, "You entered a wrong user id or password!", ToastLength.Long).Show();
+                Toast.MakeText(this, Resource.String.wrong_username_or_pass, ToastLength.Long).Show();
             }
         }
     }

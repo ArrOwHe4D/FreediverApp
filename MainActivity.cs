@@ -11,6 +11,7 @@ using Android.Views;
 using FreediverApp.FragmentActivities;
 using FragmentTransaction = Android.App.FragmentTransaction;
 using ActionBarDrawerToggle = Android.Support.V7.App.ActionBarDrawerToggle;
+using Android.Widget;
 
 namespace FreediverApp
 {
@@ -100,6 +101,7 @@ namespace FreediverApp
             {
                 var loginActivity = new Intent(this, typeof(LoginActivity));
                 StartActivity(loginActivity);
+                Toast.MakeText(this, Resource.String.logout_successful, ToastLength.Long).Show();
             }
 
             DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
