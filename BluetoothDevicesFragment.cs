@@ -35,6 +35,7 @@ namespace FreediverApp
         private IAdapter bleAdapter;
         private ObservableCollection<IDevice> bleDeviceList;
         private FirebaseDataListener measurepointsListener;
+        
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -236,9 +237,8 @@ namespace FreediverApp
                         await bleAdapter.ConnectToDeviceAsync(clickedDevice);
                         refreshGui();
 
-                        object jsonObject = await receiveDataAsync(clickedDevice);
-                        saveInDatabase(jsonObject);                        
-                        Console.WriteLine("success :)");
+                        List<string> list = await receiveDataAsync(clickedDevice);
+
                     }
                     catch 
                     {
@@ -256,26 +256,32 @@ namespace FreediverApp
             dialog.Show();
         }
 
-        private async Task<Object> receiveDataAsync(DeviceBase conDevice)
+        
+
+        private async Task<List<string>> receiveDataAsync(DeviceBase conDevice)
         {
             var service = await conDevice.GetServiceAsync(Guid.Parse(BluetoothServiceData.DIVE_SERVICE_ID));
             var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.DIVE_CHARACTERISTIC_ID));
-            var bytes = await characteristic.ReadAsync();                        
+            
 
-            string result = System.Text.Encoding.Default.GetString(bytes);
+            List<string> jsonList = new List<string>();
 
-            string[] jsonObjects = result.Split('}', StringSplitOptions.RemoveEmptyEntries);
-            foreach(string json in jsonObjects)
+            while (conDevice.State == DeviceState.Connected)
             {
-
+                //object jsonObject = await receiveDataAsync(clickedDevice);
+                //saveInDatabase(jsonObject);
+                var bytes = await characteristic.ReadAsync();
+                string result = System.Text.Encoding.Default.GetString(bytes);
+                jsonList.Add(result);
+                Console.WriteLine("saved in list");
             }
 
-            result = result.Substring(0, result.IndexOf('}') + 1);
-            Console.WriteLine(result);
+            //result = result.Substring(0, result.IndexOf('}') + 1);
+            //Console.WriteLine(result);
 
-            var DataConverter = new DiveDataConverter(result);
-            Measurepoint jsonResult = DataConverter.toJsonObject();
-            return jsonResult;
+            //var DataConverter = new DiveDataConverter(result);
+            //Measurepoint jsonResult = DataConverter.toJsonObject();
+            return jsonList;
         }
 
         private void saveInDatabase(object JSONObject)
