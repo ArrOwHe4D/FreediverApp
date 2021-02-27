@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Android.App;
 using Android.OS;
 using Android.Widget;
@@ -28,7 +29,9 @@ namespace FreediverApp
             texteditHeight;
 
         private FirebaseDataListener userDataListener;
-        private List<User> userList;
+        private List<User> userResult;
+
+        private bool accountCreated = false;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -45,7 +48,8 @@ namespace FreediverApp
             texteditWeight = FindViewById<EditText>(Resource.Id.textedit_weight);
             texteditHeight = FindViewById<EditText>(Resource.Id.textedit_height);
 
-            userList = new List<User>();
+            userResult = new List<User>();
+
             button_register = FindViewById<Button>(Resource.Id.button_register);
             button_register.Click += setupDataListener;
         }
@@ -53,63 +57,74 @@ namespace FreediverApp
         private void setupDataListener(object sender, EventArgs e) 
         {
             userDataListener = new FirebaseDataListener();
-            userDataListener.QueryParameterized("users", "email", texteditEmail.Text);
+            userDataListener.QueryFullTable("users");
             userDataListener.DataRetrieved += UserDataListener_UserDataRetrieved;
         }
 
         private void UserDataListener_UserDataRetrieved(object sender, FirebaseDataListener.DataEventArgs e)
         {
-            userList = e.Users;
+            userResult = e.Users;
             createAccount();
         }
 
         private void createAccount() 
         {
-            string email = texteditEmail.Text;
-            string username = texteditUsername.Text;
-            string password = texteditPassword.Text;
-            string firstname = texteditFirstname.Text;
-            string lastname = texteditLastname.Text;
-            string dateofbirth = texteditDateOfBirth.Text;
-            string weight = texteditWeight.Text;
-            string height = texteditHeight.Text;
+            string email = texteditEmail.Text.Trim();
+            string username = texteditUsername.Text.Trim();
+            string password = texteditPassword.Text.Trim();
+            string firstname = texteditFirstname.Text.Trim();
+            string lastname = texteditLastname.Text.Trim();
+            string dateofbirth = texteditDateOfBirth.Text.Trim();
+            string weight = texteditWeight.Text.Trim();
+            string height = texteditHeight.Text.Trim();
 
-            if (string.IsNullOrEmpty(email)         ||
-                string.IsNullOrEmpty(username)      ||
-                string.IsNullOrEmpty(password)      ||   
-                string.IsNullOrEmpty(firstname)     ||
-                string.IsNullOrEmpty(lastname)      ||
-                string.IsNullOrEmpty(dateofbirth)   ||
-                string.IsNullOrEmpty(weight)        ||
-                string.IsNullOrEmpty(height))
+            if (checkFieldsFilled())
             {
-                Toast.MakeText(this, "Please fill all the fields in order to register a new account!", ToastLength.Long).Show();
+                Toast.MakeText(this, Resource.String.register_fill_all_fields, ToastLength.Long).Show();
             }
             else
             {
                 if (!isValidEmail(email))
                 {
-                    Toast.MakeText(this, "This email is not valid, please choose another one!", ToastLength.Long).Show();
+                    Toast.MakeText(this, Resource.String.register_email_not_valid, ToastLength.Long).Show();
                     return;
                 }
+
+                if (!isValidBirthday(dateofbirth))
+                {
+                    Toast.MakeText(this, "Birthday is not valid!", ToastLength.Long).Show();
+                    return;
+                }
+
 
                 bool userNameExists = false;
                 bool emailExists = false;
 
-                if (userList != null) 
+                if (userResult != null) 
                 {
-                    userNameExists = userList[0].username.Equals(texteditUsername.Text);
-                    emailExists = userList[0].email.Equals(texteditEmail.Text);
+                    foreach (User user in userResult) 
+                    {
+                        if (user.username.Equals(texteditUsername.Text.Trim())) 
+                        {
+                            userNameExists = true;
+                            break;
+                        }
+                        if (user.email.Equals(texteditEmail.Text.Trim())) 
+                        {
+                            emailExists = true;
+                            break;
+                        }
+                    }
                 }
 
-                if (userNameExists)
+                if (userNameExists && !accountCreated)
                 {
-                    Toast.MakeText(this, "This username is already in use, please choose another one!", ToastLength.Long).Show();
+                    Toast.MakeText(this, Resource.String.register_username_exists, ToastLength.Long).Show();
                     return;
                 }
-                else if (emailExists)
+                else if (emailExists && !accountCreated)
                 {
-                    Toast.MakeText(this, "This email is already in use, please choose another one!", ToastLength.Long).Show();
+                    Toast.MakeText(this, Resource.String.register_email_exists, ToastLength.Long).Show();
                     return;
                 }
                 else 
@@ -119,16 +134,18 @@ namespace FreediverApp
                         User saveUser = new User("", username, email, password, firstname, lastname, dateofbirth, weight, height);
 
                         SupportV7.AlertDialog.Builder saveDataDialog = new SupportV7.AlertDialog.Builder(this);
-                        saveDataDialog.SetTitle("Save User Information");
-                        saveDataDialog.SetMessage("Are you sure?");
+                        saveDataDialog.SetTitle(Resource.String.dialog_save_user_info);
+                        saveDataDialog.SetMessage(Resource.String.dialog_are_you_sure);
 
-                        saveDataDialog.SetPositiveButton("Accept", (senderAlert, args) =>
+                        saveDataDialog.SetPositiveButton(Resource.String.dialog_accept, (senderAlert, args) =>
                         {
                             userDataListener.saveEntity("users", saveUser);
                             var loginActivity = new Intent(this, typeof(LoginActivity));
                             StartActivity(loginActivity);
+                            accountCreated = true;
+                            Toast.MakeText(this, Resource.String.account_created, ToastLength.Long).Show();
                         });
-                        saveDataDialog.SetNegativeButton("Cancel", (senderAlert, args) =>
+                        saveDataDialog.SetNegativeButton(Resource.String.dialog_cancel, (senderAlert, args) =>
                         {
                             saveDataDialog.Dispose();
                         });
@@ -139,6 +156,19 @@ namespace FreediverApp
             }
         }
 
+        private bool checkFieldsFilled() 
+        {
+            return 
+            string.IsNullOrEmpty(texteditEmail.Text.Trim())        ||
+            string.IsNullOrEmpty(texteditUsername.Text.Trim())     ||
+            string.IsNullOrEmpty(texteditPassword.Text.Trim())     ||
+            string.IsNullOrEmpty(texteditFirstname.Text.Trim())    ||
+            string.IsNullOrEmpty(texteditLastname.Text.Trim())     ||
+            string.IsNullOrEmpty(texteditDateOfBirth.Text.Trim())  ||
+            string.IsNullOrEmpty(texteditWeight.Text.Trim())       ||
+            string.IsNullOrEmpty(texteditHeight.Text.Trim());
+        }
+
         private bool isValidEmail(string email)
         {
             try
@@ -147,6 +177,27 @@ namespace FreediverApp
                 return emailAdress.Address == email;
             }
             catch
+            {
+                return false;
+            }
+        }
+
+        private bool isValidBirthday(string birthday)
+        {
+            try
+            {
+                birthday = birthday.Replace('.', Convert.ToChar(@"-"));
+                string pattern = "dd-MM-yyyy";
+
+                DateTime bday;
+                DateTime.TryParseExact(birthday, pattern, null, DateTimeStyles.None, out bday);
+
+                if (bday.Date <= DateTime.Now.Date)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception exp)
             {
                 return false;
             }

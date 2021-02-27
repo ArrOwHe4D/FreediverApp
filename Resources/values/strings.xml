@@ -16,7 +16,7 @@
     <string name="logout">Logout</string>
     <string name="register">Register</string>
     <string name="restore_account">Restore Account</string>
-    <string name="registered_since">registered since: </string>
+    <string name="registered_since">registered since:</string>
     <string name="cant_login">Can´t login?</string>
     <string name="email">E-Mail</string>
     <string name="email_acc_panel">E-Mail: </string>
@@ -48,6 +48,8 @@
     <string name="bluetooth">Bluetooth</string>
     <string name="connected_devices">Connected Devices</string>
     <string name="bluetooth_devices">Bluetooth Devices</string>
+    <string name="connected">Connected</string>
+    <string name="disconnected">Disconnected</string>
     <string name="account">Account</string>
     <string name="account_information">Account Information</string>
     <string name="app_settings">App Settings</string>
@@ -55,5 +57,33 @@
     <string name="design">Design</string>
     <string name="dive_progression">Dive Progression</string>
     <string name="save">Save</string>
+    <string name="welcome">Welcome</string>
+
+    <!--Toast Strings (EN_US)-->
+    <string name="login_successful">Login successful!</string>
+    <string name="logout_successful">You have been logged out!</string>
+    <string name="wrong_username_or_pass">You entered a wrong username or password!</string>
+    <string name="register_fill_all_fields">Please fill all the fields in order to register a new account!</string>
+    <string name="register_email_not_valid">This email is not valid, please choose another one!</string>
+    <string name="register_email_exists">This email is already in use, please choose another one!</string>
+    <string name="account_created">Your account has been created successfully!</string>
+    <string name="account_deleted">Your account has been deleted successfully!</string>
+    <string name="register_username_exists">This username is already in use, please choose another one!</string> 
+    <string name="bluetooth_not_supported">Your device does not support Bluetooth!</string>
+    <string name="bluetooth_activated">Bluetooth activated!</string>
+    <string name="bluetooth_activation_failed">Bluetooth activation failed!</string>
+    <string name="connection_to_device_failed">Connection to device failed!</string>
+
+    <!--Dialog Strings (EN_US)-->
+    <string name="dialog_save_user_info">Save User Information</string>
+    <string name="dialog_delete_account">Delete User Account</string>
+    <string name="dialog_are_you_sure">Are you sure?</string>
+    <string name="dialog_accept">Accept</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_bluetooth_not_activated">Bluetooth is not activated!</string>
+    <string name="dialog_do_you_want_to_activate_blueooth">Do you want to activate Bluetooth on your device?</string>
+    <string name="dialog_connect">Connect</string>
+    <string name="dialog_connect_to_device">Connect to Device</string>
+    <string name="dialog_logging_in">Logging in...</string>
     
 </resources>

@@ -26,24 +26,5 @@
         {
 
         }
-
-        public Measurepoint(object jsonObject)
-        {
-            int x = 5;
-            //this.accelerator_x = saveData.Put("accelerator_x", obj.accelerator_x);
-            //saveData.Put("accelerator_y", obj.accelerator_y);
-            //saveData.Put("accelerator_z", obj.accelerator_z);
-            //saveData.Put("depth", obj.depth);
-            //saveData.Put("duration", obj.duration);
-            //saveData.Put("gyroscope_x", obj.gyroscope_x);
-            //saveData.Put("gyroscope_y", obj.gyroscope_y);
-            //saveData.Put("gyroscope_z", obj.gyroscope_z);
-            //saveData.Put("heart_freq", obj.heartFreq);
-            //saveData.Put("heart_var", obj.heartVar);
-            //saveData.Put("luminance", obj.luminance);
-            //saveData.Put("oxygen_saturation", obj.oxygenSaturation);
-            //saveData.Put("ref_dive", obj.refDive);
-            //saveData.Put("water_temp", obj.waterTemperature);
-        }
     }
 }

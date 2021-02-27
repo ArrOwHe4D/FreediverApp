@@ -35,7 +35,7 @@ namespace FreediverApp
         private IAdapter bleAdapter;
         private ObservableCollection<IDevice> bleDeviceList;
         private FirebaseDataListener measurepointsListener;
-        
+
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -50,8 +50,8 @@ namespace FreediverApp
             btReceiver.m_adapter = BluetoothAdapter.DefaultAdapter;
 
             ble = CrossBluetoothLE.Current;
-            //ble.StateChanged += bleStateChanged;   
-            
+            //ble.StateChanged += bleStateChanged;
+
             bleAdapter = CrossBluetoothLE.Current.Adapter;
             bleAdapter.ScanTimeout = 5000;
             bleAdapter.ScanTimeoutElapsed += stopScan;
@@ -70,11 +70,11 @@ namespace FreediverApp
 
             listView.ItemClick += ListView_ItemClick;
 
-            if (ble == null) 
+            if (ble == null)
             {
-                Toast.MakeText(Context, "Your device does not support Bluetooth!", ToastLength.Long).Show();
+                Toast.MakeText(Context, Resource.String.bluetooth_not_supported, ToastLength.Long).Show();
             }
-            if (ble.State == BluetoothState.Off) 
+            if (ble.State == BluetoothState.Off)
             {
                 runBluetoothActivationDialog();
             }
@@ -85,7 +85,7 @@ namespace FreediverApp
             return view;
         }
 
-        private void refreshBleAdapter() 
+        private void refreshBleAdapter()
         {
             ble = CrossBluetoothLE.Current;
             bleAdapter = CrossBluetoothLE.Current.Adapter;
@@ -95,11 +95,11 @@ namespace FreediverApp
 
         private void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            var device = (DeviceBase)bleDeviceList[e.Position]; 
-            runBluetoothConnectionDialog(device); 
+            var device = (DeviceBase)bleDeviceList[e.Position];
+            runBluetoothConnectionDialog(device);
         }
 
-        private async void bleStateChanged(BluetoothStateChangedArgs args) 
+        private async void bleStateChanged(BluetoothStateChangedArgs args)
         {
 
         }
@@ -119,18 +119,18 @@ namespace FreediverApp
                 };
                 await bleAdapter.StartScanningForDevicesAsync();
             }
-            else 
+            else
             {
                 runBluetoothActivationDialog();
             }
         }
 
-        private void stopScan(object sender, EventArgs eventArgs) 
+        private void stopScan(object sender, EventArgs eventArgs)
         {
             scanIndicator.Visibility = ViewStates.Gone;
         }
 
-        private void checkBluetoothPermission() 
+        private void checkBluetoothPermission()
         {
             const int locationPermissionsRequestCode = 1000;
 
@@ -155,11 +155,11 @@ namespace FreediverApp
 
         private void initBluetoothListView()
         {
-            foreach (var device in getBondedBluetoothDevices()) 
+            foreach (var device in getBondedBluetoothDevices())
             {
                 bleDeviceList.Add(device);
             }
-             
+
             refreshGui();
         }
 
@@ -180,13 +180,13 @@ namespace FreediverApp
             return result;
         }
 
-        private void runBluetoothActivationDialog() 
+        private void runBluetoothActivationDialog()
         {
             SupportV7.AlertDialog.Builder bluetoothActivationDialog = new SupportV7.AlertDialog.Builder(Context);
-            bluetoothActivationDialog.SetTitle("Bluetooth is not activated!");
-            bluetoothActivationDialog.SetMessage("Do you want to activate Bluetooth on your device?");
+            bluetoothActivationDialog.SetTitle(Resource.String.dialog_bluetooth_not_activated);
+            bluetoothActivationDialog.SetMessage(Resource.String.dialog_do_you_want_to_activate_blueooth);
 
-            bluetoothActivationDialog.SetPositiveButton("Accept", (senderAlert, args) =>
+            bluetoothActivationDialog.SetPositiveButton(Resource.String.dialog_accept, (senderAlert, args) =>
             {
                 btReceiver.m_adapter.Enable();
 
@@ -196,14 +196,14 @@ namespace FreediverApp
 
                 if (btReceiver.m_adapter.IsEnabled)
                 {
-                    Toast.MakeText(Context, "Bluetooth activated!", ToastLength.Long).Show();
+                    Toast.MakeText(Context, Resource.String.bluetooth_activated, ToastLength.Long).Show();
                 }
                 else
                 {
-                    Toast.MakeText(Context, "Bluetooth activation failed!", ToastLength.Long).Show();
+                    Toast.MakeText(Context, Resource.String.bluetooth_activation_failed, ToastLength.Long).Show();
                 }
             });
-            bluetoothActivationDialog.SetNegativeButton("Cancel", (senderAlert, args) =>
+            bluetoothActivationDialog.SetNegativeButton(Resource.String.dialog_cancel, (senderAlert, args) =>
             {
                 bluetoothActivationDialog.Dispose();
             });
@@ -217,7 +217,7 @@ namespace FreediverApp
             View dialogView = layoutInflater.Inflate(Resource.Layout.BluetoothConnectionDialog, null);
             SupportV7.AlertDialog.Builder dialogBuilder = new SupportV7.AlertDialog.Builder(this.Context);
             dialogBuilder.SetView(dialogView);
-            dialogBuilder.SetTitle("Connect to Device");
+            dialogBuilder.SetTitle(Resource.String.dialog_connect_to_device);
             dialogBuilder.SetIcon(Resources.GetDrawable(Resource.Drawable.icon_connected_devices));
 
             var textViewDeviceName = dialogView.FindViewById<TextView>(Resource.Id.textview_device_name);
@@ -230,24 +230,30 @@ namespace FreediverApp
 
             var editValueField = dialogView.FindViewById<EditText>(Resource.Id.userInput);
             dialogBuilder.SetCancelable(false)
-                .SetPositiveButton("Connect", async delegate
+                .SetPositiveButton(Resource.String.dialog_connect, async delegate
                 {
                     try
                     {
                         await bleAdapter.ConnectToDeviceAsync(clickedDevice);
                         refreshGui();
 
-                        List<string> list = await receiveDataAsync(clickedDevice);
+
+                        //List<string> list = await receiveDataAsync(clickedDevice);
+
+
+                        object jsonObject = await receiveDataAsync(clickedDevice);
+                        saveInDatabase(jsonObject);
+                        Console.WriteLine("success :)");
 
                     }
-                    catch 
+                    catch
                     {
-                        Toast.MakeText(Context, "Connection to Device failed!", ToastLength.Long).Show();
+                        Toast.MakeText(Context, Resource.String.connection_to_device_failed, ToastLength.Long).Show();
                         await bleAdapter.DisconnectDeviceAsync(clickedDevice);
                     }
                     dialogBuilder.Dispose();
                 })
-                .SetNegativeButton("Cancel", delegate
+                .SetNegativeButton(Resource.String.dialog_cancel, delegate
                 {
                     dialogBuilder.Dispose();
                 });
@@ -256,28 +262,18 @@ namespace FreediverApp
             dialog.Show();
         }
 
-        
+
 
         private async Task<List<string>> receiveDataAsync(DeviceBase conDevice)
         {
             var service = await conDevice.GetServiceAsync(Guid.Parse(BluetoothServiceData.DIVE_SERVICE_ID));
             var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.DIVE_CHARACTERISTIC_ID));
-            
 
-            List<string> jsonList = new List<string>();
+            var bytes = await characteristic.ReadAsync();
+            string result = System.Text.Encoding.Default.GetString(bytes);
 
-            while (conDevice.State == DeviceState.Connected)
-            {
-                //object jsonObject = await receiveDataAsync(clickedDevice);
-                //saveInDatabase(jsonObject);
-                var bytes = await characteristic.ReadAsync();
-                string result = System.Text.Encoding.Default.GetString(bytes);
-                jsonList.Add(result);
-                Console.WriteLine("saved in list");
-            }
-
-            //result = result.Substring(0, result.IndexOf('}') + 1);
-            //Console.WriteLine(result);
+            result = result.Substring(0, result.IndexOf('}') + 1);
+            Console.WriteLine(result);
 
             //var DataConverter = new DiveDataConverter(result);
             //Measurepoint jsonResult = DataConverter.toJsonObject();

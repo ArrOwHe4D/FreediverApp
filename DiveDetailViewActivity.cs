@@ -13,12 +13,14 @@ namespace FreediverApp
     [Activity(Label = "DiveDetailViewActivity", ScreenOrientation = ScreenOrientation.Portrait)]
     public class DiveDetailViewActivity : Activity
     {
-        TextView tvwDepth;
-        TextView tvwDuration;
-        TextView tvwMaxHF;
-        TextView tvwMinHF;
-        TextView tvwMaxOxy;
-        TextView tvwMinOxy;
+        TextView textViewDiveSessionTitle;
+        TextView textViewGraphTitle;
+        TextView textViewDepth;
+        TextView textViewDuration;
+        TextView textViewMaxHF;
+        TextView textViewMinHF;
+        TextView textViewMaxOxy;
+        TextView textViewMinOxy;
         private ChartView chartView;
         private FirebaseDataListener measurepointDataListener;
         private List<Measurepoint> measurepointList;
@@ -30,24 +32,28 @@ namespace FreediverApp
             // Create your application here
             SetContentView(Resource.Layout.DiveDetailViewPage);
             RetrieveMeasurepointData(User.curUser.curDive);
-            tvwDepth = FindViewById<TextView>(Resource.Id.tvwDdvDepthV);
-            tvwDuration = FindViewById<TextView>(Resource.Id.tvwDdvDurationV);
-            tvwMaxHF = FindViewById<TextView>(Resource.Id.tvwDdvMaxHeartFV);
-            tvwMinHF = FindViewById<TextView>(Resource.Id.tvwDdvMinHeartFV);
-            tvwMaxOxy = FindViewById<TextView>(Resource.Id.tvwDdvMaxOxyV);
-            tvwMinOxy = FindViewById<TextView>(Resource.Id.tvwDdvMinOxyV);            
+            textViewDiveSessionTitle = FindViewById<TextView>(Resource.Id.diveDetailViewSessionName);
+            textViewGraphTitle = FindViewById<TextView>(Resource.Id.textViewGraphTitle);
+            textViewDepth = FindViewById<TextView>(Resource.Id.tvwDdvDepthV);
+            textViewDuration = FindViewById<TextView>(Resource.Id.tvwDdvDurationV);
+            textViewMaxHF = FindViewById<TextView>(Resource.Id.tvwDdvMaxHeartFV);
+            textViewMinHF = FindViewById<TextView>(Resource.Id.tvwDdvMinHeartFV);
+            textViewMaxOxy = FindViewById<TextView>(Resource.Id.tvwDdvMaxOxyV);
+            textViewMinOxy = FindViewById<TextView>(Resource.Id.tvwDdvMinOxyV);            
             chartView = FindViewById<ChartView>(Resource.Id.cvwDdvDiveDia);
             fillTextView();            
         }
 
         private void fillTextView()
         {
-            tvwDepth.Text = User.curUser.curDive.maxDepth;
-            tvwDuration.Text = User.curUser.curDive.duration;
-            tvwMaxHF.Text = User.curUser.curDive.HeartFreqMax;
-            tvwMinHF.Text = User.curUser.curDive.HeartFreqMin;
-            tvwMaxOxy.Text = User.curUser.curDive.OxygenSaturationMax;
-            tvwMinOxy.Text = User.curUser.curDive.OxygenSaturationMin;
+            textViewDiveSessionTitle.Text = "Tauchgang #" + Intent.GetStringExtra("index");
+            textViewGraphTitle.Text = "Last Dive (" + User.curUser.curDive.maxDepth + " m deep and " + User.curUser.curDive.duration + " sec long)";
+            textViewDepth.Text = User.curUser.curDive.maxDepth + " m";
+            textViewDuration.Text = User.curUser.curDive.duration + " sec";
+            textViewMaxHF.Text = User.curUser.curDive.HeartFreqMax + " bpm";
+            textViewMinHF.Text = User.curUser.curDive.HeartFreqMin + " bpm";
+            textViewMaxOxy.Text = User.curUser.curDive.OxygenSaturationMax + " %";
+            textViewMinOxy.Text = User.curUser.curDive.OxygenSaturationMin + " %";
         }
 
         private void RetrieveMeasurepointData(Dive d)
@@ -67,20 +73,34 @@ namespace FreediverApp
         {
             List<ChartEntry> dataList = new List<ChartEntry>();
 
+            int hop = measurepointList.Count / 10;
 
-            for (int i = 0; i < measurepointList.Count - 10; i += 10)
+            for (int i = 0; i < measurepointList.Count; i += hop)
             {
-                dataList.Add(new ChartEntry(i)
+                SKColor color;
+
+                if (float.Parse(measurepointList[i].depth) <= 8.0f)
                 {
-                    Label = measurepointList[i].duration,
-                    ValueLabel = measurepointList[i].depth,
-                    Color = SKColor.Parse("#5cf739")
+                    color = SKColor.Parse("#5cf739");
+                }
+                else if (float.Parse(measurepointList[i].depth) <= 18.0f)
+                {
+                    color = SKColor.Parse("#f7c139");
+                }
+                else 
+                {
+                    color = SKColor.Parse("#f75939");
+                }
+
+                dataList.Add(new ChartEntry(float.Parse(measurepointList[i].depth))
+                {
+                    Label = int.Parse(measurepointList[i].duration.Split(",")[0]) < 10 ? "0:0" + measurepointList[i].duration.Split(",")[0] : "0:" + measurepointList[i].duration.Split(",")[0],
+                    ValueLabel = measurepointList[i].depth.Split(",")[0] + "m",
+                    Color = color
                 });
-            }            
+            }                  
 
-            
-
-            var chart = new LineChart { Entries = dataList, LabelTextSize = 30f };
+            var chart = new LineChart { Entries = dataList, LabelTextSize = 20f, LabelOrientation = Microcharts.Orientation.Horizontal, ValueLabelOrientation = Microcharts.Orientation.Horizontal };
             chartView.Chart = chart;
         }
     }
