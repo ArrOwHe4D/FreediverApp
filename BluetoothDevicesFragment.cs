@@ -241,8 +241,8 @@ namespace FreediverApp
                         //List<string> list = await receiveDataAsync(clickedDevice);
 
 
-                        object jsonObject = await receiveDataAsync(clickedDevice);
-                        saveInDatabase(jsonObject);
+                        List<Measurepoint> list = await receiveDataAsync(clickedDevice);
+                        //saveInDatabase(jsonObject);
                         Console.WriteLine("success :)");
 
                     }
@@ -264,20 +264,114 @@ namespace FreediverApp
 
 
 
-        private async Task<List<string>> receiveDataAsync(DeviceBase conDevice)
+
+
+        private async Task<List<Measurepoint>> receiveDataAsync(DeviceBase conDevice)
         {
+            List<Measurepoint> measurepoints = new List<Measurepoint>();
+
             var service = await conDevice.GetServiceAsync(Guid.Parse(BluetoothServiceData.DIVE_SERVICE_ID));
-            var characteristic = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.DIVE_CHARACTERISTIC_ID));
+            //var characteristics = await service.GetCharacteristicsAsync();
+        
+            var characteristicAcceleratorX = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_acceleator_x));
+            var characteristicAcceleratorY = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_acceleator_y));
+            var characteristicAcceleratorZ = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_acceleator_z));
+            var characteristicDepth = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_depth));
+            var characteristicDuration = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_duration));
+            var characteristicGyroscopeX = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_gyroscope_x));
+            var characteristicGyroscopeY = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_gyroscope_y));
+            var characteristicGyroscopeZ = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_gyroscope_z));
+            var characteristicHeartFreq = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_heart_freq));
+            var characteristicHeartVar = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_heat_var));
+            var characteristicLuminance = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_luminance));
+            var characteristicOxygenSaturation = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_oxygen_saturation));
+            var characteristicRefDive = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_ref_dive));
+            var characteristicWaterTemp = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_water_temp));
 
-            var bytes = await characteristic.ReadAsync();
-            string result = System.Text.Encoding.Default.GetString(bytes);
+            Measurepoint tempMeasurepoint = null;
+            byte[] tempBytes;
 
-            result = result.Substring(0, result.IndexOf('}') + 1);
-            Console.WriteLine(result);
+            for (int i = 0; i < 1; i++)
+            //while (conDevice.State == DeviceState.Connected)
+            {
+                tempBytes = await characteristicAcceleratorX.ReadAsync();
+                tempMeasurepoint.accelerator_x = BitConverter.ToSingle(tempBytes).ToString();
 
-            //var DataConverter = new DiveDataConverter(result);
-            //Measurepoint jsonResult = DataConverter.toJsonObject();
-            return jsonList;
+                tempBytes = await characteristicAcceleratorY.ReadAsync();
+                tempMeasurepoint.accelerator_y = BitConverter.ToSingle(tempBytes).ToString();
+
+                tempBytes = await characteristicAcceleratorZ.ReadAsync();
+                tempMeasurepoint.accelerator_z = BitConverter.ToSingle(tempBytes).ToString();
+
+                tempBytes = await characteristicDepth.ReadAsync();
+                tempMeasurepoint.depth = System.BitConverter.ToSingle(tempBytes).ToString();
+
+                tempBytes = await characteristicDuration.ReadAsync();
+                tempMeasurepoint.duration = BitConverter.ToInt32(tempBytes).ToString();
+
+                tempBytes = await characteristicGyroscopeX.ReadAsync();
+                tempMeasurepoint.gyroscope_x = BitConverter.ToSingle(tempBytes).ToString();
+
+                tempBytes = await characteristicGyroscopeY.ReadAsync();
+                tempMeasurepoint.gyroscope_y = BitConverter.ToSingle(tempBytes).ToString();
+
+                tempBytes = await characteristicGyroscopeZ.ReadAsync();
+                tempMeasurepoint.gyroscope_z = BitConverter.ToSingle(tempBytes).ToString();
+
+                tempBytes = await characteristicHeartFreq.ReadAsync();
+                tempMeasurepoint.heart_freq = BitConverter.ToInt32(tempBytes).ToString();
+
+                tempBytes = await characteristicHeartVar.ReadAsync();
+                tempMeasurepoint.heart_var = BitConverter.ToInt32(tempBytes).ToString();
+
+                tempBytes = await characteristicLuminance.ReadAsync();
+                tempMeasurepoint.luminance = BitConverter.ToInt32(tempBytes).ToString();
+
+                tempBytes = await characteristicOxygenSaturation.ReadAsync();
+                tempMeasurepoint.oxygen_saturation = BitConverter.ToInt32(tempBytes).ToString();
+
+                tempBytes = await characteristicRefDive.ReadAsync();
+                tempMeasurepoint.ref_dive = BitConverter.ToInt32(tempBytes).ToString();
+
+                tempBytes = await characteristicWaterTemp.ReadAsync();
+                tempMeasurepoint.water_temp = BitConverter.ToSingle(tempBytes).ToString();
+
+                measurepoints.Add(tempMeasurepoint);
+
+                //for (int i = 0; i < characteristics.Count; i++)
+                //{
+                //    var resultA = await characteristics[i].ReadAsync();
+                //    var descriptors = await characteristics[i].GetDescriptorsAsync();
+                //    for (int k = 0; k < descriptors.Count; k++)
+                //    {
+                //        var d = await descriptors[k].ReadAsync();
+                //        if(System.Text.Encoding.Default.GetString(d) == "1")
+                //        {
+
+                //        }
+                //        else if(System.Text.Encoding.Default.GetString(d) == "2")
+                //        {
+
+                //        }
+                //        else
+                //        {
+                //            continue;
+                //        }
+
+                //    }
+                //    string characteristicName = characteristics[i].Name;
+                //    var x = System.BitConverter.ToSingle(resultA);
+
+                //    string resultString = System.Text.Encoding.ASCII.GetString(resultA);
+                //    jsonList.Add(x.ToString());
+                //}
+
+                //var bytes = await characteristic.ReadAsync();
+                //string result = System.Text.Encoding.Default.GetString(bytes);
+                //jsonList.Add(result);
+                //Console.WriteLine(result);
+            }
+            return measurepoints;
         }
 
         private void saveInDatabase(object JSONObject)
