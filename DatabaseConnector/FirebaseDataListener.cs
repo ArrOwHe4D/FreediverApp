@@ -78,7 +78,8 @@ namespace FreediverApp.DatabaseConnector
                     {
                         DiveSession divesession = new DiveSession();
                         divesession.date = dataRecord.Child("date").Value.ToString();
-                        divesession.location_lon = dataRecord.Child("location").Value.ToString();
+                        divesession.location_lon = dataRecord.Child("location_lon").Value.ToString();
+                        divesession.location_lat = dataRecord.Child("location_lat").Value.ToString();
                         divesession.refUser = dataRecord.Child("ref_user").Value.ToString();
                         divesession.watertime = dataRecord.Child("watertime").Value.ToString();
                         divesession.weatherCondition = dataRecord.Child("weather_condition").Value.ToString();
@@ -187,7 +188,8 @@ namespace FreediverApp.DatabaseConnector
                 {
                     var obj = (DiveSession)objectToSave;
                     saveData.Put("date", obj.date);
-                    saveData.Put("location", obj.location);
+                    saveData.Put("location_lon", obj.location_lon);
+                    saveData.Put("location_lat", obj.location_lat);
                     saveData.Put("ref_user", obj.refUser);
                     saveData.Put("watertime", obj.watertime);
                     saveData.Put("weather_condition", obj.weatherCondition);

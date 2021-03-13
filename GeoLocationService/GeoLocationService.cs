@@ -8,15 +8,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 
 namespace FreediverApp.GeoLocationSevice
 {
-    class GeoLocationService
+    public class GeoLocationService
     {
+        public Location location;
+
         public GeoLocationService()
         {
-            var location = await G
+            getLocation();
+        }
+        public async void getLocation()
+        {
+            location = await Geolocation.GetLastKnownLocationAsync();
         }
     }
 }

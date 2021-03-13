@@ -73,6 +73,7 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataClasses\WeatherData.cs" />
     <Compile Include="FragmentActivities\AccountPanelFragment.cs" />
     <Compile Include="AddSessionActivity.cs" />
     <Compile Include="BluetoothCommunication\BluetoothServiceData.cs" />
@@ -92,10 +93,12 @@
     <Compile Include="FragmentActivities\DiveSessionsFragment.cs" />
     <Compile Include="DivesPerSessionActivity.cs" />
     <Compile Include="FragmentActivities\MainFragment.cs" />
+    <Compile Include="GeoLocationService\GeoLocationService.cs" />
     <Compile Include="LoginActivity.cs" />
     <Compile Include="LoginProblemsActivity.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="DataClasses\Measurepoint.cs" />
+    <Compile Include="OpenWeatherMap\OpenWeatherMapConnector.cs" />
     <Compile Include="RegisterActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -264,6 +267,7 @@
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
     Other similar extension points exist, see Microsoft.Common.targets.
