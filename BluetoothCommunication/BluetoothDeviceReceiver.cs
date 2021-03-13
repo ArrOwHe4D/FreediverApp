@@ -1,10 +1,13 @@
-﻿using System;
-using Android.Bluetooth;
+﻿using Android.Bluetooth;
 using Android.Content;
 using System.Collections.Generic;
 
 namespace FreediverApp.BluetoothCommunication
 {
+
+    /*This class handles the receiving of Bluetooth device data information
+     * 
+     */
     public class BluetoothDeviceReceiver : BroadcastReceiver
     {
         public List<BluetoothDevice> foundDevices;

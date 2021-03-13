@@ -19,7 +19,7 @@ namespace FreediverApp.FragmentActivities
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            var view = inflater.Inflate(Resource.Layout.content_main, container, false);
+            var view = inflater.Inflate(Resource.Layout.LandingPage, container, false);
 
             textViewWelcomeMessage = view.FindViewById<TextView>(Resource.Id.titleWelcome);
             textViewWelcomeMessage.Text = Context.GetString(Resource.String.welcome) + " " + TemporaryData.USER_NAME + " !";

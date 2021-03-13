@@ -6,6 +6,7 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Widget;
 using FreediverApp.DatabaseConnector;
+using Xamarin.Essentials;
 
 namespace FreediverApp
 {
@@ -46,12 +47,21 @@ namespace FreediverApp
 
         private void login(object sender, EventArgs eventArgs)
         {
-            retrieveUserData();
-            loginDialog = new ProgressDialog(this);
-            loginDialog.SetMessage(ApplicationContext.Resources.GetString(Resource.String.dialog_logging_in));
-            loginDialog.SetCancelable(false);
-            loginDialog.Show();
-        }
+            var connectionState = Connectivity.NetworkAccess;
+
+            if (connectionState == NetworkAccess.Internet)
+            {
+                retrieveUserData();
+                loginDialog = new ProgressDialog(this);
+                loginDialog.SetMessage(ApplicationContext.Resources.GetString(Resource.String.dialog_logging_in));
+                loginDialog.SetCancelable(false);
+                loginDialog.Show();
+            }
+            else
+            {
+                Toast.MakeText(this, "Your Phone is not connected to the internet, please establish a connection first!", ToastLength.Long).Show();
+            }
+        }   
 
         private void redirectToLoginProblemsActivity(object sender, EventArgs eventArgs) 
         {
@@ -75,7 +85,7 @@ namespace FreediverApp
         {
             userDataListener = new FirebaseDataListener();
             userDataListener.QueryParameterized("users", "username", texteditUsername.Text);
-            userDataListener.DataRetrieved += userDataListener_UserDataRetrieved;
+            userDataListener.DataRetrieved += userDataListener_UserDataRetrieved;         
         }
 
         private void userDataListener_UserDataRetrieved(object sender, FirebaseDataListener.DataEventArgs e) 

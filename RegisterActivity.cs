@@ -96,7 +96,6 @@ namespace FreediverApp
                     return;
                 }
 
-
                 bool userNameExists = false;
                 bool emailExists = false;
 

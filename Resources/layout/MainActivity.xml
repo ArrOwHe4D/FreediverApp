@@ -34,7 +34,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="start"
     android:fitsSystemWindows="true"
-    app:headerLayout="@layout/nav_header_main"
+    app:headerLayout="@layout/NavigationHeader"
     app:menu="@menu/activity_main_drawer"
     app:itemIconTint="#2c3e50"/>
 
