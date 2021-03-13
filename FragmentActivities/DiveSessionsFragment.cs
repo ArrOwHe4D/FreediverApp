@@ -65,7 +65,7 @@ namespace FreediverApp
                 {
                     if (item.date != null)
                     {
-                        dives.Add(item.date + " | " + item.location);
+                        dives.Add(item.date + " | " + item.location_lon + " / " + item.location_lat);
                     }
                 }
 
