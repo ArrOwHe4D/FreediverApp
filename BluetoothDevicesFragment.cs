@@ -233,7 +233,8 @@ namespace FreediverApp
                 .SetPositiveButton(Resource.String.dialog_connect, async delegate
                 {
                     try
-                    {
+                    {                        
+                        await bleAdapter.DisconnectDeviceAsync(clickedDevice);
                         await bleAdapter.ConnectToDeviceAsync(clickedDevice);
                         refreshGui();
 
@@ -244,7 +245,7 @@ namespace FreediverApp
                         List<Measurepoint> list = await receiveDataAsync(clickedDevice);
                         //saveInDatabase(jsonObject);
                         Console.WriteLine("success :)");
-
+                        
                     }
                     catch(Exception ex)
                     {
@@ -270,89 +271,103 @@ namespace FreediverApp
         private async Task<List<Measurepoint>> receiveDataAsync(DeviceBase conDevice)
         {
             List<Measurepoint> measurepoints = new List<Measurepoint>();
+            var service = await conDevice.GetServiceAsync(new Guid(BluetoothServiceData.DIVE_SERVICE_ID));
+            var characteristic = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.DIVE_CHARACTERISTIC_ID));
 
-            int time = DateTime.Now.Millisecond;
-            var service = await conDevice.GetServiceAsync(Guid.Parse(BluetoothServiceData.DIVE_SERVICE_ID));
-            //var characteristics = await service.GetCharacteristicsAsync();                  
-            var characteristicAcceleratorX = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_acceleator_x));
-            Toast.MakeText(Context, "erste chara", ToastLength.Long).Show();
-            var characteristicAcceleratorY = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_acceleator_y));
-            var characteristicAcceleratorZ = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_acceleator_z));
-            var characteristicDepth = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_depth));
-            var characteristicDuration = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_duration));
-            var characteristicGyroscopeX = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_gyroscope_x));
-            var characteristicGyroscopeY = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_gyroscope_y));
-            var characteristicGyroscopeZ = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_gyroscope_z));
-            var characteristicHeartFreq = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_heart_freq));
-            var characteristicHeartVar = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_heat_var));
-            var characteristicLuminance = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_luminance));
-            var characteristicOxygenSaturation = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_oxygen_saturation));            
-            var characteristicRefDive = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_ref_dive));            
-            var characteristicWaterTemp = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_water_temp));
-            Console.WriteLine("chara read: " + (DateTime.Now.Millisecond - time) + " ms");
-            Toast.MakeText(Context, "alle chara", ToastLength.Long).Show();            
-            Measurepoint tempMeasurepoint = new Measurepoint();
-            byte[] tempBytes;
-
-            try
+            while (conDevice.State == DeviceState.Connected)
             {
-                //for (int i = 0; i < 1; i++)
-                while (conDevice.State == DeviceState.Connected)
-                {
-                    time = DateTime.Now.Millisecond;
-                    tempMeasurepoint = new Measurepoint();
+                var bytes = await characteristic.ReadAsync();
 
-                    tempBytes = await characteristicAcceleratorX.ReadAsync();
-                    tempMeasurepoint.accelerator_x = BitConverter.ToSingle(tempBytes).ToString();
+                String result = System.Text.Encoding.ASCII.GetString(bytes);
 
-                    Toast.MakeText(Context, "erste Übertragung", ToastLength.Long).Show();
-
-                    tempBytes = await characteristicAcceleratorY.ReadAsync();
-                    tempMeasurepoint.accelerator_y = BitConverter.ToSingle(tempBytes).ToString();
-
-                    tempBytes = await characteristicAcceleratorZ.ReadAsync();
-                    tempMeasurepoint.accelerator_z = BitConverter.ToSingle(tempBytes).ToString();
-
-                    tempBytes = await characteristicDepth.ReadAsync();
-                    tempMeasurepoint.depth = System.BitConverter.ToSingle(tempBytes).ToString();
-
-                    tempBytes = await characteristicDuration.ReadAsync();
-                    tempMeasurepoint.duration = BitConverter.ToInt32(tempBytes).ToString();
-
-                    tempBytes = await characteristicGyroscopeX.ReadAsync();
-                    tempMeasurepoint.gyroscope_x = BitConverter.ToSingle(tempBytes).ToString();
-
-                    tempBytes = await characteristicGyroscopeY.ReadAsync();
-                    tempMeasurepoint.gyroscope_y = BitConverter.ToSingle(tempBytes).ToString();
-
-                    tempBytes = await characteristicGyroscopeZ.ReadAsync();
-                    tempMeasurepoint.gyroscope_z = BitConverter.ToSingle(tempBytes).ToString();
-
-                    tempBytes = await characteristicHeartFreq.ReadAsync();
-                    tempMeasurepoint.heart_freq = BitConverter.ToInt32(tempBytes).ToString();
-
-                    tempBytes = await characteristicHeartVar.ReadAsync();
-                    tempMeasurepoint.heart_var = BitConverter.ToInt32(tempBytes).ToString();
-
-                    tempBytes = await characteristicLuminance.ReadAsync();
-                    tempMeasurepoint.luminance = BitConverter.ToInt32(tempBytes).ToString();
-
-                    tempBytes = await characteristicOxygenSaturation.ReadAsync();
-                    tempMeasurepoint.oxygen_saturation = BitConverter.ToInt32(tempBytes).ToString();
-                    
-                    tempBytes = await characteristicRefDive.ReadAsync();
-                    tempMeasurepoint.ref_dive = BitConverter.ToInt32(tempBytes).ToString();
-
-                    tempBytes = await characteristicWaterTemp.ReadAsync();
-                    tempMeasurepoint.water_temp = BitConverter.ToSingle(tempBytes).ToString();
-                    Console.WriteLine("measure read: " + (DateTime.Now.Millisecond - time) + " ms");
-                    measurepoints.Add(tempMeasurepoint);                    
-                }
+                DiveDataConverter DDC = new DiveDataConverter(result);
+                var temp = DDC.jsonObject;
+                Toast.MakeText(Context, "got it", ToastLength.Long).Show();
             }
-            catch (Exception ex)
-            {
-                Toast.MakeText(Context, ex.Message, ToastLength.Long).Show();
-            }
+
+            return new List<Measurepoint>();
+            //int time = DateTime.Now.Millisecond;
+            //var service = await conDevice.GetServiceAsync(Guid.Parse(BluetoothServiceData.DIVE_SERVICE_ID));
+            ////var characteristics = await service.GetCharacteristicsAsync();                  
+            //var characteristicAcceleratorX = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_acceleator_x));
+            //Toast.MakeText(Context, "erste chara", ToastLength.Long).Show();
+            //var characteristicAcceleratorY = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_acceleator_y));
+            //var characteristicAcceleratorZ = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_acceleator_z));
+            //var characteristicDepth = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_depth));
+            //var characteristicDuration = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_duration));
+            //var characteristicGyroscopeX = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_gyroscope_x));
+            //var characteristicGyroscopeY = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_gyroscope_y));
+            //var characteristicGyroscopeZ = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_gyroscope_z));
+            //var characteristicHeartFreq = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_heart_freq));
+            //var characteristicHeartVar = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_heat_var));
+            //var characteristicLuminance = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_luminance));
+            //var characteristicOxygenSaturation = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_oxygen_saturation));            
+            //var characteristicRefDive = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_ref_dive));            
+            //var characteristicWaterTemp = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_water_temp));
+            //Console.WriteLine("chara read: " + (DateTime.Now.Millisecond - time) + " ms");
+            //Toast.MakeText(Context, "alle chara", ToastLength.Long).Show();            
+            //Measurepoint tempMeasurepoint = new Measurepoint();
+            //byte[] tempBytes;
+
+            //try
+            //{
+            //    //for (int i = 0; i < 1; i++)
+            //    while (conDevice.State == DeviceState.Connected)
+            //    {
+            //        time = DateTime.Now.Millisecond;
+            //        tempMeasurepoint = new Measurepoint();
+
+            //        tempBytes = await characteristicAcceleratorX.ReadAsync();
+            //        tempMeasurepoint.accelerator_x = BitConverter.ToSingle(tempBytes).ToString();
+
+            //        Toast.MakeText(Context, "erste Übertragung", ToastLength.Long).Show();
+
+            //        tempBytes = await characteristicAcceleratorY.ReadAsync();
+            //        tempMeasurepoint.accelerator_y = BitConverter.ToSingle(tempBytes).ToString();
+
+            //        tempBytes = await characteristicAcceleratorZ.ReadAsync();
+            //        tempMeasurepoint.accelerator_z = BitConverter.ToSingle(tempBytes).ToString();
+
+            //        tempBytes = await characteristicDepth.ReadAsync();
+            //        tempMeasurepoint.depth = System.BitConverter.ToSingle(tempBytes).ToString();
+
+            //        tempBytes = await characteristicDuration.ReadAsync();
+            //        tempMeasurepoint.duration = BitConverter.ToInt32(tempBytes).ToString();
+
+            //        tempBytes = await characteristicGyroscopeX.ReadAsync();
+            //        tempMeasurepoint.gyroscope_x = BitConverter.ToSingle(tempBytes).ToString();
+
+            //        tempBytes = await characteristicGyroscopeY.ReadAsync();
+            //        tempMeasurepoint.gyroscope_y = BitConverter.ToSingle(tempBytes).ToString();
+
+            //        tempBytes = await characteristicGyroscopeZ.ReadAsync();
+            //        tempMeasurepoint.gyroscope_z = BitConverter.ToSingle(tempBytes).ToString();
+
+            //        tempBytes = await characteristicHeartFreq.ReadAsync();
+            //        tempMeasurepoint.heart_freq = BitConverter.ToInt32(tempBytes).ToString();
+
+            //        tempBytes = await characteristicHeartVar.ReadAsync();
+            //        tempMeasurepoint.heart_var = BitConverter.ToInt32(tempBytes).ToString();
+
+            //        tempBytes = await characteristicLuminance.ReadAsync();
+            //        tempMeasurepoint.luminance = BitConverter.ToInt32(tempBytes).ToString();
+
+            //        tempBytes = await characteristicOxygenSaturation.ReadAsync();
+            //        tempMeasurepoint.oxygen_saturation = BitConverter.ToInt32(tempBytes).ToString();
+
+            //        tempBytes = await characteristicRefDive.ReadAsync();
+            //        tempMeasurepoint.ref_dive = BitConverter.ToInt32(tempBytes).ToString();
+
+            //        tempBytes = await characteristicWaterTemp.ReadAsync();
+            //        tempMeasurepoint.water_temp = BitConverter.ToSingle(tempBytes).ToString();
+            //        Console.WriteLine("measure read: " + (DateTime.Now.Millisecond - time) + " ms");
+            //        measurepoints.Add(tempMeasurepoint);                    
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Toast.MakeText(Context, ex.Message, ToastLength.Long).Show();
+        }
             // chara werden empfangen aber langsam jedes 14. von denen die gesendet werden
             // die charas kommen von verschiedenen measurepoints
             // müssen eine chara auf android seite erstellen die dem arduino zu erkennen gibt wann
