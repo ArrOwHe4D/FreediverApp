@@ -10,9 +10,14 @@ namespace FreediverApp
         public string location_lat;
         public string refUser;
         public string watertime;
-        public string weatherCondition;
+        public string weatherCondition_main;
+        public string weatherCondition_description;
         public string weatherTemperature;
+        public string weatherTemperatureFeelsLike;
+        public string weatherPressure;
+        public string weatherHumidity;
         public string weatherWindSpeed;
+        public string weatherWindGust;
         public string duration;
         private string id;
         public string Id

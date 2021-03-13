@@ -8,6 +8,8 @@ using Java.Util;
 using DBConnector = FreediverApp.DatabaseConnector.DatabaseConnector;
 using FreediverApp.GeoLocationSevice;
 using Xamarin.Essentials;
+using FreediverApp.DataClasses;
+using FreediverApp.OpenWeatherMap;
 
 namespace FreediverApp
 {
@@ -39,8 +41,8 @@ namespace FreediverApp
             tvwDiveTime = FindViewById<TextView>(Resource.Id.tvwDiveTimeV);
 
             diveSession = SampleData();
-            tvwLocation.Text = diveSession.location_lon + " / " + diveSession.location_lat;
-            tvwWeather.Text = diveSession.weatherCondition + " | " + diveSession.weatherTemperature;
+            tvwLocation.Text = diveSession.location_lon + " | " + diveSession.location_lat;
+            tvwWeather.Text = diveSession.weatherCondition_main + " | " + diveSession.weatherTemperature;
             tvwDate.Text = diveSession.date;
             tvwDiveTime.Text = diveSession.watertime;
         }
@@ -67,14 +69,20 @@ namespace FreediverApp
             DiveSession ds = new DiveSession(User.curUser.id);
             System.Random rand = new System.Random();
             Location location = new GeoLocationService().location;
+            OpenWeatherMapConnector openWeatherMapConnector = new OpenWeatherMapConnector(location.Longitude, location.Latitude);
+            WeatherData weatherData = openWeatherMapConnector.downloadWeatherData();
              
             ds.date = DateTime.Now.ToShortDateString();
-            ds.location_lat = location.Latitude.ToString(); //locations[rand.Next(locations.Length)];
-            ds.location_lon = location.Longitude.ToString(); //locations[rand.Next(locations.Length)];
-            ds.weatherTemperature = rand.Next(5, 26) + "C°";
-            ds.weatherCondition = conditions[rand.Next(conditions.Length)];
-            ds.weatherWindSpeed = rand.Next(5, 15) + "Km/h";
-
+            ds.location_lat = location.Latitude.ToString(); 
+            ds.location_lon = location.Longitude.ToString();
+            ds.weatherTemperature = weatherData.temp;
+            ds.weatherTemperatureFeelsLike = weatherData.tempFeelsLike;
+            ds.weatherCondition_main = weatherData.main;
+            ds.weatherCondition_description = weatherData.description;
+            ds.weatherPressure = weatherData.pressure;
+            ds.weatherHumidity = weatherData.humidity;
+            ds.weatherWindSpeed = weatherData.windSpeed;
+            ds.weatherWindGust = weatherData.windGust;
 
             for (int i = 0; i < 3; i++)
             {
@@ -164,9 +172,14 @@ namespace FreediverApp
             diveSessionData.Put("location_lat", ds.location_lat);
             diveSessionData.Put("ref_user", ds.refUser);
             diveSessionData.Put("watertime", ds.watertime);
-            diveSessionData.Put("weather_condition", ds.weatherCondition);
+            diveSessionData.Put("weather_condition_main", ds.weatherCondition_main);
+            diveSessionData.Put("weather_condition_description", ds.weatherCondition_description);
             diveSessionData.Put("weather_temp", ds.weatherTemperature);
+            diveSessionData.Put("weather_temp_feels_like", ds.weatherTemperatureFeelsLike);
+            diveSessionData.Put("weather_pressure", ds.weatherPressure);
+            diveSessionData.Put("weather_humidity", ds.weatherHumidity);
             diveSessionData.Put("weather_wind_speed", ds.weatherWindSpeed);
+            diveSessionData.Put("weather_wind_gust", ds.weatherWindGust);
             diveSessionData.Put("id", ds.Id);
 
 

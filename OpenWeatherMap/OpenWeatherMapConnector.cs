@@ -48,7 +48,7 @@ namespace FreediverApp.OpenWeatherMap
             return dataObject;
         }
 
-        public void downloadWeatherData()
+        public WeatherData downloadWeatherData()
         {
             using (WebClient client = new WebClient())
             {
@@ -61,7 +61,7 @@ namespace FreediverApp.OpenWeatherMap
                     Console.WriteLine(ex);
                 }
             }
-            WeatherData data = extractWeatherData(jsonString);
+            return extractWeatherData(jsonString);
         }
     }
 }

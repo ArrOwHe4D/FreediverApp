@@ -82,9 +82,14 @@ namespace FreediverApp.DatabaseConnector
                         divesession.location_lat = dataRecord.Child("location_lat").Value.ToString();
                         divesession.refUser = dataRecord.Child("ref_user").Value.ToString();
                         divesession.watertime = dataRecord.Child("watertime").Value.ToString();
-                        divesession.weatherCondition = dataRecord.Child("weather_condition").Value.ToString();
+                        divesession.weatherCondition_main = dataRecord.Child("weather_condition_main").Value.ToString();
+                        divesession.weatherCondition_description = dataRecord.Child("weather_condition_description").Value.ToString();
                         divesession.weatherTemperature = dataRecord.Child("weather_temp").Value.ToString();
+                        divesession.weatherTemperatureFeelsLike = dataRecord.Child("weather_temp_feels_like").Value.ToString();
+                        divesession.weatherPressure = dataRecord.Child("weather_pressure").Value.ToString();
+                        divesession.weatherHumidity = dataRecord.Child("weather_humidity").Value.ToString();
                         divesession.weatherWindSpeed = dataRecord.Child("weather_wind_speed").Value.ToString();
+                        divesession.weatherWindGust = dataRecord.Child("weather_wind_gust").Value.ToString();
                         divesession.Id = dataRecord.Child("id").Value.ToString();
                         divesessionList.Add(divesession);
                     }
@@ -192,9 +197,14 @@ namespace FreediverApp.DatabaseConnector
                     saveData.Put("location_lat", obj.location_lat);
                     saveData.Put("ref_user", obj.refUser);
                     saveData.Put("watertime", obj.watertime);
-                    saveData.Put("weather_condition", obj.weatherCondition);
+                    saveData.Put("weather_condition_main", obj.weatherCondition_main);
+                    saveData.Put("weather_condition_description", obj.weatherCondition_description);
                     saveData.Put("weather_temp", obj.weatherTemperature);
+                    saveData.Put("weather_temp_feels_like", obj.weatherTemperatureFeelsLike);
+                    saveData.Put("weather_pressure", obj.weatherPressure);
+                    saveData.Put("weather_humidity", obj.weatherHumidity);
                     saveData.Put("weather_wind_speed", obj.weatherWindSpeed);
+                    saveData.Put("weather_wind_gust", obj.weatherWindGust);
                     saveData.Put("id", obj.Id);
 
                     tableRef.SetValue(saveData);
