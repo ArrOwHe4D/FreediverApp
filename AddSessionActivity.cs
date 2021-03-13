@@ -6,6 +6,8 @@ using Android.Widget;
 using Firebase.Database;
 using Java.Util;
 using DBConnector = FreediverApp.DatabaseConnector.DatabaseConnector;
+using FreediverApp.GeoLocationSevice;
+using Xamarin.Essentials;
 
 namespace FreediverApp
 {
@@ -37,7 +39,7 @@ namespace FreediverApp
             tvwDiveTime = FindViewById<TextView>(Resource.Id.tvwDiveTimeV);
 
             diveSession = SampleData();
-            tvwLocation.Text = diveSession.location;
+            tvwLocation.Text = diveSession.location_lon + " / " + diveSession.location_lat;
             tvwWeather.Text = diveSession.weatherCondition + " | " + diveSession.weatherTemperature;
             tvwDate.Text = diveSession.date;
             tvwDiveTime.Text = diveSession.watertime;
@@ -64,8 +66,11 @@ namespace FreediverApp
         {
             DiveSession ds = new DiveSession(User.curUser.id);
             System.Random rand = new System.Random();
+            Location location = new GeoLocationService().location;
+             
             ds.date = DateTime.Now.ToShortDateString();
-            ds.location = locations[rand.Next(locations.Length)];
+            ds.location_lat = location.Latitude.ToString(); //locations[rand.Next(locations.Length)];
+            ds.location_lon = location.Longitude.ToString(); //locations[rand.Next(locations.Length)];
             ds.weatherTemperature = rand.Next(5, 26) + "C°";
             ds.weatherCondition = conditions[rand.Next(conditions.Length)];
             ds.weatherWindSpeed = rand.Next(5, 15) + "Km/h";
@@ -155,7 +160,8 @@ namespace FreediverApp
         {
             HashMap diveSessionData = new HashMap();
             diveSessionData.Put("date", ds.date);
-            diveSessionData.Put("location", ds.location);
+            diveSessionData.Put("location_lon", ds.location_lon);
+            diveSessionData.Put("location_lat", ds.location_lat);
             diveSessionData.Put("ref_user", ds.refUser);
             diveSessionData.Put("watertime", ds.watertime);
             diveSessionData.Put("weather_condition", ds.weatherCondition);

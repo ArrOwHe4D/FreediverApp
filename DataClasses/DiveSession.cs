@@ -6,7 +6,8 @@ namespace FreediverApp
     class DiveSession
     {
         public string date;
-        public string location;
+        public string location_lon;
+        public string location_lat;
         public string refUser;
         public string watertime;
         public string weatherCondition;

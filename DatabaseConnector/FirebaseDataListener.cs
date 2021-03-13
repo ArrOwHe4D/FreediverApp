@@ -78,7 +78,7 @@ namespace FreediverApp.DatabaseConnector
                     {
                         DiveSession divesession = new DiveSession();
                         divesession.date = dataRecord.Child("date").Value.ToString();
-                        divesession.location = dataRecord.Child("location").Value.ToString();
+                        divesession.location_lon = dataRecord.Child("location").Value.ToString();
                         divesession.refUser = dataRecord.Child("ref_user").Value.ToString();
                         divesession.watertime = dataRecord.Child("watertime").Value.ToString();
                         divesession.weatherCondition = dataRecord.Child("weather_condition").Value.ToString();
