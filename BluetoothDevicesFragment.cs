@@ -246,8 +246,9 @@ namespace FreediverApp
                         Console.WriteLine("success :)");
 
                     }
-                    catch
+                    catch(Exception ex)
                     {
+                        string a = ex.Message;
                         Toast.MakeText(Context, Resource.String.connection_to_device_failed, ToastLength.Long).Show();
                         await bleAdapter.DisconnectDeviceAsync(clickedDevice);
                     }
@@ -270,10 +271,11 @@ namespace FreediverApp
         {
             List<Measurepoint> measurepoints = new List<Measurepoint>();
 
+            int time = DateTime.Now.Millisecond;
             var service = await conDevice.GetServiceAsync(Guid.Parse(BluetoothServiceData.DIVE_SERVICE_ID));
-            //var characteristics = await service.GetCharacteristicsAsync();
-        
+            //var characteristics = await service.GetCharacteristicsAsync();                  
             var characteristicAcceleratorX = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_acceleator_x));
+            Toast.MakeText(Context, "erste chara", ToastLength.Long).Show();
             var characteristicAcceleratorY = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_acceleator_y));
             var characteristicAcceleratorZ = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_acceleator_z));
             var characteristicDepth = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_depth));
@@ -284,93 +286,77 @@ namespace FreediverApp
             var characteristicHeartFreq = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_heart_freq));
             var characteristicHeartVar = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_heat_var));
             var characteristicLuminance = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_luminance));
-            var characteristicOxygenSaturation = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_oxygen_saturation));
-            var characteristicRefDive = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_ref_dive));
+            var characteristicOxygenSaturation = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_oxygen_saturation));            
+            var characteristicRefDive = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_ref_dive));            
             var characteristicWaterTemp = await service.GetCharacteristicAsync(Guid.Parse(BluetoothServiceData.characteristic_water_temp));
-
-            Measurepoint tempMeasurepoint = null;
+            Console.WriteLine("chara read: " + (DateTime.Now.Millisecond - time) + " ms");
+            Toast.MakeText(Context, "alle chara", ToastLength.Long).Show();            
+            Measurepoint tempMeasurepoint = new Measurepoint();
             byte[] tempBytes;
 
-            for (int i = 0; i < 1; i++)
-            //while (conDevice.State == DeviceState.Connected)
+            try
             {
-                tempBytes = await characteristicAcceleratorX.ReadAsync();
-                tempMeasurepoint.accelerator_x = BitConverter.ToSingle(tempBytes).ToString();
+                //for (int i = 0; i < 1; i++)
+                while (conDevice.State == DeviceState.Connected)
+                {
+                    time = DateTime.Now.Millisecond;
+                    tempMeasurepoint = new Measurepoint();
 
-                tempBytes = await characteristicAcceleratorY.ReadAsync();
-                tempMeasurepoint.accelerator_y = BitConverter.ToSingle(tempBytes).ToString();
+                    tempBytes = await characteristicAcceleratorX.ReadAsync();
+                    tempMeasurepoint.accelerator_x = BitConverter.ToSingle(tempBytes).ToString();
 
-                tempBytes = await characteristicAcceleratorZ.ReadAsync();
-                tempMeasurepoint.accelerator_z = BitConverter.ToSingle(tempBytes).ToString();
+                    Toast.MakeText(Context, "erste Übertragung", ToastLength.Long).Show();
 
-                tempBytes = await characteristicDepth.ReadAsync();
-                tempMeasurepoint.depth = System.BitConverter.ToSingle(tempBytes).ToString();
+                    tempBytes = await characteristicAcceleratorY.ReadAsync();
+                    tempMeasurepoint.accelerator_y = BitConverter.ToSingle(tempBytes).ToString();
 
-                tempBytes = await characteristicDuration.ReadAsync();
-                tempMeasurepoint.duration = BitConverter.ToInt32(tempBytes).ToString();
+                    tempBytes = await characteristicAcceleratorZ.ReadAsync();
+                    tempMeasurepoint.accelerator_z = BitConverter.ToSingle(tempBytes).ToString();
 
-                tempBytes = await characteristicGyroscopeX.ReadAsync();
-                tempMeasurepoint.gyroscope_x = BitConverter.ToSingle(tempBytes).ToString();
+                    tempBytes = await characteristicDepth.ReadAsync();
+                    tempMeasurepoint.depth = System.BitConverter.ToSingle(tempBytes).ToString();
 
-                tempBytes = await characteristicGyroscopeY.ReadAsync();
-                tempMeasurepoint.gyroscope_y = BitConverter.ToSingle(tempBytes).ToString();
+                    tempBytes = await characteristicDuration.ReadAsync();
+                    tempMeasurepoint.duration = BitConverter.ToInt32(tempBytes).ToString();
 
-                tempBytes = await characteristicGyroscopeZ.ReadAsync();
-                tempMeasurepoint.gyroscope_z = BitConverter.ToSingle(tempBytes).ToString();
+                    tempBytes = await characteristicGyroscopeX.ReadAsync();
+                    tempMeasurepoint.gyroscope_x = BitConverter.ToSingle(tempBytes).ToString();
 
-                tempBytes = await characteristicHeartFreq.ReadAsync();
-                tempMeasurepoint.heart_freq = BitConverter.ToInt32(tempBytes).ToString();
+                    tempBytes = await characteristicGyroscopeY.ReadAsync();
+                    tempMeasurepoint.gyroscope_y = BitConverter.ToSingle(tempBytes).ToString();
 
-                tempBytes = await characteristicHeartVar.ReadAsync();
-                tempMeasurepoint.heart_var = BitConverter.ToInt32(tempBytes).ToString();
+                    tempBytes = await characteristicGyroscopeZ.ReadAsync();
+                    tempMeasurepoint.gyroscope_z = BitConverter.ToSingle(tempBytes).ToString();
 
-                tempBytes = await characteristicLuminance.ReadAsync();
-                tempMeasurepoint.luminance = BitConverter.ToInt32(tempBytes).ToString();
+                    tempBytes = await characteristicHeartFreq.ReadAsync();
+                    tempMeasurepoint.heart_freq = BitConverter.ToInt32(tempBytes).ToString();
 
-                tempBytes = await characteristicOxygenSaturation.ReadAsync();
-                tempMeasurepoint.oxygen_saturation = BitConverter.ToInt32(tempBytes).ToString();
+                    tempBytes = await characteristicHeartVar.ReadAsync();
+                    tempMeasurepoint.heart_var = BitConverter.ToInt32(tempBytes).ToString();
 
-                tempBytes = await characteristicRefDive.ReadAsync();
-                tempMeasurepoint.ref_dive = BitConverter.ToInt32(tempBytes).ToString();
+                    tempBytes = await characteristicLuminance.ReadAsync();
+                    tempMeasurepoint.luminance = BitConverter.ToInt32(tempBytes).ToString();
 
-                tempBytes = await characteristicWaterTemp.ReadAsync();
-                tempMeasurepoint.water_temp = BitConverter.ToSingle(tempBytes).ToString();
+                    tempBytes = await characteristicOxygenSaturation.ReadAsync();
+                    tempMeasurepoint.oxygen_saturation = BitConverter.ToInt32(tempBytes).ToString();
+                    
+                    tempBytes = await characteristicRefDive.ReadAsync();
+                    tempMeasurepoint.ref_dive = BitConverter.ToInt32(tempBytes).ToString();
 
-                measurepoints.Add(tempMeasurepoint);
-
-                //for (int i = 0; i < characteristics.Count; i++)
-                //{
-                //    var resultA = await characteristics[i].ReadAsync();
-                //    var descriptors = await characteristics[i].GetDescriptorsAsync();
-                //    for (int k = 0; k < descriptors.Count; k++)
-                //    {
-                //        var d = await descriptors[k].ReadAsync();
-                //        if(System.Text.Encoding.Default.GetString(d) == "1")
-                //        {
-
-                //        }
-                //        else if(System.Text.Encoding.Default.GetString(d) == "2")
-                //        {
-
-                //        }
-                //        else
-                //        {
-                //            continue;
-                //        }
-
-                //    }
-                //    string characteristicName = characteristics[i].Name;
-                //    var x = System.BitConverter.ToSingle(resultA);
-
-                //    string resultString = System.Text.Encoding.ASCII.GetString(resultA);
-                //    jsonList.Add(x.ToString());
-                //}
-
-                //var bytes = await characteristic.ReadAsync();
-                //string result = System.Text.Encoding.Default.GetString(bytes);
-                //jsonList.Add(result);
-                //Console.WriteLine(result);
+                    tempBytes = await characteristicWaterTemp.ReadAsync();
+                    tempMeasurepoint.water_temp = BitConverter.ToSingle(tempBytes).ToString();
+                    Console.WriteLine("measure read: " + (DateTime.Now.Millisecond - time) + " ms");
+                    measurepoints.Add(tempMeasurepoint);                    
+                }
             }
+            catch (Exception ex)
+            {
+                Toast.MakeText(Context, ex.Message, ToastLength.Long).Show();
+            }
+            // chara werden empfangen aber langsam jedes 14. von denen die gesendet werden
+            // die charas kommen von verschiedenen measurepoints
+            // müssen eine chara auf android seite erstellen die dem arduino zu erkennen gibt wann
+            // ein Measurepoint gelesen wurde
             return measurepoints;
         }
 
