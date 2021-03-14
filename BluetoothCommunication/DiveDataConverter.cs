@@ -5,7 +5,7 @@ namespace FreediverApp.BluetoothCommunication
     class DiveDataConverter
     {
         private string receivedData { get; set; }
-        private object jsonObject { get; set; }
+        public object jsonObject { get; set; }
 
         public DiveDataConverter() 
         {
