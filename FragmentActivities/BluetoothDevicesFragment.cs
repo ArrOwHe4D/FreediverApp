@@ -302,7 +302,6 @@ namespace FreediverApp
             AdapterStatus status = CrossBleAdapter.Current.Status;
 
             CrossBleAdapter.Current.ScanInterval(new TimeSpan(0, 0, 5), new TimeSpan(0, 0, 1));
-            TimeSpan ts = new TimeSpan(0,  0,  5);
             List<IScanResult> devices = new List<IScanResult>();
             var scanner = CrossBleAdapter.Current.Scan().Subscribe(scanResult => { if (!isInList(devices,scanResult)){ devices.Add(scanResult);};});
             
@@ -324,11 +323,23 @@ namespace FreediverApp
             }
 
 
-           // diveComputer.ConnectHook(new Guid(BluetoothServiceData.DIVE_SERVICE_ID), new Guid(BluetoothServiceData.DIVE_CHARACTERISTIC_ID)).Subscribe(async (result) => {
-           //     String resultString = System.Text.Encoding.ASCII.GetString(result.Data);
-           //     Console.WriteLine("---------------------------------");
-           //     Console.WriteLine(resultString);
-           //});
+            // diveComputer.ConnectHook(new Guid(BluetoothServiceData.DIVE_SERVICE_ID), new Guid(BluetoothServiceData.DIVE_CHARACTERISTIC_ID)).Subscribe(async (result) => {
+            //     String resultString = System.Text.Encoding.ASCII.GetString(result.Data);
+            //     Console.WriteLine("---------------------------------");
+            //     Console.WriteLine(resultString);
+            //});
+
+            diveComputer.ReadIntervalCharacteristic(new Guid(BluetoothServiceData.DIVE_SERVICE_ID), new Guid(BluetoothServiceData.DIVE_CHARACTERISTIC_ID), new TimeSpan(0, 0, 0, 0, 50)).Subscribe(async (result) =>
+                 {
+                     while (diveComputer.IsConnected())
+                     {
+                         var actualResult = result.Data;
+                         String resultString = System.Text.Encoding.ASCII.GetString(actualResult);
+                         Console.WriteLine(resultString);
+                     }
+                 });
+
+            await CrossBleAdapter.Current.ScanInterval(new TimeSpan(0, 0, 0, 0, 50), new TimeSpan(0, 0, 0, 0, 2));
 
             diveComputer.WhenAnyCharacteristicDiscovered().Subscribe(async (characteristic) =>
             {
