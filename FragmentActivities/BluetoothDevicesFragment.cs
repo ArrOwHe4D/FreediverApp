@@ -301,7 +301,7 @@ namespace FreediverApp
             CrossBleAdapter.Current.SetAdapterState(true);
             AdapterStatus status = CrossBleAdapter.Current.Status;
 
-            CrossBleAdapter.Current.ScanInterval(new TimeSpan(0, 0, 5), new TimeSpan(0, 0, 1));
+            await CrossBleAdapter.Current.ScanInterval(new TimeSpan(0, 0, 0, 0, 600), new TimeSpan(0, 0, 0, 0, 200));
             List<IScanResult> devices = new List<IScanResult>();
             var scanner = CrossBleAdapter.Current.Scan().Subscribe(scanResult => { if (!isInList(devices,scanResult)){ devices.Add(scanResult);};});
             
@@ -329,6 +329,9 @@ namespace FreediverApp
             //     Console.WriteLine(resultString);
             //});
 
+            await Task.Delay(5000);
+
+
             diveComputer.ReadIntervalCharacteristic(new Guid(BluetoothServiceData.DIVE_SERVICE_ID), new Guid(BluetoothServiceData.DIVE_CHARACTERISTIC_ID), new TimeSpan(0, 0, 0, 0, 50)).Subscribe(async (result) =>
                  {
                      while (diveComputer.IsConnected())
@@ -339,7 +342,7 @@ namespace FreediverApp
                      }
                  });
 
-            await CrossBleAdapter.Current.ScanInterval(new TimeSpan(0, 0, 0, 0, 50), new TimeSpan(0, 0, 0, 0, 2));
+            //await CrossBleAdapter.Current.ScanInterval(new TimeSpan(0, 0, 0, 0, 50), new TimeSpan(0, 0, 0, 0, 2));
 
             diveComputer.WhenAnyCharacteristicDiscovered().Subscribe(async (characteristic) =>
             {
