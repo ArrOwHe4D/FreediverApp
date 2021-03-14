@@ -343,16 +343,19 @@ namespace FreediverApp
 
             diveComputer.WhenAnyCharacteristicDiscovered().Subscribe(async (characteristic) =>
             {
-                    if (characteristic.Uuid == new Guid(BluetoothServiceData.DIVE_CHARACTERISTIC_ID))
-                    {
-                        while (diveComputer.IsConnected())
-                        {
-                            var result = await characteristic.Read(); // use result.Data to see response
-                            var actualResult = result.Data;
-                            String resultString = System.Text.Encoding.ASCII.GetString(actualResult);
-                            Console.WriteLine(resultString);
-                        }
-                    }           
+                if (characteristic.Uuid == new Guid(BluetoothServiceData.DIVE_CHARACTERISTIC_ID))
+                {
+                    await characteristic.ReadInterval(new TimeSpan(0, 0, 0, 0, 50));
+                    if (characteristic.IsNotifying)
+                        Console.WriteLine("Notifying-------------");
+                    while (diveComputer.IsConnected())
+                    {                            
+                        var result = await characteristic.Read(); // use result.Data to see response                        
+                        var actualResult = result.Data;
+                        String resultString = System.Text.Encoding.ASCII.GetString(actualResult);
+                        Console.WriteLine(resultString);
+                    }
+                }           
                 Console.WriteLine("####################  Disconnected! Finished sending data!  ####################");
             });
         }
