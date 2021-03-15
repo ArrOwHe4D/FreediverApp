@@ -24,6 +24,7 @@ using FreediverApp.DatabaseConnector;
 using Acr;
 using Plugin.BluetoothLE;
 using System.Reactive.Linq;
+using Xamarin.Essentials;
 
 namespace FreediverApp
 {
@@ -295,32 +296,14 @@ namespace FreediverApp
             measurepointsListener = new FirebaseDataListener();
             measurepointsListener.saveEntity("measurepoints", JSONObject);
         }
-        
+
         private async void ACRBluetoothNewHopeV3()
         {
-            CrossBleAdapter.Current.SetAdapterState(true);
-            AdapterStatus status = CrossBleAdapter.Current.Status;
+            // CrossBleAdapter.Current.SetAdapterState(true);
+            // AdapterStatus status = CrossBleAdapter.Current.Status;
 
-            await CrossBleAdapter.Current.ScanInterval(new TimeSpan(0, 0, 0, 0, 600), new TimeSpan(0, 0, 0, 0, 200));
-            List<IScanResult> devices = new List<IScanResult>();
-            var scanner = CrossBleAdapter.Current.Scan().Subscribe(scanResult => { if (!isInList(devices,scanResult)){ devices.Add(scanResult);};});
+            // await CrossBleAdapter.Current.ScanInterval(new TimeSpan(0, 0, 0, 5), new TimeSpan(0, 0, 0, 1));
             
-            await Task.Delay(5000);
-
-            Plugin.BluetoothLE.IDevice diveComputer = null;
-
-            for (int i = 0; i < devices.Count; i++)
-            {
-                if  (devices.ElementAt(i).Device.Name == "DiveComputer")
-                {
-                    devices.ElementAt(i).Device.Connect();
-                    diveComputer = devices.ElementAt(i).Device;
-                    scanner.Dispose();
-                    break;
-                }
-                else
-                    continue;
-            }
 
 
             // diveComputer.ConnectHook(new Guid(BluetoothServiceData.DIVE_SERVICE_ID), new Guid(BluetoothServiceData.DIVE_CHARACTERISTIC_ID)).Subscribe(async (result) => {
@@ -329,39 +312,72 @@ namespace FreediverApp
             //     Console.WriteLine(resultString);
             //});
 
-            await Task.Delay(5000);
+            
 
 
-            diveComputer.ReadIntervalCharacteristic(new Guid(BluetoothServiceData.DIVE_SERVICE_ID), new Guid(BluetoothServiceData.DIVE_CHARACTERISTIC_ID), new TimeSpan(0, 0, 0, 0, 50)).Subscribe(async (result) =>
-                 {
-                     while (diveComputer.IsConnected())
-                     {
-                         var actualResult = result.Data;
-                         String resultString = System.Text.Encoding.ASCII.GetString(actualResult);
-                         Console.WriteLine(resultString);
-                     }
-                 });
+            //diveComputer.ReadIntervalCharacteristic(new Guid(BluetoothServiceData.DIVE_SERVICE_ID), new Guid(BluetoothServiceData.DIVE_CHARACTERISTIC_ID), new TimeSpan(0, 0, 0, 0, 50)).Subscribe(async (result) =>
+            //     {
+            //         while (diveComputer.IsConnected())
+            //         {
+            //             var actualResult = result.Data;
+            //             String resultString = System.Text.Encoding.ASCII.GetString(actualResult);
+            //             Console.WriteLine(resultString);
+            //         }
+            //     });
 
             //await CrossBleAdapter.Current.ScanInterval(new TimeSpan(0, 0, 0, 0, 50), new TimeSpan(0, 0, 0, 0, 2));
 
-            diveComputer.WhenAnyCharacteristicDiscovered().Subscribe(async (characteristic) =>
+            MainThread.BeginInvokeOnMainThread(async () =>
             {
-                if (characteristic.Uuid == new Guid(BluetoothServiceData.DIVE_CHARACTERISTIC_ID))
+                List<IScanResult> devices = new List<IScanResult>();
+                var scanner = CrossBleAdapter.Current.Scan().Subscribe(scanResult => { if (!isInList(devices, scanResult)) { devices.Add(scanResult); }; });
+
+                await Task.Delay(5000);
+
+                Plugin.BluetoothLE.IDevice diveComputer = null;
+
+                for (int i = 0; i < devices.Count; i++)
                 {
-                    await characteristic.ReadInterval(new TimeSpan(0, 0, 0, 0, 50));
-                    if (characteristic.IsNotifying)
-                        Console.WriteLine("Notifying-------------");
-                    while (diveComputer.IsConnected())
-                    {                            
-                        var result = await characteristic.Read(); // use result.Data to see response                        
-                        var actualResult = result.Data;
-                        String resultString = System.Text.Encoding.ASCII.GetString(actualResult);
-                        Console.WriteLine(resultString);
+                    if (devices.ElementAt(i).Device.Name == "DiveComputer")
+                    {
+                        devices.ElementAt(i).Device.Connect();
+                        diveComputer = devices.ElementAt(i).Device;
+                        scanner.Dispose();
+                        //CrossBleAdapter.Current.StopScan();
+                        break;
                     }
-                }           
-                Console.WriteLine("####################  Disconnected! Finished sending data!  ####################");
+                    else
+                        continue;
+                }
+
+                await Task.Delay(5000);
+
+                List<String> resultList = new List<string>();
+                diveComputer.WhenAnyCharacteristicDiscovered().Subscribe(async (characteristic) =>
+                {
+
+                    if (characteristic.Uuid == new Guid(BluetoothServiceData.DIVE_CHARACTERISTIC_ID))
+                    {
+                        // await characteristic.ReadInterval(new TimeSpan(0, 0, 0, 0, 50));
+                        // if (characteristic.IsNotifying)
+                        //     Console.WriteLine("Notifying-------------");
+                        while (diveComputer.IsConnected())
+                        {
+                            var result = await characteristic.Read(); // use result.Data to see response                        
+                            var actualResult = result.Data;
+                            String resultString = System.Text.Encoding.ASCII.GetString(actualResult);
+                            resultList.Add(resultString);
+                            Console.WriteLine("Element added to list...");
+                        }
+                    }
+                    Console.WriteLine("####################  Disconnected! Finished sending data!  ####################");
+                });
+
             });
-        }
+
+
+        }   
+            
 
         private bool isInList(List<IScanResult> scans, IScanResult device)
         {
