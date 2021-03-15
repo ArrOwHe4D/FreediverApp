@@ -329,28 +329,24 @@ namespace FreediverApp
 
           
             List<IScanResult> devices = new List<IScanResult>();
-            await CrossBleAdapter.Current.ScanInterval(new TimeSpan(0, 0, 0, 5),new TimeSpan(0, 0, 0, 1));
-            var scanner = CrossBleAdapter.Current.Scan().Subscribe(scanResult => { if (!isInList(devices, scanResult)) { devices.Add(scanResult); }; });
-
-            await Task.Delay(5000);
-
             Plugin.BluetoothLE.IDevice diveComputer = null;
-
-            for (int i = 0; i < devices.Count; i++)
-            {
-                if (devices.ElementAt(i).Device.Name == "DiveComputer")
+            var scanner = CrossBleAdapter.Current.Scan().Subscribe(async (scanResult) => {
+                if (!isInList(devices, scanResult))
                 {
-                    devices.ElementAt(i).Device.Connect();
-                    diveComputer = devices.ElementAt(i).Device;
-                    scanner.Dispose();                        
-                    break;
+                    devices.Add(scanResult);
+                };
+                if (getDiveComputer(scanResult) != null)
+                {
+                    diveComputer = scanResult.Device;
+                    diveComputer.Connect();
+                    await Task.Delay(5000);
+                    this.readCharacteristics((Device)diveComputer);
                 }
-                else
-                    continue;
-            }
+            });
+        }   
 
-            await Task.Delay(5000);
-
+        private void readCharacteristics(Device diveComputer)
+        {
             List<String> resultList = new List<string>();
 
             Console.WriteLine("Übertragungsdaten: " + diveComputer.MtuSize.ToString());
@@ -369,7 +365,12 @@ namespace FreediverApp
                 }
                 Console.WriteLine("####################  Disconnected! Finished sending data!  ####################");
             });
-        }   
+        }
+
+        private IScanResult getDiveComputer(IScanResult result)
+        {
+            return result.Device.Name == "DiveComnputer" ? result : null;
+        }
 
         private bool isInList(List<IScanResult> scans, IScanResult device)
         {
