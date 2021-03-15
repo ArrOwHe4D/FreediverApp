@@ -327,57 +327,49 @@ namespace FreediverApp
 
             //await CrossBleAdapter.Current.ScanInterval(new TimeSpan(0, 0, 0, 0, 50), new TimeSpan(0, 0, 0, 0, 2));
 
-            MainThread.BeginInvokeOnMainThread(async () =>
+          
+            List<IScanResult> devices = new List<IScanResult>();
+            await CrossBleAdapter.Current.ScanInterval(new TimeSpan(0, 0, 0, 5),new TimeSpan(0, 0, 0, 1));
+            var scanner = CrossBleAdapter.Current.Scan().Subscribe(scanResult => { if (!isInList(devices, scanResult)) { devices.Add(scanResult); }; });
+
+            await Task.Delay(5000);
+
+            Plugin.BluetoothLE.IDevice diveComputer = null;
+
+            for (int i = 0; i < devices.Count; i++)
             {
-                List<IScanResult> devices = new List<IScanResult>();
-                var scanner = CrossBleAdapter.Current.Scan().Subscribe(scanResult => { if (!isInList(devices, scanResult)) { devices.Add(scanResult); }; });
-
-                await Task.Delay(5000);
-
-                Plugin.BluetoothLE.IDevice diveComputer = null;
-
-                for (int i = 0; i < devices.Count; i++)
+                if (devices.ElementAt(i).Device.Name == "DiveComputer")
                 {
-                    if (devices.ElementAt(i).Device.Name == "DiveComputer")
-                    {
-                        devices.ElementAt(i).Device.Connect();
-                        diveComputer = devices.ElementAt(i).Device;
-                        scanner.Dispose();
-                        //CrossBleAdapter.Current.StopScan();
-                        break;
-                    }
-                    else
-                        continue;
+                    devices.ElementAt(i).Device.Connect();
+                    diveComputer = devices.ElementAt(i).Device;
+                    scanner.Dispose();                        
+                    break;
                 }
+                else
+                    continue;
+            }
 
-                await Task.Delay(5000);
+            await Task.Delay(5000);
 
-                List<String> resultList = new List<string>();
-                diveComputer.WhenAnyCharacteristicDiscovered().Subscribe(async (characteristic) =>
+            List<String> resultList = new List<string>();
+
+            Console.WriteLine("Übertragungsdaten: " + diveComputer.MtuSize.ToString());
+            diveComputer.WhenAnyCharacteristicDiscovered().Subscribe(async (characteristic) =>
+            {
+                if (characteristic.Uuid == new Guid(BluetoothServiceData.DIVE_CHARACTERISTIC_ID))
                 {
-
-                    if (characteristic.Uuid == new Guid(BluetoothServiceData.DIVE_CHARACTERISTIC_ID))
+                    while (diveComputer.IsConnected())
                     {
-                        // await characteristic.ReadInterval(new TimeSpan(0, 0, 0, 0, 50));
-                        // if (characteristic.IsNotifying)
-                        //     Console.WriteLine("Notifying-------------");
-                        while (diveComputer.IsConnected())
-                        {
-                            var result = await characteristic.Read(); // use result.Data to see response                        
-                            var actualResult = result.Data;
-                            String resultString = System.Text.Encoding.ASCII.GetString(actualResult);
-                            resultList.Add(resultString);
-                            Console.WriteLine("Element added to list...");
-                        }
+                        var result = await characteristic.Read(); // use result.Data to see response                        
+                        var actualResult = result.Data;
+                        String resultString = System.Text.Encoding.ASCII.GetString(actualResult);
+                        resultList.Add(resultString);
+                        Console.WriteLine("Element added to list...");
                     }
-                    Console.WriteLine("####################  Disconnected! Finished sending data!  ####################");
-                });
-
+                }
+                Console.WriteLine("####################  Disconnected! Finished sending data!  ####################");
             });
-
-
         }   
-            
 
         private bool isInList(List<IScanResult> scans, IScanResult device)
         {
