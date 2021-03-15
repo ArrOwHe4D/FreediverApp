@@ -21,10 +21,6 @@ using Plugin.BLE.Abstractions;
 using Plugin.BLE.Abstractions.EventArgs;
 using System.Threading.Tasks;
 using FreediverApp.DatabaseConnector;
-using Acr;
-using Plugin.BluetoothLE;
-using System.Reactive.Linq;
-using Xamarin.Essentials;
 
 namespace FreediverApp
 {
@@ -37,7 +33,7 @@ namespace FreediverApp
         private ProgressBar scanIndicator;
         private IBluetoothLE ble;
         private IAdapter bleAdapter;
-        private ObservableCollection<Device> bleDeviceList;
+        private ObservableCollection<IDevice> bleDeviceList;
         private FirebaseDataListener measurepointsListener;
 
 
@@ -60,7 +56,7 @@ namespace FreediverApp
             bleAdapter.ScanTimeout = 5000;
             bleAdapter.ScanTimeoutElapsed += stopScan;
 
-            bleDeviceList = new ObservableCollection<Device>();
+            bleDeviceList = new ObservableCollection<IDevice>();
 
             //var systemDevices = bleAdapter.GetSystemConnectedOrPairedDevices();
 
@@ -84,7 +80,7 @@ namespace FreediverApp
             }
             else
             {
-                //initBluetoothListView();
+                initBluetoothListView();
             }
             return view;
         }
@@ -99,8 +95,8 @@ namespace FreediverApp
 
         private void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            var device = (Device)bleDeviceList[e.Position];
-            //runBluetoothConnectionDialog(device);
+            var device = (DeviceBase)bleDeviceList[e.Position];
+            runBluetoothConnectionDialog(device);
         }
 
         private async void bleStateChanged(BluetoothStateChangedArgs args)
@@ -110,24 +106,23 @@ namespace FreediverApp
 
         private async void scanButtonOnClick(object sender, EventArgs eventArgs)
         {
-            ACRBluetoothNewHopeV3();
-            //if (ble.State == BluetoothState.On)
-            //{
-            //    //bleDeviceList.Clear();
-            //    scanIndicator.Visibility = ViewStates.Visible;
-            //    bleAdapter.DeviceDiscovered += (s, a) =>
-            //    {
-            //        if (!bleDeviceList.Contains(a.Device))
-            //            bleDeviceList.Add(a.Device);
+            if (ble.State == BluetoothState.On)
+            {
+                //bleDeviceList.Clear();
+                scanIndicator.Visibility = ViewStates.Visible;
+                bleAdapter.DeviceDiscovered += (s, a) =>
+                {
+                    if (!bleDeviceList.Contains(a.Device))
+                        bleDeviceList.Add(a.Device);
 
-            //        refreshGui();
-            //    };
-            //    await bleAdapter.StartScanningForDevicesAsync();
-            //}
-            //else
-            //{
-            //    runBluetoothActivationDialog();
-            //}
+                    refreshGui();
+                };
+                await bleAdapter.StartScanningForDevicesAsync();
+            }
+            else
+            {
+                runBluetoothActivationDialog();
+            }
         }
 
         private void stopScan(object sender, EventArgs eventArgs)
@@ -153,25 +148,25 @@ namespace FreediverApp
                 ActivityCompat.RequestPermissions(Activity, locationPermissions, locationPermissionsRequestCode);
         }
 
-        //private IReadOnlyList<IDevice> getBondedBluetoothDevices()
-        //{
-        //    return bleAdapter.GetSystemConnectedOrPairedDevices();
-        //}
+        private IReadOnlyList<IDevice> getBondedBluetoothDevices()
+        {
+            return bleAdapter.GetSystemConnectedOrPairedDevices();
+        }
 
-        //private void initBluetoothListView()
-        //{
-        //    foreach (var device in getBondedBluetoothDevices())
-        //    {
-        //        bleDeviceList.Add(device);
-        //    }
+        private void initBluetoothListView()
+        {
+            foreach (var device in getBondedBluetoothDevices())
+            {
+                bleDeviceList.Add(device);
+            }
 
-        //    refreshGui();
-        //}
+            refreshGui();
+        }
 
-        //private void refreshGui()
-        //{
-        //    listView.Adapter = new CustomListViewAdapter(bleDeviceList);
-        //}
+        private void refreshGui()
+        {
+            listView.Adapter = new CustomListViewAdapter(bleDeviceList);
+        }
 
         private List<string> getDeviceNames()
         {
@@ -216,57 +211,57 @@ namespace FreediverApp
             bluetoothActivationDialog.Show();
         }
 
-        //private void runBluetoothConnectionDialog(Device clickedDevice)
-        //{
-        //    LayoutInflater layoutInflater = LayoutInflater.From(this.Context);
-        //    View dialogView = layoutInflater.Inflate(Resource.Layout.BluetoothConnectionDialog, null);
-        //    SupportV7.AlertDialog.Builder dialogBuilder = new SupportV7.AlertDialog.Builder(this.Context);
-        //    dialogBuilder.SetView(dialogView);
-        //    dialogBuilder.SetTitle(Resource.String.dialog_connect_to_device);
-        //    dialogBuilder.SetIcon(Resources.GetDrawable(Resource.Drawable.icon_connected_devices));
+        private void runBluetoothConnectionDialog(DeviceBase clickedDevice)
+        {
+            LayoutInflater layoutInflater = LayoutInflater.From(this.Context);
+            View dialogView = layoutInflater.Inflate(Resource.Layout.BluetoothConnectionDialog, null);
+            SupportV7.AlertDialog.Builder dialogBuilder = new SupportV7.AlertDialog.Builder(this.Context);
+            dialogBuilder.SetView(dialogView);
+            dialogBuilder.SetTitle(Resource.String.dialog_connect_to_device);
+            dialogBuilder.SetIcon(Resources.GetDrawable(Resource.Drawable.icon_connected_devices));
 
-        //    var textViewDeviceName = dialogView.FindViewById<TextView>(Resource.Id.textview_device_name);
-        //    var textViewMacAddress = dialogView.FindViewById<TextView>(Resource.Id.textview_mac_address);
-        //    var textViewConState = dialogView.FindViewById<TextView>(Resource.Id.textview_con_state);
+            var textViewDeviceName = dialogView.FindViewById<TextView>(Resource.Id.textview_device_name);
+            var textViewMacAddress = dialogView.FindViewById<TextView>(Resource.Id.textview_mac_address);
+            var textViewConState = dialogView.FindViewById<TextView>(Resource.Id.textview_con_state);
 
-        //    textViewDeviceName.Text = clickedDevice.Name;
-        //    textViewMacAddress.Text = clickedDevice.Id.ToString();
-        //    textViewConState.Text = clickedDevice.State == DeviceState.Connected ? "Connected" : "Disconnected";
+            textViewDeviceName.Text = clickedDevice.Name;
+            textViewMacAddress.Text = clickedDevice.Id.ToString();
+            textViewConState.Text = clickedDevice.State == DeviceState.Connected ? "Connected" : "Disconnected";
 
-        //    var editValueField = dialogView.FindViewById<EditText>(Resource.Id.userInput);
-        //    dialogBuilder.SetCancelable(false)
-        //        .SetPositiveButton(Resource.String.dialog_connect, async delegate
-        //        {
-        //            try
-        //            {
-        //                await bleAdapter.ConnectToDeviceAsync(clickedDevice);
-        //                await bleAdapter.StopScanningForDevicesAsync();
-        //                refreshGui();
-
-
-        //                //List<string> list = await receiveDataAsync(clickedDevice);
+            var editValueField = dialogView.FindViewById<EditText>(Resource.Id.userInput);
+            dialogBuilder.SetCancelable(false)
+                .SetPositiveButton(Resource.String.dialog_connect, async delegate
+                {
+                    try
+                    {
+                        await bleAdapter.ConnectToDeviceAsync(clickedDevice);
+                        await bleAdapter.StopScanningForDevicesAsync();
+                        refreshGui();
 
 
-        //                object jsonObject = await receiveDataAsync(clickedDevice);
-        //                saveInDatabase(jsonObject);
-        //                Console.WriteLine("success :)");
+                        //List<string> list = await receiveDataAsync(clickedDevice);
 
-        //            }
-        //            catch
-        //            {
-        //                Toast.MakeText(Context, Resource.String.connection_to_device_failed, ToastLength.Long).Show();
-        //                await bleAdapter.DisconnectDeviceAsync(clickedDevice);
-        //            }
-        //            dialogBuilder.Dispose();
-        //        })
-        //        .SetNegativeButton(Resource.String.dialog_cancel, delegate
-        //        {
-        //            dialogBuilder.Dispose();
-        //        });
 
-        //    SupportV7.AlertDialog dialog = dialogBuilder.Create();
-        //    dialog.Show();
-        //}
+                        object jsonObject = await receiveDataAsync(clickedDevice);
+                        saveInDatabase(jsonObject);
+                        Console.WriteLine("success :)");
+
+                    }
+                    catch
+                    {
+                        Toast.MakeText(Context, Resource.String.connection_to_device_failed, ToastLength.Long).Show();
+                        await bleAdapter.DisconnectDeviceAsync(clickedDevice);
+                    }
+                    dialogBuilder.Dispose();
+                })
+                .SetNegativeButton(Resource.String.dialog_cancel, delegate
+                {
+                    dialogBuilder.Dispose();
+                });
+
+            SupportV7.AlertDialog dialog = dialogBuilder.Create();
+            dialog.Show();
+        }
 
 
 
@@ -274,14 +269,19 @@ namespace FreediverApp
         {
             var service = await conDevice.GetServiceAsync(new Guid(BluetoothServiceData.DIVE_SERVICE_ID));
             var characteristic = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.DIVE_CHARACTERISTIC_ID));
-            List<string> resultList= new List<string>();
+            List<string> resultList = new List<string>();
             conDevice.UpdateConnectionInterval(ConnectionInterval.High);
+
             
 
             while (conDevice.State == DeviceState.Connected)
             {
                 var bytes = await characteristic.ReadAsync();
-
+                //characteristic.ValueUpdated += (o, args) =>
+                //{
+                //    var bytes2 = args.Characteristic.Value;
+                //};
+                //await characteristic.StartUpdatesAsync();
                 String result = System.Text.Encoding.ASCII.GetString(bytes);
                 resultList.Add(result);
                 //DiveDataConverter DDC = new DiveDataConverter(result);
@@ -295,93 +295,6 @@ namespace FreediverApp
         {
             measurepointsListener = new FirebaseDataListener();
             measurepointsListener.saveEntity("measurepoints", JSONObject);
-        }
-
-        private async void ACRBluetoothNewHopeV3()
-        {
-            // CrossBleAdapter.Current.SetAdapterState(true);
-            // AdapterStatus status = CrossBleAdapter.Current.Status;
-
-            // await CrossBleAdapter.Current.ScanInterval(new TimeSpan(0, 0, 0, 5), new TimeSpan(0, 0, 0, 1));
-            
-
-
-            // diveComputer.ConnectHook(new Guid(BluetoothServiceData.DIVE_SERVICE_ID), new Guid(BluetoothServiceData.DIVE_CHARACTERISTIC_ID)).Subscribe(async (result) => {
-            //     String resultString = System.Text.Encoding.ASCII.GetString(result.Data);
-            //     Console.WriteLine("---------------------------------");
-            //     Console.WriteLine(resultString);
-            //});
-
-            
-
-
-            //diveComputer.ReadIntervalCharacteristic(new Guid(BluetoothServiceData.DIVE_SERVICE_ID), new Guid(BluetoothServiceData.DIVE_CHARACTERISTIC_ID), new TimeSpan(0, 0, 0, 0, 50)).Subscribe(async (result) =>
-            //     {
-            //         while (diveComputer.IsConnected())
-            //         {
-            //             var actualResult = result.Data;
-            //             String resultString = System.Text.Encoding.ASCII.GetString(actualResult);
-            //             Console.WriteLine(resultString);
-            //         }
-            //     });
-
-            //await CrossBleAdapter.Current.ScanInterval(new TimeSpan(0, 0, 0, 0, 50), new TimeSpan(0, 0, 0, 0, 2));
-
-          
-            List<IScanResult> devices = new List<IScanResult>();
-            Plugin.BluetoothLE.IDevice diveComputer = null;
-            var scanner = CrossBleAdapter.Current.Scan().Subscribe(async (scanResult) => {
-                if (!isInList(devices, scanResult))
-                {
-                    devices.Add(scanResult);
-                };
-                if (getDiveComputer(scanResult) != null)
-                {
-                    diveComputer = scanResult.Device;
-                    diveComputer.Connect();
-                    await Task.Delay(5000);
-                    this.readCharacteristics((Device)diveComputer);
-                }
-            });
-        }   
-
-        private void readCharacteristics(Device diveComputer)
-        {
-            List<String> resultList = new List<string>();
-
-            Console.WriteLine("Übertragungsdaten: " + diveComputer.MtuSize.ToString());
-            diveComputer.WhenAnyCharacteristicDiscovered().Subscribe(async (characteristic) =>
-            {
-                if (characteristic.Uuid == new Guid(BluetoothServiceData.DIVE_CHARACTERISTIC_ID))
-                {
-                    while (diveComputer.IsConnected())
-                    {
-                        var result = await characteristic.Read(); // use result.Data to see response                        
-                        var actualResult = result.Data;
-                        String resultString = System.Text.Encoding.ASCII.GetString(actualResult);
-                        resultList.Add(resultString);
-                        Console.WriteLine("Element added to list...");
-                    }
-                }
-                Console.WriteLine("####################  Disconnected! Finished sending data!  ####################");
-            });
-        }
-
-        private IScanResult getDiveComputer(IScanResult result)
-        {
-            return result.Device.Name == "DiveComnputer" ? result : null;
-        }
-
-        private bool isInList(List<IScanResult> scans, IScanResult device)
-        {
-            for (int i = 0; i < scans.Count; i++)
-            {
-                if (scans.ElementAt(i).Device.Uuid == device.Device.Uuid)
-                {
-                    return true;
-                }
-            }
-            return false;
         }
     }
 }
