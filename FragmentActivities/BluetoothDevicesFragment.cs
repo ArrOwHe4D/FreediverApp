@@ -272,20 +272,18 @@ namespace FreediverApp
             List<string> resultList = new List<string>();
             conDevice.UpdateConnectionInterval(ConnectionInterval.High);
 
-            
-
             while (conDevice.State == DeviceState.Connected)
             {
                 var bytes = await characteristic.ReadAsync();
-                //characteristic.ValueUpdated += (o, args) =>
-                //{
-                //    var bytes2 = args.Characteristic.Value;
-                //};
-                //await characteristic.StartUpdatesAsync();
                 String result = System.Text.Encoding.ASCII.GetString(bytes);
                 resultList.Add(result);
-                //DiveDataConverter DDC = new DiveDataConverter(result);
-                //var temp = DDC.jsonObject;
+
+                List<String> result_2 =  result.Split('}').ToList();
+                for (int i = 0; i < result_2.Count; i++)
+                {
+                    DiveDataConverter DDC = new DiveDataConverter(result_2.ElementAt(i));
+                    var temp = DDC.jsonObject;
+                }
             }
 
             return new List<Measurepoint>();
