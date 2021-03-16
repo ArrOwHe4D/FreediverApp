@@ -10,6 +10,10 @@ using FreediverApp.GeoLocationSevice;
 using Xamarin.Essentials;
 using FreediverApp.DataClasses;
 using FreediverApp.OpenWeatherMap;
+using Android;
+using Android.Support.V4.Content;
+using Android.Content;
+using Android.Support.V4.App;
 
 namespace FreediverApp
 {
@@ -68,21 +72,29 @@ namespace FreediverApp
         {
             DiveSession ds = new DiveSession(User.curUser.id);
             System.Random rand = new System.Random();
-            Location location = new GeoLocationService().location;
-            OpenWeatherMapConnector openWeatherMapConnector = new OpenWeatherMapConnector(location.Longitude, location.Latitude);
-            WeatherData weatherData = openWeatherMapConnector.downloadWeatherData();
-             
-            ds.date = DateTime.Now.ToShortDateString();
-            ds.location_lat = location.Latitude.ToString(); 
-            ds.location_lon = location.Longitude.ToString();
-            ds.weatherTemperature = weatherData.temp;
-            ds.weatherTemperatureFeelsLike = weatherData.tempFeelsLike;
-            ds.weatherCondition_main = weatherData.main;
-            ds.weatherCondition_description = weatherData.description;
-            ds.weatherPressure = weatherData.pressure;
-            ds.weatherHumidity = weatherData.humidity;
-            ds.weatherWindSpeed = weatherData.windSpeed;
-            ds.weatherWindGust = weatherData.windGust;
+
+            if (checkLocationPermission())
+            {
+                Location location = new GeoLocationService().location;
+                OpenWeatherMapConnector openWeatherMapConnector = new OpenWeatherMapConnector(location.Longitude, location.Latitude);
+                WeatherData weatherData = openWeatherMapConnector.downloadWeatherData();
+
+                ds.date = DateTime.Now.ToShortDateString();
+                ds.location_lat = location.Latitude.ToString();
+                ds.location_lon = location.Longitude.ToString();
+                ds.weatherTemperature = weatherData.temp;
+                ds.weatherTemperatureFeelsLike = weatherData.tempFeelsLike;
+                ds.weatherCondition_main = weatherData.main;
+                ds.weatherCondition_description = weatherData.description;
+                ds.weatherPressure = weatherData.pressure;
+                ds.weatherHumidity = weatherData.humidity;
+                ds.weatherWindSpeed = weatherData.windSpeed;
+                ds.weatherWindGust = weatherData.windGust;
+            }
+            else 
+            {
+                Toast.MakeText(this, "Please enable Location services on your device!", ToastLength.Long).Show();
+            }
 
             for (int i = 0; i < 3; i++)
             {
@@ -243,5 +255,24 @@ namespace FreediverApp
             newMeasurepointsRef.SetValue(measurepointData);
         }
 
+        private bool checkLocationPermission()
+        {
+            const int locationPermissionsRequestCode = 1000;
+
+            var locationPermissions = new[]
+            {
+                Manifest.Permission.AccessCoarseLocation,
+                Manifest.Permission.AccessFineLocation
+            };
+
+            var coarseLocationPermissionGranted = ContextCompat.CheckSelfPermission(this, Manifest.Permission.AccessCoarseLocation);
+
+            var fineLocationPermissionGranted = ContextCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation);
+
+            if (coarseLocationPermissionGranted == Permission.Denied || fineLocationPermissionGranted == Permission.Denied)
+                ActivityCompat.RequestPermissions(this, locationPermissions, locationPermissionsRequestCode);
+
+            return coarseLocationPermissionGranted == Permission.Granted && fineLocationPermissionGranted == Permission.Granted;
+        }
     }
 }
