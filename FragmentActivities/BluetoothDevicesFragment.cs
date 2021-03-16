@@ -247,7 +247,7 @@ namespace FreediverApp
                         Console.WriteLine("success :)");
 
                     }
-                    catch
+                    catch(Exception ex)
                     {
                         Toast.MakeText(Context, Resource.String.connection_to_device_failed, ToastLength.Long).Show();
                         await bleAdapter.DisconnectDeviceAsync(clickedDevice);
@@ -269,24 +269,32 @@ namespace FreediverApp
         {
             var service = await conDevice.GetServiceAsync(new Guid(BluetoothServiceData.DIVE_SERVICE_ID));
             var characteristic = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.DIVE_CHARACTERISTIC_ID));
-            List<string> resultList = new List<string>();
+            
+            List<Measurepoint> measurepoints = new List<Measurepoint>();
             conDevice.UpdateConnectionInterval(ConnectionInterval.High);
 
             while (conDevice.State == DeviceState.Connected)
             {
                 var bytes = await characteristic.ReadAsync();
-                String result = System.Text.Encoding.ASCII.GetString(bytes);
-                resultList.Add(result);
+                String result = System.Text.Encoding.ASCII.GetString(bytes);                
 
                 List<String> result_2 =  result.Split('}').ToList();
                 for (int i = 0; i < result_2.Count; i++)
                 {
-                    DiveDataConverter DDC = new DiveDataConverter(result_2.ElementAt(i));
-                    var temp = DDC.jsonObject;
+                    if (isMeasurepoint((result_2[i]) + "}"))
+                    {                        
+                        Measurepoint measurepoint = Measurepoint.JsonToMeasurepoint(result_2.ElementAt(i) + "}");
+                        measurepoints.Add(measurepoint);
+                    }                    
                 }
             }
 
-            return new List<Measurepoint>();
+            return measurepoints;
+        }
+
+        private bool isMeasurepoint(string m)
+        {            
+            return m.StartsWith('{') && m.EndsWith('}');
         }
 
         private void saveInDatabase(object JSONObject)
