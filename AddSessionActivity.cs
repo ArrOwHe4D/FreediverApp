@@ -12,7 +12,6 @@ using FreediverApp.DataClasses;
 using FreediverApp.OpenWeatherMap;
 using Android;
 using Android.Support.V4.Content;
-using Android.Content;
 using Android.Support.V4.App;
 
 namespace FreediverApp
@@ -33,7 +32,7 @@ namespace FreediverApp
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.AddSessionPage);
-            // Create your application here
+
             btnAddSession = FindViewById<Button>(Resource.Id.btnAddSession);
             btnAddSession.Click += btnAddSession_Click;
             btnCancel = FindViewById<Button>(Resource.Id.btnCancel);
@@ -64,9 +63,6 @@ namespace FreediverApp
         {
             Finish();
         }
-
-        string[] locations = new string[] { "Koeln", "Leverkusen", "Gummersbach", "Kiel", "Bremerhafen" };
-        string[] conditions = new string[] { "sonnig", "regnerisch", "bewölkt" };
 
         private DiveSession SampleData()
         {

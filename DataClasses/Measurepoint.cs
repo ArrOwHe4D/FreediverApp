@@ -50,7 +50,7 @@ namespace FreediverApp
             water_temp = _water_temp;
         }
 
-        public static Measurepoint JsonToMeasurepoint(string jsonString)
+        public static Measurepoint fromJson(string jsonString)
         {            
             try
             {
@@ -64,9 +64,7 @@ namespace FreediverApp
             catch (System.Exception ex)
             {
                 return null;
-            }
-
-            
+            }     
         }
     }
 }

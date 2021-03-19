@@ -70,6 +70,8 @@ namespace FreediverApp
 
             listView.ItemClick += ListView_ItemClick;
 
+            measurepointsListener = new FirebaseDataListener();
+
             if (ble == null)
             {
                 Toast.MakeText(Context, Resource.String.bluetooth_not_supported, ToastLength.Long).Show();
@@ -238,14 +240,13 @@ namespace FreediverApp
                         await bleAdapter.StopScanningForDevicesAsync();
                         refreshGui();
 
+                        List<Measurepoint> measurepointResult = await receiveDataAsync(clickedDevice);
 
-                        //List<string> list = await receiveDataAsync(clickedDevice);
-
-
-                        object jsonObject = await receiveDataAsync(clickedDevice);
-                        saveInDatabase(jsonObject);
-                        Console.WriteLine("success :)");
-
+                        //save whole result set into database one by another
+;                       foreach (var measurepoint in measurepointResult) 
+                        {
+                            measurepointsListener.saveEntity("measurepoints", measurepoint);
+                        }
                     }
                     catch(Exception ex)
                     {
@@ -263,27 +264,33 @@ namespace FreediverApp
             dialog.Show();
         }
 
-
-
         private async Task<List<Measurepoint>> receiveDataAsync(DeviceBase conDevice)
         {
+            //after a connection was established we need to read the service and characteristic data from arduino side
             var service = await conDevice.GetServiceAsync(new Guid(BluetoothServiceData.DIVE_SERVICE_ID));
             var characteristic = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.DIVE_CHARACTERISTIC_ID));
             
+            //create the result list which will be returned and set connection interval to high for a small performance boost
             List<Measurepoint> measurepoints = new List<Measurepoint>();
             conDevice.UpdateConnectionInterval(ConnectionInterval.High);
 
             while (conDevice.State == DeviceState.Connected)
             {
                 var bytes = await characteristic.ReadAsync();
-                String result = System.Text.Encoding.ASCII.GetString(bytes);                
+                string result = System.Text.Encoding.ASCII.GetString(bytes);                
 
-                List<String> result_2 =  result.Split('}').ToList();
-                for (int i = 0; i < result_2.Count; i++)
+                //split the bluetooth result into single json strings for each measurepoint received (3 at each transmission)
+                //json strings are recognized by their closing bracket
+                List<string> jsonResult = result.Split('}').ToList();
+
+                //iterate through the received measurepoints and add a new closing bracket 
+                //since we removed it above to avoid adding a special separator for our result set, then add every entry to the result list 
+                //which will be returned by this function
+                for (int i = 0; i < jsonResult.Count; i++)
                 {
-                    if (isMeasurepoint((result_2[i]) + "}"))
+                    if (isMeasurepoint((jsonResult[i]) + "}"))
                     {                        
-                        Measurepoint measurepoint = Measurepoint.JsonToMeasurepoint(result_2.ElementAt(i) + "}");
+                        Measurepoint measurepoint = Measurepoint.fromJson(jsonResult.ElementAt(i) + "}");
                         measurepoints.Add(measurepoint);
                     }                    
                 }
@@ -299,7 +306,6 @@ namespace FreediverApp
 
         private void saveInDatabase(object JSONObject)
         {
-            measurepointsListener = new FirebaseDataListener();
             measurepointsListener.saveEntity("measurepoints", JSONObject);
         }
     }

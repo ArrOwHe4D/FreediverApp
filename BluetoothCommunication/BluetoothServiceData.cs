@@ -1,12 +1,18 @@
 ﻿namespace FreediverApp.BluetoothCommunication
 {
+    /**
+     * This class holds the GUIDS of the Bluetooth services and characteristics that are  
+     * advertised by the arduino.
+     **/
     public static class BluetoothServiceData
     {
         public static string DIVE_SERVICE_ID = "19B10000-E8F3-537E-4F6C-D194768A2214";
         public static string DIVE_CHARACTERISTIC_ID = "19B10001-E8F2-537E-4F6C-D104768A1214";
-        //public static string DIVE_SERVICE_ID = "19B10000-E8F3-537E-4F6C-D194768A2214";
-        //public static string DIVE_CHARACTERISTIC_ID = "";
 
+        /**
+         * These were used as an attempt to boos performance using one characteristic for 
+         * each variable that needed to be transmitted from arduino to the app.
+         **/
         public static string characteristic_acceleator_x = "094a4ab5-d789-477e-8b3a-fd5fee1971f9";
         public static string characteristic_acceleator_y = "63e30608-53f1-48fb-a7f1-8363ed609a39";
         public static string characteristic_acceleator_z = "82dea7b6-2091-4a8a-a788-fcaf0fba84e4";
