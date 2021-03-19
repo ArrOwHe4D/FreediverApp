@@ -2,12 +2,8 @@
 using Android.Widget;
 using System.Collections.Generic;
 using Android.Bluetooth;
-using Android.Graphics.Drawables;
-using static Android.Support.V7.Widget.RecyclerView;
 using Java.Util;
-using Android.Net;
 using System.Collections.ObjectModel;
-using Plugin.BLE;
 using Plugin.BLE.Abstractions.Contracts;
 
 namespace FreediverApp
@@ -16,7 +12,6 @@ namespace FreediverApp
     {
         List<BluetoothDevice> bt_devices;
         ObservableCollection<IDevice> btle_devices;
-        private UUID uuid;
 
         public CustomListViewAdapter(List<BluetoothDevice> bt_devices)
         {

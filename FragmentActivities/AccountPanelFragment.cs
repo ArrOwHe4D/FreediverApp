@@ -69,7 +69,7 @@ namespace FreediverApp
         public void retrieveAccountData() 
         {
             userDataListener = new FirebaseDataListener();
-            userDataListener.QueryParameterized("users", "username", TemporaryData.USER_NAME);
+            userDataListener.QueryParameterized("users", "username", TemporaryData.CURRENT_USER.username);
             userDataListener.DataRetrieved += UserDataListener_UserDataRetrieved;
         }
 
@@ -87,7 +87,7 @@ namespace FreediverApp
 
             deleteUserDialog.SetPositiveButton(Resource.String.dialog_accept, (senderAlert, args) =>
             {
-                userDataListener.deleteEntity("users", TemporaryData.USER_ID);
+                userDataListener.deleteEntity("users", TemporaryData.CURRENT_USER.id);
                 var loginActivity = new Intent(Context, typeof(LoginActivity));
                 StartActivity(loginActivity);
                 Toast.MakeText(Context, Resource.String.account_deleted, ToastLength.Long).Show();

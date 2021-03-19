@@ -12,12 +12,9 @@ namespace FreediverApp
     [Obsolete]
     public class DiveSessionsFragment : Fragment
     {
-        private List<string> dives = new List<string> { "23.5.2020", "24.5.2020", "25.5.2020", "26.5.2020" };
-        private ListView lvwDive;
-        private Button btnAdd;
-        private EditText etSearch;
-        private LinearLayout llContainer;
-        int counter = 0;
+        private List<string> dives;
+        private ListView listViewDives;
+        private Button buttonAdd;
         private FirebaseDataListener diveSessionsDataListener;
         private List<DiveSession> diveSessionList;
 
@@ -30,15 +27,14 @@ namespace FreediverApp
         {
             var view = inflater.Inflate(Resource.Layout.SessionsPage, container, false);
 
-            lvwDive = view.FindViewById<ListView>(Resource.Id.lvwDiveSessions);
+            listViewDives = view.FindViewById<ListView>(Resource.Id.lvwDiveSessions);
 
             RetrieveDiveSessionData();
 
-            lvwDive.ItemClick += lvwDive_ItemClick;
-            lvwDive.ItemLongClick += lvwDive_ItemLongClick;
+            listViewDives.ItemClick += lvwDive_ItemClick;
 
-            btnAdd = view.FindViewById<Button>(Resource.Id.btnAdd);
-            btnAdd.Click += btnAdd_Click;
+            buttonAdd = view.FindViewById<Button>(Resource.Id.btnAdd);
+            buttonAdd.Click += buttonAdd_Click;
 
             return view;
         }
@@ -46,7 +42,7 @@ namespace FreediverApp
         private void RetrieveDiveSessionData()
         {
             diveSessionsDataListener = new FirebaseDataListener();
-            diveSessionsDataListener.QueryParameterized("divesessions", "ref_user", User.curUser.id);
+            diveSessionsDataListener.QueryParameterized("divesessions", "ref_user", TemporaryData.CURRENT_USER.id);
             diveSessionsDataListener.DataRetrieved += DiveSessionsDataListener_DataRetrieved;
         }
 
@@ -70,24 +66,19 @@ namespace FreediverApp
                 }
 
                 ArrayAdapter<string> adapter = new ArrayAdapter<string>(Context, Android.Resource.Layout.SimpleListItem1, dives);
-                lvwDive.Adapter = adapter;
-                User.curUser.diveSessions = diveSessions;
+                listViewDives.Adapter = adapter;
+                TemporaryData.CURRENT_USER.diveSessions = diveSessions;
             }
         }
 
         void lvwDive_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            User.curUser.curDiveSession = User.curUser.diveSessions[e.Position];
+            TemporaryData.CURRENT_DIVESESSION = TemporaryData.CURRENT_USER.diveSessions[e.Position];
             var diveSessionDetailViewActivity = new Intent(Context, typeof(DiveSessionDetailViewActivity));
             StartActivity(diveSessionDetailViewActivity);
         }
 
-        void lvwDive_ItemLongClick(object sender, AdapterView.ItemLongClickEventArgs e)
-        {
-
-        }
-
-        void btnAdd_Click(object sender, EventArgs eventArgs)
+        void buttonAdd_Click(object sender, EventArgs eventArgs)
         {
             var addSessionActivity = new Intent(Context, typeof(AddSessionActivity));
             StartActivity(addSessionActivity);

@@ -1,9 +1,10 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace FreediverApp
 {
-    class Measurepoint
+    public class Measurepoint
     {
         public string accelerator_x; // string
         public string accelerator_y; // string
@@ -61,8 +62,9 @@ namespace FreediverApp
                     temp["9"].ToString(), temp["10"].ToString(), temp["11"].ToString(), temp["12"].ToString(), temp["13"].ToString(), temp["14"].ToString());
                 return measurepoint;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return null;
             }     
         }

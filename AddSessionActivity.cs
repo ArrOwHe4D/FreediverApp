@@ -3,9 +3,6 @@ using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Widget;
-using Firebase.Database;
-using Java.Util;
-using DBConnector = FreediverApp.DatabaseConnector.DatabaseConnector;
 using FreediverApp.GeoLocationSevice;
 using Xamarin.Essentials;
 using FreediverApp.DataClasses;
@@ -13,6 +10,7 @@ using FreediverApp.OpenWeatherMap;
 using Android;
 using Android.Support.V4.Content;
 using Android.Support.V4.App;
+using FreediverApp.DatabaseConnector;
 
 namespace FreediverApp
 {
@@ -27,6 +25,7 @@ namespace FreediverApp
         private TextView tvwDate;
         private TextView tvwDiveTime;
         private DiveSession diveSession;
+        private FirebaseDataListener database;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -43,18 +42,22 @@ namespace FreediverApp
             tvwDate = FindViewById<TextView>(Resource.Id.tvwDateV);
             tvwDiveTime = FindViewById<TextView>(Resource.Id.tvwDiveTimeV);
 
-            diveSession = SampleData();
+            diveSession = createDiveSession();
             tvwLocation.Text = diveSession.location_lon + " | " + diveSession.location_lat;
             tvwWeather.Text = diveSession.weatherCondition_main + " | " + diveSession.weatherTemperature;
             tvwDate.Text = diveSession.date;
             tvwDiveTime.Text = diveSession.watertime;
+
+            database = new FirebaseDataListener();
         }
 
         private void btnAddSession_Click(object sender, EventArgs eventArgs)
         {            
-            User.curUser.diveSessions.Add(diveSession);
-            SaveDiveSession(diveSession);
-            SampleData();
+            diveSession = new DiveSession(TemporaryData.CURRENT_USER.id);
+            TemporaryData.CURRENT_DIVESESSION = diveSession;
+            TemporaryData.CURRENT_USER.diveSessions.Add(diveSession);
+
+            database.saveEntity("divesessions", diveSession);
 
             Finish();
         }
@@ -64,9 +67,9 @@ namespace FreediverApp
             Finish();
         }
 
-        private DiveSession SampleData()
+        private DiveSession createDiveSession()
         {
-            DiveSession ds = new DiveSession(User.curUser.id);
+            DiveSession ds = new DiveSession(TemporaryData.CURRENT_USER.id);
             System.Random rand = new System.Random();
 
             if (checkLocationPermission())
@@ -144,7 +147,7 @@ namespace FreediverApp
                         }                        
                     }
                     #endregion
-                    Measurepoint m = new Measurepoint(d.Id)
+                    Measurepoint m = new Measurepoint(d.id)
                     {
                         accelerator_x = "kp",
                         accelerator_y = "kp",
@@ -153,7 +156,7 @@ namespace FreediverApp
                         heart_var = hv.ToString(),
                         depth = dep.ToString(),
 						duration = dur.ToString(),
-                        ref_dive = d.Id,
+                        ref_dive = d.id,
                         gyroscope_x = "kp",
                         gyroscope_y = "kp",
                         gyroscope_z = "kp",
@@ -170,85 +173,6 @@ namespace FreediverApp
             }
             ds.UpdateDuration();
             return ds;
-        }
-
-        private void SaveDiveSession(DiveSession ds)
-        {
-            HashMap diveSessionData = new HashMap();
-            diveSessionData.Put("date", ds.date);
-            diveSessionData.Put("location_lon", ds.location_lon);
-            diveSessionData.Put("location_lat", ds.location_lat);
-            diveSessionData.Put("ref_user", ds.refUser);
-            diveSessionData.Put("watertime", ds.watertime);
-            diveSessionData.Put("weather_condition_main", ds.weatherCondition_main);
-            diveSessionData.Put("weather_condition_description", ds.weatherCondition_description);
-            diveSessionData.Put("weather_temp", ds.weatherTemperature);
-            diveSessionData.Put("weather_temp_feels_like", ds.weatherTemperatureFeelsLike);
-            diveSessionData.Put("weather_pressure", ds.weatherPressure);
-            diveSessionData.Put("weather_humidity", ds.weatherHumidity);
-            diveSessionData.Put("weather_wind_speed", ds.weatherWindSpeed);
-            diveSessionData.Put("weather_wind_gust", ds.weatherWindGust);
-            diveSessionData.Put("id", ds.Id);
-
-
-            DatabaseReference newDiveSessionsRef = DBConnector.GetDatabase().GetReference("divesessions").Push();
-            newDiveSessionsRef.SetValue(diveSessionData);
-
-            foreach (var item in ds.dives)
-            {
-                SaveDive(item);
-            }
-        }
-
-        private void SaveDive(Dive d)
-        {
-            HashMap diveData = new HashMap();
-            diveData.Put("duration", d.GetTotalTime());
-            diveData.Put("heart_freq_max", d.HeartFreqMax);
-            diveData.Put("heart_freq_min", d.HeartFreqMin);
-            diveData.Put("luminance_max", d.LuminanceMax);
-            diveData.Put("luminance_min", d.LuminanceMin);
-            diveData.Put("max_depth", d.maxDepth);
-            diveData.Put("oxygen_saturation_max", d.OxygenSaturationMax);
-            diveData.Put("oxygen_saturation_min", d.OxygenSaturationMin);
-            diveData.Put("ref_divesession", d.refDivesession);
-            diveData.Put("timestamp_begin", d.timestampBegin);
-            diveData.Put("timestamp_end", d.timestampEnd);
-            diveData.Put("water_temp_max", d.WaterTemperatureMax);
-            diveData.Put("water_temp_min", d.WaterTemperatureMin);
-            diveData.Put("id", d.Id);
-
-
-            DatabaseReference newDivesrRef = DBConnector.GetDatabase().GetReference("dives").Push();
-            newDivesrRef.SetValue(diveData);
-
-            foreach (var item in d.measurepoints)
-            {
-                SaveMeasurepoint(item);
-            }
-        }
-
-        private void SaveMeasurepoint(Measurepoint m)
-        {
-            HashMap measurepointData = new HashMap();
-            measurepointData.Put("accelerator_x", m.accelerator_x);
-            measurepointData.Put("accelerator_y", m.accelerator_y);
-            measurepointData.Put("accelerator_z", m.accelerator_z);
-            measurepointData.Put("depth", m.depth);
-            measurepointData.Put("duration", m.duration);
-            measurepointData.Put("gyroscope_x", m.gyroscope_x);
-            measurepointData.Put("gyroscope_y", m.gyroscope_y);
-            measurepointData.Put("gyroscope_z", m.gyroscope_z);
-            measurepointData.Put("heart_freq", m.heart_freq);
-            measurepointData.Put("heart_var", m.heart_var);
-            measurepointData.Put("luminance", m.luminance);
-            measurepointData.Put("oxygen_saturation", m.oxygen_saturation);
-            measurepointData.Put("ref_dive", m.ref_dive);
-            measurepointData.Put("water_temp", m.water_temp);
-
-
-            DatabaseReference newMeasurepointsRef = DBConnector.GetDatabase().GetReference("measurepoints").Push();
-            newMeasurepointsRef.SetValue(measurepointData);
         }
 
         private bool checkLocationPermission()

@@ -10,7 +10,7 @@
         public static string DIVE_CHARACTERISTIC_ID = "19B10001-E8F2-537E-4F6C-D104768A1214";
 
         /**
-         * These were used as an attempt to boos performance using one characteristic for 
+         * These were used as an attempt to boost performance using one characteristic for 
          * each variable that needed to be transmitted from arduino to the app.
          **/
         public static string characteristic_acceleator_x = "094a4ab5-d789-477e-8b3a-fd5fee1971f9";

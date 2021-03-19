@@ -2,6 +2,8 @@
 {
     public static class TemporaryData
     {
-        public static string USER_ID, USER_NAME, USER_EMAIL;
+        public static User CURRENT_USER;
+        public static DiveSession CURRENT_DIVESESSION;
+        public static Dive CURRENT_DIVE;
     }
 }

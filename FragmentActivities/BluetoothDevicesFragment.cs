@@ -101,11 +101,6 @@ namespace FreediverApp
             runBluetoothConnectionDialog(device);
         }
 
-        private async void bleStateChanged(BluetoothStateChangedArgs args)
-        {
-
-        }
-
         private async void scanButtonOnClick(object sender, EventArgs eventArgs)
         {
             if (ble.State == BluetoothState.On)
@@ -250,6 +245,7 @@ namespace FreediverApp
                     }
                     catch(Exception ex)
                     {
+                        Console.WriteLine(ex.Message);
                         Toast.MakeText(Context, Resource.String.connection_to_device_failed, ToastLength.Long).Show();
                         await bleAdapter.DisconnectDeviceAsync(clickedDevice);
                     }
@@ -302,11 +298,6 @@ namespace FreediverApp
         private bool isMeasurepoint(string m)
         {            
             return m.StartsWith('{') && m.EndsWith('}');
-        }
-
-        private void saveInDatabase(object JSONObject)
-        {
-            measurepointsListener.saveEntity("measurepoints", JSONObject);
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FreediverApp
 {
-    class User
+    public class User
     {
         public string id;
         public string username;
@@ -17,8 +17,6 @@ namespace FreediverApp
         public string registerdate;
 
         public List<DiveSession> diveSessions = new List<DiveSession>();
-        public DiveSession curDiveSession;
-        public Dive curDive;
 
         public User() 
         {
@@ -43,7 +41,5 @@ namespace FreediverApp
             this.height = height;
             this.registerdate = DateTime.Now.Date.ToString("dd.MM.yyyy");
         }
-        
-        public static User curUser = new User(new List<DiveSession>() { new DiveSession("22.11.2020"), new DiveSession("23.11.2020"), new DiveSession("25.11.2020") });
     }
 }

@@ -98,10 +98,7 @@ namespace FreediverApp
                 if (userList[0].username == texteditUsername.Text && userList[0].password == Encryptor.Encrypt(texteditPassword.Text))
                 {
                     //set temporary user data 
-                    TemporaryData.USER_EMAIL = userList[0].email;
-                    TemporaryData.USER_ID = userList[0].id;
-                    TemporaryData.USER_NAME = userList[0].username;
-                    User.curUser = userList[0];
+                    TemporaryData.CURRENT_USER = userList[0];
 
                     loginDialog.Dismiss();
                     var mainMenu = new Intent(this, typeof(MainActivity));
@@ -110,7 +107,6 @@ namespace FreediverApp
                 }
                 else 
                 {
-
                     loginDialog.Dismiss();
                     Toast.MakeText(this, Resource.String.wrong_username_or_pass, ToastLength.Long).Show();
                 }

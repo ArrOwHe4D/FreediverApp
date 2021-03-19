@@ -21,10 +21,8 @@ namespace FreediverApp
         private ChartView chartView;
         private TextView tvwSessionName;
         private TextView tvwLocation;
-        private TextView tvwDate;
         private TextView tvwWeather;
         private TextView tvwTimeInWater;
-        private TextView tvwNotes;
         private FirebaseDataListener diveDataListener;
         private FirebaseDataListener measurepointDataListener;
         private List<Measurepoint> measurepointList = new List<Measurepoint>();
@@ -39,49 +37,47 @@ namespace FreediverApp
             btnDivesPerSession.Click += redirectToDivesPerSessionActivity;
             tvwSessionName = FindViewById<TextView>(Resource.Id.tvwDsdvSessionName);
             tvwLocation = FindViewById<TextView>(Resource.Id.tvwDsdvLocationV);
-            //tvwDate = FindViewById<TextView>(Resource.Id.);
             tvwWeather = FindViewById<TextView>(Resource.Id.tvwDsdvWeatherV);
             tvwTimeInWater = FindViewById<TextView>(Resource.Id.tvwDsdvTimeInWaterV);
-            tvwNotes = FindViewById<TextView>(Resource.Id.tvwDsdvNotesV);            
-            tvwSessionName.Text = User.curUser.curDiveSession.date + " " + User.curUser.curDiveSession.location_lon + " | " + User.curUser.curDiveSession.location_lat;
-            tvwLocation.Text = User.curUser.curDiveSession.location_lon + " | " + User.curUser.curDiveSession.location_lat;
-            tvwWeather.Text = User.curUser.curDiveSession.weatherCondition_main + " | " + User.curUser.curDiveSession.weatherTemperature;
-            tvwTimeInWater.Text = User.curUser.curDiveSession.watertime + " sec";
             chartView = FindViewById<ChartView>(Resource.Id.chartview_divesession_detail);
 
+            tvwSessionName.Text = TemporaryData.CURRENT_DIVESESSION.date + " " + TemporaryData.CURRENT_DIVESESSION.location_lon + " | " + TemporaryData.CURRENT_DIVESESSION.location_lat;
+            tvwLocation.Text = TemporaryData.CURRENT_DIVESESSION.location_lon + " | " + TemporaryData.CURRENT_DIVESESSION.location_lat;
+            tvwWeather.Text = TemporaryData.CURRENT_DIVESESSION.weatherCondition_main + " | " + TemporaryData.CURRENT_DIVESESSION.weatherTemperature;
+            tvwTimeInWater.Text = TemporaryData.CURRENT_DIVESESSION.watertime + " sec";
+            
             RetrieveDiveData();
         }
         
         private void RetrieveDiveData()
         {
             diveDataListener = new FirebaseDataListener();
-            diveDataListener.QueryParameterized("dives", "ref_divesession", User.curUser.curDiveSession.Id);
+            diveDataListener.QueryParameterized("dives", "ref_divesession", TemporaryData.CURRENT_DIVESESSION.Id);
             diveDataListener.DataRetrieved += DiveDataListener_DataRetrieved;
         }
 
         private void DiveDataListener_DataRetrieved(object sender, FirebaseDataListener.DataEventArgs e)
         {            
-            User.curUser.curDiveSession.dives = e.Dives;
-            //GetMeasurepoints();
+            TemporaryData.CURRENT_DIVESESSION.dives = e.Dives;
             generateChart();
         }
-        int counter = 0;
+
         private void GetMeasurepoints()
         {
-            counter++;
-            foreach (var item in User.curUser.curDiveSession.dives)
+            foreach (var item in TemporaryData.CURRENT_DIVESESSION.dives)
             {
                 RetrieveMeasurepointData(item);
                 item.measurepoints = measurepointList;                                
             }
         }
 
-        private void RetrieveMeasurepointData(Dive d)
+        private void RetrieveMeasurepointData(Dive dive)
         {            
             measurepointDataListener = new FirebaseDataListener();
-            measurepointDataListener.QueryParameterized("measurepoints", "ref_dive", d.Id);
+            measurepointDataListener.QueryParameterized("measurepoints", "ref_dive", dive.id);
             measurepointDataListener.DataRetrieved += MeasurepointDataListener_DataRetrieved;
-        }        
+        }      
+        
         private void MeasurepointDataListener_DataRetrieved(object sender, FirebaseDataListener.DataEventArgs e)
         {
             lock (measurepointList)

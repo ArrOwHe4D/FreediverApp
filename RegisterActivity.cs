@@ -3,14 +3,10 @@ using System.Globalization;
 using Android.App;
 using Android.OS;
 using Android.Widget;
-using Java.Util;
 using SupportV7 = Android.Support.V7.App;
-using Firebase.Database;
 using FreediverApp.DatabaseConnector;
-using DBConnector = FreediverApp.DatabaseConnector.DatabaseConnector;
 using Android.Content;
 using System.Collections.Generic;
-using System.Net.Mail;
 using Android.Content.PM;
 
 namespace FreediverApp
@@ -196,8 +192,9 @@ namespace FreediverApp
                 else
                     return false;
             }
-            catch (Exception exp)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return false;
             }
         }

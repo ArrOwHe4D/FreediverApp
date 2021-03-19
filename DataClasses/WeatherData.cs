@@ -11,7 +11,7 @@ using System.Text;
 
 namespace FreediverApp.DataClasses
 {
-    class WeatherData
+    public class WeatherData
     {
         public WeatherData() { }
 

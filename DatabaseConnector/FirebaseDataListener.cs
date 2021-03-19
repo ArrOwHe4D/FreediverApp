@@ -113,7 +113,7 @@ namespace FreediverApp.DatabaseConnector
                         dive.timestampEnd = dataRecord.Child("timestamp_end").Value.ToString();
                         dive.WaterTemperatureMax = dataRecord.Child("water_temp_max").Value.ToString();
                         dive.WaterTemperatureMin = dataRecord.Child("water_temp_min").Value.ToString();
-                        dive.Id = dataRecord.Child("id").Value.ToString();
+                        dive.id = dataRecord.Child("id").Value.ToString();
                         diveList.Add(dive);
                     }
                     break;
@@ -184,7 +184,7 @@ namespace FreediverApp.DatabaseConnector
                     saveData.Put("timestamp_end", obj.timestampEnd);
                     saveData.Put("water_temp_max", obj.WaterTemperatureMax);
                     saveData.Put("water_temp_min", obj.WaterTemperatureMin);
-                    saveData.Put("id", obj.Id);
+                    saveData.Put("id", obj.id);
 
                     tableRef.SetValue(saveData);
                     break;

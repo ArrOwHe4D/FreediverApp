@@ -13,14 +13,14 @@ namespace FreediverApp
     [Activity(Label = "DiveDetailViewActivity", ScreenOrientation = ScreenOrientation.Portrait)]
     public class DiveDetailViewActivity : Activity
     {
-        TextView textViewDiveSessionTitle;
-        TextView textViewGraphTitle;
-        TextView textViewDepth;
-        TextView textViewDuration;
-        TextView textViewMaxHF;
-        TextView textViewMinHF;
-        TextView textViewMaxOxy;
-        TextView textViewMinOxy;
+        private TextView textViewDiveSessionTitle;
+        private TextView textViewGraphTitle;
+        private TextView textViewDepth;
+        private TextView textViewDuration;
+        private TextView textViewMaxHF;
+        private TextView textViewMinHF;
+        private TextView textViewMaxOxy;
+        private TextView textViewMinOxy;
         private ChartView chartView;
         private FirebaseDataListener measurepointDataListener;
         private List<Measurepoint> measurepointList;
@@ -31,7 +31,7 @@ namespace FreediverApp
 
             // Create your application here
             SetContentView(Resource.Layout.DiveDetailViewPage);
-            RetrieveMeasurepointData(User.curUser.curDive);
+            RetrieveMeasurepointData(TemporaryData.CURRENT_DIVE);
             textViewDiveSessionTitle = FindViewById<TextView>(Resource.Id.diveDetailViewSessionName);
             textViewGraphTitle = FindViewById<TextView>(Resource.Id.textViewGraphTitle);
             textViewDepth = FindViewById<TextView>(Resource.Id.tvwDdvDepthV);
@@ -47,24 +47,25 @@ namespace FreediverApp
         private void fillTextView()
         {
             textViewDiveSessionTitle.Text = "Tauchgang #" + Intent.GetStringExtra("index");
-            textViewGraphTitle.Text = "Last Dive (" + User.curUser.curDive.maxDepth + " m deep and " + User.curUser.curDive.duration + " sec long)";
-            textViewDepth.Text = User.curUser.curDive.maxDepth + " m";
-            textViewDuration.Text = User.curUser.curDive.duration + " sec";
-            textViewMaxHF.Text = User.curUser.curDive.HeartFreqMax + " bpm";
-            textViewMinHF.Text = User.curUser.curDive.HeartFreqMin + " bpm";
-            textViewMaxOxy.Text = User.curUser.curDive.OxygenSaturationMax + " %";
-            textViewMinOxy.Text = User.curUser.curDive.OxygenSaturationMin + " %";
+            textViewGraphTitle.Text = "Last Dive (" + TemporaryData.CURRENT_DIVE.maxDepth + " m deep and " + TemporaryData.CURRENT_DIVE.duration + " sec long)";
+            textViewDepth.Text = TemporaryData.CURRENT_DIVE.maxDepth + " m";
+            textViewDuration.Text = TemporaryData.CURRENT_DIVE.duration + " sec";
+            textViewMaxHF.Text = TemporaryData.CURRENT_DIVE.HeartFreqMax + " bpm";
+            textViewMinHF.Text = TemporaryData.CURRENT_DIVE.HeartFreqMin + " bpm";
+            textViewMaxOxy.Text = TemporaryData.CURRENT_DIVE.OxygenSaturationMax + " %";
+            textViewMinOxy.Text = TemporaryData.CURRENT_DIVE.OxygenSaturationMin + " %";
         }
 
-        private void RetrieveMeasurepointData(Dive d)
+        private void RetrieveMeasurepointData(Dive dive)
         {
             measurepointDataListener = new FirebaseDataListener();
-            measurepointDataListener.QueryParameterized("measurepoints", "ref_dive", d.Id);
+            measurepointDataListener.QueryParameterized("measurepoints", "ref_dive", dive.id);
             measurepointDataListener.DataRetrieved += MeasurepointDataListener_DataRetrieved;
         }
+
         private void MeasurepointDataListener_DataRetrieved(object sender, FirebaseDataListener.DataEventArgs e)
         {
-            User.curUser.curDive.measurepoints = e.Measurepoints;
+            TemporaryData.CURRENT_DIVE.measurepoints = e.Measurepoints;
             measurepointList = e.Measurepoints;
             generateChart();
         }

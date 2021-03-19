@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FreediverApp
 {
-    class DiveSession
+    public class DiveSession
     {
         public string date;
         public string location_lon;
@@ -20,22 +20,23 @@ namespace FreediverApp
         public string weatherWindGust;
         public string duration;
         private string id;
+        public List<Dive> dives = new List<Dive>();
+
         public string Id
         {
             get { return id; }
             set { id = value; }
         }
-        
-        public List<Dive> dives = new List<Dive>();
+
+        public DiveSession()
+        {
+
+        }
 
         public DiveSession(string _refUser) 
         {
             refUser = _refUser;
             id = refUser + "_" + System.Guid.NewGuid();
-        }
-
-        public DiveSession()
-        {            
         }
 
         public void UpdateDuration()

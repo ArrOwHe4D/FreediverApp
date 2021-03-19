@@ -4,19 +4,14 @@ using System.Linq;
 
 namespace FreediverApp
 {
-    class Dive
+    public class Dive
     {
         public List<Measurepoint> measurepoints = new List<Measurepoint>();
         public string duration;
         public string refDivesession;
         public string timestampBegin;
         public string timestampEnd;
-        private string id;
-        public string Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
+        public string id;
 
         public Dive(string _refDiveSession, string reihenfolge)
         {
@@ -43,7 +38,9 @@ namespace FreediverApp
             }
             set { heartFreqMax = value; }
         }
+
         private string heartFreqMin;
+
         public string HeartFreqMin
         {
             get
@@ -60,7 +57,9 @@ namespace FreediverApp
             }
             set { heartFreqMin = value; }
         }
+
         private string luminanceMax;
+
         public string LuminanceMax
         {
             get
@@ -77,7 +76,9 @@ namespace FreediverApp
             }
             set { luminanceMax = value; }
         }
+
         private string luminanceMin;
+
         public string LuminanceMin
         {
             get
@@ -94,9 +95,11 @@ namespace FreediverApp
             }
             set { luminanceMin = value; }
         }
+
         public string maxDepth;
 
         private string oxygenSaturationMax;
+
         public string OxygenSaturationMax
         {
             get
@@ -113,7 +116,9 @@ namespace FreediverApp
             }
             set { oxygenSaturationMax = value; }
         }
+
         private string oxygenSaturationMin;
+
         public string OxygenSaturationMin
         {
             get
@@ -130,7 +135,9 @@ namespace FreediverApp
             }
             set { oxygenSaturationMin = value; }
         }                
+
         private string waterTemperatureMax;
+
         public string WaterTemperatureMax
         {
             get
@@ -147,7 +154,9 @@ namespace FreediverApp
             }
             set { waterTemperatureMax = value; }
         }
+
         private string waterTemperatureMin;
+
         public string WaterTemperatureMin
         {
             get
@@ -327,19 +336,6 @@ namespace FreediverApp
 
         public string GetTotalTime()
         {
-            //float time = 0;
-            //foreach (var item in measurepoints)
-            //{
-            //    try
-            //    {
-            //        time += (float)Convert.ToDouble(item.duration);
-            //    }
-            //    catch (Exception)
-            //    {
-
-            //    }
-            //}
-
             try
             {
                 return Math.Round(Convert.ToDouble(measurepoints.Last().duration), 2).ToString();

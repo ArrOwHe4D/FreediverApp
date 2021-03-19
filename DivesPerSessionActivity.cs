@@ -3,6 +3,7 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Widget;
+using FreediverApp.DatabaseConnector;
 using System;
 using System.Collections.Generic;
 
@@ -32,7 +33,7 @@ namespace FreediverApp
         {
             dives = new List<string>();
             int count = 0;
-            foreach (var item in User.curUser.curDiveSession.dives)
+            foreach (var item in TemporaryData.CURRENT_DIVESESSION.dives)
             {
                 if (item.duration != null)
                 {
@@ -48,7 +49,7 @@ namespace FreediverApp
         {
             try
             {
-                User.curUser.curDive = User.curUser.curDiveSession.dives[e.Position];
+                TemporaryData.CURRENT_DIVE = TemporaryData.CURRENT_DIVESESSION.dives[e.Position];
                 var addDiveDetailViewActivity = new Intent(this, typeof(DiveDetailViewActivity));
 
                 int index = e.Position;
