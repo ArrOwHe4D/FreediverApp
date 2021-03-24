@@ -21,6 +21,7 @@ using Plugin.BLE.Abstractions;
 using Plugin.BLE.Abstractions.EventArgs;
 using System.Threading.Tasks;
 using FreediverApp.DatabaseConnector;
+using Newtonsoft.Json;
 
 namespace FreediverApp
 {
@@ -265,7 +266,18 @@ namespace FreediverApp
             //after a connection was established we need to read the service and characteristic data from arduino side
             var service = await conDevice.GetServiceAsync(new Guid(BluetoothServiceData.DIVE_SERVICE_ID));
             var characteristic = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.DIVE_CHARACTERISTIC_ID));
-            
+            List<string> resList = new List<string>();
+
+            /* experimental
+            characteristic.ValueUpdated += (o, args) =>
+            {
+                var bytes = args.Characteristic.Value;
+                string result = System.Text.Encoding.ASCII.GetString(bytes);
+                resList.Add(result);
+            };
+            await characteristic.StartUpdatesAsync();
+            */
+
             //create the result list which will be returned and set connection interval to high for a small performance boost
             List<Measurepoint> measurepoints = new List<Measurepoint>();
             conDevice.UpdateConnectionInterval(ConnectionInterval.High);
@@ -273,8 +285,8 @@ namespace FreediverApp
             while (conDevice.State == DeviceState.Connected)
             {
                 var bytes = await characteristic.ReadAsync();
-                string result = System.Text.Encoding.ASCII.GetString(bytes);                
-
+                string result = System.Text.Encoding.ASCII.GetString(bytes);
+                
                 //split the bluetooth result into single json strings for each measurepoint received (3 at each transmission)
                 //json strings are recognized by their closing bracket
                 List<string> jsonResult = result.Split('}').ToList();
@@ -284,7 +296,7 @@ namespace FreediverApp
                 //which will be returned by this function
                 for (int i = 0; i < jsonResult.Count; i++)
                 {
-                    if (isMeasurepoint((jsonResult[i]) + "}"))
+                    if (isJson((jsonResult[i]) + "}"))
                     {                        
                         Measurepoint measurepoint = Measurepoint.fromJson(jsonResult.ElementAt(i) + "}");
                         measurepoints.Add(measurepoint);
@@ -295,9 +307,61 @@ namespace FreediverApp
             return measurepoints;
         }
 
-        private bool isMeasurepoint(string m)
+        private bool isJson(string m)
         {            
             return m.StartsWith('{') && m.EndsWith('}');
+        }
+
+        private List<DiveSession> processData(List<string> rawData)
+        {
+            List<DiveSession> diveSessions = new List<DiveSession>();
+            int divecount = 0;
+            foreach (var item in rawData)
+            {
+                if (isJson(item))
+                {
+                    var temp = JsonConvert.DeserializeObject<Dictionary<string, object>>(item);
+                    if (temp.ContainsKey("Date"))
+                    {
+                        DiveSession ds = new DiveSession(TemporaryData.CURRENT_USER.id);
+                        // add Dive Session Data
+                        ds.date = temp["Date"].ToString();
+                        //ds.GetMetaData();
+                        //
+                        diveSessions.Add(ds);
+                        divecount = 0;
+                    }
+                    else if (temp.ContainsKey("Time"))
+                    {
+                        Dive d = new Dive(diveSessions.Last().Id, divecount.ToString());
+                        d.timestampBegin = temp["Time"].ToString();
+                        divecount++;
+                        diveSessions.Last().dives.Add(d);
+                    }
+                    else
+                    {
+                        try
+                        {
+                            diveSessions.Last().dives.Last().measurepoints.Add(Measurepoint.fromJson(item));
+                        }
+                        catch (Exception)
+                        {
+                            
+                        }
+                    }
+                }
+            }
+
+            foreach (var session in diveSessions)
+            {
+                foreach (var dive in session.dives)
+                {
+                    dive.UpdateAll();
+                }
+                session.UpdateDuration();
+            }
+
+            return diveSessions;
         }
     }
 }
