@@ -5,20 +5,27 @@ using System.Collections.Generic;
 using System.Linq;
 using DBConnector = FreediverApp.DatabaseConnector.DatabaseConnector;
 
-//DataListener that handles the retrieval of data from db and returns the data to the activity/fragment by invoking a event
 namespace FreediverApp.DatabaseConnector
 {
+    /**
+     *  This Class handles all db operations that are needed within our app. We use generic lists 
+     *  that consist of the dataclasses we have designed (Dive, DiveSession, Measurepoint, User) to retrieve information
+     *  from the db. We need to create an instance of this class in any Activity/Fragment that needs to communicate with the db.
+     *  The lists of retrieved data records will then be returned to the Activity/Fragment by invoking the dataRetrieved Event 
+     *  that has to be connected with the FirebaseDataListener instance.
+     */
     public class FirebaseDataListener : Java.Lang.Object, IValueEventListener
     {
-        //Lists for retrieved data entities that will then be returned to the activity by invoking the dataRetrieved Event
-        //If we need a new type of table you should add a new list to handle the retrieved Data for that case
+        //Generic Entity Lists to retreive the data results from db
         List<User> userList = new List<User>();
         List<DiveSession> divesessionList = new List<DiveSession>();
         List<Dive> diveList = new List<Dive>();
         List<Measurepoint> measurePointList = new List<Measurepoint>();
 
+        //
         public event EventHandler<DataEventArgs> DataRetrieved;
 
+        //EventArguments that hold our result lists and pass them to the Activity that triggered this event.
         public class DataEventArgs : EventArgs 
         {
             internal List<User> Users { get; set; }
@@ -33,6 +40,7 @@ namespace FreediverApp.DatabaseConnector
             tableRef.AddValueEventListener(this);
         }
 
+        //Queries a table "tablename" and filters the result with the given "field" and "value" like the WHERE clause in SQL.
         public void QueryParameterized(string tablename, string field, string value) 
         {
             DatabaseReference tableRef = DBConnector.GetDatabase().GetReference(tablename);
@@ -44,9 +52,9 @@ namespace FreediverApp.DatabaseConnector
             
         }
 
+        //Handles the results and instatiates a DataObject in our app for every dataset that was retrieved from db
         public void createEntitiesFromSnapshot(DataSnapshot snapshot) 
         {
-            //we cannot generalize this completely at the moment -> would be too much since we dont need a full db api for the small amount of tasks
             string tablename = snapshot.Ref.Key;
             var dataResult = snapshot.Children.ToEnumerable<DataSnapshot>();
 
@@ -145,6 +153,7 @@ namespace FreediverApp.DatabaseConnector
             }
         }
 
+        //Stores the given "objectToSave" into the table "tablename" inside the database.
         public void saveEntity(string tablename, object objectToSave) 
         {
             HashMap saveData = new HashMap();
@@ -239,18 +248,22 @@ namespace FreediverApp.DatabaseConnector
             }
         }
 
+
+        //Deletes a dataset with the given "id" from the table "tablename"
         public void deleteEntity(string tablename, string id) 
         {
             DatabaseReference entityRef = DBConnector.GetDatabase().GetReference(tablename + "/" + id);
             entityRef.RemoveValue();
         }
 
+        //Deletes a full table "tablename" from db
         public void deleteTable(string tablename) 
         {
             DatabaseReference tableRef = DBConnector.GetDatabase().GetReference(tablename);
             tableRef.RemoveValue();
         }
 
+        //Event that is called when data was received from db
         public void OnDataChange(DataSnapshot snapshot)
         {
             if (snapshot.Value != null)
@@ -271,6 +284,7 @@ namespace FreediverApp.DatabaseConnector
             }
         }
 
+        //Event that is invoked to store our result lists inside our eventhandler with the DataEventArgs. 
         public void invokeDataRetrievedEvent(DataSnapshot snapshot) 
         {
             string tablename = snapshot.Ref.Key;
