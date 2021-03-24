@@ -71,7 +71,7 @@ namespace FreediverApp
         {
             DiveSession ds = new DiveSession(TemporaryData.CURRENT_USER.id);
             System.Random rand = new System.Random();
-
+            
             if (checkLocationPermission())
             {
                 Location location = new GeoLocationService().location;
