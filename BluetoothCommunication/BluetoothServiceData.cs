@@ -27,5 +27,7 @@
         public static string characteristic_oxygen_saturation = "ab9db830-e5b5-4c12-8c9b-845386bf6dc8";
         public static string characteristic_ref_dive = "b8589826-9f39-445d-901e-699db1cad791";
         public static string characteristic_water_temp = "3473bdad-806f-419f-875a-0f2472e3fe53";
+
+        public static string characteristic_ack = "76e8ad5b-fe45-4871-a4c0-04962a35bbed";        
     }
 }

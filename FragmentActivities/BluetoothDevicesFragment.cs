@@ -264,44 +264,185 @@ namespace FreediverApp
         private async Task<List<Measurepoint>> receiveDataAsync(DeviceBase conDevice)
         {
             //after a connection was established we need to read the service and characteristic data from arduino side
-            var service = await conDevice.GetServiceAsync(new Guid(BluetoothServiceData.DIVE_SERVICE_ID));
-            var characteristic = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.DIVE_CHARACTERISTIC_ID));
-            List<string> resList = new List<string>();
+            var service = await conDevice.GetServiceAsync(new Guid(BluetoothServiceData.DIVE_SERVICE_ID));            
+            var characteristics = await service.GetCharacteristicsAsync();
+           
+            List<string> acc_x_List = new List<string>();
+            List<string> acc_y_List = new List<string>();
+            List<string> acc_z_List = new List<string>();
+            List<string> depth_List = new List<string>();
+            List<string> dur_List = new List<string>();
+            List<string> gyro_x_List = new List<string>();
+            List<string> gyro_y_List = new List<string>();
+            List<string> gyro_z_List = new List<string>();
+            List<string> heart_freq_List = new List<string>();
+            List<string> heart_var_List = new List<string>();
+            List<string> lumi_List = new List<string>();
+            List<string> oxy_List = new List<string>();
+            List<string> ref_List = new List<string>();
+            List<string> water_List = new List<string>();
 
-            /* experimental
-            characteristic.ValueUpdated += (o, args) =>
+            foreach (ICharacteristic chara in characteristics)
+            {
+                try
+                {
+                    chara.ValueUpdated += (o, args) =>
+                    {
+                        if (BluetoothServiceData.characteristic_acceleator_x == chara.Uuid)
+                        {
+                            acc_x_List.Add(BitConverter.ToSingle(args.Characteristic.Value).ToString());
+                        }
+                        else if (BluetoothServiceData.characteristic_acceleator_y == chara.Uuid)
+                        {
+                            acc_y_List.Add(BitConverter.ToSingle(args.Characteristic.Value).ToString());
+                        }
+                        else if (BluetoothServiceData.characteristic_acceleator_z == chara.Uuid)
+                        {
+                            acc_z_List.Add(BitConverter.ToSingle(args.Characteristic.Value).ToString());
+                        }
+                        else if (BluetoothServiceData.characteristic_depth == chara.Uuid)
+                        {
+                            depth_List.Add(BitConverter.ToSingle(args.Characteristic.Value).ToString());
+                        }
+                        else if (BluetoothServiceData.characteristic_duration == chara.Uuid)
+                        {
+                            dur_List.Add(BitConverter.ToSingle(args.Characteristic.Value).ToString());
+                        }
+                        else if (BluetoothServiceData.characteristic_gyroscope_x == chara.Uuid)
+                        {
+                            gyro_x_List.Add(BitConverter.ToSingle(args.Characteristic.Value).ToString());
+                        }
+                        else if (BluetoothServiceData.characteristic_gyroscope_y == chara.Uuid)
+                        {
+                            gyro_y_List.Add(BitConverter.ToSingle(args.Characteristic.Value).ToString());
+                        }
+                        else if (BluetoothServiceData.characteristic_gyroscope_z == chara.Uuid)
+                        {
+                            gyro_z_List.Add(BitConverter.ToSingle(args.Characteristic.Value).ToString());
+                        }
+                        else if (BluetoothServiceData.characteristic_heart_freq == chara.Uuid)
+                        {
+                            heart_freq_List.Add(BitConverter.ToInt32(args.Characteristic.Value).ToString());
+                        }
+                        else if (BluetoothServiceData.characteristic_heat_var == chara.Uuid)
+                        {
+                            heart_var_List.Add(BitConverter.ToInt32(args.Characteristic.Value).ToString());
+                        }
+                        else if (BluetoothServiceData.characteristic_luminance == chara.Uuid)
+                        {
+                            lumi_List.Add(BitConverter.ToInt32(args.Characteristic.Value).ToString());
+                        }
+                        else if (BluetoothServiceData.characteristic_oxygen_saturation == chara.Uuid)
+                        {
+                            oxy_List.Add(BitConverter.ToInt32(args.Characteristic.Value).ToString());
+                        }
+                        else if (BluetoothServiceData.characteristic_ref_dive == chara.Uuid)
+                        {
+                            ref_List.Add(BitConverter.ToInt32(args.Characteristic.Value).ToString());
+                        }
+                        else if (BluetoothServiceData.characteristic_water_temp == chara.Uuid)
+                        {
+                            water_List.Add(BitConverter.ToSingle(args.Characteristic.Value).ToString());
+                        }
+                    };
+                    if (BluetoothServiceData.characteristic_ack != chara.Uuid)
+                    {
+                        try
+                        {
+                            await chara.StartUpdatesAsync();
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    
+                }
+                
+                
+                
+            }
+            #region old
+            /*
+            var chara_acc_x = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_acceleator_x));
+            var chara_acc_y = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_acceleator_y));
+            var chara_acc_z = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_acceleator_z));
+            var chara_depth = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_depth));
+            var chara_dur = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_duration));
+            var chara_gyro_x = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_gyroscope_x));
+            var chara_gyro_y = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_gyroscope_y));
+            var chara_gyro_z = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_gyroscope_z));
+            var chara_hf = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_heart_freq));
+            var chara_hv = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_heat_var));
+            var chara_lumi = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_luminance));
+            var chara_oxy = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_oxygen_saturation));
+            var chara_ref = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_ref_dive));
+            var chara_water = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_water_temp));
+
+            List<string> lumiList = new List<string>();
+            List<string> refList = new List<string>();
+
+            
+            chara_acc_x.ValueUpdated += (o, args) =>
             {
                 var bytes = args.Characteristic.Value;
                 string result = System.Text.Encoding.ASCII.GetString(bytes);
                 resList.Add(result);
             };
-            await characteristic.StartUpdatesAsync();
-            */
+            await chara_acc_x.StartUpdatesAsync();
 
+            chara_acc_y.ValueUpdated += (o, args) =>
+            {
+                var bytes = args.Characteristic.Value;
+                string result = System.Text.Encoding.ASCII.GetString(bytes);
+                resList.Add(result);
+            };
+            await chara_acc_y.StartUpdatesAsync();
+
+            chara_acc_z.ValueUpdated += (o, args) =>
+            {
+                var bytes = args.Characteristic.Value;
+                string result = System.Text.Encoding.ASCII.GetString(bytes);
+                resList.Add(result);
+            };
+            await chara_acc_z.StartUpdatesAsync();
+            
+
+            chara_lumi.ValueUpdated += (o, args) =>
+            {                
+                lumiList.Add(BitConverter.ToInt32(args.Characteristic.Value).ToString());
+            };
+            await chara_lumi.StartUpdatesAsync();
+
+            chara_ref.ValueUpdated += (o, args) =>
+            {                
+                refList.Add(BitConverter.ToInt32(args.Characteristic.Value).ToString());
+            };
+            await chara_ref.StartUpdatesAsync();
+            */
             //create the result list which will be returned and set connection interval to high for a small performance boost
+            #endregion
+
+            var chara_ack = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_ack));
+            try
+            {
+                await chara_ack.WriteAsync(new Byte[] { Convert.ToByte(1) });
+            }
+            catch (Exception ex)
+            {
+                
+            }
+            
+
             List<Measurepoint> measurepoints = new List<Measurepoint>();
             conDevice.UpdateConnectionInterval(ConnectionInterval.High);
 
             while (conDevice.State == DeviceState.Connected)
             {
-                var bytes = await characteristic.ReadAsync();
-                string result = System.Text.Encoding.ASCII.GetString(bytes);
                 
-                //split the bluetooth result into single json strings for each measurepoint received (3 at each transmission)
-                //json strings are recognized by their closing bracket
-                List<string> jsonResult = result.Split('}').ToList();
-
-                //iterate through the received measurepoints and add a new closing bracket 
-                //since we removed it above to avoid adding a special separator for our result set, then add every entry to the result list 
-                //which will be returned by this function
-                for (int i = 0; i < jsonResult.Count; i++)
-                {
-                    if (isJson((jsonResult[i]) + "}"))
-                    {                        
-                        Measurepoint measurepoint = Measurepoint.fromJson(jsonResult.ElementAt(i) + "}");
-                        measurepoints.Add(measurepoint);
-                    }                    
-                }
             }
 
             return measurepoints;
