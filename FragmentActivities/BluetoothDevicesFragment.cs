@@ -266,7 +266,11 @@ namespace FreediverApp
             //after a connection was established we need to read the service and characteristic data from arduino side
             var service = await conDevice.GetServiceAsync(new Guid(BluetoothServiceData.DIVE_SERVICE_ID));            
             var characteristics = await service.GetCharacteristicsAsync();
-           
+            var chara_ack = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_ack));
+            List<Measurepoint> measurepoints = new List<Measurepoint>();
+            List<DiveSession> diveSessions = new List<DiveSession>();
+            
+
             List<string> acc_x_List = new List<string>();
             List<string> acc_y_List = new List<string>();
             List<string> acc_z_List = new List<string>();
@@ -281,6 +285,10 @@ namespace FreediverApp
             List<string> oxy_List = new List<string>();
             List<string> ref_List = new List<string>();
             List<string> water_List = new List<string>();
+            bool doit = false;
+            bool doitd = false;
+            int divecount = 0;
+            bool quit = false;
 
             foreach (ICharacteristic chara in characteristics)
             {
@@ -344,105 +352,125 @@ namespace FreediverApp
                         {
                             water_List.Add(BitConverter.ToSingle(args.Characteristic.Value).ToString());
                         }
+                        else if (BluetoothServiceData.characteristic_datetime == chara.Uuid)
+                        {
+                            string message = System.Text.Encoding.ASCII.GetString(args.Characteristic.Value);
+                            message = message.Split('}')[0] + "}";
+                            var temp = JsonConvert.DeserializeObject<Dictionary<string, object>>(message);
+                            if (temp.ContainsKey("Date"))
+                            {
+                                DiveSession d = new DiveSession();
+                                diveSessions.Add(d);
+                                d.date = temp["Date"].ToString();
+                                Dive dive = new Dive();
+                                divecount = 0;
+                                doit = true;
+                            }
+                            else if (temp.ContainsKey("Time"))
+                            {                                
+                                Dive dive = new Dive(diveSessions.Last().Id, divecount.ToString());
+                                dive.timestampBegin = temp["Time"].ToString();
+                                
+                                diveSessions.Last().dives.Add(dive);
+                                if (divecount > 0)
+                                {
+                                    for (int i = 0; i < water_List.Count; i++)
+                                    {
+                                        Measurepoint mp = new Measurepoint();
+                                        mp.accelerator_x = acc_x_List[i];
+                                        mp.accelerator_y = acc_y_List[i];
+                                        mp.accelerator_z = acc_z_List[i];
+                                        mp.depth = depth_List[i];
+                                        mp.duration = dur_List[i];
+                                        mp.gyroscope_x = gyro_x_List[i];
+                                        mp.gyroscope_y = gyro_y_List[i];
+                                        mp.gyroscope_z = gyro_z_List[i];
+                                        mp.heart_freq = heart_freq_List[i];
+                                        mp.heart_var = heart_var_List[i];
+                                        mp.luminance = lumi_List[i];
+                                        mp.oxygen_saturation = oxy_List[i];
+                                        mp.ref_dive = ref_List[i];
+                                        mp.water_temp = water_List[i];
+                                        diveSessions.Last().dives.ElementAt(diveSessions.Last().dives.Count - 2).measurepoints.Add(mp);
+                                    }                                
+                                }
+                                divecount++;
+                                acc_x_List.Clear();
+                                acc_y_List.Clear();
+                                acc_z_List.Clear();
+                                depth_List.Clear();
+                                dur_List.Clear();
+                                gyro_x_List.Clear();
+                                gyro_y_List.Clear();
+                                gyro_z_List.Clear();
+                                heart_freq_List.Clear();
+                                heart_var_List.Clear();
+                                lumi_List.Clear();
+                                oxy_List.Clear();
+                                ref_List.Clear();
+                                water_List.Clear();
+                                doitd = true;
+                            }
+                            else if (temp.ContainsKey("Terminate"))
+                            {
+                                for (int i = 0; i < water_List.Count; i++)
+                                {
+                                    Measurepoint mp = new Measurepoint();
+                                    mp.accelerator_x = acc_x_List[i];
+                                    mp.accelerator_y = acc_y_List[i];
+                                    mp.accelerator_z = acc_z_List[i];
+                                    mp.depth = depth_List[i];
+                                    mp.duration = dur_List[i];
+                                    mp.gyroscope_x = gyro_x_List[i];
+                                    mp.gyroscope_y = gyro_y_List[i];
+                                    mp.gyroscope_z = gyro_z_List[i];
+                                    mp.heart_freq = heart_freq_List[i];
+                                    mp.heart_var = heart_var_List[i];
+                                    mp.luminance = lumi_List[i];
+                                    mp.oxygen_saturation = oxy_List[i];
+                                    mp.ref_dive = ref_List[i];
+                                    mp.water_temp = water_List[i];
+                                    diveSessions.Last().dives.Last().measurepoints.Add(mp);
+                                }
+                                doit = true;
+                                quit = true;
+                            }                            
+                        }                        
                     };
-                    if (BluetoothServiceData.characteristic_ack != chara.Uuid)
+                    if (chara.Uuid != BluetoothServiceData.characteristic_ack)
                     {
-                        try
-                        {
-                            await chara.StartUpdatesAsync();
-                        }
-                        catch (Exception)
-                        {
-
-                        }
-                    }
+                        await chara.StartUpdatesAsync();
+                    }                    
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     
-                }
-                
-                
-                
+                }  
             }
-            #region old
-            /*
-            var chara_acc_x = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_acceleator_x));
-            var chara_acc_y = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_acceleator_y));
-            var chara_acc_z = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_acceleator_z));
-            var chara_depth = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_depth));
-            var chara_dur = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_duration));
-            var chara_gyro_x = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_gyroscope_x));
-            var chara_gyro_y = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_gyroscope_y));
-            var chara_gyro_z = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_gyroscope_z));
-            var chara_hf = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_heart_freq));
-            var chara_hv = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_heat_var));
-            var chara_lumi = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_luminance));
-            var chara_oxy = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_oxygen_saturation));
-            var chara_ref = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_ref_dive));
-            var chara_water = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_water_temp));
 
-            List<string> lumiList = new List<string>();
-            List<string> refList = new List<string>();
+            await chara_ack.WriteAsync(new Byte[] { Convert.ToByte(1) });
 
-            
-            chara_acc_x.ValueUpdated += (o, args) =>
-            {
-                var bytes = args.Characteristic.Value;
-                string result = System.Text.Encoding.ASCII.GetString(bytes);
-                resList.Add(result);
-            };
-            await chara_acc_x.StartUpdatesAsync();
-
-            chara_acc_y.ValueUpdated += (o, args) =>
-            {
-                var bytes = args.Characteristic.Value;
-                string result = System.Text.Encoding.ASCII.GetString(bytes);
-                resList.Add(result);
-            };
-            await chara_acc_y.StartUpdatesAsync();
-
-            chara_acc_z.ValueUpdated += (o, args) =>
-            {
-                var bytes = args.Characteristic.Value;
-                string result = System.Text.Encoding.ASCII.GetString(bytes);
-                resList.Add(result);
-            };
-            await chara_acc_z.StartUpdatesAsync();
-            
-
-            chara_lumi.ValueUpdated += (o, args) =>
-            {                
-                lumiList.Add(BitConverter.ToInt32(args.Characteristic.Value).ToString());
-            };
-            await chara_lumi.StartUpdatesAsync();
-
-            chara_ref.ValueUpdated += (o, args) =>
-            {                
-                refList.Add(BitConverter.ToInt32(args.Characteristic.Value).ToString());
-            };
-            await chara_ref.StartUpdatesAsync();
-            */
-            //create the result list which will be returned and set connection interval to high for a small performance boost
-            #endregion
-
-            var chara_ack = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_ack));
-            try
-            {
-                await chara_ack.WriteAsync(new Byte[] { Convert.ToByte(1) });
-            }
-            catch (Exception ex)
-            {
-                
-            }
-            
-
-            List<Measurepoint> measurepoints = new List<Measurepoint>();
             conDevice.UpdateConnectionInterval(ConnectionInterval.High);
 
             while (conDevice.State == DeviceState.Connected)
             {
-                
+                if (doit || doitd)
+                {
+                    if (doit)
+                    {
+                        await chara_ack.WriteAsync(new Byte[] { Convert.ToByte(1) });
+                    }
+                    if (doitd)
+                    {
+                        await chara_ack.WriteAsync(new Byte[] { Convert.ToByte(1) });
+                    }
+                    doit = false;
+                    doitd = false;
+                    if (quit)
+                    {
+                        return measurepoints;
+                    }
+                }
             }
 
             return measurepoints;
