@@ -1,19 +1,14 @@
-﻿using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using FreediverApp.DataClasses;
 using Newtonsoft.Json.Linq;
 using System.Net;
 
 namespace FreediverApp.OpenWeatherMap
 {
+    /**
+     *  This class commuinicates with OpenWeatherMap API to get weather data
+     *  for a specific location that are passed as constructor arguments.
+     **/
     class OpenWeatherMapConnector
     {
         private string API_KEY;

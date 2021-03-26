@@ -7,7 +7,7 @@ namespace FreediverApp.DatabaseConnector
     /**
      * This Class uses the Nuget Package "Firebase.Database" to establish a connection
      * to our firebase NOSQL database. The static function below "GetDatabase()" handles
-     * the connection and can called anywhere within our app.
+     * the connection and can be called anywhere within our app.
      */
     public static class DatabaseConnector
     {

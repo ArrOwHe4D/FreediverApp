@@ -13,10 +13,9 @@ using SkiaSharp;
 namespace FreediverApp
 {
 
-    [Activity(Label = "Activity1", ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "DiveSessionDetailViewActivity", ScreenOrientation = ScreenOrientation.Portrait)]
     public class DiveSessionDetailViewActivity : Activity
     {
-
         private Button btnDivesPerSession;
         private ChartView chartView;
         private TextView tvwSessionName;
