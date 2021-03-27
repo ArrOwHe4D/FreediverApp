@@ -4,6 +4,11 @@ using System.Linq;
 
 namespace FreediverApp
 {
+    /**
+     *  This dataclass represents a dive within a divesession. The dive itself contains a list of measurepoints
+     *  that are transmitted from the arduino dive computer. The class also handles the calculation of max and min
+     *  values of different attributes that can then be displayed inside a dive detail view.
+     **/
     public class Dive
     {
         public List<Measurepoint> measurepoints = new List<Measurepoint>();

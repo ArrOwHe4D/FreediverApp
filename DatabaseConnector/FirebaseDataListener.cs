@@ -22,7 +22,7 @@ namespace FreediverApp.DatabaseConnector
         List<Dive> diveList = new List<Dive>();
         List<Measurepoint> measurePointList = new List<Measurepoint>();
 
-        //
+        //Event that is invoked when new data was received from the db
         public event EventHandler<DataEventArgs> DataRetrieved;
 
         //EventArguments that hold our result lists and pass them to the Activity that triggered this event.
@@ -34,6 +34,7 @@ namespace FreediverApp.DatabaseConnector
             internal List<Dive> Dives { get; set; }
         }
 
+        //Queries a full table returning all entities that belong to that table
         public void QueryFullTable(string tablename) 
         {
             DatabaseReference tableRef = DBConnector.GetDatabase().GetReference(tablename);
@@ -47,6 +48,7 @@ namespace FreediverApp.DatabaseConnector
             tableRef.OrderByChild(field).EqualTo(value).AddValueEventListener(this);
         }
 
+        //Error handler
         public void OnCancelled(DatabaseError error)
         {
             
