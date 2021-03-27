@@ -25,6 +25,7 @@ namespace FreediverApp.DatabaseConnector
             internal List<DiveSession> DiveSessions { get; set; }
             internal List<Measurepoint> Measurepoints { get; set; }
             internal List<Dive> Dives { get; set; }
+
         }
 
         public void QueryFullTable(string tablename) 
