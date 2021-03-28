@@ -6952,100 +6952,97 @@ namespace FreediverApp
 			public const int navigation_drawer_open = 2131624097;
 			
 			// aapt resource value: 0x7F0E00A2
-			public const int no_dives_available = 2131624098;
+			public const int page_header_accountpanel = 2131624098;
 			
 			// aapt resource value: 0x7F0E00A3
-			public const int page_header_accountpanel = 2131624099;
+			public const int page_header_connected_devices = 2131624099;
 			
 			// aapt resource value: 0x7F0E00A4
-			public const int page_header_connected_devices = 2131624100;
+			public const int page_header_divesessions = 2131624100;
 			
 			// aapt resource value: 0x7F0E00A5
-			public const int page_header_divesessions = 2131624101;
+			public const int page_header_settings = 2131624101;
 			
 			// aapt resource value: 0x7F0E00A6
-			public const int page_header_settings = 2131624102;
+			public const int password = 2131624102;
 			
 			// aapt resource value: 0x7F0E00A7
-			public const int password = 2131624103;
+			public const int password_acc_panel = 2131624103;
 			
 			// aapt resource value: 0x7F0E00A8
-			public const int password_acc_panel = 2131624104;
+			public const int password_toggle_content_description = 2131624104;
 			
 			// aapt resource value: 0x7F0E00A9
-			public const int password_toggle_content_description = 2131624105;
+			public const int path_password_eye = 2131624105;
 			
 			// aapt resource value: 0x7F0E00AA
-			public const int path_password_eye = 2131624106;
+			public const int path_password_eye_mask_strike_through = 2131624106;
 			
 			// aapt resource value: 0x7F0E00AB
-			public const int path_password_eye_mask_strike_through = 2131624107;
+			public const int path_password_eye_mask_visible = 2131624107;
 			
 			// aapt resource value: 0x7F0E00AC
-			public const int path_password_eye_mask_visible = 2131624108;
+			public const int path_password_strike_through = 2131624108;
 			
 			// aapt resource value: 0x7F0E00AD
-			public const int path_password_strike_through = 2131624109;
+			public const int project_id = 2131624109;
 			
 			// aapt resource value: 0x7F0E00AE
-			public const int project_id = 2131624110;
+			public const int recover_password = 2131624110;
 			
 			// aapt resource value: 0x7F0E00AF
-			public const int recover_password = 2131624111;
-			
-			// aapt resource value: 0x7F0E00B0
-			public const int register = 2131624112;
-			
-			// aapt resource value: 0x7F0E00B5
-			public const int registered_since = 2131624117;
-			
-			// aapt resource value: 0x7F0E00B1
-			public const int register_email_exists = 2131624113;
-			
-			// aapt resource value: 0x7F0E00B2
-			public const int register_email_not_valid = 2131624114;
-			
-			// aapt resource value: 0x7F0E00B3
-			public const int register_fill_all_fields = 2131624115;
+			public const int register = 2131624111;
 			
 			// aapt resource value: 0x7F0E00B4
-			public const int register_username_exists = 2131624116;
+			public const int registered_since = 2131624116;
+			
+			// aapt resource value: 0x7F0E00B0
+			public const int register_email_exists = 2131624112;
+			
+			// aapt resource value: 0x7F0E00B1
+			public const int register_email_not_valid = 2131624113;
+			
+			// aapt resource value: 0x7F0E00B2
+			public const int register_fill_all_fields = 2131624114;
+			
+			// aapt resource value: 0x7F0E00B3
+			public const int register_username_exists = 2131624115;
+			
+			// aapt resource value: 0x7F0E00B5
+			public const int restore_account = 2131624117;
 			
 			// aapt resource value: 0x7F0E00B6
-			public const int restore_account = 2131624118;
+			public const int save = 2131624118;
 			
 			// aapt resource value: 0x7F0E00B7
-			public const int save = 2131624119;
+			public const int search_menu_title = 2131624119;
 			
 			// aapt resource value: 0x7F0E00B8
-			public const int search_menu_title = 2131624120;
+			public const int status_bar_notification_info_overflow = 2131624120;
 			
 			// aapt resource value: 0x7F0E00B9
-			public const int status_bar_notification_info_overflow = 2131624121;
+			public const int total_dive_time = 2131624121;
 			
 			// aapt resource value: 0x7F0E00BA
-			public const int total_dive_time = 2131624122;
+			public const int username = 2131624122;
 			
-			// aapt resource value: 0x7F0E00BB
-			public const int username = 2131624123;
+			// aapt resource value: 0x7F0E00BC
+			public const int username_or_email = 2131624124;
 			
 			// aapt resource value: 0x7F0E00BD
-			public const int username_or_email = 2131624125;
+			public const int weather_condition = 2131624125;
 			
 			// aapt resource value: 0x7F0E00BE
-			public const int weather_condition = 2131624126;
+			public const int weight = 2131624126;
 			
 			// aapt resource value: 0x7F0E00BF
-			public const int weight = 2131624127;
+			public const int weight_acc_panel = 2131624127;
 			
 			// aapt resource value: 0x7F0E00C0
-			public const int weight_acc_panel = 2131624128;
+			public const int welcome = 2131624128;
 			
 			// aapt resource value: 0x7F0E00C1
-			public const int welcome = 2131624129;
-			
-			// aapt resource value: 0x7F0E00C2
-			public const int wrong_username_or_pass = 2131624130;
+			public const int wrong_username_or_pass = 2131624129;
 			
 			static String()
 			{
