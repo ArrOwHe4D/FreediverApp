@@ -1,4 +1,5 @@
 ﻿using Firebase.Database;
+using FreediverApp.DataClasses;
 using Java.Util;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace FreediverApp.DatabaseConnector
         List<DiveSession> divesessionList = new List<DiveSession>();
         List<Dive> diveList = new List<Dive>();
         List<Measurepoint> measurePointList = new List<Measurepoint>();
-
+        List<SavedSession> savedSessionsList = new List<SavedSession>();
         //
         public event EventHandler<DataEventArgs> DataRetrieved;
 
@@ -32,6 +33,7 @@ namespace FreediverApp.DatabaseConnector
             internal List<DiveSession> DiveSessions { get; set; }
             internal List<Measurepoint> Measurepoints { get; set; }
             internal List<Dive> Dives { get; set; }
+            internal List<SavedSession> SavedSessions { get; set; }
         }
 
         public void QueryFullTable(string tablename) 
@@ -149,6 +151,17 @@ namespace FreediverApp.DatabaseConnector
                     }
                     break;
                 }
+                case "savedsessions":
+                {
+                    foreach (DataSnapshot dataRecord in dataResult)
+                    {
+                        SavedSession savedsessions = new SavedSession();
+                        savedsessions.ref_user = dataRecord.Child("ref_user").Value.ToString();
+                        savedsessions.sessiondate = dataRecord.Child("sessiondate").Value.ToString();
+                        savedSessionsList.Add(savedsessions);
+                    }
+                    break;
+                }
                 default: { break; }
             }
         }
@@ -240,6 +253,15 @@ namespace FreediverApp.DatabaseConnector
                     tableRef.SetValue(saveData);
                     break;
                 }
+                case "savedsessions":
+                {
+                    var obj = (SavedSession)objectToSave;
+                    saveData.Put("ref_user", obj.ref_user);
+                    saveData.Put("sessiondate", obj.sessiondate);
+
+                    tableRef.SetValue(saveData);
+                    break;
+                }
                 default: 
                 {
                     Console.WriteLine($"The table {tablename} does not exist!");
@@ -291,19 +313,23 @@ namespace FreediverApp.DatabaseConnector
 
             if (tablename == "users")
             {
-                DataRetrieved.Invoke(this, new DataEventArgs { Users = userList, DiveSessions = null, Dives = null, Measurepoints = null });
+                DataRetrieved.Invoke(this, new DataEventArgs { Users = userList });
             }
             else if (tablename == "divesessions")
             {
-                DataRetrieved.Invoke(this, new DataEventArgs { DiveSessions = divesessionList, Users = null, Dives = null, Measurepoints = null });
+                DataRetrieved.Invoke(this, new DataEventArgs { DiveSessions = divesessionList });
             }
             else if (tablename == "dives") 
             {
-                DataRetrieved.Invoke(this, new DataEventArgs { Dives = diveList, Users = null, DiveSessions = null, Measurepoints = null });
+                DataRetrieved.Invoke(this, new DataEventArgs { Dives = diveList });
             }
             else if (tablename == "measurepoints")
             {
-                DataRetrieved.Invoke(this, new DataEventArgs { Measurepoints = measurePointList, Users = null, DiveSessions = null, Dives = null });
+                DataRetrieved.Invoke(this, new DataEventArgs { Measurepoints = measurePointList });
+            }
+            else if (tablename == "savedsessions")
+            {
+                DataRetrieved.Invoke(this, new DataEventArgs { SavedSessions = savedSessionsList });
             }
         }
 
@@ -313,6 +339,7 @@ namespace FreediverApp.DatabaseConnector
             divesessionList.Clear();
             diveList.Clear();
             measurePointList.Clear();
+            savedSessionsList.Clear();
         }
     }
 }

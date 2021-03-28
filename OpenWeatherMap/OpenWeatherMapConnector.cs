@@ -31,14 +31,14 @@ namespace FreediverApp.OpenWeatherMap
             JObject jsonDataObject = JObject.Parse(jsonString);
             WeatherData dataObject = new WeatherData();
 
-            dataObject.temp = jsonDataObject["main"]["temp"].ToString();
-            dataObject.tempFeelsLike = jsonDataObject["main"]["feels_like"].ToString();
-            dataObject.main = jsonDataObject["weather"][0]["main"].ToString();
-            dataObject.description = jsonDataObject["weather"][0]["description"].ToString();
-            dataObject.pressure = jsonDataObject["main"]["pressure"].ToString();
-            dataObject.humidity = jsonDataObject["main"]["humidity"].ToString();
-            dataObject.windSpeed = jsonDataObject["wind"]["speed"].ToString();
-            dataObject.windGust = jsonDataObject["wind"]["gust"].ToString();
+            dataObject.temp = jsonDataObject["main"]["temp"] == null ? "n/a" : jsonDataObject["main"]["temp"].ToString();
+            dataObject.tempFeelsLike = jsonDataObject["main"]["feels_like"] == null ? "n/a" : jsonDataObject["main"]["feels_like"].ToString();
+            dataObject.main = jsonDataObject["weather"][0]["main"] == null ? "n/a" : jsonDataObject["weather"][0]["main"].ToString();
+            dataObject.description = jsonDataObject["weather"][0]["description"] == null ? "n/a" : jsonDataObject["weather"][0]["description"].ToString();
+            dataObject.pressure = jsonDataObject["main"]["pressure"] == null ? "n/a" : jsonDataObject["main"]["pressure"].ToString();
+            dataObject.humidity = jsonDataObject["main"]["humidity"] == null ? "n/a" : jsonDataObject["main"]["humidity"].ToString();
+            dataObject.windSpeed = jsonDataObject["wind"]["speed"] == null ? "n/a" : jsonDataObject["wind"]["speed"].ToString();
+            dataObject.windGust = jsonDataObject["wind"]["gust"] == null ? "n/a" : jsonDataObject["wind"]["gust"].ToString();
 
             return dataObject;
         }

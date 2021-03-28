@@ -56,5 +56,14 @@ namespace FreediverApp
             }
             watertime = dur.ToString();
         }
+
+        public void UpdateAll()
+        {
+            foreach (Dive d in dives)
+            {
+                d.UpdateAll();
+            }
+            UpdateDuration();
+        }
     }
 }

@@ -73,6 +73,7 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataClasses\SavedSession.cs" />
     <Compile Include="DataClasses\WeatherData.cs" />
     <Compile Include="FragmentActivities\AccountPanelFragment.cs" />
     <Compile Include="AddSessionActivity.cs" />
