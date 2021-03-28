@@ -73,8 +73,10 @@
     <string name="bluetooth_activated">Bluetooth activated!</string>
     <string name="bluetooth_activation_failed">Bluetooth activation failed!</string>
     <string name="connection_to_device_failed">Connection to device failed!</string>
+    <string name="no_dives_available">There are no dives available!</string>
 
-    <!--Dialog Strings (EN_US)-->
+
+  <!--Dialog Strings (EN_US)-->
     <string name="dialog_save_user_info">Save User Information</string>
     <string name="dialog_delete_account">Delete User Account</string>
     <string name="dialog_are_you_sure">Are you sure?</string>

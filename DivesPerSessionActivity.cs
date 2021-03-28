@@ -33,22 +33,31 @@ namespace FreediverApp
         {
             dives = new List<string>();
             int count = 0;
-            foreach (var item in TemporaryData.CURRENT_DIVESESSION.dives)
+            try
             {
-                if (item.duration != null)
+                foreach (var item in TemporaryData.CURRENT_DIVESESSION.dives)
                 {
-                    count++;
-                    dives.Add("Tauchgang " + count + " | " + Convert.ToDouble(item.duration) + "sec. | " + item.maxDepth + "m");
+                    if (item.duration != null)
+                    {
+                        count++;
+                        dives.Add("Tauchgang " + count + " | " + Convert.ToDouble(item.duration) + "sec. | " + item.maxDepth + "m");
+                    }
                 }
+                ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, dives);
+                lvwDive.Adapter = adapter;
             }
-            ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, dives);
-            lvwDive.Adapter = adapter;
+            catch (Exception e)
+            {
+                Toast.MakeText(this, Resource.String.no_dives_available, ToastLength.Long).Show();
+            }
         }
 
         private void lvwDive_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
+            
             try
             {
+                if()
                 TemporaryData.CURRENT_DIVE = TemporaryData.CURRENT_DIVESESSION.dives[e.Position];
                 var addDiveDetailViewActivity = new Intent(this, typeof(DiveDetailViewActivity));
 
