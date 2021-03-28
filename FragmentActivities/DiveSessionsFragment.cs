@@ -9,11 +9,6 @@ using FreediverApp.DatabaseConnector;
 
 namespace FreediverApp
 {
-    /**
-     *  This fragment contains the view with a list of all divesessions from the current user. It also provides 
-     *  a add button to create a new divesession inside a other activity. A divesession inside the listview can be clicked
-     *  to call the DiveSessionDetailViewActivity with the data of the clicked divesession.
-     **/
     [Obsolete]
     public class DiveSessionsFragment : Fragment
     {
@@ -28,10 +23,6 @@ namespace FreediverApp
             base.OnCreate(savedInstanceState);
         }
 
-        /**
-         *  This function initializes all ui components and returns the view to be displayed in the fragment manager 
-         *  of our main activity.
-         **/
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = inflater.Inflate(Resource.Layout.SessionsPage, container, false);
@@ -48,10 +39,6 @@ namespace FreediverApp
             return view;
         }
 
-        /**
-         *  This function initializes the db listener and queries for all divesessions that belong to the current user.
-         *  The query gets all divesessions in which the field "ref_user" is set to the id of the current user.
-         **/
         private void RetrieveDiveSessionData()
         {
             diveSessionsDataListener = new FirebaseDataListener();
@@ -59,21 +46,12 @@ namespace FreediverApp
             diveSessionsDataListener.DataRetrieved += DiveSessionsDataListener_DataRetrieved;
         }
 
-        /**
-         *  This function sets the divesessionlist to the list of retrieved divesessions from the db listener.
-         *  After that the listview is populated with the retrieved divesession data.
-         **/
         private void DiveSessionsDataListener_DataRetrieved(object sender, FirebaseDataListener.DataEventArgs e)
         {
             diveSessionList = e.DiveSessions;
             fillDiveSessionData(diveSessionList);
         }
 
-        /**
-         *  This function populates the listview with the retrieved divesessions that were queried from the db.
-         *  A Listview entry contains the date of the divesession and the coordinates of the location where the 
-         *  divesession was created.
-         **/
         private void fillDiveSessionData(List<DiveSession> diveSessions)
         {
             if (diveSessions != null)
@@ -93,11 +71,6 @@ namespace FreediverApp
             }
         }
 
-        /**
-         *  This function handles the onclick event of the listview. If a divesession was selected inside the listview, 
-         *  The current divesession in the TemporaryData class is set to the divesession from the listview and then 
-         *  a divesessionDetailActivity is started that reads the date from the current divesession in TemporaryData.
-         **/
         void lvwDive_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             TemporaryData.CURRENT_DIVESESSION = TemporaryData.CURRENT_USER.diveSessions[e.Position];
@@ -105,10 +78,6 @@ namespace FreediverApp
             StartActivity(diveSessionDetailViewActivity);
         }
 
-        /**
-         *  This function handles the onclick event of the add button. When the button was clicked a new instance of 
-         *  addSessionActivity is started to create a new divesession.
-         **/
         void buttonAdd_Click(object sender, EventArgs eventArgs)
         {
             var addSessionActivity = new Intent(Context, typeof(AddSessionActivity));

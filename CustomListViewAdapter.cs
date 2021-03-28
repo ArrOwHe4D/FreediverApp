@@ -2,34 +2,28 @@
 using Android.Widget;
 using System.Collections.Generic;
 using Android.Bluetooth;
+using Java.Util;
 using System.Collections.ObjectModel;
 using Plugin.BLE.Abstractions.Contracts;
 
 namespace FreediverApp
 {
-    /**
-     *  This class represents the custom adapter that is assigned to the Bluetooth listview to display
-     *  bluetooth devices as list entries inside the listview.
-     **/
     public class CustomListViewAdapter : BaseAdapter<Plugin.BLE.Abstractions.DeviceBase>
     {
-        //Bluetooth device list (Plugin.BLE)
+        List<BluetoothDevice> bt_devices;
         ObservableCollection<IDevice> btle_devices;
 
-        //old code that was used for normal android bluetooth connectivity
-        //List<BluetoothDevice> bt_devices;
-
-        //public CustomListViewAdapter(List<BluetoothDevice> bt_devices)
-        //{
-        //    this.bt_devices = bt_devices;
-        //}
+        public CustomListViewAdapter(List<BluetoothDevice> bt_devices)
+        {
+            this.bt_devices = bt_devices;
+        }
 
         public CustomListViewAdapter(ObservableCollection<IDevice> btle_devices)
         {
             this.btle_devices = btle_devices;
         }
 
-        public override Plugin.BLE.Abstractions.DeviceBase this [int position]
+        public override Plugin.BLE.Abstractions.DeviceBase this[int position]
         {
             get
             {
@@ -37,9 +31,6 @@ namespace FreediverApp
             }
         }
 
-        /**
-         *  This function simply returns the count of the btle device list that is holded by this adapter 
-         **/
         public override int Count
         {
             get
@@ -53,11 +44,6 @@ namespace FreediverApp
             return position;
         }
 
-        /**
-         *  Returns a populated view element to display it inside the custom listview.
-         *  A view element contains the bluetooth icon, the device name, Mac Address and the
-         *  current connectionState.
-         **/
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
             var view = convertView;
@@ -73,7 +59,11 @@ namespace FreediverApp
             holder.Name.Text = btle_devices[position].Name;
             holder.MacAdress.Text = btle_devices[position].Id.ToString();
             holder.ConState.Text = btle_devices[position].State == Plugin.BLE.Abstractions.DeviceState.Connected ? "Connected" : "Disconnected"; 
-
+            //BluetoothSocket socket = bt_devices[position].CreateInsecureRfcommSocketToServiceRecord(uuid);
+            //if (socket.IsConnected)
+            //    holder.ConState.Text = "Connected";
+            //else
+            //    holder.ConState.Text = "Not Conncected";
             return view;
         }
 

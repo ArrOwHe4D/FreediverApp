@@ -10,14 +10,8 @@ using SupportV7 = Android.Support.V7.App;
 
 namespace FreediverApp
 {
-    /**
-     *  This Fragment displays the account data of the current user that is signed in. The user also has the possibility to 
-     *  delete his account with a button on the bottom of the form. All dive data from that user still remains inside the databse 
-     *  after deletion.
-     **/
     public class AccountPanelFragment : Fragment
     {
-        /*Member Variables (UI Components from XML)*/
         private TextView txtViewEmail, txtViewPassword, txtViewFirstname, txtViewLastname, txtViewDateOfBirth, txtViewHeight, txtViewWeight;
         private TextView titleUsername, titleRegisteredSince;
         private Button btnDeleteAccount;
@@ -30,10 +24,6 @@ namespace FreediverApp
             base.OnCreate(savedInstanceState);
         }
 
-        /**
-         *  This function initializes all UI components from the corresponding XML file that is passed into the inflate function.
-         *  In the last step the db listener is being initialized and activated to retrieve userdata from db.
-         **/
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = inflater.Inflate(Resource.Layout.AccountPanelPage, container, false);
@@ -54,15 +44,12 @@ namespace FreediverApp
             titleUsername = view.FindViewById<TextView>(Resource.Id.title_username);
             titleRegisteredSince = view.FindViewById<TextView>(Resource.Id.title_registered_since);
 
-            //setup the db listener to retrieve userdata from db
+            //get userdata from db
             retrieveAccountData();
 
             return view;
         }
 
-        /**
-         *  This function fills all the textfields with the userdata that was retrieved by the db listener. 
-         **/
         private void fillUserData(List<User> userdata) 
         {   
             if (userdata != null) 
@@ -79,12 +66,6 @@ namespace FreediverApp
             }
         }
 
-        /**
-         *  This function initializes the db listener and the eventhandler that is triggered when new data was received from db.
-         *  In this case we want to query for a dataset which has the same username as our currently logged in user that was saved
-         *  inside the TemporaryData class. Since we don´t store all user info inside that class we need to query to get all attributes of the
-         *  user dataset.
-         **/
         public void retrieveAccountData() 
         {
             userDataListener = new FirebaseDataListener();
@@ -92,23 +73,12 @@ namespace FreediverApp
             userDataListener.DataRetrieved += UserDataListener_UserDataRetrieved;
         }
 
-        /**
-         *  This function handles the retrieval of data from db. When data is retrieved, set it to the userList of this 
-         *  fragment and then fill all the textfields with the received userdata.
-         **/
         private void UserDataListener_UserDataRetrieved(object sender, FirebaseDataListener.DataEventArgs e)
         {
             userList = e.Users;
             fillUserData(userList);
         }
 
-        /**
-         *  This function handles the deletion of the user account. At first a confirmation dialog is displayed so that 
-         *  the user is not automatically deleted when he pressed the delete button by accident for example. When the dialog
-         *  was accepted, the deleteEntity function of the FirebaseDatalistener is called to delete the current user from db.
-         *  After deletion was completed, the user is redirected to the login activity and a toast message is printed to notify 
-         *  the user that the deletion was successful.
-         **/
         private void deleteUserAccount(object sender, EventArgs e) 
         {
             SupportV7.AlertDialog.Builder deleteUserDialog = new SupportV7.AlertDialog.Builder(this.Context);
