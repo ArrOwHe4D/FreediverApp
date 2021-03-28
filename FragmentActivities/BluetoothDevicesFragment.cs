@@ -513,9 +513,9 @@ namespace FreediverApp
                         {
                             diveSessions.Last().dives.Last().measurepoints.Add(Measurepoint.fromJson(item));
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
-                            
+                            Console.WriteLine(ex.Message);
                         }
                     }
                 }
