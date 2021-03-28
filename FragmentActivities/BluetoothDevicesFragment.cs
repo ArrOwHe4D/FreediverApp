@@ -245,7 +245,7 @@ namespace FreediverApp
                             {
                                 foreach(Measurepoint MP in D.measurepoints)
                                 {
-                                    database.saveEntity("measurepoints", MP); 
+                                    database.saveEntity("measurepoints", MP);
                                 }
                                 database.saveEntity("dives", D);
                             }
@@ -273,12 +273,12 @@ namespace FreediverApp
         {
             conDevice.UpdateConnectionInterval(ConnectionInterval.High);
             //after a connection was established we need to read the service and characteristic data from arduino side
-            var service = await conDevice.GetServiceAsync(new Guid(BluetoothServiceData.DIVE_SERVICE_ID));            
+            var service = await conDevice.GetServiceAsync(new Guid(BluetoothServiceData.DIVE_SERVICE_ID));
             var characteristics = await service.GetCharacteristicsAsync();
             var chara_ack = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_ack));
-            
+
             List<DiveSession> diveSessions = new List<DiveSession>();
-            
+
 
             List<string> acc_x_List = new List<string>();
             List<string> acc_y_List = new List<string>();
@@ -375,14 +375,14 @@ namespace FreediverApp
                                 sendAcknowledgement = true;
                             }
                             else if (temp.ContainsKey("Time"))
-                            {                                
+                            {
                                 Dive dive = new Dive(diveSessions.Last().Id, divecount.ToString());
                                 dive.timestampBegin = temp["Time"].ToString();
-                                
+
                                 diveSessions.Last().dives.Add(dive);
                                 if (divecount > 0)
                                 {
-                                    diveSessions.Last().dives.ElementAt(diveSessions.Last().dives.Count - 2).measurepoints = 
+                                    diveSessions.Last().dives.ElementAt(diveSessions.Last().dives.Count - 2).measurepoints =
                                         createMeasurepoints(diveSessions.Last().dives.ElementAt(diveSessions.Last().dives.Count - 2).id,
                                                             acc_x_List,
                                                             acc_y_List,
@@ -424,21 +424,21 @@ namespace FreediverApp
                                 sendAcknowledgement = true;
                             }
                             else if (temp.ContainsKey("Terminate"))
-                            {                                
+                            {
                                 sendAcknowledgement = true;
                                 quit = true;
-                            }                            
-                        }                        
+                            }
+                        }
                     };
                     if (chara.Uuid != BluetoothServiceData.characteristic_ack)
                     {
                         await chara.StartUpdatesAsync();
-                    }                    
+                    }
                 }
                 catch (Exception ex)
                 {
-                    
-                }  
+                    Console.WriteLine(ex.Message);
+                }
             }
 
             await chara_ack.WriteAsync(new Byte[] { Convert.ToByte(1) });
@@ -451,7 +451,7 @@ namespace FreediverApp
                     {
                         await chara_ack.WriteAsync(new Byte[] { Convert.ToByte(1) });
                     }
-                    
+
                     sendAcknowledgement = false;
                     if (quit)
                     {
@@ -473,32 +473,69 @@ namespace FreediverApp
         }
 
         private bool isJson(string m)
-        {            
+        {
             return m.StartsWith('{') && m.EndsWith('}');
         }
 
-        
 
-        
+
+
         List<Measurepoint> createMeasurepoints
             (string diveID,
-             List<string> acc_x_List, 
-             List<string> acc_y_List, 
-             List<string> acc_z_List, 
-             List<string> depth_List, 
-             List<string> dur_List, 
+             List<string> acc_x_List,
+             List<string> acc_y_List,
+             List<string> acc_z_List,
+             List<string> depth_List,
+             List<string> dur_List,
              List<string> gyro_x_List,
              List<string> gyro_y_List,
-             List<string> gyro_z_List, 
-             List<string> heart_freq_List, 
-             List<string> heart_var_List, 
+             List<string> gyro_z_List,
+             List<string> heart_freq_List,
+             List<string> heart_var_List,
              List<string> lumi_List,
-             List<string> oxy_List, 
-             List<string> ref_List, 
+             List<string> oxy_List,
+             List<string> ref_List,
              List<string> water_List)
         {
-            List<Measurepoint> mp_List = new List<Measurepoint>();
-            for (int i = 0; i < water_List.Count; i++)
+            List<DiveSession> diveSessions = new List<DiveSession>();
+            int divecount = 0;
+            foreach (var item in rawData)
+            {
+                if (isJson(item))
+                {
+                    var temp = JsonConvert.DeserializeObject<Dictionary<string, object>>(item);
+                    if (temp.ContainsKey("Date"))
+                    {
+                        DiveSession ds = new DiveSession(TemporaryData.CURRENT_USER.id);
+                        // add Dive Session Data
+                        ds.date = temp["Date"].ToString();
+                        //ds.GetMetaData();
+                        //
+                        diveSessions.Add(ds);
+                        divecount = 0;
+                    }
+                    else if (temp.ContainsKey("Time"))
+                    {
+                        Dive d = new Dive(diveSessions.Last().Id, divecount.ToString());
+                        d.timestampBegin = temp["Time"].ToString();
+                        divecount++;
+                        diveSessions.Last().dives.Add(d);
+                    }
+                    else
+                    {
+                        try
+                        {
+                            diveSessions.Last().dives.Last().measurepoints.Add(Measurepoint.fromJson(item));
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
+                    }
+                }
+            }
+
+            foreach (var session in diveSessions)
             {
                 Measurepoint mp = new Measurepoint();
                 mp.accelerator_x = acc_x_List[i];
@@ -532,6 +569,6 @@ namespace FreediverApp
             ref_List.Clear();
             water_List.Clear();
             return mp_List;
-        }                                     
-    }                                          
-}                                             
+        }
+    }
+}

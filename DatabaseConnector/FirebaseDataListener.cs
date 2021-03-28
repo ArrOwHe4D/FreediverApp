@@ -8,10 +8,10 @@ using DBConnector = FreediverApp.DatabaseConnector.DatabaseConnector;
 namespace FreediverApp.DatabaseConnector
 {
     /**
-     *  This Class handles all db operations that are needed within our app. We use generic lists 
+     *  This Class handles all db operations that are needed within our app. We use generic lists
      *  that consist of the dataclasses we have designed (Dive, DiveSession, Measurepoint, User) to retrieve information
      *  from the db. We need to create an instance of this class in any Activity/Fragment that needs to communicate with the db.
-     *  The lists of retrieved data records will then be returned to the Activity/Fragment by invoking the dataRetrieved Event 
+     *  The lists of retrieved data records will then be returned to the Activity/Fragment by invoking the dataRetrieved Event
      *  that has to be connected with the FirebaseDataListener instance.
      */
     public class FirebaseDataListener : Java.Lang.Object, IValueEventListener
@@ -22,11 +22,11 @@ namespace FreediverApp.DatabaseConnector
         List<Dive> diveList = new List<Dive>();
         List<Measurepoint> measurePointList = new List<Measurepoint>();
 
-        //
+        //Event that is invoked when new data was received from the db
         public event EventHandler<DataEventArgs> DataRetrieved;
 
         //EventArguments that hold our result lists and pass them to the Activity that triggered this event.
-        public class DataEventArgs : EventArgs 
+        public class DataEventArgs : EventArgs
         {
             internal List<User> Users { get; set; }
             internal List<DiveSession> DiveSessions { get; set; }
@@ -34,29 +34,28 @@ namespace FreediverApp.DatabaseConnector
             internal List<Dive> Dives { get; set; }
         }
 
-        public void QueryFullTable(string tablename) 
+        //Queries a full table returning all entities that belong to that table
+        public void QueryFullTable(string tablename)
         {
             DatabaseReference tableRef = DBConnector.GetDatabase().GetReference(tablename);
             tableRef.AddValueEventListener(this);
         }
 
         //Queries a table "tablename" and filters the result with the given "field" and "value" like the WHERE clause in SQL.
-        public void QueryParameterized(string tablename, string field, string value) 
+        public void QueryParameterized(string tablename, string field, string value)
         {
             DatabaseReference tableRef = DBConnector.GetDatabase().GetReference(tablename);
             tableRef.OrderByChild(field).EqualTo(value).AddValueEventListener(this);
         }
 
-
-
-
+        //Error handler
         public void OnCancelled(DatabaseError error)
         {
-            
+
         }
 
         //Handles the results and instatiates a DataObject in our app for every dataset that was retrieved from db
-        public void createEntitiesFromSnapshot(DataSnapshot snapshot) 
+        public void createEntitiesFromSnapshot(DataSnapshot snapshot)
         {
             string tablename = snapshot.Ref.Key;
             var dataResult = snapshot.Children.ToEnumerable<DataSnapshot>();
@@ -110,7 +109,7 @@ namespace FreediverApp.DatabaseConnector
                 {
                     foreach (DataSnapshot dataRecord in dataResult)
                     {
-                        Dive dive = new Dive();                        
+                        Dive dive = new Dive();
                         dive.duration = dataRecord.Child("duration").Value.ToString();
                         dive.HeartFreqMax = dataRecord.Child("heart_freq_max").Value.ToString();
                         dive.HeartFreqMin = dataRecord.Child("heart_freq_min").Value.ToString();
@@ -118,7 +117,7 @@ namespace FreediverApp.DatabaseConnector
                         dive.LuminanceMin = dataRecord.Child("luminance_min").Value.ToString();
                         dive.maxDepth = dataRecord.Child("max_depth").Value.ToString();
                         dive.OxygenSaturationMax = dataRecord.Child("oxygen_saturation_max").Value.ToString();
-                        dive.OxygenSaturationMin = dataRecord.Child("oxygen_saturation_min").Value.ToString();                           
+                        dive.OxygenSaturationMin = dataRecord.Child("oxygen_saturation_min").Value.ToString();
                         dive.refDivesession = dataRecord.Child("ref_divesession").Value.ToString();
                         dive.timestampBegin = dataRecord.Child("timestamp_begin").Value.ToString();
                         dive.timestampEnd = dataRecord.Child("timestamp_end").Value.ToString();
@@ -157,12 +156,12 @@ namespace FreediverApp.DatabaseConnector
         }
 
         //Stores the given "objectToSave" into the table "tablename" inside the database.
-        public void saveEntity(string tablename, object objectToSave) 
+        public void saveEntity(string tablename, object objectToSave)
         {
             HashMap saveData = new HashMap();
             DatabaseReference tableRef = DBConnector.GetDatabase().GetReference(tablename).Push();
-            
-            switch (tablename) 
+
+            switch (tablename)
             {
                 case "users":
                 {
@@ -180,7 +179,7 @@ namespace FreediverApp.DatabaseConnector
                     tableRef.SetValue(saveData);
                     break;
                 }
-                case "dives": 
+                case "dives":
                 {
                     var obj = (Dive)objectToSave;
                     saveData.Put("duration", obj.GetTotalTime());
@@ -222,7 +221,7 @@ namespace FreediverApp.DatabaseConnector
                     tableRef.SetValue(saveData);
                     break;
                 }
-                case "measurepoints": 
+                case "measurepoints":
                 {
                     var obj = (Measurepoint)objectToSave;
                     saveData.Put("accelerator_x", obj.accelerator_x);
@@ -243,7 +242,7 @@ namespace FreediverApp.DatabaseConnector
                     tableRef.SetValue(saveData);
                     break;
                 }
-                default: 
+                default:
                 {
                     Console.WriteLine($"The table {tablename} does not exist!");
                     break;
@@ -253,14 +252,14 @@ namespace FreediverApp.DatabaseConnector
 
 
         //Deletes a dataset with the given "id" from the table "tablename"
-        public void deleteEntity(string tablename, string id) 
+        public void deleteEntity(string tablename, string id)
         {
             DatabaseReference entityRef = DBConnector.GetDatabase().GetReference(tablename + "/" + id);
             entityRef.RemoveValue();
         }
 
         //Deletes a full table "tablename" from db
-        public void deleteTable(string tablename) 
+        public void deleteTable(string tablename)
         {
             DatabaseReference tableRef = DBConnector.GetDatabase().GetReference(tablename);
             tableRef.RemoveValue();
@@ -280,15 +279,15 @@ namespace FreediverApp.DatabaseConnector
                 //invoke the dataRetrievedEvent for the corresponding table
                 invokeDataRetrievedEvent(snapshot);
             }
-            else 
+            else
             {
                 //if no data was returned also invoke the dataRetrievedEvent but set all datalists to null
                 DataRetrieved.Invoke(this, new DataEventArgs { Users = null, DiveSessions = null, Dives = null, Measurepoints = null });
             }
         }
 
-        //Event that is invoked to store our result lists inside our eventhandler with the DataEventArgs. 
-        public void invokeDataRetrievedEvent(DataSnapshot snapshot) 
+        //Event that is invoked to store our result lists inside our eventhandler with the DataEventArgs.
+        public void invokeDataRetrievedEvent(DataSnapshot snapshot)
         {
             string tablename = snapshot.Ref.Key;
 
@@ -300,7 +299,7 @@ namespace FreediverApp.DatabaseConnector
             {
                 DataRetrieved.Invoke(this, new DataEventArgs { DiveSessions = divesessionList, Users = null, Dives = null, Measurepoints = null });
             }
-            else if (tablename == "dives") 
+            else if (tablename == "dives")
             {
                 DataRetrieved.Invoke(this, new DataEventArgs { Dives = diveList, Users = null, DiveSessions = null, Measurepoints = null });
             }
@@ -310,7 +309,7 @@ namespace FreediverApp.DatabaseConnector
             }
         }
 
-        public void clearDataLists() 
+        public void clearDataLists()
         {
             userList.Clear();
             divesessionList.Clear();

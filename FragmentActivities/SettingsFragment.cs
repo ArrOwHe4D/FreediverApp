@@ -8,9 +8,15 @@ using FreediverApp.BluetoothCommunication;
 
 namespace FreediverApp
 {
+    /**
+     *  This Fragment represents the options menu. Currently there is only one slider that can be used to switch bluetooth
+     *  on or off. If there are any other options and settings that need to be handled they can easily be added to this 
+     *  fragment.
+     **/
     [Obsolete]
     public class SettingsFragment : Fragment
     {
+        /*Member variables (UI components from XML)*/
         private Switch switchBluetooth;
         private Button btnSave;
         private BluetoothDeviceReceiver btReceiver;
@@ -20,6 +26,9 @@ namespace FreediverApp
             base.OnCreate(savedInstanceState);
         }
 
+        /**
+         *  This function initializes all UI components of this view and adds the action handlers to them. 
+         **/
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = inflater.Inflate(Resource.Layout.SettingsPage, container, false);
@@ -37,6 +46,11 @@ namespace FreediverApp
             return view;
         }
 
+        /**
+         *  This function represents the onclick handler of the bluetooth switch.
+         *  According to the current state of the bluetooth adapter, bluetooth is 
+         *  turned on or off.
+         **/
         public void switchBluetoothOnClick(object sender, EventArgs args) 
         {
             if (btReceiver.m_adapter != null)
@@ -52,6 +66,10 @@ namespace FreediverApp
             }
         }
 
+        /**
+         *  Onclick handler for the save button. Is currently not used but can be useful when 
+         *  additional settings are added to this fragment.
+         **/
         public void btnSaveOnClick(object sender, EventArgs args) 
         {
             
