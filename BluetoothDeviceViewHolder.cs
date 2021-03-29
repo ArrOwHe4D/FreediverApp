@@ -4,6 +4,11 @@ using Android.Support.V7.Widget;
 
 namespace FreediverApp
 {
+    /**
+     *  This class holds the data for a item inside the bluetoothlistview that is created inside 
+     *  the BluetoothDeviceFragment.cs. We display a bluetooth logo for every entry such as the Name,
+     *  ConnectionState and the MacAddress of the device inside the listview.
+     **/
     public class BluetoothDeviceViewHolder : RecyclerView.ViewHolder
     {
         public ImageView Photo { get; private set; }

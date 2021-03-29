@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace FreediverApp
 {
+    /**
+     *  This dataclass represents a user with all of the required account data. 
+     **/
     public class User
     {
         public string id;
@@ -18,10 +21,7 @@ namespace FreediverApp
 
         public List<DiveSession> diveSessions = new List<DiveSession>();
 
-        public User() 
-        {
-
-        }
+        public User() { }
 
         public User(List<DiveSession> _diveSessions)
         {
