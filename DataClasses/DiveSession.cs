@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace FreediverApp
 {
+    /**
+     *  This dataclass represents a Divesession that consists of different metadata like the date, location and
+     *  weather conditions. It also contains a list of dives that belong to this divesession.
+     **/
     public class DiveSession
     {
         public string date;
@@ -39,6 +43,10 @@ namespace FreediverApp
             id = refUser + "_" + System.Guid.NewGuid();
         }
 
+        /**
+         *  This function calculates the maximum time the diver was inside the water
+         *  during this divesession.
+         **/
         public void UpdateDuration()
         {
             float dur = 0;
@@ -49,9 +57,10 @@ namespace FreediverApp
                 {
                     dur += (float)Convert.ToDouble(item.GetTotalTime());
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine("Failed to convert dive duration!");
                 }
             }
             watertime = dur.ToString();

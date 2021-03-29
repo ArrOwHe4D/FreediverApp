@@ -10,9 +10,16 @@ using System.Collections.Generic;
 
 namespace FreediverApp
 {
+    /**
+     *  This Activity displays the detail view of a single dive that belongs to a divesession. 
+     *  It also displays all relevant data like max depth, max heart frequency etc. inside a cardview
+     *  component. Above the cardview a chart is generated with displays measurepoints form a dive
+     *  as datapoints. For the chart generation we use the Microcharts Nuget package.
+     **/
     [Activity(Label = "DiveDetailViewActivity", ScreenOrientation = ScreenOrientation.Portrait)]
     public class DiveDetailViewActivity : Activity
     {
+        /*Member Variables (UI components from XML)*/
         private TextView textViewDiveSessionTitle;
         private TextView textViewGraphTitle;
         private TextView textViewDepth;
@@ -22,6 +29,7 @@ namespace FreediverApp
         private TextView textViewMaxOxy;
         private TextView textViewMinOxy;
         private ChartView chartView;
+
         private FirebaseDataListener measurepointDataListener;
         private List<Measurepoint> measurepointList;
 
@@ -29,9 +37,9 @@ namespace FreediverApp
         {
             base.OnCreate(savedInstanceState);
 
-            // Create your application here
             SetContentView(Resource.Layout.DiveDetailViewPage);
             RetrieveMeasurepointData(TemporaryData.CURRENT_DIVE);
+
             textViewDiveSessionTitle = FindViewById<TextView>(Resource.Id.diveDetailViewSessionName);
             textViewGraphTitle = FindViewById<TextView>(Resource.Id.textViewGraphTitle);
             textViewDepth = FindViewById<TextView>(Resource.Id.tvwDdvDepthV);
@@ -41,9 +49,16 @@ namespace FreediverApp
             textViewMaxOxy = FindViewById<TextView>(Resource.Id.tvwDdvMaxOxyV);
             textViewMinOxy = FindViewById<TextView>(Resource.Id.tvwDdvMinOxyV);            
             chartView = FindViewById<ChartView>(Resource.Id.cvwDdvDiveDia);
+            
             fillTextView();            
         }
 
+        /**
+         *  This function fills all the textfields inside the cardview to display 
+         *  all relevant informations from the current dive. It also adds the correct
+         *  measure units because the measurepoint data is processed as raw data without 
+         *  any specified measure units.
+         **/
         private void fillTextView()
         {
             textViewDiveSessionTitle.Text = "Tauchgang #" + Intent.GetStringExtra("index");
@@ -56,6 +71,10 @@ namespace FreediverApp
             textViewMinOxy.Text = TemporaryData.CURRENT_DIVE.OxygenSaturationMin + " %";
         }
 
+        /**
+         *  This function initializes the db listener and queries for all measurepoints that have 
+         *  a reference (ref_dive) to the current dive.
+         **/
         private void RetrieveMeasurepointData(Dive dive)
         {
             measurepointDataListener = new FirebaseDataListener();
@@ -63,6 +82,10 @@ namespace FreediverApp
             measurepointDataListener.DataRetrieved += MeasurepointDataListener_DataRetrieved;
         }
 
+        /**
+         *  Setup the event for the db listener. Set the datalists to the retrieved data and generate the 
+         *  chart based on the retrieved measurepoints for this dive.
+         **/
         private void MeasurepointDataListener_DataRetrieved(object sender, FirebaseDataListener.DataEventArgs e)
         {
             TemporaryData.CURRENT_DIVE.measurepoints = e.Measurepoints;
@@ -70,6 +93,10 @@ namespace FreediverApp
             generateChart();
         }
 
+        /**
+         *  This function generates the chart based on the measurepoint data that was retrieved from the db listener. 
+         *  The duration in seconds is displayed on the X-axis and the depth on the Y-axis.
+         **/
         private void generateChart()
         {
             List<ChartEntry> dataList = new List<ChartEntry>();
@@ -80,27 +107,31 @@ namespace FreediverApp
             {
                 SKColor color;
 
+                //assign the color based on the depth value of the current measurepoint
                 if (float.Parse(measurepointList[i].depth) <= 8.0f)
                 {
-                    color = SKColor.Parse("#5cf739");
+                    color = SKColor.Parse("#5cf739"); //green
                 }
                 else if (float.Parse(measurepointList[i].depth) <= 18.0f)
                 {
-                    color = SKColor.Parse("#f7c139");
+                    color = SKColor.Parse("#f7c139"); //yellow
                 }
                 else 
                 {
-                    color = SKColor.Parse("#f75939");
+                    color = SKColor.Parse("#f75939"); //red
                 }
 
+                //Add a new chartEntry to the dataList containing the depth value of the current measurepoint
                 dataList.Add(new ChartEntry(float.Parse(measurepointList[i].depth))
                 {
+                    //Fix formatting -> Split the values after the comma because we only need seconds not milliseconds.
                     Label = int.Parse(measurepointList[i].duration.Split(",")[0]) < 10 ? "0:0" + measurepointList[i].duration.Split(",")[0] : "0:" + measurepointList[i].duration.Split(",")[0],
                     ValueLabel = measurepointList[i].depth.Split(",")[0] + "m",
                     Color = color
                 });
-            }                  
+            }
 
+            //create a new chart with the data entries and a custom display configuration
             var chart = new LineChart { Entries = dataList, LabelTextSize = 20f, LabelOrientation = Microcharts.Orientation.Horizontal, ValueLabelOrientation = Microcharts.Orientation.Horizontal };
             chartView.Chart = chart;
         }

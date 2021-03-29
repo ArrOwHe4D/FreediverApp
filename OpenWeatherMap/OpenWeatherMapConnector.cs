@@ -7,7 +7,8 @@ namespace FreediverApp.OpenWeatherMap
 {
     /**
      *  This class commuinicates with OpenWeatherMap API to get weather data
-     *  for a specific location that are passed as constructor arguments.
+     *  based on a specific location. The coordinates of that location
+     *  are passed as constructor arguments to build the url for the API call.
      **/
     class OpenWeatherMapConnector
     {
@@ -17,6 +18,9 @@ namespace FreediverApp.OpenWeatherMap
         private string jsonString;
         private string currentURL;
 
+        /**
+         *  Constructor that sets the API key and builds the URL based on the location coordinates. 
+         **/
         public OpenWeatherMapConnector(double lon, double lat)
         {
             API_KEY = "c20852e07b7189c61e6372f6c676234a";
@@ -26,6 +30,11 @@ namespace FreediverApp.OpenWeatherMap
             "lat=" + lat + "&lon=" + lon + "&appid=" + API_KEY + "&units=metric&lang=de";
         }
 
+        /**
+         *  This function builds a jsonobject based on the answer we get from the API call.
+         *  With that jsonobject another object of our own WeatherData class is created which can
+         *  then be used to read the needed data inside a activity or fragment for example.
+         **/
         private WeatherData extractWeatherData(string jsonString)
         {
             JObject jsonDataObject = JObject.Parse(jsonString);
@@ -43,6 +52,11 @@ namespace FreediverApp.OpenWeatherMap
             return dataObject;
         }
 
+        /**
+         *  This function realizes the actual API call from OpenWeaterMap. At the end a 
+         *  WeatherData object based on the JSON result string is returned that can easily be used
+         *  to read weatherdata inside another context in our application.
+         **/
         public WeatherData downloadWeatherData()
         {
             using (WebClient client = new WebClient())
