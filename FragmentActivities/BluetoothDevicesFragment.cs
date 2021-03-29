@@ -247,7 +247,10 @@ namespace FreediverApp
                             {
                                 if(dsDB.date == ds.date)
                                 {
-                                    id = dsDB.Id;
+                                    foreach(Dive d in ds.dives)
+                                    {
+                                        d.refDivesession = dsDB.Id;
+                                    }
                                     
                                 }
                             }
@@ -394,7 +397,7 @@ namespace FreediverApp
                             {
                                 DiveSession d = new DiveSession(TemporaryData.CURRENT_USER.id);
                                 diveSessions.Add(d);
-                                d.date = temp["Date"].ToString();
+                                d.date = temp["Date"].ToString().Replace('_', '.').Insert(6, "20");
                                 Dive dive = new Dive();
                                 divecount = 0;
                                 sendAcknowledgement = true;
