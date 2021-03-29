@@ -19,10 +19,10 @@ namespace FreediverApp.DatabaseConnector
             if (app == null)
             {
                 var options = new FirebaseOptions.Builder()
-                    .SetApplicationId("freediverdb")
-                    .SetApiKey("AIzaSyBcNaDJVD1HLW_pRqOo_ZRfy0YH72CoLfE")
-                    .SetDatabaseUrl("https://freediverdb.firebaseio.com")
-                    .SetStorageBucket("freediverdb.appspot.com")
+                    .SetApplicationId("FreeDiver")
+                    .SetApiKey("AIzaSyCRepKGafGq36s5QLabDOQo46XwdoZcO88")
+                    .SetDatabaseUrl("https://freediver-eca91-default-rtdb.europe-west1.firebasedatabase.app/")
+                    .SetStorageBucket("freediver-eca91.appspot.com")
                     .Build();
 
                 app = FirebaseApp.InitializeApp(Application.Context, options);

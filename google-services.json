@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "447024610572",
-    "firebase_url": "https://freediverdb.firebaseio.com",
-    "project_id": "freediverdb",
-    "storage_bucket": "freediverdb.appspot.com"
+    "project_number": "527002472758",
+    "project_id": "freediver-eca91",
+    "storage_bucket": "freediver-eca91.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:447024610572:android:19cbd7b64dc2ba25569d29",
+        "mobilesdk_app_id": "1:527002472758:android:3795d9e563c42b65bde397",
         "android_client_info": {
           "package_name": "com.project.freediverapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "447024610572-sj5pt57vgvv33oouh5ddo6bh3sgr16bq.apps.googleusercontent.com",
+          "client_id": "527002472758-e7h7k23hm5dnhfmlt9ofoufb22jdkp4l.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBcNaDJVD1HLW_pRqOo_ZRfy0YH72CoLfE"
+          "current_key": "AIzaSyCRepKGafGq36s5QLabDOQo46XwdoZcO88"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "447024610572-sj5pt57vgvv33oouh5ddo6bh3sgr16bq.apps.googleusercontent.com",
+              "client_id": "527002472758-e7h7k23hm5dnhfmlt9ofoufb22jdkp4l.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

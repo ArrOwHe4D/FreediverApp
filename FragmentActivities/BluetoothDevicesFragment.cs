@@ -264,8 +264,7 @@ namespace FreediverApp
                                 }
                                 database.saveEntity("dives", D);
                             }
-
-                            if()
+                            
                             DS.location_lat = "";
                             DS.location_lon = "";
                             DS.weatherCondition_description = "";

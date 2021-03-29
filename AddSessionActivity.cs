@@ -11,6 +11,7 @@ using Android;
 using Android.Support.V4.Content;
 using Android.Support.V4.App;
 using FreediverApp.DatabaseConnector;
+using System.Collections.Generic;
 
 namespace FreediverApp
 {
