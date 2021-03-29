@@ -74,6 +74,8 @@ namespace FreediverApp
 
             diveSessionListener = new FirebaseDataListener();
 
+            retrieveDiveSessions();
+
             if (ble == null)
             {
                 Toast.MakeText(Context, Resource.String.bluetooth_not_supported, ToastLength.Long).Show();
@@ -238,6 +240,7 @@ namespace FreediverApp
                         refreshGui();
 
                         List<DiveSession> diveSessions = await receiveDataAsync(clickedDevice);
+                        List<string> existingSessions = new List<string>();
                         FirebaseDataListener database = new FirebaseDataListener();
                         string id = null;
 
@@ -247,6 +250,7 @@ namespace FreediverApp
                             {
                                 if(dsDB.date == ds.date)
                                 {
+                                    existingSessions.Add(ds.date);
                                     foreach(Dive d in ds.dives)
                                     {
                                         d.refDivesession = dsDB.Id;
@@ -267,18 +271,22 @@ namespace FreediverApp
                                 }
                                 database.saveEntity("dives", D);
                             }
-                            
-                            DS.location_lat = "";
-                            DS.location_lon = "";
-                            DS.weatherCondition_description = "";
-                            DS.weatherCondition_main = "";
-                            DS.weatherHumidity = "";
-                            DS.weatherPressure = "";
-                            DS.weatherTemperature = "";
-                            DS.weatherTemperatureFeelsLike = "";
-                            DS.weatherWindGust = "";
-                            DS.weatherWindSpeed = "";
-                            database.saveEntity("divesessions", DS);
+
+                            if (!existingSessions.Contains(DS.date))
+                            {
+                                DS.location_lat = "";
+                                DS.location_lon = "";
+                                DS.weatherCondition_description = "";
+                                DS.weatherCondition_main = "";
+                                DS.weatherHumidity = "";
+                                DS.weatherPressure = "";
+                                DS.weatherTemperature = "";
+                                DS.weatherTemperatureFeelsLike = "";
+                                DS.weatherWindGust = "";
+                                DS.weatherWindSpeed = "";
+                                database.saveEntity("divesessions", DS);
+                            }
+
                         }
                     }
                     catch(Exception ex)

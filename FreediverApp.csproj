@@ -78,7 +78,6 @@
     <Compile Include="FragmentActivities\AccountPanelFragment.cs" />
     <Compile Include="AddSessionActivity.cs" />
     <Compile Include="BluetoothCommunication\BluetoothServiceData.cs" />
-    <Compile Include="BluetoothCommunication\DiveDataConverter.cs" />
     <Compile Include="BluetoothDeviceViewHolder.cs" />
     <Compile Include="CustomListViewAdapter.cs" />
     <Compile Include="DatabaseConnector\Encryptor.cs" />

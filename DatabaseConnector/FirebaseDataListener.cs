@@ -206,7 +206,7 @@ namespace FreediverApp.DatabaseConnector
                     saveData.Put("oxygen_saturation_min", obj.OxygenSaturationMin);
                     saveData.Put("ref_divesession", obj.refDivesession);
                     saveData.Put("timestamp_begin", obj.timestampBegin);
-                    saveData.Put("timestamp_end", obj.timestampEnd);
+                    saveData.Put("timestamp_end", "n/a");
                     saveData.Put("water_temp_max", obj.WaterTemperatureMax);
                     saveData.Put("water_temp_min", obj.WaterTemperatureMin);
                     saveData.Put("id", obj.id);
