@@ -423,7 +423,7 @@ namespace FreediverApp
                             else if (temp.ContainsKey("Time"))
                             {                                
                                 Dive dive = new Dive(diveSessions.Last().Id, divecount.ToString());
-                                dive.timestampBegin = temp["Time"].ToString();
+                                dive.timestampBegin = temp["Time"].ToString().Remove(0, 1);
                                 
                                 diveSessions.Last().dives.Add(dive);
                                 if (divecount > 0)
