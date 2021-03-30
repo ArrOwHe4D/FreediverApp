@@ -18,7 +18,6 @@ using IAdapter = Plugin.BLE.Abstractions.Contracts.IAdapter;
 using System.Collections.ObjectModel;
 using Plugin.BLE;
 using Plugin.BLE.Abstractions;
-using Plugin.BLE.Abstractions.EventArgs;
 using System.Threading.Tasks;
 using FreediverApp.DatabaseConnector;
 using Newtonsoft.Json;
@@ -43,7 +42,6 @@ namespace FreediverApp
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -54,15 +52,12 @@ namespace FreediverApp
             btReceiver.m_adapter = BluetoothAdapter.DefaultAdapter;
 
             ble = CrossBluetoothLE.Current;
-            //ble.StateChanged += bleStateChanged;
 
             bleAdapter = CrossBluetoothLE.Current.Adapter;
             bleAdapter.ScanTimeout = 5000;
             bleAdapter.ScanTimeoutElapsed += stopScan;
 
             bleDeviceList = new ObservableCollection<IDevice>();
-
-            //var systemDevices = bleAdapter.GetSystemConnectedOrPairedDevices();
 
             listView = view.FindViewById<ListView>(Resource.Id.lv_con_devices);
             btnScan = view.FindViewById<Button>(Resource.Id.bt_scan_btn);
@@ -169,18 +164,6 @@ namespace FreediverApp
         private void refreshGui()
         {
             listView.Adapter = new CustomListViewAdapter(bleDeviceList);
-        }
-
-        private List<string> getDeviceNames()
-        {
-            List<string> result = new List<string>();
-
-            for (int i = 0; i < bleDeviceList.Count; i++)
-            {
-                result.Add(bleDeviceList.ElementAt(i).Name);
-            }
-
-            return result;
         }
 
         private void runBluetoothActivationDialog()
@@ -296,7 +279,6 @@ namespace FreediverApp
                                 DS.weatherWindSpeed = "";
                                 database.saveEntity("divesessions", DS);
                             }
-
                         }
                     }
                     catch(Exception ex)
@@ -322,9 +304,8 @@ namespace FreediverApp
             //after a connection was established we need to read the service and characteristic data from arduino side
             var service = await conDevice.GetServiceAsync(new Guid(BluetoothServiceData.DIVE_SERVICE_ID));            
             var characteristics = await service.GetCharacteristicsAsync();
-            var chara_ack = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.characteristic_ack));
+            var chara_ack = await service.GetCharacteristicAsync(new Guid(BluetoothServiceData.CHARACTERISTIC_ACK));
             List<DiveSession> diveSessions = new List<DiveSession>();
-            
 
             List<string> acc_x_List = new List<string>();
             List<string> acc_y_List = new List<string>();
@@ -350,63 +331,63 @@ namespace FreediverApp
                 {
                     chara.ValueUpdated += (o, args) =>
                     {
-                        if (BluetoothServiceData.characteristic_acceleator_x == chara.Uuid)
+                        if (BluetoothServiceData.CHARACTERISTIC_ACCELERATOR_X == chara.Uuid)
                         {
                             acc_x_List.Add(BitConverter.ToSingle(args.Characteristic.Value).ToString());
                         }
-                        else if (BluetoothServiceData.characteristic_acceleator_y == chara.Uuid)
+                        else if (BluetoothServiceData.CHARACTERISTIC_ACCELERATOR_Y == chara.Uuid)
                         {
                             acc_y_List.Add(BitConverter.ToSingle(args.Characteristic.Value).ToString());
                         }
-                        else if (BluetoothServiceData.characteristic_acceleator_z == chara.Uuid)
+                        else if (BluetoothServiceData.CHARACTERISTIC_ACCELERATOR_Z == chara.Uuid)
                         {
                             acc_z_List.Add(BitConverter.ToSingle(args.Characteristic.Value).ToString());
                         }
-                        else if (BluetoothServiceData.characteristic_depth == chara.Uuid)
+                        else if (BluetoothServiceData.CHARACTERISTIC_DEPTH == chara.Uuid)
                         {
                             depth_List.Add(BitConverter.ToSingle(args.Characteristic.Value).ToString());
                         }
-                        else if (BluetoothServiceData.characteristic_duration == chara.Uuid)
+                        else if (BluetoothServiceData.CHARACTERISTIC_DURATION == chara.Uuid)
                         {
                             dur_List.Add(BitConverter.ToSingle(args.Characteristic.Value).ToString());
                         }
-                        else if (BluetoothServiceData.characteristic_gyroscope_x == chara.Uuid)
+                        else if (BluetoothServiceData.CHARACTERISTIC_GYROSCOPE_X == chara.Uuid)
                         {
                             gyro_x_List.Add(BitConverter.ToSingle(args.Characteristic.Value).ToString());
                         }
-                        else if (BluetoothServiceData.characteristic_gyroscope_y == chara.Uuid)
+                        else if (BluetoothServiceData.CHARACTERISTIC_GYROSCOPE_Y == chara.Uuid)
                         {
                             gyro_y_List.Add(BitConverter.ToSingle(args.Characteristic.Value).ToString());
                         }
-                        else if (BluetoothServiceData.characteristic_gyroscope_z == chara.Uuid)
+                        else if (BluetoothServiceData.CHARACTERISTIC_GYROSCOPE_Z == chara.Uuid)
                         {
                             gyro_z_List.Add(BitConverter.ToSingle(args.Characteristic.Value).ToString());
                         }
-                        else if (BluetoothServiceData.characteristic_heart_freq == chara.Uuid)
+                        else if (BluetoothServiceData.CHARACTERISTIC_HEART_FREQ == chara.Uuid)
                         {
                             heart_freq_List.Add(BitConverter.ToInt32(args.Characteristic.Value).ToString());
                         }
-                        else if (BluetoothServiceData.characteristic_heat_var == chara.Uuid)
+                        else if (BluetoothServiceData.CHARACTERISTIC_HEART_VAR == chara.Uuid)
                         {
                             heart_var_List.Add(BitConverter.ToInt32(args.Characteristic.Value).ToString());
                         }
-                        else if (BluetoothServiceData.characteristic_luminance == chara.Uuid)
+                        else if (BluetoothServiceData.CHARACTERISTIC_LUMINANCE == chara.Uuid)
                         {
                             lumi_List.Add(BitConverter.ToInt32(args.Characteristic.Value).ToString());
                         }
-                        else if (BluetoothServiceData.characteristic_oxygen_saturation == chara.Uuid)
+                        else if (BluetoothServiceData.CHARACTERISTIC_OXYGEN_SATURATION == chara.Uuid)
                         {
                             oxy_List.Add(BitConverter.ToInt32(args.Characteristic.Value).ToString());
                         }
-                        else if (BluetoothServiceData.characteristic_ref_dive == chara.Uuid)
+                        else if (BluetoothServiceData.CHARACTERISTIC_REF_DIVE == chara.Uuid)
                         {
                             ref_List.Add(BitConverter.ToInt32(args.Characteristic.Value).ToString());
                         }
-                        else if (BluetoothServiceData.characteristic_water_temp == chara.Uuid)
+                        else if (BluetoothServiceData.CHARACTERISTIC_WATER_TEMP == chara.Uuid)
                         {
                             water_List.Add(BitConverter.ToSingle(args.Characteristic.Value).ToString());
                         }
-                        else if (BluetoothServiceData.characteristic_datetime == chara.Uuid)
+                        else if (BluetoothServiceData.CHARACTERISTIC_DATETIME == chara.Uuid)
                         {
                             string message = System.Text.Encoding.ASCII.GetString(args.Characteristic.Value);
                             message = message.Split('}')[0] + "}";
@@ -475,19 +456,18 @@ namespace FreediverApp
                             }                            
                         }                        
                     };
-                    if (chara.Uuid != BluetoothServiceData.characteristic_ack)
+                    if (chara.Uuid != BluetoothServiceData.CHARACTERISTIC_ACK)
                     {
                         await chara.StartUpdatesAsync();
                     }                    
                 }
                 catch (Exception ex)
                 {
-                    
+                    Console.WriteLine(ex.Message);
                 }  
             }
 
             await chara_ack.WriteAsync(new Byte[] { Convert.ToByte(1) });
-
 
             while (conDevice.State == DeviceState.Connected)
             {
@@ -518,11 +498,6 @@ namespace FreediverApp
                 ds.UpdateAll();
             }
             return diveSessions;
-        }
-
-        private bool isJson(string m)
-        {            
-            return m.StartsWith('{') && m.EndsWith('}');
         }
 
         List<Measurepoint> createMeasurepoints
@@ -578,7 +553,6 @@ namespace FreediverApp
             water_List.Clear();
             return mp_List;
         }
-
 
         private void retrieveDiveSessions()
         {
