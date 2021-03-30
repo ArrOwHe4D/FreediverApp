@@ -224,6 +224,8 @@ namespace FreediverApp
                         await bleAdapter.StopScanningForDevicesAsync();
                         refreshGui();
 
+                        TemporaryData.CONNECTED_DIVE_COMPUTER = clickedDevice.Name != null ? clickedDevice.Name : "No Device Connected";
+
                         dataTransferDialog = new ProgressDialog(Context);
                         dataTransferDialog.SetMessage("Transfering session data from arduino...");
                         dataTransferDialog.SetCancelable(false);

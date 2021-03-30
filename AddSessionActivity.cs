@@ -23,13 +23,13 @@ namespace FreediverApp
     [Activity(Label = "AddSessionActivity", ScreenOrientation = ScreenOrientation.Portrait)]
     public class AddSessionActivity : Activity
     {
-        private Button btnAddSession;
-        private Button btnCancel;
-        private TextView tvwConnected;
-        private TextView tvwLocation;
-        private TextView tvwWeather;
-        private TextView tvwDate;
-        private TextView tvwDiveTime;
+        private Button buttonAddSession;
+        private Button buttonCancel;
+        private TextView textViewConnectedWith;
+        private TextView textViewLocation;
+        private TextView textViewWeather;
+        private TextView textViewDate;
+        private TextView textViewDiveTime;
         private DiveSession diveSession;
         private FirebaseDataListener database;
         private List<SavedSession> savedSessions;
@@ -44,21 +44,22 @@ namespace FreediverApp
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.AddSessionPage);
 
-            btnAddSession = FindViewById<Button>(Resource.Id.btnAddSession);
-            btnAddSession.Click += btnAddSession_Click;
-            btnCancel = FindViewById<Button>(Resource.Id.btnCancel);
-            btnCancel.Click += btnCancel_Click;
-            tvwConnected = FindViewById<TextView>(Resource.Id.tvwConnectedV);
-            tvwLocation = FindViewById<TextView>(Resource.Id.tvwLocationV);
-            tvwWeather = FindViewById<TextView>(Resource.Id.tvwWeatherV);
-            tvwDate = FindViewById<TextView>(Resource.Id.tvwDateV);
-            tvwDiveTime = FindViewById<TextView>(Resource.Id.tvwDiveTimeV);
+            buttonAddSession = FindViewById<Button>(Resource.Id.button_add_session);
+            buttonAddSession.Click += btnAddSession_Click;
+            buttonCancel = FindViewById<Button>(Resource.Id.button_cancel);
+            buttonCancel.Click += buttonCancel_Click;
+            textViewConnectedWith = FindViewById<TextView>(Resource.Id.textview_connected_with);
+            textViewLocation = FindViewById<TextView>(Resource.Id.textview_location);
+            textViewWeather = FindViewById<TextView>(Resource.Id.textview_weather);
+            textViewDate = FindViewById<TextView>(Resource.Id.textview_date);
+            textViewDiveTime = FindViewById<TextView>(Resource.Id.textview_divetime);
 
             diveSession = createDiveSession();
-            tvwLocation.Text = diveSession.location_lon + " | " + diveSession.location_lat;
-            tvwWeather.Text = diveSession.weatherCondition_main + " | " + diveSession.weatherTemperature;
-            tvwDate.Text = diveSession.date;
-            tvwDiveTime.Text = diveSession.watertime;
+            textViewConnectedWith.Text = TemporaryData.CONNECTED_DIVE_COMPUTER;
+            textViewLocation.Text = diveSession.location_lon + " | " + diveSession.location_lat;
+            textViewWeather.Text = diveSession.weatherCondition_main + " | " + diveSession.weatherTemperature;
+            textViewDate.Text = diveSession.date;
+            textViewDiveTime.Text = diveSession.watertime;
 
             database = new FirebaseDataListener();
 
@@ -89,7 +90,7 @@ namespace FreediverApp
         /**
          *  This function closes the activity when the user clicked on the cancel button. 
          **/
-        private void btnCancel_Click(object sender, EventArgs eventArgs)
+        private void buttonCancel_Click(object sender, EventArgs eventArgs)
         {
             Finish();
         }

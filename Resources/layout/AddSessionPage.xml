@@ -47,7 +47,7 @@
                     android:layout_weight="60"
                     android:textColor="@android:color/black"
                     android:textSize="8pt"
-                    android:id="@+id/tvwConnected" />
+                    android:id="@+id/label_connected_with" />
 
                 <TextView
                     android:text="Tauchcomputer-RX2"
@@ -56,7 +56,7 @@
                     android:layout_weight="40"
                     android:textColor="@android:color/black"
                     android:textSize="8pt"
-                    android:id="@+id/tvwConnectedV" />
+                    android:id="@+id/textview_connected_with" />
 
             </LinearLayout>
 
@@ -75,7 +75,7 @@
                     android:layout_weight="60"
                     android:textColor="@android:color/black"
                     android:textSize="8pt"
-                    android:id="@+id/tvwLocation" />
+                    android:id="@+id/label_location" />
 
                 <TextView
                     android:text="Köln"
@@ -84,7 +84,7 @@
                     android:layout_weight="40"
                     android:textColor="@android:color/black"
                     android:textSize="8pt"
-                    android:id="@+id/tvwLocationV" />
+                    android:id="@+id/textview_location" />
 
             </LinearLayout>
 
@@ -104,7 +104,7 @@
                     android:layout_weight="60"
                     android:textColor="@android:color/black"
                     android:textSize="8pt"
-                    android:id="@+id/tvwWeather" />
+                    android:id="@+id/label_weather" />
 
                 <TextView
                     android:text="Sonnig | 22C°"
@@ -113,7 +113,7 @@
                     android:layout_weight="40"
                     android:textColor="@android:color/black"
                     android:textSize="8pt"
-                    android:id="@+id/tvwWeatherV" />
+                    android:id="@+id/textview_weather" />
 
             </LinearLayout>
 
@@ -133,7 +133,7 @@
                     android:layout_weight="60"
                     android:textColor="@android:color/black"
                     android:textSize="8pt"
-                    android:id="@+id/tvwDate" />
+                    android:id="@+id/label_date" />
 
                 <TextView
                     android:text="9.12.2020"
@@ -142,7 +142,7 @@
                     android:layout_weight="40"
                     android:textColor="@android:color/black"
                     android:textSize="8pt"
-                    android:id="@+id/tvwDateV" />
+                    android:id="@+id/textview_date" />
 
             </LinearLayout>
 
@@ -162,7 +162,7 @@
                     android:layout_weight="60"
                     android:textColor="@android:color/black"
                     android:textSize="8pt"
-                    android:id="@+id/tvwDiveTime" />
+                    android:id="@+id/label_divetime" />
 
                 <TextView
                     android:text="1:13:54 Std"
@@ -171,7 +171,7 @@
                     android:layout_weight="40"
                     android:textColor="@android:color/black"
                     android:textSize="8pt"
-                    android:id="@+id/tvwDiveTimeV" />
+                    android:id="@+id/textview_divetime" />
 
             </LinearLayout>
 
@@ -196,7 +196,7 @@
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:id="@+id/btnAddSession" />
+            android:id="@+id/button_add_session" />
 
         <Button
             android:text="Abbrechen"
@@ -208,7 +208,7 @@
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:id="@+id/btnCancel" />
+            android:id="@+id/button_cancel" />
 
     </LinearLayout>
 
