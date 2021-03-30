@@ -70,8 +70,15 @@ namespace FreediverApp
 
             var holder = (BluetoothDeviceViewHolder)view.Tag;
             holder.Photo.SetImageResource(Resource.Drawable.icon_info);
-            holder.Name.Text = btle_devices[position].Name;
-            holder.MacAdress.Text = btle_devices[position].Id.ToString();
+            if (btle_devices[position].Name != null && btle_devices[position].Name.Length > 14)
+            {
+                holder.Name.Text = btle_devices[position].Name.Substring(0, 15) + "...";
+            }
+            else
+            {
+                holder.Name.Text = btle_devices[position].Name;
+            }
+            holder.MacAdress.Text = "MAC: " + btle_devices[position].NativeDevice.ToString();            
             holder.ConState.Text = btle_devices[position].State == Plugin.BLE.Abstractions.DeviceState.Connected ? "Connected" : "Disconnected"; 
 
             return view;
