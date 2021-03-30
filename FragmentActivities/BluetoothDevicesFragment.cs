@@ -211,7 +211,7 @@ namespace FreediverApp
             var textViewConState = dialogView.FindViewById<TextView>(Resource.Id.textview_con_state);
 
             textViewDeviceName.Text = clickedDevice.Name;
-            textViewMacAddress.Text = clickedDevice.Id.ToString();
+            textViewMacAddress.Text = "MAC:" + clickedDevice.NativeDevice.ToString();
             textViewConState.Text = clickedDevice.State == DeviceState.Connected ? "Connected" : "Disconnected";
 
             var editValueField = dialogView.FindViewById<EditText>(Resource.Id.userInput);
