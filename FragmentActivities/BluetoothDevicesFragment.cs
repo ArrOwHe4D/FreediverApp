@@ -22,6 +22,7 @@ using Plugin.BLE.Abstractions.EventArgs;
 using System.Threading.Tasks;
 using FreediverApp.DatabaseConnector;
 using Newtonsoft.Json;
+using Android.App;
 
 namespace FreediverApp
 {
@@ -37,6 +38,7 @@ namespace FreediverApp
         private ObservableCollection<IDevice> bleDeviceList;
         private FirebaseDataListener diveSessionListener;
         private List<DiveSession> diveSessionsFromDatabase;
+        private ProgressDialog dataTransferDialog;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -239,7 +241,15 @@ namespace FreediverApp
                         await bleAdapter.StopScanningForDevicesAsync();
                         refreshGui();
 
+                        dataTransferDialog = new ProgressDialog(Context);
+                        dataTransferDialog.SetMessage("Transfering session data from arduino...");
+                        dataTransferDialog.SetCancelable(false);
+                        dataTransferDialog.Show();
+
                         List<DiveSession> diveSessions = await receiveDataAsync(clickedDevice);
+
+                        dataTransferDialog.Dismiss();
+
                         List<string> existingSessions = new List<string>();
                         FirebaseDataListener database = new FirebaseDataListener();
                         string id = null;
