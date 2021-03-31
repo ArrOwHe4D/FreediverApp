@@ -8320,40 +8320,43 @@ namespace FreediverApp
 			public const int save = 2131624129;
 			
 			// aapt resource value: 0x7F0E00C2
-			public const int search_menu_title = 2131624130;
+			public const int saving_successful = 2131624130;
 			
 			// aapt resource value: 0x7F0E00C3
-			public const int session_already_exists = 2131624131;
+			public const int search_menu_title = 2131624131;
 			
 			// aapt resource value: 0x7F0E00C4
-			public const int session_overview = 2131624132;
+			public const int session_already_exists = 2131624132;
 			
 			// aapt resource value: 0x7F0E00C5
-			public const int status_bar_notification_info_overflow = 2131624133;
+			public const int session_overview = 2131624133;
 			
 			// aapt resource value: 0x7F0E00C6
-			public const int total_dive_time = 2131624134;
+			public const int status_bar_notification_info_overflow = 2131624134;
 			
 			// aapt resource value: 0x7F0E00C7
-			public const int username = 2131624135;
+			public const int total_dive_time = 2131624135;
 			
-			// aapt resource value: 0x7F0E00C9
-			public const int username_or_email = 2131624137;
+			// aapt resource value: 0x7F0E00C8
+			public const int username = 2131624136;
 			
 			// aapt resource value: 0x7F0E00CA
-			public const int weather_condition = 2131624138;
+			public const int username_or_email = 2131624138;
 			
 			// aapt resource value: 0x7F0E00CB
-			public const int weight = 2131624139;
+			public const int weather_condition = 2131624139;
 			
 			// aapt resource value: 0x7F0E00CC
-			public const int weight_acc_panel = 2131624140;
+			public const int weight = 2131624140;
 			
 			// aapt resource value: 0x7F0E00CD
-			public const int welcome = 2131624141;
+			public const int weight_acc_panel = 2131624141;
 			
 			// aapt resource value: 0x7F0E00CE
-			public const int wrong_username_or_pass = 2131624142;
+			public const int welcome = 2131624142;
+			
+			// aapt resource value: 0x7F0E00CF
+			public const int wrong_username_or_pass = 2131624143;
 			
 			static String()
 			{

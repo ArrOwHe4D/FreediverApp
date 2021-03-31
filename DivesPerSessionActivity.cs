@@ -53,7 +53,7 @@ namespace FreediverApp
                     if (item.duration != null)
                     {
                         count++;
-                        dives.Add("Tauchgang " + count + " | " + Convert.ToDouble(item.duration) + "sec. | " + item.maxDepth + "m");
+                        dives.Add("Tauchgang " + count + " | " + Convert.ToDouble(item.duration) + " sec. | " + item.maxDepth + " m");
                     }
                 }
                 ArrayAdapter<string> adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, dives);

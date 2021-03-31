@@ -72,7 +72,7 @@ namespace FreediverApp
          **/
         public void btnSaveOnClick(object sender, EventArgs args) 
         {
-            
+            Toast.MakeText(Context, Resource.String.saving_successful, ToastLength.Long).Show();
         }
     }
 }

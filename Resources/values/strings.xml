@@ -79,6 +79,7 @@
     <string name="could_not_retrieve_location_and_weather">"Could not retrieve location and weather data. Please make sure to enable the location service on your phone!"</string>
     <string name="enable_location_service">"Please enable Location services on your device!"</string>
     <string name="session_already_exists">"There does already exist a session for this date!"</string>
+    <string name="saving_successful">Your settings have been saved successfully!</string>
   
     <!--Dialog Strings (EN_US)-->
     <string name="dialog_save_user_info">Save User Information</string>

@@ -72,6 +72,7 @@
   <string name="could_not_retrieve_location_and_weather">"Fehler beim Abruf der Standort- und Wetterdaten. Bitte überprüfen Sie ob der Standort Dienst aktiviert wurde!"</string>
   <string name="enable_location_service">"Bitte aktivieren Sie den Standort Dienst auf ihrem Gerät!"</string>
   <string name="session_already_exists">"Es existiert bereits eine Session für dieses Datum!"</string>
+  <string name="saving_successful">Ihre Einstellungen wurden erfolgreich gespeichert!</string>
   
   <!--Dialog Strings (DE)-->
   <string name="dialog_save_user_info">Konto erstellen</string>
