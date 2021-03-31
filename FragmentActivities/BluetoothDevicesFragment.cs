@@ -70,7 +70,7 @@ namespace FreediverApp
             listView.ItemClick += ListView_ItemClick;
 
             diveSessionListener = new FirebaseDataListener();
-
+            diveSessionsFromDatabase = new List<DiveSession>();
             retrieveDiveSessions();
 
             if (ble == null)
@@ -238,22 +238,24 @@ namespace FreediverApp
                         List<string> existingSessions = new List<string>();
                         FirebaseDataListener database = new FirebaseDataListener();
                         string id = null;
-
-                        foreach(DiveSession dsDB in diveSessionsFromDatabase)
+                        if (diveSessionsFromDatabase != null)
                         {
-                            foreach(DiveSession ds in diveSessions)
+                            foreach (DiveSession dsDB in diveSessionsFromDatabase)
                             {
-                                if(dsDB.date == ds.date)
+                                foreach (DiveSession ds in diveSessions)
                                 {
-                                    existingSessions.Add(ds.date);
-                                    foreach(Dive d in ds.dives)
+                                    if (dsDB.date == ds.date)
                                     {
-                                        d.refDivesession = dsDB.Id;
+                                        existingSessions.Add(ds.date);
+                                        foreach (Dive d in ds.dives)
+                                        {
+                                            d.refDivesession = dsDB.Id;
+                                        }
+
                                     }
-                                    
                                 }
                             }
-                        }
+                        }                        
 
                         //save whole result set into database one by another
                         foreach (DiveSession DS in diveSessions)
