@@ -82,6 +82,7 @@ namespace FreediverApp
             diveSessionListener = new FirebaseDataListener();
 
             //query all divesessions of the current user since we need to determine if a session already exists when receiving data from arduino
+
             retrieveDiveSessions();
 
             //different error handlings for errors that can occur while initializing ble
@@ -312,20 +313,23 @@ namespace FreediverApp
 
                         //Check if a divesession already exists in db and set the ref_divesession field to
                         //the id of the existing divesession to realize the 1:n relation of divession and dives
-                        foreach(DiveSession dsDB in diveSessionsFromDatabase)
+                        if (diveSessionsFromDatabase != null)
                         {
-                            foreach(DiveSession ds in diveSessions)
+                            foreach (DiveSession dsDB in diveSessionsFromDatabase)
                             {
-                                if(dsDB.date == ds.date)
+                                foreach (DiveSession ds in diveSessions)
                                 {
-                                    existingSessions.Add(ds.date);
-                                    foreach(Dive d in ds.dives)
+                                    if (dsDB.date == ds.date)
                                     {
-                                        d.refDivesession = dsDB.Id;
-                                    }      
+                                        existingSessions.Add(ds.date);
+                                        foreach (Dive d in ds.dives)
+                                        {
+                                            d.refDivesession = dsDB.Id;
+                                        }
+                                    }
                                 }
                             }
-                        }
+                        }                        
 
                         //save all divesessions from the result set into db
                         foreach (DiveSession DS in diveSessions)
