@@ -93,71 +93,29 @@ namespace FreediverApp
         }
 
         /**
-         *  This function generates the chart that is populated with the data of all dives 
-         *  of the current selected divesession.
-         *  NOTE: this is a hardcoded example at the moment and needs to be compeletely implemented in future versions.
+         *  This function generates a bar chart that is populated with the data of all dives 
+         *  of the current selected divesession. It displays the timestamp where the dive was started on the 
+         *  bottom and the max depth of the dive on the top.
          **/
         private void generateChart()
         {
             List<ChartEntry> dataList = new List<ChartEntry>();
 
-            dataList.Add(new ChartEntry(0)
+            foreach (Dive dive in TemporaryData.CURRENT_DIVESESSION.dives)
             {
-                Label = "0:05",
-                ValueLabel = "0",
-                Color = SKColor.Parse("#5cf739")
-            });
+                SKColor color = SKColor.Parse("#038cfc"); //aqua blue
 
-            dataList.Add(new ChartEntry(5)
-            {
-                Label = "0:10",
-                ValueLabel = "5",
-                Color = SKColor.Parse("#f7c139")
-            });
+                //Add a new chartEntry to the dataList containing the depth value of the current measurepoint
+                dataList.Add(new ChartEntry(float.Parse(dive.maxDepth))
+                {
+                    Label = dive.timestampBegin,
+                    ValueLabel = dive.maxDepth.Split(",")[0] + " m",
+                    Color = color
+                });
+            }
 
-            dataList.Add(new ChartEntry(8)
-            {
-                Label = "0:15",
-                ValueLabel = "8",
-                Color = SKColor.Parse("#f75939")
-            });
-
-            dataList.Add(new ChartEntry(8)
-            {
-                Label = "0:20",
-                ValueLabel = "8",
-                Color = SKColor.Parse("#f75939")
-            });
-
-            dataList.Add(new ChartEntry(9)
-            {
-                Label = "0:25",
-                ValueLabel = "9",
-                Color = SKColor.Parse("#f75939")
-            });
-
-            dataList.Add(new ChartEntry(8)
-            {
-                Label = "0:30",
-                ValueLabel = "8",
-                Color = SKColor.Parse("#f75939")
-            });
-
-            dataList.Add(new ChartEntry(4)
-            {
-                Label = "0:35",
-                ValueLabel = "4",
-                Color = SKColor.Parse("f7c139")
-            });
-
-            dataList.Add(new ChartEntry(1)
-            {
-                Label = "0:40",
-                ValueLabel = "4",
-                Color = SKColor.Parse("#5cf739")
-            });
-
-            var chart = new LineChart { Entries = dataList, LabelTextSize = 30f };
+            //create a new chart with the data entries and a custom display configuration
+            var chart = new BarChart { Entries = dataList, LabelTextSize = 20f, LabelOrientation = Microcharts.Orientation.Horizontal, ValueLabelOrientation = Microcharts.Orientation.Horizontal };
             chartView.Chart = chart;
         }
     }
