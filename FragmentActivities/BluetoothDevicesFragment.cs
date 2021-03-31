@@ -228,7 +228,7 @@ namespace FreediverApp
 
                 //We let the main thread sleep for 2,5 sec since we encountered that on some phones it takes a bit to activate bluetooth 
                 //and to prevent that activation is not working even if it would work, we wait some seconds to ensure that activation was successfull 
-                //on each of the different custom android versions from different manifacturers. 
+                //on each of the different custom android versions from different manufacturers. 
                 //(Should have something to do with how internal system calls are handled on different android versions)
                 Thread.Sleep(2500);
 
