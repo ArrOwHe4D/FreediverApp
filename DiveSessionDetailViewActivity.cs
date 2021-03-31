@@ -31,8 +31,6 @@ namespace FreediverApp
         private TextView tvwTimeInWater;
 
         private FirebaseDataListener diveDataListener;
-        private FirebaseDataListener measurepointDataListener;
-        private List<Measurepoint> measurepointList = new List<Measurepoint>();
 
         /**
          *  This function initializes all member variables such as UI components

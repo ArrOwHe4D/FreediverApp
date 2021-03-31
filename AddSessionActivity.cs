@@ -34,6 +34,8 @@ namespace FreediverApp
         private FirebaseDataListener database;
         private List<SavedSession> savedSessions;
 
+        private bool sessionExists;
+
         /**
          *  This function initializes the activity with all of it´s UI components. It also directly creates a new divesession based
          *  on the current location and weather data and sets up the db listener to query if the session already exists for this date
@@ -60,6 +62,7 @@ namespace FreediverApp
             textViewWeather.Text = diveSession.weatherCondition_main + " | " + diveSession.weatherTemperature;
             textViewDate.Text = diveSession.date;
             textViewDiveTime.Text = diveSession.watertime;
+            sessionExists = false;
 
             database = new FirebaseDataListener();
 
@@ -76,13 +79,20 @@ namespace FreediverApp
          *  Afterwards the activity is closed with a call of the Finish function.
          **/
         private void btnAddSession_Click(object sender, EventArgs eventArgs)
-        {            
-            TemporaryData.CURRENT_DIVESESSION = diveSession;
-            TemporaryData.CURRENT_USER.diveSessions.Add(diveSession);
+        {
+            if (!sessionExists)
+            {
+                TemporaryData.CURRENT_DIVESESSION = diveSession;
+                TemporaryData.CURRENT_USER.diveSessions.Add(diveSession);
 
-            database.saveEntity("divesessions", diveSession);
-            SavedSession savedSession = new SavedSession(TemporaryData.CURRENT_USER.id, DateTime.Now.Date.ToString("dd.MM.yyyy"));
-            database.saveEntity("savedsessions", savedSession);
+                database.saveEntity("divesessions", diveSession);
+                SavedSession savedSession = new SavedSession(TemporaryData.CURRENT_USER.id, DateTime.Now.Date.ToString("dd.MM.yyyy"));
+                database.saveEntity("savedsessions", savedSession);
+            }
+            else 
+            {
+                Toast.MakeText(this, "Es existiert bereits eine Session für dieses Datum!", ToastLength.Long).Show();
+            }
 
             Finish();
         }
@@ -106,20 +116,30 @@ namespace FreediverApp
             if (checkLocationPermission())
             {
                 Location location = new GeoLocationService().location;
-                OpenWeatherMapConnector openWeatherMapConnector = new OpenWeatherMapConnector(location.Longitude, location.Latitude);
-                WeatherData weatherData = openWeatherMapConnector.downloadWeatherData();
+                WeatherData weatherData = new WeatherData();
 
+                try
+                {
+                    OpenWeatherMapConnector openWeatherMapConnector = new OpenWeatherMapConnector(location.Longitude, location.Latitude);
+                    weatherData = openWeatherMapConnector.downloadWeatherData();
+                }
+                catch (Exception ex) 
+                {
+                    Console.WriteLine(ex.Message);
+                    Toast.MakeText(this, "Could not retrieve location and weather data. Please make sure to enable your location services or create a session without location and weather data!", ToastLength.Long).Show();
+                }
+  
                 ds.date = DateTime.Now.ToShortDateString();
-                ds.location_lat = location.Latitude.ToString();
-                ds.location_lon = location.Longitude.ToString();
-                ds.weatherTemperature = weatherData.temp;
-                ds.weatherTemperatureFeelsLike = weatherData.tempFeelsLike;
-                ds.weatherCondition_main = weatherData.main;
-                ds.weatherCondition_description = weatherData.description;
-                ds.weatherPressure = weatherData.pressure;
-                ds.weatherHumidity = weatherData.humidity;
-                ds.weatherWindSpeed = weatherData.windSpeed;
-                ds.weatherWindGust = weatherData.windGust;
+                ds.location_lat = location != null ? location.Latitude.ToString() : "n/a";
+                ds.location_lon = location != null ? location.Longitude.ToString() : "n/a";
+                ds.weatherTemperature = weatherData.temp != null ? weatherData.temp : "n/a";
+                ds.weatherTemperatureFeelsLike = weatherData.tempFeelsLike != null ? weatherData.tempFeelsLike : "n/a";
+                ds.weatherCondition_main = weatherData.main != null ? weatherData.main : "n/a";
+                ds.weatherCondition_description = weatherData.description != null ? weatherData.description : "n/a";
+                ds.weatherPressure = weatherData.pressure != null ? weatherData.pressure : "n/a";
+                ds.weatherHumidity = weatherData.humidity != null ? weatherData.humidity : "n/a";
+                ds.weatherWindSpeed = weatherData.windSpeed != null ? weatherData.windSpeed : "n/a";
+                ds.weatherWindGust = weatherData.windGust != null ? weatherData.windGust : "n/a";
                 ds.watertime = "";
             }
             else 
@@ -182,6 +202,7 @@ namespace FreediverApp
                     if(session.sessiondate == DateTime.Now.Date.ToString("dd.MM.yyyy"))
                     {
                         Toast.MakeText(this, "Es existiert bereits eine Session für dieses Datum!", ToastLength.Long).Show();
+                        sessionExists = true;
                         return;
                     }
                 }
