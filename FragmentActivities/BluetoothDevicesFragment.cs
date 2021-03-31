@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using FreediverApp.DatabaseConnector;
 using Newtonsoft.Json;
 using Android.App;
+using Android.Bluetooth;
 
 namespace FreediverApp
 {
@@ -51,8 +52,9 @@ namespace FreediverApp
         {
             var view = inflater.Inflate(Resource.Layout.BluetoothDevicesPage, container, false);
 
-            //btReceiver = new BluetoothDeviceReceiver();
-            //btReceiver.m_adapter = BluetoothAdapter.DefaultAdapter;
+            //setup default bluetooth adapter
+            btReceiver = new BluetoothDeviceReceiver();
+            btReceiver.m_adapter = BluetoothAdapter.DefaultAdapter;
 
             //setup the bluetooth low energy component
             ble = CrossBluetoothLE.Current;
