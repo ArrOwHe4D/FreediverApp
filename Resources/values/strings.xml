@@ -58,6 +58,8 @@
     <string name="dive_progression">Dive Progression</string>
     <string name="save">Save</string>
     <string name="welcome">Welcome</string>
+    <string name="no_device_connected">"No device connected"</string>
+    <string name="session_overview">Session Overview</string>
 
     <!--Toast Strings (EN_US)-->
     <string name="login_successful">Login successful!</string>
@@ -74,6 +76,9 @@
     <string name="bluetooth_activation_failed">Bluetooth activation failed!</string>
     <string name="connection_to_device_failed">Connection to device failed!</string>
     <string name="no_dives_available">There are no dives available!</string>
+    <string name="could_not_retrieve_location_and_weather">"Could not retrieve location and weather data. Please make sure to enable the location service on your phone!"</string>
+    <string name="enable_location_service">"Please enable Location services on your device!"</string>
+    <string name="session_already_exists">"There does already exist a session for this date!"</string>
   
     <!--Dialog Strings (EN_US)-->
     <string name="dialog_save_user_info">Save User Information</string>
@@ -86,5 +91,6 @@
     <string name="dialog_connect">Connect</string>
     <string name="dialog_connect_to_device">Connect to Device</string>
     <string name="dialog_logging_in">Logging in...</string>
+    <string name="dialog_receiving_data">Receiving session data from dive computer...</string>
     
 </resources>

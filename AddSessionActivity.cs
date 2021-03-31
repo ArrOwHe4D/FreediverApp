@@ -91,7 +91,7 @@ namespace FreediverApp
             }
             else 
             {
-                Toast.MakeText(this, "Es existiert bereits eine Session für dieses Datum!", ToastLength.Long).Show();
+                Toast.MakeText(this, Resource.String.session_already_exists, ToastLength.Long).Show();
             }
 
             Finish();
@@ -126,7 +126,7 @@ namespace FreediverApp
                 catch (Exception ex) 
                 {
                     Console.WriteLine(ex.Message);
-                    Toast.MakeText(this, "Could not retrieve location and weather data. Please make sure to enable your location services or create a session without location and weather data!", ToastLength.Long).Show();
+                    Toast.MakeText(this, Resource.String.could_not_retrieve_location_and_weather, ToastLength.Long).Show();
                 }
   
                 ds.date = DateTime.Now.ToShortDateString();
@@ -144,7 +144,7 @@ namespace FreediverApp
             }
             else 
             {
-                Toast.MakeText(this, "Please enable Location services on your device!", ToastLength.Long).Show();
+                Toast.MakeText(this, Resource.String.enable_location_service, ToastLength.Long).Show();
             }
 
             return ds;
@@ -201,7 +201,7 @@ namespace FreediverApp
                 {
                     if(session.sessiondate == DateTime.Now.Date.ToString("dd.MM.yyyy"))
                     {
-                        Toast.MakeText(this, "Es existiert bereits eine Session für dieses Datum!", ToastLength.Long).Show();
+                        Toast.MakeText(this, Resource.String.session_already_exists, ToastLength.Long).Show();
                         sessionExists = true;
                         return;
                     }

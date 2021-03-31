@@ -52,6 +52,8 @@
   <string name="dive_progression">Tauchverlauf</string>
   <string name="save">Speichern</string>
   <string name="welcome">Willkommen</string>
+  <string name="no_device_connected">"Kein Gerät verbunden"</string>
+  <string name="session_overview">Sessionübersicht</string>
 
   <!--Toast Strings (DE)-->
   <string name="login_successful">Login erfolgreich!</string>
@@ -67,6 +69,9 @@
   <string name="bluetooth_activation_failed">Fehler bei der Bluetooth Aktivierung!</string>
   <string name="connection_to_device_failed">Verbindung zum Gerät fehlgeschlagen!</string>
   <string name="no_dives_available">Es sind keine Tauchgänge vorhanden!</string>
+  <string name="could_not_retrieve_location_and_weather">"Fehler beim Abruf der Standort- und Wetterdaten. Bitte überprüfen Sie ob der Standort Dienst aktiviert wurde!"</string>
+  <string name="enable_location_service">"Bitte aktivieren Sie den Standort Dienst auf ihrem Gerät!"</string>
+  <string name="session_already_exists">"Es existiert bereits eine Session für dieses Datum!"</string>
   
   <!--Dialog Strings (DE)-->
   <string name="dialog_save_user_info">Konto erstellen</string>
@@ -79,5 +84,6 @@
   <string name="dialog_connect">Verbinden</string>
   <string name="dialog_connect_to_device">Mit Gerät verbinden</string>
   <string name="dialog_logging_in">Einloggen...</string>
+  <string name="dialog_receiving_data">Empfange Session Daten vom Tauchcomputer...</string>
 
 </resources>

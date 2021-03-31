@@ -280,7 +280,7 @@ namespace FreediverApp
 
             //set textview values
             textViewDeviceName.Text = clickedDevice.Name;
-            textViewMacAddress.Text = "MAC:" + clickedDevice.NativeDevice.ToString();
+            textViewMacAddress.Text = "MAC: " + clickedDevice.NativeDevice.ToString();
             textViewConState.Text = clickedDevice.State == DeviceState.Connected ? "Connected" : "Disconnected";
 
             dialogBuilder.SetCancelable(false)
@@ -294,11 +294,11 @@ namespace FreediverApp
                         refreshGui();
 
                         //Set the currently connected dive computer SSID/Name inside temporary data to be able to read the value out in AddSessionActivity
-                        TemporaryData.CONNECTED_DIVE_COMPUTER = clickedDevice.Name != null ? clickedDevice.Name : "No Device Connected";
+                        TemporaryData.CONNECTED_DIVE_COMPUTER = clickedDevice.Name != null ? clickedDevice.Name : Context.Resources.GetString(Resource.String.no_device_connected);
 
                         //Create a Progressdialog with a loading animation that notifies the user that data is transferred between arduino and the app
                         dataTransferDialog = new ProgressDialog(Context);
-                        dataTransferDialog.SetMessage("Transfering session data from arduino...");
+                        dataTransferDialog.SetMessage(Context.Resources.GetString(Resource.String.dialog_receiving_data));
                         dataTransferDialog.SetCancelable(false);
                         dataTransferDialog.Show();
 
