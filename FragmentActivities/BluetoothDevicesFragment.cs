@@ -344,6 +344,7 @@ namespace FreediverApp
                                 database.saveEntity("dives", D);
                             }
 
+                            //if the session not exists in db, set the divesession data to empty strings but save 
                             //it in db anyway without weather and location data so that we don´t loose any collected data from arduino side
                             if (!existingSessions.Contains(DS.date))
                             {
