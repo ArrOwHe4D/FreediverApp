@@ -422,12 +422,17 @@ namespace FreediverApp
             int divecount = 0;
             bool quit = false;
 
+            // To make use of the BleNotify we set in each characteristic, we need
+            // subscribe to them in the app so the arduino sends a notification each 
+            // time the value is updated.
             foreach (ICharacteristic chara in characteristics)
             {
                 try
                 {
                     chara.ValueUpdated += (o, args) =>
                     {
+                        // If a value of the characteristic related to a measurepoint is changed
+                        // we save them in the designated list for that.
                         if (BluetoothServiceData.CHARACTERISTIC_ACCELERATOR_X == chara.Uuid)
                         {
                             acc_x_List.Add(BitConverter.ToSingle(args.Characteristic.Value).ToString());
@@ -484,24 +489,39 @@ namespace FreediverApp
                         {
                             water_List.Add(BitConverter.ToSingle(args.Characteristic.Value).ToString());
                         }
+                        // The datetime characteristic if for one of four cases: 
+                        // 1. "Date"        -> start of a new divesession
+                        // 2. "Time"        -> start of a new dive
+                        // 3. "EoS"         -> end of a session 
+                        // 4. "Terminate"   -> the arduino send all available data and request a disconnect
+                        // After every of this cases we want to write in the ack characteristic
+                        // to signal that we received the data
                         else if (BluetoothServiceData.CHARACTERISTIC_DATETIME == chara.Uuid)
                         {
+                            // The information is send in json format but the arduino fills in random data
+                            // until the size of the characteristic is meet. Because of this we cut the message
+                            // after '}'.
                             string message = System.Text.Encoding.ASCII.GetString(args.Characteristic.Value);
                             message = message.Split('}')[0] + "}";
                             var temp = JsonConvert.DeserializeObject<Dictionary<string, object>>(message);
+                            // For the key "Date" we initilize a new divesession with the date we get 
+                            // and change the '_' to '.', considering the arduino can't handle '.' in
+                            // the file system.
                             if (temp.ContainsKey("Date"))
                             {
                                 DiveSession d = new DiveSession(TemporaryData.CURRENT_USER.id);
                                 diveSessions.Add(d);
-                                d.date = temp["Date"].ToString().Replace('_', '.').Insert(6, "20");
-                                Dive dive = new Dive();
+                                d.date = temp["Date"].ToString().Replace('_', '.').Insert(6, "20");                                
                                 divecount = 0;
                                 sendAcknowledgement = true;
                             }
+                            // When the dive is initilized the data for it hasn't been send yet.
+                            // But if there was a dive before this data is complete. Therefore we 
+                            // save the data that is curently in the lists, in the last dive and clear the lists.
                             else if (temp.ContainsKey("Time"))
                             {                                
                                 Dive dive = new Dive(diveSessions.Last().Id, divecount.ToString());
-                                dive.timestampBegin = temp["Time"].ToString().Remove(0, 1);
+                                dive.timestampBegin = temp["Time"].ToString().Remove(0, 2);
                                 
                                 diveSessions.Last().dives.Add(dive);
                                 if (divecount > 0)
@@ -526,6 +546,8 @@ namespace FreediverApp
                                 divecount++;
                                 sendAcknowledgement = true;
                             }
+                            // After the session is completely transmitted we save the spare measurepoints
+                            // in the last dive
                             else if (temp.ContainsKey("EoS"))
                             {
                                 diveSessions.Last().dives.Last().measurepoints =
@@ -553,6 +575,7 @@ namespace FreediverApp
                             }                            
                         }                        
                     };
+                    // We don't want a notification if the ack characteristic is changed
                     if (chara.Uuid != BluetoothServiceData.CHARACTERISTIC_ACK)
                     {
                         await chara.StartUpdatesAsync();
@@ -563,7 +586,8 @@ namespace FreediverApp
                     Console.WriteLine(ex.Message);
                 }  
             }
-
+            // this signals the arduino that all characteristics have been read and subscribed 
+            // so it can start sending data
             await chara_ack.WriteAsync(new Byte[] { Convert.ToByte(1) });
 
             while (conDevice.State == DeviceState.Connected)
@@ -579,6 +603,8 @@ namespace FreediverApp
                         await chara_ack.WriteAsync(new Byte[] { Convert.ToByte(1) });
                     }
                     sendAcknowledgement = false;
+                    // if ther terminator has been send and we acknowledged that 
+                    // we want to calculate the missing data like maxdepth etc. and return the divesessions
                     if (quit)
                     {
                         foreach (DiveSession ds in diveSessions)
@@ -590,6 +616,9 @@ namespace FreediverApp
                 }
             }
 
+            // if the connection has been interrupted the last divesession is most likly incomplete
+            // because of that we want to remove it
+            diveSessions.Remove(diveSessions.Last());            
             foreach (DiveSession ds in diveSessions)
             {
                 ds.UpdateAll();
