@@ -22,7 +22,7 @@ namespace FreediverApp
         public string weatherHumidity;
         public string weatherWindSpeed;
         public string weatherWindGust;
-        public string duration;
+        public string key;
         private string id;
         public List<Dive> dives = new List<Dive>();
 
@@ -49,13 +49,13 @@ namespace FreediverApp
          **/
         public void UpdateDuration()
         {
-            float dur = 0;
+            int dur = 0;
 
             foreach (var item in dives)
             {
                 try
                 {
-                    dur += (float)Convert.ToDouble(item.GetTotalTime());
+                    dur += Convert.ToInt32(item.GetTotalTime());
                 }
                 catch (Exception ex)
                 {

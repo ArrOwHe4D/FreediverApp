@@ -328,10 +328,13 @@ namespace FreediverApp
                                         {
                                             d.refDivesession = dsDB.Id;
                                         }
+                                        int watertime = Convert.ToInt32(dsDB.watertime) + Convert.ToInt32(ds.watertime);
+
+                                        database.updateEntity("divesessions", dsDB.key, "watertime", watertime.ToString());
                                     }
                                 }
                             }
-                        }                        
+                        }     
 
                         //save all divesessions from the result set into db
                         foreach (DiveSession DS in diveSessions)

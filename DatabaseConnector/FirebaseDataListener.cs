@@ -90,6 +90,7 @@ namespace FreediverApp.DatabaseConnector
                     foreach (DataSnapshot dataRecord in dataResult)
                     {
                         DiveSession divesession = new DiveSession();
+                        divesession.key = dataRecord.Key;
                         divesession.date = dataRecord.Child("date").Value.ToString();
                         divesession.location_lon = dataRecord.Child("location_lon").Value.ToString();
                         divesession.location_lat = dataRecord.Child("location_lat").Value.ToString();

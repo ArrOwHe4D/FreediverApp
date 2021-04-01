@@ -140,7 +140,7 @@ namespace FreediverApp
                 ds.weatherHumidity = weatherData.humidity != null ? weatherData.humidity : "n/a";
                 ds.weatherWindSpeed = weatherData.windSpeed != null ? weatherData.windSpeed : "n/a";
                 ds.weatherWindGust = weatherData.windGust != null ? weatherData.windGust : "n/a";
-                ds.watertime = "";
+                ds.watertime = "0";
             }
             else 
             {
