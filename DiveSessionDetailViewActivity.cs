@@ -53,7 +53,7 @@ namespace FreediverApp
             //set the textfield values below the chart using the current selected divesession that was stored in the TemporaryData class
             tvwSessionName.Text = TemporaryData.CURRENT_DIVESESSION.date + "\n" + TemporaryData.CURRENT_DIVESESSION.location_lon + " | " + TemporaryData.CURRENT_DIVESESSION.location_lat;
             tvwLocation.Text = TemporaryData.CURRENT_DIVESESSION.location_lon + " | " + TemporaryData.CURRENT_DIVESESSION.location_lat;
-            tvwWeather.Text = TemporaryData.CURRENT_DIVESESSION.weatherCondition_main + " | " + TemporaryData.CURRENT_DIVESESSION.weatherTemperature;
+            tvwWeather.Text = TemporaryData.CURRENT_DIVESESSION.weatherCondition_main + " | " + TemporaryData.CURRENT_DIVESESSION.weatherTemperature + " °C";
             tvwTimeInWater.Text = TemporaryData.CURRENT_DIVESESSION.watertime + " sec";
             
             RetrieveDiveData();
