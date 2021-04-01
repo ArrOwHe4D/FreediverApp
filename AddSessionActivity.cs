@@ -201,7 +201,6 @@ namespace FreediverApp
                 {
                     if(session.sessiondate == DateTime.Now.Date.ToString("dd.MM.yyyy"))
                     {
-                        Toast.MakeText(this, Resource.String.session_already_exists, ToastLength.Long).Show();
                         sessionExists = true;
                         return;
                     }

@@ -73,6 +73,7 @@
   <string name="enable_location_service">"Bitte aktivieren Sie den Standort Dienst auf ihrem Gerät!"</string>
   <string name="session_already_exists">"Es existiert bereits eine Session für dieses Datum!"</string>
   <string name="saving_successful">Ihre Einstellungen wurden erfolgreich gespeichert!</string>
+  <string name="no_data_uploaded_yet">"Für diese Session wurden noch keine Daten hochgeladen!"</string>
   
   <!--Dialog Strings (DE)-->
   <string name="dialog_save_user_info">Konto erstellen</string>
