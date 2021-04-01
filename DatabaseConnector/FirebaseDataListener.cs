@@ -273,6 +273,11 @@ namespace FreediverApp.DatabaseConnector
             }
         }
 
+        public void updateEntity(string tablename, string id, string field, string value) 
+        {
+            DatabaseReference entityRef = DBConnector.GetDatabase().GetReference(tablename).Child(id);
+            entityRef.Child(field).SetValue(value);
+        }
 
         //Deletes a dataset with the given "id" from the table "tablename"
         public void deleteEntity(string tablename, string id) 
