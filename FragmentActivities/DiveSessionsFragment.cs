@@ -102,15 +102,19 @@ namespace FreediverApp
         {
             TemporaryData.CURRENT_DIVESESSION = TemporaryData.CURRENT_USER.diveSessions[e.Position];
 
+            var diveSessionDetailViewActivity = new Intent(Context, typeof(DiveSessionDetailViewActivity));
+            StartActivity(diveSessionDetailViewActivity);
+
+            /*
             if (TemporaryData.CURRENT_DIVESESSION.dives.Count > 0)
             {
-                var diveSessionDetailViewActivity = new Intent(Context, typeof(DiveSessionDetailViewActivity));
-                StartActivity(diveSessionDetailViewActivity);
+                
             }
             else 
             {
                 Toast.MakeText(Context, Resource.String.no_data_uploaded_yet, ToastLength.Long).Show();
             }
+            */
         }
 
         /**

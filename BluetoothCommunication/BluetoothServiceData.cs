@@ -16,8 +16,8 @@
         public static string CHARACTERISTIC_ACCELERATOR_X = "094a4ab5-d789-477e-8b3a-fd5fee1971f9";
         public static string CHARACTERISTIC_ACCELERATOR_Y = "63e30608-53f1-48fb-a7f1-8363ed609a39";
         public static string CHARACTERISTIC_ACCELERATOR_Z = "82dea7b6-2091-4a8a-a788-fcaf0fba84e4";
-        public static string CHARACTERISTIC_DEPTH = "21980bb5-887a-4a8f-9598-51bb19b41068";
-        public static string CHARACTERISTIC_DURATION = "70b263a4-faa9-4940-96a6-ce481cfd5803";
+        public static string CHARACTERISTIC_DEPTH = "70b263a4-faa9-4940-96a6-ce481cfd5803";
+        public static string CHARACTERISTIC_DURATION = "21980bb5-887a-4a8f-9598-51bb19b41068";
         public static string CHARACTERISTIC_GYROSCOPE_X = "b6cf7ab8-525d-4e27-86e9-c4e7fe32223c";
         public static string CHARACTERISTIC_GYROSCOPE_Y = "c4fa00ce-5af9-40b7-b960-1658a8074320";
         public static string CHARACTERISTIC_GYROSCOPE_Z = "5475ba53-bcbd-43de-b410-c06ed3a50142";

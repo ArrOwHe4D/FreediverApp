@@ -226,9 +226,9 @@ namespace FreediverApp
                 int luminanceMin = Convert.ToInt32(measurepoints.First().luminance);
                 foreach (var item in measurepoints)
                 {
-                    if (Convert.ToInt32(item.heart_freq) < luminanceMin)
+                    if (Convert.ToInt32(item.luminance) < luminanceMin)
                     {
-                        luminanceMin = Convert.ToInt32(item.heart_freq);
+                        luminanceMin = Convert.ToInt32(item.luminance);
                     }
                 }
                 return luminanceMin.ToString();
@@ -246,9 +246,9 @@ namespace FreediverApp
                 int luminanceMax = Convert.ToInt32(measurepoints.First().luminance);
                 foreach (var item in measurepoints)
                 {
-                    if (Convert.ToInt32(item.heart_freq) > luminanceMax)
+                    if (Convert.ToInt32(item.luminance) > luminanceMax)
                     {
-                        luminanceMax = Convert.ToInt32(item.heart_freq);
+                        luminanceMax = Convert.ToInt32(item.luminance);
                     }
                 }
                 return luminanceMax.ToString();
@@ -266,9 +266,9 @@ namespace FreediverApp
                 int oxygenSaturationMax = Convert.ToInt32(measurepoints.First().luminance);
                 foreach (var item in measurepoints)
                 {
-                    if (Convert.ToInt32(item.heart_freq) > oxygenSaturationMax)
+                    if (Convert.ToInt32(item.oxygen_saturation) > oxygenSaturationMax)
                     {
-                        oxygenSaturationMax = Convert.ToInt32(item.heart_freq);
+                        oxygenSaturationMax = Convert.ToInt32(item.oxygen_saturation);
                     }
                 }
                 return oxygenSaturationMax.ToString();
@@ -286,9 +286,9 @@ namespace FreediverApp
                 int oxygenSaturationMin = Convert.ToInt32(measurepoints.First().luminance);
                 foreach (var item in measurepoints)
                 {
-                    if (Convert.ToInt32(item.heart_freq) < oxygenSaturationMin)
+                    if (Convert.ToInt32(item.oxygen_saturation) < oxygenSaturationMin)
                     {
-                        oxygenSaturationMin = Convert.ToInt32(item.heart_freq);
+                        oxygenSaturationMin = Convert.ToInt32(item.oxygen_saturation);
                     }
                 }
                 return oxygenSaturationMin.ToString();
@@ -306,9 +306,9 @@ namespace FreediverApp
                 int waterTemperatureMax = Convert.ToInt32(measurepoints.First().luminance);
                 foreach (var item in measurepoints)
                 {
-                    if (Convert.ToInt32(item.heart_freq) > waterTemperatureMax)
+                    if (Convert.ToInt32(item.water_temp) > waterTemperatureMax)
                     {
-                        waterTemperatureMax = Convert.ToInt32(item.heart_freq);
+                        waterTemperatureMax = Convert.ToInt32(item.water_temp);
                     }
                 }
                 return waterTemperatureMax.ToString();
@@ -326,9 +326,9 @@ namespace FreediverApp
                 int waterTemperatureMin = Convert.ToInt32(measurepoints.First().luminance);
                 foreach (var item in measurepoints)
                 {
-                    if (Convert.ToInt32(item.heart_freq) < waterTemperatureMin)
+                    if (Convert.ToInt32(item.water_temp) < waterTemperatureMin)
                     {
-                        waterTemperatureMin = Convert.ToInt32(item.heart_freq);
+                        waterTemperatureMin = Convert.ToInt32(item.water_temp);
                     }
                 }
                 return waterTemperatureMin.ToString();
@@ -343,7 +343,7 @@ namespace FreediverApp
         {
             try
             {
-                return Math.Round(Convert.ToDouble(measurepoints.Last().duration), 2).ToString();
+                return ((Convert.ToInt32(measurepoints.Last().duration) - Convert.ToInt32(measurepoints.First().duration)) / 1000).ToString();
             }
             catch (Exception)
             {

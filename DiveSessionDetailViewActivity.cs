@@ -98,19 +98,22 @@ namespace FreediverApp
         private void generateChart()
         {
             List<ChartEntry> dataList = new List<ChartEntry>();
-
-            foreach (Dive dive in TemporaryData.CURRENT_DIVESESSION.dives)
+            if (TemporaryData.CURRENT_DIVESESSION.dives != null)
             {
-                SKColor color = SKColor.Parse("#038cfc"); //aqua blue
-
-                //Add a new chartEntry to the dataList containing the depth value of the current measurepoint
-                dataList.Add(new ChartEntry(float.Parse(dive.maxDepth))
+                foreach (Dive dive in TemporaryData.CURRENT_DIVESESSION.dives)
                 {
-                    Label = dive.timestampBegin,
-                    ValueLabel = dive.maxDepth.Split(",")[0] + " m",
-                    Color = color
-                });
+                    SKColor color = SKColor.Parse("#038cfc"); //aqua blue
+
+                    //Add a new chartEntry to the dataList containing the depth value of the current measurepoint
+                    dataList.Add(new ChartEntry(float.Parse(dive.maxDepth))
+                    {
+                        Label = dive.timestampBegin,
+                        ValueLabel = dive.maxDepth.Split(",")[0] + " m",
+                        Color = color
+                    });
+                }
             }
+            
 
             //create a new chart with the data entries and a custom display configuration
             var chart = new BarChart { Entries = dataList, LabelTextSize = 20f, LabelOrientation = Microcharts.Orientation.Horizontal, ValueLabelOrientation = Microcharts.Orientation.Horizontal };

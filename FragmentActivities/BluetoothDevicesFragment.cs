@@ -453,7 +453,7 @@ namespace FreediverApp
                         }
                         else if (BluetoothServiceData.CHARACTERISTIC_DURATION == chara.Uuid)
                         {
-                            dur_List.Add(BitConverter.ToSingle(args.Characteristic.Value).ToString());
+                            dur_List.Add(BitConverter.ToInt32(args.Characteristic.Value).ToString());
                         }
                         else if (BluetoothServiceData.CHARACTERISTIC_GYROSCOPE_X == chara.Uuid)
                         {
@@ -523,7 +523,7 @@ namespace FreediverApp
                             else if (temp.ContainsKey("Time"))
                             {                                
                                 Dive dive = new Dive(diveSessions.Last().Id, divecount.ToString());
-                                dive.timestampBegin = temp["Time"].ToString().Remove(0, 2);
+                                dive.timestampBegin = temp["Time"].ToString().Remove(0, 1);
                                 
                                 diveSessions.Last().dives.Add(dive);
                                 if (divecount > 0)
