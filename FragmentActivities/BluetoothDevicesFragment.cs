@@ -660,8 +660,8 @@ namespace FreediverApp
                 mp.accelerator_x = acc_x_List[i];
                 mp.accelerator_y = acc_y_List[i];
                 mp.accelerator_z = acc_z_List[i];
-                mp.depth = (Convert.ToInt32(depth_List[i]) - time).ToString();
-                mp.duration = dur_List[i];
+                mp.depth = depth_List[i];
+                mp.duration = (Convert.ToInt32(dur_List[i]) - time).ToString();
                 mp.gyroscope_x = gyro_x_List[i];
                 mp.gyroscope_y = gyro_y_List[i];
                 mp.gyroscope_z = gyro_z_List[i];
