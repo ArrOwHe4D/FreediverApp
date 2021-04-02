@@ -652,13 +652,15 @@ namespace FreediverApp
              List<string> water_List)
         {
             List<Measurepoint> mp_List = new List<Measurepoint>();
+            int time = Convert.ToInt32(dur_List.First());
+
             for (int i = 0; i < water_List.Count; i++)
             {
                 Measurepoint mp = new Measurepoint();
                 mp.accelerator_x = acc_x_List[i];
                 mp.accelerator_y = acc_y_List[i];
                 mp.accelerator_z = acc_z_List[i];
-                mp.depth = depth_List[i];
+                mp.depth = (Convert.ToInt32(depth_List[i]) - time).ToString();
                 mp.duration = dur_List[i];
                 mp.gyroscope_x = gyro_x_List[i];
                 mp.gyroscope_y = gyro_y_List[i];

@@ -343,7 +343,7 @@ namespace FreediverApp
         {
             try
             {
-                return ((Convert.ToInt32(measurepoints.Last().duration) - Convert.ToInt32(measurepoints.First().duration)) / 1000).ToString();
+                return (Convert.ToInt32(measurepoints.Last().duration) / 1000).ToString();
             }
             catch (Exception)
             {
