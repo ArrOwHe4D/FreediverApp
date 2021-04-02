@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:text="Tauchgänge"
+        android:text="@string/dives"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:gravity="center"
         android:layout_width="match_parent"

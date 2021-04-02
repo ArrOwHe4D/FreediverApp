@@ -51,8 +51,12 @@ namespace FreediverApp
             chartView = FindViewById<ChartView>(Resource.Id.chartview_divesession_detail);
 
             //set the textfield values below the chart using the current selected divesession that was stored in the TemporaryData class
-            tvwSessionName.Text = TemporaryData.CURRENT_DIVESESSION.date + "\n" + TemporaryData.CURRENT_DIVESESSION.location_lon + " | " + TemporaryData.CURRENT_DIVESESSION.location_lat;
-            tvwLocation.Text = TemporaryData.CURRENT_DIVESESSION.location_lon + " | " + TemporaryData.CURRENT_DIVESESSION.location_lat;
+
+
+            tvwSessionName.Text = TemporaryData.CURRENT_DIVESESSION.date + "\n" + (TemporaryData.CURRENT_DIVESESSION.location_locality==null ? 
+                TemporaryData.CURRENT_DIVESESSION.location_lat + " | " + TemporaryData.CURRENT_DIVESESSION.location_lon : TemporaryData.CURRENT_DIVESESSION.location_locality);
+            tvwLocation.Text = TemporaryData.CURRENT_DIVESESSION.location_lon + " | " + TemporaryData.CURRENT_DIVESESSION.location_lat + "\n\n" + (TemporaryData.CURRENT_DIVESESSION.location_locality == null ?
+                TemporaryData.CURRENT_DIVESESSION.location_lat + " | " + TemporaryData.CURRENT_DIVESESSION.location_lon : TemporaryData.CURRENT_DIVESESSION.location_locality);
             tvwWeather.Text = TemporaryData.CURRENT_DIVESESSION.weatherCondition_main + " | " + TemporaryData.CURRENT_DIVESESSION.weatherTemperature + " °C";
             tvwTimeInWater.Text = TemporaryData.CURRENT_DIVESESSION.watertime + " sec";
             

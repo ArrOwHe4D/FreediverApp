@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
 using FreediverApp.DatabaseConnector;
+using FreediverApp.GeoLocationServiceNamespace;
 
 namespace FreediverApp
 {
@@ -74,16 +76,20 @@ namespace FreediverApp
          *  A Listview entry contains the date of the divesession and the coordinates of the location where the 
          *  divesession was created.
          **/
-        private void fillDiveSessionData(List<DiveSession> diveSessions)
+        private async void fillDiveSessionData(List<DiveSession> diveSessions)
         {
             if (diveSessions != null)
             {
                 dives = new List<string>();
+                GeoLocationService geoLocationService = new GeoLocationService();
                 foreach (var item in diveSessionList)
                 {
                     if (item.date != null)
                     {
-                        dives.Add(item.date + " | " + item.location_lon + " / " + item.location_lat);
+                        double location_lat = float.Parse(item.location_lat.ToString().Replace(',', '.'), CultureInfo.GetCultureInfo("en").NumberFormat);
+                        double location_lon = float.Parse(item.location_lon.ToString().Replace(',', '.'), CultureInfo.GetCultureInfo("en").NumberFormat);
+                        await geoLocationService.getLocation_name(location_lat, location_lon);
+                        dives.Add(item.date + " | " + geoLocationService.location_locality);
                     }
                 }
 
@@ -98,23 +104,26 @@ namespace FreediverApp
          *  The current divesession in the TemporaryData class is set to the divesession from the listview and then 
          *  a divesessionDetailActivity is started that reads the date from the current divesession in TemporaryData.
          **/
-        void lvwDive_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        async void lvwDive_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             TemporaryData.CURRENT_DIVESESSION = TemporaryData.CURRENT_USER.diveSessions[e.Position];
 
+            double location_lat = float.Parse(TemporaryData.CURRENT_DIVESESSION.location_lat.ToString().Replace(',', '.'), CultureInfo.GetCultureInfo("en").NumberFormat);
+            double location_lon = float.Parse(TemporaryData.CURRENT_DIVESESSION.location_lon.ToString().Replace(',', '.'), CultureInfo.GetCultureInfo("en").NumberFormat);
+
+            GeoLocationService geoLocationSevice = new GeoLocationService();
+            try
+            {
+                await geoLocationSevice.getLocation_name(location_lat, location_lon);
+            }
+            catch(Exception exp)
+            {
+                Console.WriteLine(exp);
+            }
+            TemporaryData.CURRENT_DIVESESSION.location_locality = geoLocationSevice.location_locality;
+
             var diveSessionDetailViewActivity = new Intent(Context, typeof(DiveSessionDetailViewActivity));
             StartActivity(diveSessionDetailViewActivity);
-
-            /*
-            if (TemporaryData.CURRENT_DIVESESSION.dives.Count > 0)
-            {
-                
-            }
-            else 
-            {
-                Toast.MakeText(Context, Resource.String.no_data_uploaded_yet, ToastLength.Long).Show();
-            }
-            */
         }
 
         /**

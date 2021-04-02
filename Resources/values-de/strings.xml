@@ -35,12 +35,16 @@
   <string name="dive_session">Tauchsitzung</string>
   <string name="dive_sessions">Tauchsitzungen</string>
   <string name="add_dive_session">Divesession Hinzufügen</string>
+  <string name="add">Hinzufügen</string>
+  <string name="abort">Abbrechen</string>
   <string name="depth">Tiefe</string>
-  <string name="max_depth">Max Tiefe</string>
+  <string name="max_depth">Max. Tiefe</string>
   <string name="location">Standort</string>
   <string name="weather_condition">Wetterverhältnisse</string>
+  <string name="weather">Wetter</string>
   <string name="total_dive_time">Gesamte Tauchzeit</string>
   <string name="connected_devices">Verbundene Geräte</string>
+  <string name="connected_with">Verbunden mit</string>
   <string name="bluetooth_devices">Bluetooth Geräte</string>
   <string name="connected">Verbunden</string>
   <string name="disconnected">Nicht verbunden</string>
@@ -54,6 +58,16 @@
   <string name="welcome">Willkommen</string>
   <string name="no_device_connected">"Kein Gerät verbunden"</string>
   <string name="session_overview">Sessionübersicht</string>
+  <string name="date">Datum</string>
+  <string name="dive_time">Tauchzeit</string>
+  <string name="notes">Notizen</string>
+  <string name="dives">Tauchgänge</string>
+  <string name="dive">Tauchgang</string>
+  <string name="duration">Dauer</string>
+  <string name="max_heart_freq">Max. Herzfrequenz</string>
+  <string name="min_heart_freq">Min. Herzfrequenz</string>
+  <string name="max_oxygen_sat">Max. Sauerstoffsättigung</string>
+  <string name="min_oxygen_sat">Min. Sauerstoffsättigung</string>
 
   <!--Toast Strings (DE)-->
   <string name="login_successful">Login erfolgreich!</string>

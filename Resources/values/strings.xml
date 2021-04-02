@@ -40,13 +40,17 @@
     <string name="dive_session">Dive Session</string>
     <string name="dive_sessions">Dive Sessions</string>
     <string name="add_dive_session">Add Divesession</string>
+    <string name="add">Add</string>
+    <string name="abort">Abort</string>
     <string name="depth">Depth</string>
-    <string name="max_depth">Max Depth</string>
+    <string name="max_depth">Max. Depth</string>
     <string name="location">Location</string>
     <string name="weather_condition">Weather Condition</string>
+    <string name="weather">Weather</string>
     <string name="total_dive_time">Total Dive Time</string>
     <string name="bluetooth">Bluetooth</string>
     <string name="connected_devices">Connected Devices</string>
+    <string name="connected_with">Connected with</string>
     <string name="bluetooth_devices">Bluetooth Devices</string>
     <string name="connected">Connected</string>
     <string name="disconnected">Disconnected</string>
@@ -60,6 +64,16 @@
     <string name="welcome">Welcome</string>
     <string name="no_device_connected">"No device connected"</string>
     <string name="session_overview">Session Overview</string>
+    <string name="date">Date</string>
+    <string name="dive_time">Dive time</string>
+    <string name="notes">Notes</string>
+    <string name="dives">Dives</string>
+    <string name="dive">Dive</string>
+    <string name="duration">Duration</string>
+    <string name="max_heart_freq">Max. heart frequency</string>
+    <string name="min_heart_freq">Min. heart frequency</string>
+    <string name="max_oxygen_sat">Max. oxygen saturation</string>
+    <string name="min_oxygen_sat">Min. oxygen saturation</string>
 
     <!--Toast Strings (EN_US)-->
     <string name="login_successful">Login successful!</string>

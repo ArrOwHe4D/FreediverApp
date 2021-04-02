@@ -10,7 +10,7 @@
     android:minHeight="25px">
 
     <TextView
-        android:text="Tauchgang #1"
+        android:text="@string/dive"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:gravity="center"
         android:layout_width="match_parent"
@@ -73,7 +73,7 @@
         android:layout_marginTop="10dp">
 
         <TextView
-            android:text="Maximale Tiefe:"
+            android:text="@string/max_depth"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="30"
@@ -101,7 +101,7 @@
         tools:ignore="MissingDimension">
 
         <TextView
-            android:text="Dauer:"
+            android:text="@string/duration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="30"            
@@ -130,7 +130,7 @@
         tools:ignore="MissingDimension">
 
         <TextView
-            android:text="Maximale Herzfrequenz:"
+            android:text="@string/max_heart_freq"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="30"
@@ -159,7 +159,7 @@
         tools:ignore="MissingDimension">
 
         <TextView
-            android:text="Minimale Herzfreqenz:"
+            android:text="@string/min_heart_freq"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="30"
@@ -188,7 +188,7 @@
         tools:ignore="MissingDimension">
 
         <TextView
-            android:text="Maximale Sauerstoffsättigung:"
+            android:text="@string/max_oxygen_sat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="30"
@@ -217,7 +217,7 @@
         tools:ignore="MissingDimension">
 
         <TextView
-            android:text="Minimale Sauerstoffsättigung:"
+            android:text="@string/min_oxygen_sat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="30"

@@ -41,7 +41,7 @@
                 tools:ignore="MissingDimension">
 
                 <TextView
-                    android:text="Verbunden mit:"
+                    android:text="@string/connected_with"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="60"
@@ -69,7 +69,7 @@
                 tools:ignore="MissingDimension">
         
                 <TextView
-                    android:text="Standort: "
+                    android:text="@string/location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="60"
@@ -98,7 +98,7 @@
                 tools:ignore="MissingDimension">
 
                 <TextView
-                    android:text="Wetter: "
+                    android:text="@string/weather"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="60"
@@ -127,7 +127,7 @@
                 tools:ignore="MissingDimension">
 
                 <TextView
-                    android:text="Datum: "
+                    android:text="@string/date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="60"
@@ -156,7 +156,7 @@
                 tools:ignore="MissingDimension">
 
                 <TextView
-                    android:text="Tauchzeit: "
+                    android:text="@string/dive_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="60"
@@ -187,7 +187,7 @@
         tools:ignore="MissingDimension">
 
         <Button
-            android:text="Hinzufügen"
+            android:text="@string/add"
             android:textColor="@android:color/white"
             android:backgroundTint="?android:attr/colorPrimary"
             android:layout_width="match_parent"
@@ -199,7 +199,7 @@
             android:id="@+id/button_add_session" />
 
         <Button
-            android:text="Abbrechen"
+            android:text="@string/abort"
             android:textColor="@android:color/white"
             android:backgroundTint="?android:attr/colorPrimary"
             android:layout_width="match_parent"
