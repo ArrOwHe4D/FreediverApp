@@ -61,7 +61,7 @@ namespace FreediverApp
          **/
         private void fillTextView()
         {
-            textViewDiveSessionTitle.Text = "Tauchgang #" + Intent.GetStringExtra("index");
+            textViewDiveSessionTitle.Text = Resources.GetString(Resource.String.dive) + " #" + Intent.GetStringExtra("index");
             textViewGraphTitle.Text = "Last Dive (" + TemporaryData.CURRENT_DIVE.maxDepth + " m deep and " + TemporaryData.CURRENT_DIVE.duration + " sec long)";
             textViewDepth.Text = TemporaryData.CURRENT_DIVE.maxDepth + " m";
             textViewDuration.Text = TemporaryData.CURRENT_DIVE.duration + " sec";

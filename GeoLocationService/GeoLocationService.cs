@@ -1,6 +1,10 @@
-﻿using Xamarin.Essentials;
+﻿using System.Collections.Generic;
+using Xamarin.Essentials;
+using System.Linq;
+using System;
+using System.Threading.Tasks;
 
-namespace FreediverApp.GeoLocationSevice
+namespace FreediverApp.GeoLocationServiceNamespace
 {
     public class GeoLocationService
     {
@@ -10,6 +14,8 @@ namespace FreediverApp.GeoLocationSevice
          *  types of functionality like reading the location, network state and so on.
          **/
         public Location location;
+        public string location_country;
+        public string location_locality;
 
         /**
          *  When a GeoLocationService object was created, it directly calls the getLocation function to return
@@ -17,7 +23,7 @@ namespace FreediverApp.GeoLocationSevice
          */
         public GeoLocationService()
         {
-            getLocation();
+            
         }
 
         /**
@@ -26,6 +32,25 @@ namespace FreediverApp.GeoLocationSevice
         public async void getLocation()
         {
             location = await Geolocation.GetLastKnownLocationAsync();
+        }
+
+        public async Task getLocation_name(double location_lat, double location_long)
+        {
+            try
+            {
+                var placemarks = await Geocoding.GetPlacemarksAsync(location_lat, location_long);
+
+                var placemark = placemarks?.FirstOrDefault();
+                if (placemark != null)
+                {
+                    location_country = placemark.CountryName;
+                    location_locality = placemark.Locality;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
     }
 }

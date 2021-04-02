@@ -74,7 +74,7 @@
         tools:ignore="MissingDimension">
         
         <TextView
-            android:text="Standort: "
+            android:text="@string/location"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -107,7 +107,7 @@
         tools:ignore="MissingDimension">
         
         <TextView
-            android:text="Wetter: "
+            android:text="@string/weather"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -140,7 +140,7 @@
         tools:ignore="MissingDimension">
         
         <TextView
-            android:text="Aufenthalt im Wasser: "
+            android:text="@string/total_dive_time"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -173,7 +173,7 @@
         tools:ignore="MissingDimension">
         
         <TextView
-            android:text="Notizen: "
+            android:text="@string/notes"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -199,7 +199,7 @@
     </LinearLayout>    
 
     <Button
-        android:text="Tauchgänge"
+        android:text="@string/dives"
         android:textColor="@android:color/white"
         android:backgroundTint="?android:attr/colorPrimary"
         android:layout_width="match_parent"

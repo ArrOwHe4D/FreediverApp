@@ -3,7 +3,7 @@ using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Widget;
-using FreediverApp.GeoLocationSevice;
+using FreediverApp.GeoLocationServiceNamespace;
 using Xamarin.Essentials;
 using FreediverApp.DataClasses;
 using FreediverApp.OpenWeatherMap;
@@ -115,7 +115,9 @@ namespace FreediverApp
             
             if (checkLocationPermission())
             {
-                Location location = new GeoLocationService().location;
+                GeoLocationService geoLocationService = new GeoLocationService();
+                geoLocationService.getLocation();
+                Location location = geoLocationService.location;
                 WeatherData weatherData = new WeatherData();
 
                 try
