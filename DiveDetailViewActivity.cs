@@ -6,6 +6,7 @@ using FreediverApp.DatabaseConnector;
 using Microcharts;
 using Microcharts.Droid;
 using SkiaSharp;
+using System;
 using System.Collections.Generic;
 
 namespace FreediverApp
@@ -121,12 +122,13 @@ namespace FreediverApp
                     color = SKColor.Parse("#f75939"); //red
                 }
 
+                TimeSpan ts = TimeSpan.FromMilliseconds(double.Parse(measurepointList[i].duration));
+
                 //Add a new chartEntry to the dataList containing the depth value of the current measurepoint
                 dataList.Add(new ChartEntry(float.Parse(measurepointList[i].depth))
                 {
-                    //Fix formatting -> Split the values after the comma because we only need seconds not milliseconds.
-                    Label = int.Parse(measurepointList[i].duration.Split(",")[0]) < 10 ? "0:0" + measurepointList[i].duration.Split(",")[0] : "0:" + measurepointList[i].duration.Split(",")[0],
-                    ValueLabel = measurepointList[i].depth.Split(",")[0] + "m",
+                    Label = ts.ToString(@"mm\:ss"),
+                    ValueLabel = measurepointList[i].depth.Split(",")[0] + " m",
                     Color = color
                 });
             }

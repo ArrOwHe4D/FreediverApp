@@ -128,7 +128,7 @@ namespace FreediverApp
                 //username was found now check for password match
                 if (userList[0].username == texteditUsername.Text && userList[0].password == Encryptor.Encrypt(texteditPassword.Text))
                 {
-                    //set temporary user data (just for convenience purposes to populate queries easier inside the actual app) 
+                    //set temporary user data (just for convenience purposes to populate queries easier that refer the user inside the app) 
                     TemporaryData.CURRENT_USER = userList[0];
 
                     //close the login loading popup, build and start the main activity and print a toast message afterwards
