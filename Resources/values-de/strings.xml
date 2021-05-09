@@ -46,6 +46,7 @@
   <string name="connected_devices">Verbundene Geräte</string>
   <string name="connected_with">Verbunden mit</string>
   <string name="bluetooth_devices">Bluetooth Geräte</string>
+  <string name="wifi_devices">Wifi Geräte</string>
   <string name="connected">Verbunden</string>
   <string name="disconnected">Nicht verbunden</string>
   <string name="account">Profil</string>

@@ -1,7 +1,11 @@
 ﻿using Android.App;
+using Android.Content;
 using Android.Net;
 using Android.Net.Wifi;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Threading;
 
 namespace FreediverApp.WifiCommunication
 {
@@ -12,8 +16,30 @@ namespace FreediverApp.WifiCommunication
         private string passphrase = "yourcode";
         public ConnectivityManager connectivityManager;
 
-        public WifiConnector()
+        private Context context = null;
+        private static WifiManager wifi;
+        private WifiReceiver wifiReceiver;
+        public static List<string> wifiNetworks;
+
+        public bool requested;
+        private ScanResult[] scanResults;
+
+        class WifiReceiver : BroadcastReceiver
         {
+            public override void OnReceive(Context context, Intent intent)
+            {
+                IList<ScanResult> scanwifinetworks = wifi.ScanResults;
+                foreach (ScanResult wifinetwork in scanwifinetworks)
+                {
+                    wifiNetworks.Add(wifinetwork.Ssid);
+                }
+            }
+        }
+
+        public WifiConnector(Context context)
+        {
+            this.context = context;
+
             callback = new NetworkCallback
             {
                 NetworkAvailable = network =>
@@ -27,6 +53,39 @@ namespace FreediverApp.WifiCommunication
             };
         }
 
+        public void findWifiNetworks()
+        {
+            wifiNetworks = new List<string>();
+
+            // Get a handle to the Wifi
+            wifi = (WifiManager)context.GetSystemService(Context.WifiService);
+
+            // Start a scan and register the Broadcast receiver to get the list of Wifi Networks
+            wifiReceiver = new WifiReceiver();
+            context.RegisterReceiver(wifiReceiver, new IntentFilter(WifiManager.ScanResultsAvailableAction));
+            wifi.StartScan();
+        }
+
+        //public void findWifiNetworks(object sender, DoWorkEventArgs e)
+        //{
+        //    var worker = (BackgroundWorker)sender;
+        //    worker.DoWork -= findWifiNetworks;
+
+        //    if (worker.CancellationPending)
+        //    {
+        //        e.Cancel = true; //Cancel the BackgroungWirker Properly.                    
+        //    }
+        //    else
+        //    {
+        //        wifi = (WifiManager)context.GetSystemService(Context.WifiService);
+        //        if (wifi.WifiState == WifiState.Enabled)
+        //        {
+        //            wifi.StartScan();
+        //            Thread.Sleep(5000);
+        //            wifi.ScanResults.CopyTo(scanResults, 0);
+        //        }
+        //    }
+        //}
 
         public void SuggestNetwork()
         {
@@ -50,8 +109,6 @@ namespace FreediverApp.WifiCommunication
             Console.WriteLine(statusText);
         }
 
-
-        public bool requested;
         public void RequestNetwork()
         {
             var specifier = new WifiNetworkSpecifier.Builder()

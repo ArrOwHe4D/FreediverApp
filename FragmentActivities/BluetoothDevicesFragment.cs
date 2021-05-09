@@ -23,13 +23,25 @@ using Newtonsoft.Json;
 using Android.App;
 using Android.Bluetooth;
 
+//WIFI-TESTING
+using Android.Net.Wifi;
+using Android.App;
+using FreediverApp.WifiCommunication;
+using System.Net;
+using System.IO;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Sockets;
+
+
 namespace FreediverApp
 {
     [Obsolete]
     public class BluetoothDevicesFragment : Fragment
     {
         /*Member Variables including UI components from XML and all needed BLE components*/
-        private ListView listView;
+        private ListView listViewBluetoothDevices;
+        private ListView listViewWifiDevices;
         private BluetoothDeviceReceiver btReceiver;
         private Button btnScan;
         private ProgressBar scanIndicator;
@@ -39,6 +51,17 @@ namespace FreediverApp
         private FirebaseDataListener diveSessionListener;
         private List<DiveSession> diveSessionsFromDatabase;
         private ProgressDialog dataTransferDialog;
+        private WifiConnector wifi;
+        private string ssid = "yournetworkname";
+        private string pass = "yourcode";
+        private bool suggestNetwork;
+        private bool requestNetwork;
+        private bool alreadyConnected = false;
+
+        public class WifiEventArgs : EventArgs
+        {
+            internal bool IsConnected { get; set; }
+        }
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -56,6 +79,11 @@ namespace FreediverApp
             btReceiver = new BluetoothDeviceReceiver();
             btReceiver.m_adapter = BluetoothAdapter.DefaultAdapter;
 
+            //setup wifi connector
+            wifi = new WifiConnector(Context);
+            suggestNetwork = false;
+            requestNetwork = false;
+
             //setup the bluetooth low energy component
             ble = CrossBluetoothLE.Current;
 
@@ -70,7 +98,8 @@ namespace FreediverApp
             bleDeviceList = new ObservableCollection<IDevice>();
 
             //init ui components
-            listView = view.FindViewById<ListView>(Resource.Id.lv_con_devices);
+            listViewBluetoothDevices = view.FindViewById<ListView>(Resource.Id.listview_bluetooth_devices);
+            listViewWifiDevices = view.FindViewById<ListView>(Resource.Id.listview_wifi_devices);
             btnScan = view.FindViewById<Button>(Resource.Id.bt_scan_btn);
 
             scanIndicator = view.FindViewById<ProgressBar>(Resource.Id.scan_indicator);
@@ -78,7 +107,7 @@ namespace FreediverApp
 
             //setup onclick listeners for scan button and listview items
             btnScan.Click += scanButtonOnClick;
-            listView.ItemClick += ListView_ItemClick;
+            listViewBluetoothDevices.ItemClick += ListView_ItemClick;
 
             //setup the db listener to be able to query data from firebase
             diveSessionListener = new FirebaseDataListener();
@@ -123,7 +152,7 @@ namespace FreediverApp
          *  that displays the device information and initiates the data transmission between the dive
          *  computer and the app.
          **/
-        private void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        private void ListViewBluetoothDevices_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             var device = (DeviceBase)bleDeviceList[e.Position];
             runBluetoothConnectionDialog(device);
@@ -135,6 +164,12 @@ namespace FreediverApp
          *  to our list that is passed to the listview in form of a adapter component.
          **/
         private async void scanButtonOnClick(object sender, EventArgs eventArgs)
+        {
+            //bluetoothScan();
+            wifiScan();
+        }
+
+        private async void bluetoothScan() 
         {
             if (ble.State == BluetoothState.On)
             {
@@ -154,6 +189,12 @@ namespace FreediverApp
                 //error handling if bluetooth is off when user tries to scan, run the activation dialog to force the user to activate ble first
                 runBluetoothActivationDialog();
             }
+        }
+
+        private void wifiScan() 
+        {
+            scanIndicator.Visibility = ViewStates.Visible;
+            wifi.findWifiNetworks();
         }
 
         /**
@@ -181,6 +222,24 @@ namespace FreediverApp
 
             if (coarseLocationPermissionGranted == Permission.Denied || fineLocationPermissionGranted == Permission.Denied)
                 ActivityCompat.RequestPermissions(Activity, locationPermissions, locationPermissionsRequestCode);
+        }
+
+        private void checkWifiPermission()
+        {
+            const int wifiPermissionsRequestCode = 1000;
+
+            var wifiPermissions = new[]
+            {
+                Manifest.Permission.AccessWifiState,
+                Manifest.Permission.ChangeWifiState
+            };
+
+            var coarseLocationPermissionGranted = ContextCompat.CheckSelfPermission(Context, wifiPermissions[0]);
+
+            var fineLocationPermissionGranted = ContextCompat.CheckSelfPermission(Context, wifiPermissions[1]);
+
+            if (coarseLocationPermissionGranted == Permission.Denied || fineLocationPermissionGranted == Permission.Denied)
+                ActivityCompat.RequestPermissions(Activity, wifiPermissions, wifiPermissionsRequestCode);
         }
 
         /**
