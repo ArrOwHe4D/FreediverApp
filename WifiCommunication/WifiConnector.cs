@@ -16,22 +16,20 @@ namespace FreediverApp.WifiCommunication
         private string passphrase = "yourcode";
         public ConnectivityManager connectivityManager;
 
-        private Context context = null;
         private static WifiManager wifi;
+        private static List<ScanResult> networks;
         private WifiReceiver wifiReceiver;
-        public static List<string> wifiNetworks;
+        
+        private Context context = null;
+        private bool requested;
 
-        public bool requested;
-        private ScanResult[] scanResults;
-
-        class WifiReceiver : BroadcastReceiver
+        public class WifiReceiver : BroadcastReceiver
         {
             public override void OnReceive(Context context, Intent intent)
             {
-                IList<ScanResult> scanwifinetworks = wifi.ScanResults;
-                foreach (ScanResult wifinetwork in scanwifinetworks)
+                foreach (ScanResult wifinetwork in wifi.ScanResults)
                 {
-                    wifiNetworks.Add(wifinetwork.Ssid);
+                    networks.Add(wifinetwork);
                 }
             }
         }
@@ -40,22 +38,22 @@ namespace FreediverApp.WifiCommunication
         {
             this.context = context;
 
-            callback = new NetworkCallback
-            {
-                NetworkAvailable = network =>
-                {
-                    Console.WriteLine("Request network available");
-                },
-                NetworkUnavailable = () =>
-                {
-                    Console.WriteLine("Request network unavailable");
-                }
-            };
+            //callback = new NetworkCallback
+            //{
+            //    NetworkAvailable = network =>
+            //    {
+            //        Console.WriteLine("Request network available");
+            //    },
+            //    NetworkUnavailable = () =>
+            //    {
+            //        Console.WriteLine("Request network unavailable");
+            //    }
+            //};
         }
 
-        public void findWifiNetworks()
+        public void wifiScan()
         {
-            wifiNetworks = new List<string>();
+            networks = new List<ScanResult>();
 
             // Get a handle to the Wifi
             wifi = (WifiManager)context.GetSystemService(Context.WifiService);

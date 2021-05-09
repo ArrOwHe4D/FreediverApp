@@ -75,34 +75,36 @@
   <ItemGroup>
     <Compile Include="DataClasses\SavedSession.cs" />
     <Compile Include="DataClasses\WeatherData.cs" />
-    <Compile Include="FragmentActivities\AccountPanelFragment.cs" />
-    <Compile Include="AddSessionActivity.cs" />
+    <Compile Include="UI\Components\WifiDeviceViewHolder.cs" />
+    <Compile Include="UI\Components\WifiListViewAdapter.cs" />
+    <Compile Include="UI\Fragments\AccountPanelFragment.cs" />
+    <Compile Include="UI\Activities\AddSessionActivity.cs" />
     <Compile Include="BluetoothCommunication\BluetoothServiceData.cs" />
-    <Compile Include="BluetoothDeviceViewHolder.cs" />
-    <Compile Include="CustomListViewAdapter.cs" />
+    <Compile Include="UI\Components\BluetoothDeviceViewHolder.cs" />
+    <Compile Include="UI\Components\BluetoothListViewAdapter.cs" />
     <Compile Include="DatabaseConnector\Encryptor.cs" />
     <Compile Include="DatabaseConnector\TemporaryData.cs" />
     <Compile Include="DatabaseConnector\FirebaseDataListener.cs" />
     <Compile Include="DataClasses\Dive.cs" />
-    <Compile Include="DiveDetailViewActivity.cs" />
+    <Compile Include="UI\Activities\DiveDetailViewActivity.cs" />
     <Compile Include="DataClasses\DiveSession.cs" />
-    <Compile Include="DiveSessionDetailViewActivity.cs" />
+    <Compile Include="UI\Activities\DiveSessionDetailViewActivity.cs" />
     <Compile Include="BluetoothCommunication\BluetoothDeviceReceiver.cs" />
-    <Compile Include="FragmentActivities\BluetoothDevicesFragment.cs" />
+    <Compile Include="UI\Fragments\BluetoothDevicesFragment.cs" />
     <Compile Include="DatabaseConnector\DatabaseConnector.cs" />
-    <Compile Include="FragmentActivities\DiveSessionsFragment.cs" />
-    <Compile Include="DivesPerSessionActivity.cs" />
-    <Compile Include="FragmentActivities\MainFragment.cs" />
+    <Compile Include="UI\Fragments\DiveSessionsFragment.cs" />
+    <Compile Include="UI\Activities\DivesPerSessionActivity.cs" />
+    <Compile Include="UI\Fragments\MainFragment.cs" />
     <Compile Include="GeoLocationService\GeoLocationService.cs" />
-    <Compile Include="LoginActivity.cs" />
-    <Compile Include="LoginProblemsActivity.cs" />
-    <Compile Include="MainActivity.cs" />
+    <Compile Include="UI\Activities\LoginActivity.cs" />
+    <Compile Include="UI\Activities\LoginProblemsActivity.cs" />
+    <Compile Include="UI\Activities\MainActivity.cs" />
     <Compile Include="DataClasses\Measurepoint.cs" />
     <Compile Include="OpenWeatherMap\OpenWeatherMapConnector.cs" />
-    <Compile Include="RegisterActivity.cs" />
+    <Compile Include="UI\Activities\RegisterActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="FragmentActivities\SettingsFragment.cs" />
+    <Compile Include="UI\Fragments\SettingsFragment.cs" />
     <Compile Include="DataClasses\User.cs" />
     <Compile Include="WifiCommunication\RestService.cs" />
     <Compile Include="WifiCommunication\WifiConnector.cs" />
@@ -257,7 +259,7 @@
     <AndroidResource Include="Resources\drawable\button_round.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\ListViewCell.xml">
+    <AndroidResource Include="Resources\layout\BluetoothListViewCell.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -269,7 +271,12 @@
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\WifiListViewCell.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_wifi.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
     Other similar extension points exist, see Microsoft.Common.targets.

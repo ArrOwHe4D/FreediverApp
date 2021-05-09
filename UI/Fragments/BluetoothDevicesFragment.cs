@@ -107,7 +107,7 @@ namespace FreediverApp
 
             //setup onclick listeners for scan button and listview items
             btnScan.Click += scanButtonOnClick;
-            listViewBluetoothDevices.ItemClick += ListView_ItemClick;
+            listViewBluetoothDevices.ItemClick += ListViewBluetoothDevices_ItemClick;
 
             //setup the db listener to be able to query data from firebase
             diveSessionListener = new FirebaseDataListener();
@@ -269,7 +269,7 @@ namespace FreediverApp
          **/
         private void refreshGui()
         {
-            listView.Adapter = new CustomListViewAdapter(bleDeviceList);
+            listViewBluetoothDevices.Adapter = new CustomListViewAdapter(bleDeviceList);
         }
 
         /**

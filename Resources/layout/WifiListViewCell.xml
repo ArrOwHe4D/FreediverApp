@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"  
+    android:orientation="horizontal"  
+    android:layout_width="fill_parent"  
+    android:layout_height="fill_parent">
+    
+    <ImageView
+        android:id="@+id/imgview_wifi_icon"
+        android:background="@drawable/icon_wifi"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="12dp"/>
+
+    <TextView
+        android:id="@+id/textview_wifi_name"
+        android:text="Wifi-Network-Name (SSID)"
+        android:textAppearance="?android:attr/textAppearanceMedium" 
+        android:layout_alignParentLeft="true"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@android:color/black"
+        android:paddingLeft="30dp"
+        android:paddingTop="5dp"/>    
+
+    <TextView
+        android:id="@+id/textview_wifi_capabilities"        
+        android:text="Capabilities"
+        android:layout_alignParentLeft="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:paddingLeft="30dp"
+        android:layout_below="@+id/textview_wifi_name"/>
+
+    <TextView
+        android:id="@+id/textview_wifi_status"
+        android:text="Connected"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:layout_toLeftOf="@+id/imgview_wifi_info_icon"        
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"/>  
+
+    <ImageView
+        android:id="@+id/imgview_wifi_info_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"/>
+
+</RelativeLayout>

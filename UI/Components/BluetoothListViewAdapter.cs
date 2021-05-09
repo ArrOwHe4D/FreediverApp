@@ -11,7 +11,7 @@ namespace FreediverApp
      *  This class represents the custom adapter that is assigned to the Bluetooth listview to display
      *  bluetooth devices as list entries inside the listview.
      **/
-    public class CustomListViewAdapter : BaseAdapter<Plugin.BLE.Abstractions.DeviceBase>
+    public class BluetoothListViewAdapter : BaseAdapter<Plugin.BLE.Abstractions.DeviceBase>
     {
         //obsolete code for normal bluetooth
         List<BluetoothDevice> bt_devices;
@@ -19,12 +19,12 @@ namespace FreediverApp
         ObservableCollection<IDevice> btle_devices;
 
         //obsolete code for normal bluetooth
-        public CustomListViewAdapter(List<BluetoothDevice> bt_devices)
+        public BluetoothListViewAdapter(List<BluetoothDevice> bt_devices)
         {
             this.bt_devices = bt_devices;
         }
 
-        public CustomListViewAdapter(ObservableCollection<IDevice> btle_devices)
+        public BluetoothListViewAdapter(ObservableCollection<IDevice> btle_devices)
         {
             this.btle_devices = btle_devices;
         }
@@ -62,9 +62,9 @@ namespace FreediverApp
         {
             var view = convertView;
 
-            if(view == null)
+            if (view == null)
             {
-                view = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.ListViewCell, parent, false);
+                view = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.BluetoothListViewCell, parent, false);
                 view.Tag = new BluetoothDeviceViewHolder(view);
             }
 
