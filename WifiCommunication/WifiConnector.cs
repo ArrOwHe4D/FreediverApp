@@ -51,7 +51,7 @@ namespace FreediverApp.WifiCommunication
             //};
         }
 
-        public void wifiScan()
+        public void scan()
         {
             networks = new List<ScanResult>();
 

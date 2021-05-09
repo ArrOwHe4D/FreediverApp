@@ -48,6 +48,7 @@ namespace FreediverApp
         private IBluetoothLE ble;
         private IAdapter bleAdapter;
         private ObservableCollection<IDevice> bleDeviceList;
+        private ObservableCollection<ScanResult> wifiDeviceList;
         private FirebaseDataListener diveSessionListener;
         private List<DiveSession> diveSessionsFromDatabase;
         private ProgressDialog dataTransferDialog;
@@ -97,6 +98,8 @@ namespace FreediverApp
             //init device list to store scanned bluetooth devices
             bleDeviceList = new ObservableCollection<IDevice>();
 
+            wifiDeviceList = new ObservableCollection<ScanResult>();
+
             //init ui components
             listViewBluetoothDevices = view.FindViewById<ListView>(Resource.Id.listview_bluetooth_devices);
             listViewWifiDevices = view.FindViewById<ListView>(Resource.Id.listview_wifi_devices);
@@ -108,6 +111,7 @@ namespace FreediverApp
             //setup onclick listeners for scan button and listview items
             btnScan.Click += scanButtonOnClick;
             listViewBluetoothDevices.ItemClick += ListViewBluetoothDevices_ItemClick;
+            listViewWifiDevices.ItemClick += ListViewWifiDevices_ItemClick;
 
             //setup the db listener to be able to query data from firebase
             diveSessionListener = new FirebaseDataListener();
@@ -158,12 +162,18 @@ namespace FreediverApp
             runBluetoothConnectionDialog(device);
         }
 
+        private void ListViewWifiDevices_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        {
+            var device = wifiDeviceList[e.Position];
+            //runBluetoothConnectionDialog(device);
+        }
+
         /**
          *  This function initiates the scan process to find bluetooth devices in near range.
          *  It is defined as async so we wait for a scan result asynchronously and add all found devices
          *  to our list that is passed to the listview in form of a adapter component.
          **/
-        private async void scanButtonOnClick(object sender, EventArgs eventArgs)
+        private void scanButtonOnClick(object sender, EventArgs eventArgs)
         {
             //bluetoothScan();
             wifiScan();
@@ -194,7 +204,8 @@ namespace FreediverApp
         private void wifiScan() 
         {
             scanIndicator.Visibility = ViewStates.Visible;
-            wifi.findWifiNetworks();
+            wifi.scan();
+            refreshGui();
         }
 
         /**
@@ -269,7 +280,8 @@ namespace FreediverApp
          **/
         private void refreshGui()
         {
-            listViewBluetoothDevices.Adapter = new CustomListViewAdapter(bleDeviceList);
+            //listViewBluetoothDevices.Adapter = new BluetoothListViewAdapter(bleDeviceList);
+            listViewWifiDevices.Adapter = new WifiListViewAdapter(wifiDeviceList);
         }
 
         /**
