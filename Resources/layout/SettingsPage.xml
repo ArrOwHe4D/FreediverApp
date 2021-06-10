@@ -34,8 +34,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="40dp"
-                android:layout_marginLeft="60dp"
-                android:layout_marginRight="60dp">
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp">
 
                 <ImageView
                     android:layout_width="16dp"
@@ -54,9 +54,38 @@
                 <Switch
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/switch_bluetooth" />
+                    android:id="@+id/switch_bluetooth"/>
 
             </LinearLayout>
+           
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/icon_connected_devices"
+                    android:id="@+id/imageview_language"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"
+                    android:text="@string/language"/>
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinner_language"/>
+
+             </LinearLayout>
 
             <Button
                 android:text="@string/save"

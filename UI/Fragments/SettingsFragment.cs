@@ -1,10 +1,12 @@
 ﻿using System;
 using Android.App;
 using Android.Bluetooth;
+using Android.Content.Res;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
 using FreediverApp.BluetoothCommunication;
+using Java.Util;
 
 namespace FreediverApp
 {
@@ -20,6 +22,7 @@ namespace FreediverApp
         private Switch switchBluetooth;
         private Button btnSave;
         private BluetoothDeviceReceiver btReceiver;
+        private Spinner spinnerLanguage;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -42,8 +45,45 @@ namespace FreediverApp
             switchBluetooth = view.FindViewById<Switch>(Resource.Id.switch_bluetooth);
             switchBluetooth.Click += switchBluetoothOnClick;
             switchBluetooth.Checked = btReceiver.m_adapter.IsEnabled;
+
+            spinnerLanguage = view.FindViewById<Spinner>(Resource.Id.spinner_language);
+            spinnerLanguage.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(languageSpinner_ItemSelected);
+            var adapter = ArrayAdapter.CreateFromResource(Context, Resource.Array.languages_array, Android.Resource.Layout.SimpleSpinnerItem);
+            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+            spinnerLanguage.Adapter = adapter;
                 
             return view;
+        }
+
+        private void languageSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e) 
+        {
+            Spinner spinner = (Spinner)sender;
+            string languageChangedMessage = string.Format("Current Language is set to: {0}", spinner.GetItemAtPosition(e.Position));
+            Toast.MakeText(Context, languageChangedMessage, ToastLength.Long).Show();
+
+            string selectedLanguage = (string) spinner.GetItemAtPosition(e.Position);
+
+            switch (selectedLanguage) 
+            {
+                case "Deutsch": 
+                {
+                    Locale locale = new Locale("de");
+                    Locale.SetDefault(Locale.Category.Display, locale);
+                    Configuration config = new Configuration();
+                    config.Locale = locale;
+                    Context.Resources.UpdateConfiguration(config, Context.Resources.DisplayMetrics);
+                    break;
+                }
+                case "English": 
+                {
+                    Locale locale = new Locale("en");
+                    Locale.SetDefault(Locale.Category.Display, locale);
+                    Configuration config = new Configuration();
+                    config.Locale = locale;
+                    Context.Resources.UpdateConfiguration(config, Context.Resources.DisplayMetrics);
+                    break;
+                }
+            }
         }
 
         /**

@@ -11,6 +11,12 @@
     <string name="page_header_connected_devices">Freediver App - Connected Devices</string>
     <string name="page_header_settings">Freediver App - Settings</string>
 
+    <!--Languages for Spinner-->
+    <string-array name="languages_array">
+      <item>Deutsch</item>
+      <item>English</item>
+    </string-array>
+
     <!--Language Strings (EN_US)-->
     <string name="login">Login</string>
     <string name="logout">Logout</string>
