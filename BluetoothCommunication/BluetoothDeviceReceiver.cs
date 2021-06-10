@@ -11,7 +11,6 @@ namespace FreediverApp.BluetoothCommunication
     public class BluetoothDeviceReceiver : BroadcastReceiver
     {
         public List<BluetoothDevice> foundDevices;
-
         public BluetoothAdapter m_adapter;
 
         /**

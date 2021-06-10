@@ -3,6 +3,7 @@ using Android.Widget;
 using System.Collections.ObjectModel;
 using Android.Net.Wifi;
 using FreediverApp.UI.Components;
+using System.Collections.Generic;
 
 namespace FreediverApp
 {
@@ -12,9 +13,9 @@ namespace FreediverApp
      **/
     public class WifiListViewAdapter : BaseAdapter<ScanResult>
     {
-        ObservableCollection<ScanResult> wifiDevices;
+        List<ScanResult> wifiDevices;
 
-        public WifiListViewAdapter(ObservableCollection<ScanResult> wifiDevices)
+        public WifiListViewAdapter(List<ScanResult> wifiDevices)
         {
             this.wifiDevices = wifiDevices;
         }

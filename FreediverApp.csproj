@@ -92,6 +92,7 @@
     <Compile Include="BluetoothCommunication\BluetoothDeviceReceiver.cs" />
     <Compile Include="UI\Fragments\BluetoothDevicesFragment.cs" />
     <Compile Include="DatabaseConnector\DatabaseConnector.cs" />
+    <Compile Include="UI\Fragments\DatePickerFragment.cs" />
     <Compile Include="UI\Fragments\DiveSessionsFragment.cs" />
     <Compile Include="UI\Activities\DivesPerSessionActivity.cs" />
     <Compile Include="UI\Fragments\MainFragment.cs" />

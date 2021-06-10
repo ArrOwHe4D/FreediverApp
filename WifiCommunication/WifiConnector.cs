@@ -11,25 +11,26 @@ namespace FreediverApp.WifiCommunication
 {
     class WifiConnector
     {
+        private Context context = null;
+        private static WifiManager wifiManager;
+        private WifiReceiver wifiReceiver;
+        public static List<ScanResult> wifiNetworks;
+
+        // OLD STUFF
         private NetworkCallback callback;
         private string ssid = "yournetworkname";
         private string passphrase = "yourcode";
         public ConnectivityManager connectivityManager;
-
-        private static WifiManager wifi;
-        private static List<ScanResult> networks;
-        private WifiReceiver wifiReceiver;
-        
-        private Context context = null;
         private bool requested;
 
         public class WifiReceiver : BroadcastReceiver
         {
             public override void OnReceive(Context context, Intent intent)
             {
-                foreach (ScanResult wifinetwork in wifi.ScanResults)
+                IList<ScanResult> foundNetworks = wifiManager.ScanResults;
+                foreach (ScanResult wifinetwork in foundNetworks) 
                 {
-                    networks.Add(wifinetwork);
+                    wifiNetworks.Add(wifinetwork);
                 }
             }
         }
@@ -53,15 +54,15 @@ namespace FreediverApp.WifiCommunication
 
         public void scan()
         {
-            networks = new List<ScanResult>();
+            wifiNetworks = new List<ScanResult>();
 
             // Get a handle to the Wifi
-            wifi = (WifiManager)context.GetSystemService(Context.WifiService);
+            wifiManager = (WifiManager)context.GetSystemService(Context.WifiService);
 
             // Start a scan and register the Broadcast receiver to get the list of Wifi Networks
             wifiReceiver = new WifiReceiver();
             context.RegisterReceiver(wifiReceiver, new IntentFilter(WifiManager.ScanResultsAvailableAction));
-            wifi.StartScan();
+            wifiManager.StartScan();
         }
 
         //public void findWifiNetworks(object sender, DoWorkEventArgs e)
@@ -71,7 +72,7 @@ namespace FreediverApp.WifiCommunication
 
         //    if (worker.CancellationPending)
         //    {
-        //        e.Cancel = true; //Cancel the BackgroungWirker Properly.                    
+        //        e.Cancel = true; //Cancel the BackgroungWorker Properly.                    
         //    }
         //    else
         //    {
@@ -80,7 +81,10 @@ namespace FreediverApp.WifiCommunication
         //        {
         //            wifi.StartScan();
         //            Thread.Sleep(5000);
-        //            wifi.ScanResults.CopyTo(scanResults, 0);
+        //            foreach (ScanResult scanResult in wifi.ScanResults) 
+        //            {
+        //                networks.Add(scanResult);
+        //            }
         //        }
         //    }
         //}

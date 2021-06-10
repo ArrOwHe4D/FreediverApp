@@ -8,6 +8,7 @@ using FreediverApp.DatabaseConnector;
 using Android.Content;
 using System.Collections.Generic;
 using Android.Content.PM;
+using FreediverApp.UI.Fragments;
 
 namespace FreediverApp
 {
@@ -18,7 +19,7 @@ namespace FreediverApp
     public class RegisterActivity : Activity
     {
         /*Member Variables*/
-        private Button button_register;
+        private Button buttonRegister;
         private EditText texteditEmail, 
             texteditUsername, 
             texteditPassword, 
@@ -32,7 +33,6 @@ namespace FreediverApp
         private List<User> userResult;
 
         private bool accountCreated = false;
-
 
        /**
         *  This function initializes all UI components and event listeners. 
@@ -49,13 +49,21 @@ namespace FreediverApp
             texteditFirstname = FindViewById<EditText>(Resource.Id.textedit_firstname);
             texteditLastname = FindViewById<EditText>(Resource.Id.textedit_lastname);
             texteditDateOfBirth = FindViewById<EditText>(Resource.Id.textedit_date_of_birth);
+            texteditDateOfBirth.Click += openDatePickerDialog;
+
             texteditWeight = FindViewById<EditText>(Resource.Id.textedit_weight);
             texteditHeight = FindViewById<EditText>(Resource.Id.textedit_height);
 
             userResult = new List<User>();
 
-            button_register = FindViewById<Button>(Resource.Id.button_register);
-            button_register.Click += setupDataListener;
+            buttonRegister = FindViewById<Button>(Resource.Id.button_register);
+            buttonRegister.Click += setupDataListener;
+        }
+
+        private void openDatePickerDialog(object sender, EventArgs eventArgs) 
+        {
+            DatePickerFragment datePicker = DatePickerFragment.NewInstance(delegate (DateTime dateTime) { texteditDateOfBirth.Text = dateTime.ToShortDateString(); });
+            datePicker.Show(FragmentManager, DatePickerFragment.TAG);
         }
 
         /**
@@ -64,7 +72,7 @@ namespace FreediverApp
          *  TODO: Optimize using a parameterized query with OR statement on username and email so that we 
          *  dont need to query the full table all the time.
          **/
-        private void setupDataListener(object sender, EventArgs e) 
+        private void setupDataListener(object sender, EventArgs eventArgs) 
         {
             userDataListener = new FirebaseDataListener();
             userDataListener.QueryFullTable("users");
@@ -75,9 +83,9 @@ namespace FreediverApp
          *  Event that is triggered when new userdata was retrieved from the db listener.
          *  After the result list is set, the registration process is initiated inside the createAccount function.
          **/
-        private void UserDataListener_UserDataRetrieved(object sender, FirebaseDataListener.DataEventArgs e)
+        private void UserDataListener_UserDataRetrieved(object sender, FirebaseDataListener.DataEventArgs eventArgs)
         {
-            userResult = e.Users;
+            userResult = eventArgs.Users;
             createAccount();
         }
 

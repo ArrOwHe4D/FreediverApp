@@ -32,7 +32,7 @@ using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Sockets;
-
+using Android.Content;
 
 namespace FreediverApp
 {
@@ -48,11 +48,11 @@ namespace FreediverApp
         private IBluetoothLE ble;
         private IAdapter bleAdapter;
         private ObservableCollection<IDevice> bleDeviceList;
-        private ObservableCollection<ScanResult> wifiDeviceList;
+        private List<ScanResult> wifiDeviceList;
         private FirebaseDataListener diveSessionListener;
         private List<DiveSession> diveSessionsFromDatabase;
         private ProgressDialog dataTransferDialog;
-        private WifiConnector wifi;
+        private WifiConnector wifiConnector;
         private string ssid = "yournetworkname";
         private string pass = "yourcode";
         private bool suggestNetwork;
@@ -81,7 +81,7 @@ namespace FreediverApp
             btReceiver.m_adapter = BluetoothAdapter.DefaultAdapter;
 
             //setup wifi connector
-            wifi = new WifiConnector(Context);
+            wifiConnector = new WifiConnector(Context);
             suggestNetwork = false;
             requestNetwork = false;
 
@@ -98,7 +98,8 @@ namespace FreediverApp
             //init device list to store scanned bluetooth devices
             bleDeviceList = new ObservableCollection<IDevice>();
 
-            wifiDeviceList = new ObservableCollection<ScanResult>();
+            //wifiDeviceList = new ObservableCollection<ScanResult>();
+            wifiDeviceList = new List<ScanResult>();
 
             //init ui components
             listViewBluetoothDevices = view.FindViewById<ListView>(Resource.Id.listview_bluetooth_devices);
@@ -119,6 +120,8 @@ namespace FreediverApp
             //query all divesessions of the current user since we need to determine if a session already exists when receiving data from arduino
 
             retrieveDiveSessions();
+
+            checkWifiPermission();
 
             //different error handlings for errors that can occur while initializing ble
             if (ble == null)
@@ -204,7 +207,9 @@ namespace FreediverApp
         private void wifiScan() 
         {
             scanIndicator.Visibility = ViewStates.Visible;
-            wifi.scan();
+            wifiConnector.scan();
+            Thread.Sleep(8000);
+            scanIndicator.Visibility = ViewStates.Gone;
             refreshGui();
         }
 
@@ -245,11 +250,11 @@ namespace FreediverApp
                 Manifest.Permission.ChangeWifiState
             };
 
-            var coarseLocationPermissionGranted = ContextCompat.CheckSelfPermission(Context, wifiPermissions[0]);
+            var wifiStatePermissionGranted = ContextCompat.CheckSelfPermission(Context, wifiPermissions[0]);
 
-            var fineLocationPermissionGranted = ContextCompat.CheckSelfPermission(Context, wifiPermissions[1]);
+            var wifiStateChangePermissionGranted = ContextCompat.CheckSelfPermission(Context, wifiPermissions[1]);
 
-            if (coarseLocationPermissionGranted == Permission.Denied || fineLocationPermissionGranted == Permission.Denied)
+            if (wifiStatePermissionGranted == Permission.Denied || wifiStateChangePermissionGranted == Permission.Denied)
                 ActivityCompat.RequestPermissions(Activity, wifiPermissions, wifiPermissionsRequestCode);
         }
 
@@ -271,7 +276,7 @@ namespace FreediverApp
                 bleDeviceList.Add(device);
             }
 
-            refreshGui();
+            //refreshGui();
         }
 
         /**
@@ -281,7 +286,48 @@ namespace FreediverApp
         private void refreshGui()
         {
             //listViewBluetoothDevices.Adapter = new BluetoothListViewAdapter(bleDeviceList);
+            wifiDeviceList = WifiConnector.wifiNetworks;
             listViewWifiDevices.Adapter = new WifiListViewAdapter(wifiDeviceList);
+        }
+
+        private void runWifiActivationDialog()
+        {
+            //setup UI for the activation dialog
+            SupportV7.AlertDialog.Builder bluetoothActivationDialog = new SupportV7.AlertDialog.Builder(Context);
+            bluetoothActivationDialog.SetTitle("Wifi not activated");
+            bluetoothActivationDialog.SetMessage("Do you want to activate WiFi on your device?");
+
+            bluetoothActivationDialog.SetPositiveButton(Resource.String.dialog_accept, (senderAlert, args) =>
+            {
+                //lambda expression that handles the case that the user accepted to activate bluetooth.
+                btReceiver.m_adapter.Enable();
+
+                //We let the main thread sleep for 2,5 sec since we encountered that on some phones it takes a bit to activate bluetooth 
+                //and to prevent that activation is not working even if it would work, we wait some seconds to ensure that activation was successfull 
+                //on each of the different custom android versions from different manufacturers. 
+                //(Should have something to do with how internal system calls are handled on different android versions)
+                Thread.Sleep(2500);
+
+                //reinitialize the ble adapter after we waited for android to enable it
+                refreshBleAdapter();
+
+                //print a toast message whether or not the bt adapter was sucessfully activated
+                if (btReceiver.m_adapter.IsEnabled)
+                {
+                    Toast.MakeText(Context, Resource.String.bluetooth_activated, ToastLength.Long).Show();
+                }
+                else
+                {
+                    Toast.MakeText(Context, Resource.String.bluetooth_activation_failed, ToastLength.Long).Show();
+                }
+            });
+            bluetoothActivationDialog.SetNegativeButton(Resource.String.dialog_cancel, (senderAlert, args) =>
+            {
+                //close dialog on cancel
+                bluetoothActivationDialog.Dispose();
+            });
+
+            bluetoothActivationDialog.Show();
         }
 
         /**
