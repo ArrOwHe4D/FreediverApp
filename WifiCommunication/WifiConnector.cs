@@ -18,8 +18,8 @@ namespace FreediverApp.WifiCommunication
 
         // OLD STUFF
         private NetworkCallback callback;
-        private string ssid = "yournetworkname";
-        private string passphrase = "yourcode";
+        private string ssid = "23PSE";
+        private string passphrase = "ZZZDiveZZZ";
         public ConnectivityManager connectivityManager;
         private bool requested;
 
@@ -111,7 +111,7 @@ namespace FreediverApp.WifiCommunication
             Console.WriteLine(statusText);
         }
 
-        public void RequestNetwork()
+        public void requestNetwork()
         {
             var specifier = new WifiNetworkSpecifier.Builder()
                 .SetSsid(ssid)

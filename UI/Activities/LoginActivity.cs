@@ -6,6 +6,7 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Widget;
 using FreediverApp.DatabaseConnector;
+using FreediverApp.WifiCommunication;
 using Xamarin.Essentials;
 
 namespace FreediverApp
@@ -62,23 +63,30 @@ namespace FreediverApp
          **/
         private void login(object sender, EventArgs eventArgs)
         {
-            var connectionState = Connectivity.NetworkAccess;
+            WifiConnector wifiConnector = new WifiConnector(this);
+            wifiConnector.requestNetwork();
 
-            //check if the phone is connected to the internet, otherwise print a error message.
-            if (connectionState == NetworkAccess.Internet)
-            {
-                //setup the db listener and wait for results to be fetched by the eventlistener
-                //while the results are being fetched, show a loading dialog to notify the user that data is being retrieved right now
-                retrieveUserData();
-                loginDialog = new ProgressDialog(this);
-                loginDialog.SetMessage(ApplicationContext.Resources.GetString(Resource.String.dialog_logging_in));
-                loginDialog.SetCancelable(false);
-                loginDialog.Show();
-            }
-            else
-            {
-                Toast.MakeText(this, "Your Phone is not connected to the internet, please establish a connection first!", ToastLength.Long).Show();
-            }
+            FtpConnector ftpConnector = new FtpConnector();
+
+            ftpConnector.downloadFile("ftp://192.168.4.1", "diver", "diverpass", "divelog25.txt");
+
+            //var connectionState = Connectivity.NetworkAccess;
+
+            ////check if the phone is connected to the internet, otherwise print a error message.
+            //if (connectionState == NetworkAccess.Internet)
+            //{
+            //    //setup the db listener and wait for results to be fetched by the eventlistener
+            //    //while the results are being fetched, show a loading dialog to notify the user that data is being retrieved right now
+            //    retrieveUserData();
+            //    loginDialog = new ProgressDialog(this);
+            //    loginDialog.SetMessage(ApplicationContext.Resources.GetString(Resource.String.dialog_logging_in));
+            //    loginDialog.SetCancelable(false);
+            //    loginDialog.Show();
+            //}
+            //else
+            //{
+            //    Toast.MakeText(this, "Your Phone is not connected to the internet, please establish a connection first!", ToastLength.Long).Show();
+            //}
         }   
 
         /**
