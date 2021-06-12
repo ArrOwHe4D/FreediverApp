@@ -13,7 +13,7 @@ namespace FreediverApp.WifiCommunication
 
         public void downloadFile(string url, string username, string password, string filename)
         {
-            FtpWebRequest ftpRequest = (FtpWebRequest) WebRequest.Create(url + "/" + filename);
+            FtpWebRequest ftpRequest = (FtpWebRequest) WebRequest.Create(new Uri (url + "/" + filename));
             ftpRequest.Credentials = new NetworkCredential(username, password);
             ftpRequest.Method = WebRequestMethods.Ftp.DownloadFile;
 

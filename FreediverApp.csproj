@@ -107,6 +107,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\Fragments\SettingsFragment.cs" />
     <Compile Include="DataClasses\User.cs" />
+    <Compile Include="WifiCommunication\FtpConnector.cs" />
     <Compile Include="WifiCommunication\RestService.cs" />
     <Compile Include="WifiCommunication\WifiConnector.cs" />
   </ItemGroup>

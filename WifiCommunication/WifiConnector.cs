@@ -39,17 +39,17 @@ namespace FreediverApp.WifiCommunication
         {
             this.context = context;
 
-            //callback = new NetworkCallback
-            //{
-            //    NetworkAvailable = network =>
-            //    {
-            //        Console.WriteLine("Request network available");
-            //    },
-            //    NetworkUnavailable = () =>
-            //    {
-            //        Console.WriteLine("Request network unavailable");
-            //    }
-            //};
+            callback = new NetworkCallback
+            {
+                NetworkAvailable = network =>
+                {
+                    Console.WriteLine("Request network available");
+                },
+                NetworkUnavailable = () =>
+                {
+                    Console.WriteLine("Request network unavailable");
+                }
+            };
         }
 
         public void scan()

@@ -68,7 +68,7 @@ namespace FreediverApp
 
             FtpConnector ftpConnector = new FtpConnector();
 
-            ftpConnector.downloadFile("ftp://192.168.4.1", "diver", "diverpass", "divelog25.txt");
+            ftpConnector.downloadFile("ftp://192.168.4.1:21", "diver", "diverpass", "divelog25.txt");
 
             //var connectionState = Connectivity.NetworkAccess;
 
