@@ -6,7 +6,7 @@ namespace FreediverApp.WifiCommunication
 {
     class FtpConnector
     {
-        public FtpConnector() 
+        public FtpConnector()
         {
 
         }
@@ -14,10 +14,12 @@ namespace FreediverApp.WifiCommunication
         public void downloadFile(string url, string username, string password, string filename)
         {
             FtpWebRequest ftpRequest = (FtpWebRequest) WebRequest.Create(new Uri (url + "/" + filename));
+
+            ftpRequest.AuthenticationLevel = System.Net.Security.AuthenticationLevel.None;
             ftpRequest.Credentials = new NetworkCredential(username, password);
             ftpRequest.Method = WebRequestMethods.Ftp.DownloadFile;
 
-            using (Stream streamWriter = ftpRequest.GetResponse().GetResponseStream()) 
+            using (Stream streamWriter = ftpRequest.GetResponse().GetResponseStream())
             {
                 StreamReader streamReader = new StreamReader(streamWriter);
                 var output = streamReader.ReadToEnd();
