@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace FreediverApp.WifiCommunication
 {
@@ -111,7 +112,7 @@ namespace FreediverApp.WifiCommunication
             Console.WriteLine(statusText);
         }
 
-        public void requestNetwork()
+        public void requestNetwork() 
         {
             var specifier = new WifiNetworkSpecifier.Builder()
                 .SetSsid(ssid)
@@ -132,6 +133,9 @@ namespace FreediverApp.WifiCommunication
 
             connectivityManager.RequestNetwork(request, callback);
             requested = true;
+
+            //while(!connectivityManager.ActiveNetworkInfo.IsConnected) { }
+
         }
 
         private class NetworkCallback : ConnectivityManager.NetworkCallback

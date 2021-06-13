@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Net;
+using Android.Net.Wifi;
 using Android.OS;
 using Android.Widget;
 using FreediverApp.DatabaseConnector;
@@ -61,14 +63,21 @@ namespace FreediverApp
          *  This function represents the whole login process up to the point where the user is successfully logged in and
          *  redirected to our main menu (MainActivity).
          **/
-        private void login(object sender, EventArgs eventArgs)
+        private async void login(object sender, EventArgs eventArgs)
         {
             WifiConnector wifiConnector = new WifiConnector(this);
             wifiConnector.requestNetwork();
 
-            FtpConnector ftpConnector = new FtpConnector();
+            
 
-            ftpConnector.downloadFile("ftp://192.168.4.1:21", "diver", "diverpass", "divelog25.txt");
+            //ftpConnector.downloadFile("192.168.4.1", "diver", "diverpass", "divelog25.txt");
+
+
+            
+
+            //await ftpConnector.downloadFile_v2("ftp://192.168.4.1", "diver", "diverpass", "divelog25.txt");
+
+            Console.WriteLine(" this should be your data");
 
             //var connectionState = Connectivity.NetworkAccess;
 
@@ -87,7 +96,28 @@ namespace FreediverApp
             //{
             //    Toast.MakeText(this, "Your Phone is not connected to the internet, please establish a connection first!", ToastLength.Long).Show();
             //}
-        }   
+        }
+
+
+        public bool isWifiConnected()
+        {
+            var wifiManager = Application.Context.GetSystemService(Context.WifiService) as WifiManager;
+
+            if (wifiManager != null)
+            {
+                // Check state is enabled.
+                return wifiManager.IsWifiEnabled &&
+                    // Check for network id equal to -1
+                    (wifiManager.ConnectionInfo.NetworkId != -1
+                    // Check for SSID having default value of "<unknown SSID>"
+                    && wifiManager.ConnectionInfo.SSID != "<unknown ssid>");
+            }
+
+            return false;
+        }
+
+
+
 
         /**
          *  This function redirects to a new activity in which the user is able to restore his password 
@@ -104,8 +134,13 @@ namespace FreediverApp
          **/
         private void redirectToRegisterActivity(object sender, EventArgs eventArgs) 
         {
-            var registerActivity = new Intent(this, typeof(RegisterActivity));
-            StartActivity(registerActivity);
+
+            FtpConnector ftpConnector = new FtpConnector(this);
+            ftpConnector.downloadFile_v3();
+
+
+            //var registerActivity = new Intent(this, typeof(RegisterActivity));
+            //StartActivity(registerActivity);
         }
 
         /**
