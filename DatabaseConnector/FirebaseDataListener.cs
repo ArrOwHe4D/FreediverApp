@@ -41,14 +41,14 @@ namespace FreediverApp.DatabaseConnector
         public void QueryFullTable(string tablename) 
         {
             DatabaseReference tableRef = DBConnector.GetDatabase().GetReference(tablename);
-            tableRef.AddValueEventListener(this);
+            tableRef.AddListenerForSingleValueEvent(this);
         }
 
         //Queries a table "tablename" and filters the result with the given "field" and "value" like the WHERE clause in SQL.
         public void QueryParameterized(string tablename, string field, string value) 
         {
             DatabaseReference tableRef = DBConnector.GetDatabase().GetReference(tablename);
-            tableRef.OrderByChild(field).EqualTo(value).AddValueEventListener(this);
+            tableRef.OrderByChild(field).EqualTo(value).AddListenerForSingleValueEvent(this);
         }
 
         //Error handler

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FreediverApp.UI.Fragments;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -25,6 +26,9 @@ namespace FreediverApp
         private FirebaseDataListener userDataListener;
         private List<User> userList;
 
+        // use edit buttons as Imageviews as it is easier and costs less resources
+        ImageView btnEditEmail, btnEditPassword, btnEditFirstname, btnEditLastname, btnEditDateOfBirth, btnEditHeight, btnEditWeight;
+
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -48,6 +52,23 @@ namespace FreediverApp
 
             titleUsername = view.FindViewById<TextView>(Resource.Id.title_username);
             titleRegisteredSince = view.FindViewById<TextView>(Resource.Id.title_registered_since);
+
+            //Instantiate ImageView pencil Buttons for editing data
+            btnEditEmail = view.FindViewById<ImageView>(Resource.Id.btn_edit_email);
+            btnEditPassword = view.FindViewById<ImageView>(Resource.Id.btn_edit_password);
+            btnEditFirstname = view.FindViewById<ImageView>(Resource.Id.btn_edit_firstname);
+            btnEditLastname = view.FindViewById<ImageView>(Resource.Id.btn_edit_lastname);
+            btnEditDateOfBirth = view.FindViewById<ImageView>(Resource.Id.btn_edit_date_of_birth);
+            btnEditHeight = view.FindViewById<ImageView>(Resource.Id.btn_edit_height);
+            btnEditWeight = view.FindViewById<ImageView>(Resource.Id.btn_edit_weight);
+
+            btnEditEmail.Click += editEmail;
+            btnEditPassword.Click += editPassword;
+            btnEditFirstname.Click += editFirstname;
+            btnEditLastname.Click += editLastname;
+            btnEditDateOfBirth.Click += editDateOfBirth;
+            btnEditHeight.Click += editHeight;
+            btnEditWeight.Click += editWeight;
 
             //setup the db listener to retrieve userdata from db
             retrieveAccountData();
@@ -80,7 +101,7 @@ namespace FreediverApp
          *  inside the TemporaryData class. Since we don´t store all user info inside that class we need to query to get all attributes of the
          *  user dataset.
          **/
-        public void retrieveAccountData() 
+        private void retrieveAccountData() 
         {
             userDataListener = new FirebaseDataListener();
             userDataListener.QueryParameterized("users", "username", TemporaryData.CURRENT_USER.username);
@@ -106,7 +127,7 @@ namespace FreediverApp
          **/
         private void deleteUserAccount(object sender, EventArgs e) 
         {
-            SupportV7.AlertDialog.Builder deleteUserDialog = new SupportV7.AlertDialog.Builder(this.Context);
+            SupportV7.AlertDialog.Builder deleteUserDialog = new SupportV7.AlertDialog.Builder(Context);
             deleteUserDialog.SetTitle(Resource.String.dialog_delete_account);
             deleteUserDialog.SetMessage(Resource.String.dialog_are_you_sure);
 
@@ -123,6 +144,214 @@ namespace FreediverApp
             });
 
             deleteUserDialog.Show();
+        }
+
+        public void editEmail(object sender, EventArgs eventArgs)
+        {
+            LayoutInflater layoutInflater = LayoutInflater.From(Context);
+            View dialogView = layoutInflater.Inflate(Resource.Layout.UserInputDialog, null);     
+
+            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog("Email ändern", "Neue Email-Adresse", Resource.Drawable.icon_pencil, dialogView);
+
+            var editValueField = dialogView.FindViewById<EditText>(Resource.Id.textfield_input);
+            editValueField.InputType = Android.Text.InputTypes.TextVariationEmailAddress;
+
+            dialogBuilder.SetCancelable(false)
+                .SetPositiveButton("Speichern", delegate
+                {
+                    userDataListener.updateEntity("users", TemporaryData.CURRENT_USER.id, "email", editValueField.Text);
+                    Toast.MakeText(Context, "Wert wurde erfolgreich geändert!", ToastLength.Long).Show();
+                    retrieveAccountData();
+                    dialogBuilder.Dispose();
+                })
+                .SetNegativeButton("Abbrechen", delegate
+                {
+                    dialogBuilder.Dispose();
+                });
+
+            SupportV7.AlertDialog dialog = dialogBuilder.Create();
+            dialog.Show();
+        }
+
+        public void editPassword(object sender, EventArgs eventArgs)
+        {
+            LayoutInflater layoutInflater = LayoutInflater.From(Context);
+            View dialogView = layoutInflater.Inflate(Resource.Layout.UserPasswordInputDialog, null);
+
+            SupportV7.AlertDialog.Builder dialogBuilder = createEditPasswordDialog("Passwort ändern", "Neues Passwort", "Neues Passwort bestätigen", Resource.Drawable.icon_pencil, dialogView);
+            
+            var editPasswordField = dialogView.FindViewById<EditText>(Resource.Id.textview_password_input);
+            var checkPasswordField = dialogView.FindViewById<EditText>(Resource.Id.textview_password_check_input);
+
+            dialogBuilder.SetCancelable(false)
+                .SetPositiveButton("Speichern", delegate
+                {
+                    if (editPasswordField.Text == checkPasswordField.Text)
+                    {
+                        userDataListener.updateEntity("users", TemporaryData.CURRENT_USER.id, "password", Encryptor.Encrypt(editPasswordField.Text));
+                        Toast.MakeText(Context, "Wert wurde erfolgreich geändert!", ToastLength.Long).Show();
+                        retrieveAccountData();
+                        dialogBuilder.Dispose();
+                    }
+                    else 
+                    {
+                        Toast.MakeText(Context, "Passwörter stimmen nicht überein!", ToastLength.Long).Show();
+                    }
+                })
+                .SetNegativeButton("Abbrechen", delegate
+                {
+                    dialogBuilder.Dispose();
+                });
+
+            SupportV7.AlertDialog dialog = dialogBuilder.Create();
+            dialog.Show();
+        }
+
+        public void editFirstname(object sender, EventArgs eventArgs)
+        {
+            LayoutInflater layoutInflater = LayoutInflater.From(Context);
+            View dialogView = layoutInflater.Inflate(Resource.Layout.UserInputDialog, null);
+
+            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog("Vornamen ändern", "Neuer Vorname", Resource.Drawable.icon_pencil, dialogView);
+
+            var editValueField = dialogView.FindViewById<EditText>(Resource.Id.textfield_input);
+
+            dialogBuilder.SetCancelable(false)
+                .SetPositiveButton("Speichern", delegate
+                {
+                    userDataListener.updateEntity("users", TemporaryData.CURRENT_USER.id, "firstname", editValueField.Text);
+                    Toast.MakeText(Context, "Wert wurde erfolgreich geändert!", ToastLength.Long).Show();
+                    retrieveAccountData();
+                    dialogBuilder.Dispose();
+                })
+                .SetNegativeButton("Abbrechen", delegate
+                {
+                    dialogBuilder.Dispose();
+                });
+
+            SupportV7.AlertDialog dialog = dialogBuilder.Create();
+            dialog.Show();
+        }
+
+        public void editLastname(object sender, EventArgs eventArgs)
+        {
+            LayoutInflater layoutInflater = LayoutInflater.From(Context);
+            View dialogView = layoutInflater.Inflate(Resource.Layout.UserInputDialog, null);
+
+            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog("Nachnamen ändern", "Neuer Nachname", Resource.Drawable.icon_pencil, dialogView);
+
+            var editValueField = dialogView.FindViewById<EditText>(Resource.Id.textfield_input);
+
+            dialogBuilder.SetCancelable(false)
+                .SetPositiveButton("Speichern", delegate
+                {
+                    userDataListener.updateEntity("users", TemporaryData.CURRENT_USER.id, "lastname", editValueField.Text);
+                    Toast.MakeText(Context, "Wert wurde erfolgreich geändert!", ToastLength.Long).Show();
+                    retrieveAccountData();
+                    dialogBuilder.Dispose();
+                })
+                .SetNegativeButton("Abbrechen", delegate
+                {
+                    dialogBuilder.Dispose();
+                });
+
+            SupportV7.AlertDialog dialog = dialogBuilder.Create();
+            dialog.Show();
+        }
+
+        public void editDateOfBirth(object sender, EventArgs eventArgs)
+        {
+            DatePickerFragment datePicker = DatePickerFragment.NewInstance(delegate (DateTime dateTime) 
+            { 
+                userDataListener.updateEntity("users", TemporaryData.CURRENT_USER.id, "birthday", dateTime.ToShortDateString());
+                Toast.MakeText(Context, "Wert wurde erfolgreich geändert!", ToastLength.Long).Show();
+                retrieveAccountData();
+            });
+
+            datePicker.Show(FragmentManager, DatePickerFragment.TAG);
+        }
+
+        public void editHeight(object sender, EventArgs eventArgs)
+        {
+            LayoutInflater layoutInflater = LayoutInflater.From(Context);
+            View dialogView = layoutInflater.Inflate(Resource.Layout.UserInputDialog, null);
+
+            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog("Körpergröße ändern", "Neuer Wert (cm)", Resource.Drawable.icon_pencil, dialogView);
+
+            var editValueField = dialogView.FindViewById<EditText>(Resource.Id.textfield_input);
+
+            dialogBuilder.SetCancelable(false)
+                .SetPositiveButton("Speichern", delegate
+                {
+                    userDataListener.updateEntity("users", TemporaryData.CURRENT_USER.id, "height", editValueField.Text);
+                    Toast.MakeText(Context, "Wert wurde erfolgreich geändert!", ToastLength.Long).Show();
+                    retrieveAccountData();
+                    dialogBuilder.Dispose();
+                })
+                .SetNegativeButton("Abbrechen", delegate
+                {
+                    dialogBuilder.Dispose();
+                });
+
+            SupportV7.AlertDialog dialog = dialogBuilder.Create();
+            dialog.Show();
+        }
+
+        public void editWeight(object sender, EventArgs eventArgs)
+        {
+            LayoutInflater layoutInflater = LayoutInflater.From(Context);
+            View dialogView = layoutInflater.Inflate(Resource.Layout.UserInputDialog, null);
+
+            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog("Körpergewicht ändern", "Neuer Wert (kg)", Resource.Drawable.icon_pencil, dialogView);
+
+            var editValueField = dialogView.FindViewById<EditText>(Resource.Id.textfield_input);
+
+            dialogBuilder.SetCancelable(false)
+                .SetPositiveButton("Speichern", delegate
+                {                 
+                    userDataListener.updateEntity("users", TemporaryData.CURRENT_USER.id, "weight", editValueField.Text);
+                    Toast.MakeText(Context, "Wert wurde erfolgreich geändert!", ToastLength.Long).Show();
+                    retrieveAccountData();
+                    dialogBuilder.Dispose();
+                })
+                .SetNegativeButton("Abbrechen", delegate
+                {
+                    dialogBuilder.Dispose();
+                });
+
+            SupportV7.AlertDialog dialog = dialogBuilder.Create();
+            dialog.Show();
+        }
+
+        public SupportV7.AlertDialog.Builder createEditDialog(string title, string placeholder, int iconId, View parentView) 
+        {
+            SupportV7.AlertDialog.Builder dialogBuilder = new SupportV7.AlertDialog.Builder(Context);
+            dialogBuilder.SetView(parentView);
+
+            dialogBuilder.SetTitle(title);
+            dialogBuilder.SetIcon(iconId);
+
+            var editValueField = parentView.FindViewById<EditText>(Resource.Id.textfield_input);
+            editValueField.Hint = placeholder;
+
+            return dialogBuilder;
+        }
+
+        public SupportV7.AlertDialog.Builder createEditPasswordDialog(string title, string placeholderPassword, string placeholderPasswordCheck, int iconId, View parentView)
+        {
+            SupportV7.AlertDialog.Builder dialogBuilder = new SupportV7.AlertDialog.Builder(Context);
+            dialogBuilder.SetView(parentView);
+
+            dialogBuilder.SetTitle(title);
+            dialogBuilder.SetIcon(iconId);
+
+            var editPasswordField = parentView.FindViewById<EditText>(Resource.Id.textview_password_input);
+            editPasswordField.Hint = placeholderPassword;
+
+            var checkPasswordField = parentView.FindViewById<EditText>(Resource.Id.textview_password_check_input);
+            checkPasswordField.Hint = placeholderPasswordCheck;
+
+            return dialogBuilder;
         }
     }
 }

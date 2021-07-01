@@ -103,6 +103,13 @@
                     android:textColor="@android:color/black"
                     android:textSize="8pt"
                     android:id="@+id/txtview_email"/>
+                
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/icon_pencil"
+                    android:contentDescription="change" 
+                    android:id="@+id/btn_edit_email"/>
 
             </TableRow>
 
@@ -129,6 +136,13 @@
                     android:textSize="8pt"
                     android:id="@+id/txtview_password"/>
 
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/icon_pencil"
+                    android:contentDescription="change" 
+                    android:id="@+id/btn_edit_password"/>
+
             </TableRow>
 
             <TableRow
@@ -153,6 +167,13 @@
                     android:textColor="@android:color/black"
                     android:textSize="8pt"
                     android:id="@+id/txtview_firstname"/>
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/icon_pencil"
+                    android:contentDescription="change" 
+                    android:id="@+id/btn_edit_firstname"/>
 
             </TableRow>
 
@@ -179,6 +200,13 @@
                     android:textSize="8pt"
                     android:id="@+id/txtview_lastname"/>
 
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/icon_pencil"
+                    android:contentDescription="change" 
+                    android:id="@+id/btn_edit_lastname"/>
+
             </TableRow>
 
             <TableRow
@@ -203,6 +231,13 @@
                     android:textColor="@android:color/black"
                     android:textSize="8pt"
                     android:id="@+id/txtview_date_of_birth"/>
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/icon_pencil"
+                    android:contentDescription="change" 
+                    android:id="@+id/btn_edit_date_of_birth"/>
 
             </TableRow>
 
@@ -229,6 +264,13 @@
                     android:textSize="8pt"
                     android:id="@+id/txtview_height"/>
 
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/icon_pencil"
+                    android:contentDescription="change" 
+                    android:id="@+id/btn_edit_height"/>
+
             </TableRow>
 
             <TableRow
@@ -253,6 +295,13 @@
                     android:textColor="@android:color/black"
                     android:textSize="8pt"
                     android:id="@+id/txtview_weight"/>
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/icon_pencil"
+                    android:contentDescription="change" 
+                    android:id="@+id/btn_edit_weight"/>
 
             </TableRow>
 

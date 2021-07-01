@@ -68,34 +68,28 @@ namespace FreediverApp
             WifiConnector wifiConnector = new WifiConnector(this);
             wifiConnector.requestNetwork();
 
-            
+            var connectionState = Connectivity.NetworkAccess;
 
+            //check if the phone is connected to the internet, otherwise print a error message.
+            if (connectionState == NetworkAccess.Internet)
+            {
+                //setup the db listener and wait for results to be fetched by the eventlistener
+                //while the results are being fetched, show a loading dialog to notify the user that data is being retrieved right now
+                retrieveUserData();
+                loginDialog = new ProgressDialog(this);
+                loginDialog.SetMessage(ApplicationContext.Resources.GetString(Resource.String.dialog_logging_in));
+                loginDialog.SetCancelable(false);
+                loginDialog.Show();
+            }
+            else
+            {
+                Toast.MakeText(this, "Your Phone is not connected to the internet, please establish a connection first!", ToastLength.Long).Show();
+            }
+
+            //FTP-STUFF
             //ftpConnector.downloadFile("192.168.4.1", "diver", "diverpass", "divelog25.txt");
-
-
-            
-
             //await ftpConnector.downloadFile_v2("ftp://192.168.4.1", "diver", "diverpass", "divelog25.txt");
-
-            Console.WriteLine(" this should be your data");
-
-            //var connectionState = Connectivity.NetworkAccess;
-
-            ////check if the phone is connected to the internet, otherwise print a error message.
-            //if (connectionState == NetworkAccess.Internet)
-            //{
-            //    //setup the db listener and wait for results to be fetched by the eventlistener
-            //    //while the results are being fetched, show a loading dialog to notify the user that data is being retrieved right now
-            //    retrieveUserData();
-            //    loginDialog = new ProgressDialog(this);
-            //    loginDialog.SetMessage(ApplicationContext.Resources.GetString(Resource.String.dialog_logging_in));
-            //    loginDialog.SetCancelable(false);
-            //    loginDialog.Show();
-            //}
-            //else
-            //{
-            //    Toast.MakeText(this, "Your Phone is not connected to the internet, please establish a connection first!", ToastLength.Long).Show();
-            //}
+            //Console.WriteLine(" this should be your data");
         }
 
 
