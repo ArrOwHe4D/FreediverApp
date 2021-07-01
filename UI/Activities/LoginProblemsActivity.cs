@@ -1,6 +1,13 @@
 ﻿using Android.App;
 using Android.OS;
 using Android.Widget;
+using FreediverApp.DatabaseConnector;
+using FreediverApp.Utils;
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Mail;
+using System.Security.Cryptography.X509Certificates;
 
 namespace FreediverApp
 {
@@ -12,8 +19,12 @@ namespace FreediverApp
     [Activity(Label = "LoginProblemsActivity")]
     public class LoginProblemsActivity : Activity
     {
-        private EditText txtUsernameEmail;
+        private EditText txtEmail;
         private Button btnRecoverPassword;
+        private ProgressDialog sendingMailDialog;
+
+        private FirebaseDataListener userDataListener;
+        private List<User> userList;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -21,8 +32,77 @@ namespace FreediverApp
 
             SetContentView(Resource.Layout.LoginProblemsPage);
 
-            txtUsernameEmail = FindViewById<EditText>(Resource.Id.textedit_username_email);
+            txtEmail = FindViewById<EditText>(Resource.Id.textedit_username_email);
             btnRecoverPassword = FindViewById<Button>(Resource.Id.button_recover_password);
+
+            btnRecoverPassword.Click += initiatePasswordRecovery;
+        }
+
+        private void initiatePasswordRecovery(object sender, EventArgs eventArgs) 
+        {
+            if (FreediverHelper.validateEmail(txtEmail.Text))
+            {
+                sendingMailDialog = new ProgressDialog(this);
+                sendingMailDialog.SetMessage("Email wird gesendet...");
+                sendingMailDialog.SetCancelable(false);
+                sendingMailDialog.Show();
+                retrieveUserData();
+            }
+            else 
+            {
+                Toast.MakeText(this, "Bitte geben Sie eine gültige Email Adresse an!", ToastLength.Long).Show();
+            }
+        }
+
+        private void retrieveUserData() 
+        {
+            userDataListener = new FirebaseDataListener();
+            userDataListener.QueryParameterized("users", "email", txtEmail.Text);
+            userDataListener.DataRetrieved += UserDataListener_UserDataRetrieved;
+        }
+
+        private void UserDataListener_UserDataRetrieved(object sender, FirebaseDataListener.DataEventArgs eventArgs) 
+        {
+            userList = eventArgs.Users;
+
+            //user with given email exists
+            if (userList != null) 
+            {
+                sendPasswordRecoveryMail();
+            }
+            sendingMailDialog.Dismiss();
+            Toast.MakeText(this, "Falls die angegebene Email registriert ist, wurde Ihnen ein neues Passwort zugeschickt. Bitte Kontrollieren Sie Ihr Email Postfach!", ToastLength.Long).Show();
+        }
+
+        private void sendPasswordRecoveryMail() 
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+
+                //Create the Mailobject
+                mail.From = new MailAddress("noreply.freediverteam@gmail.com");
+                mail.To.Add(txtEmail.Text);
+                mail.Subject = "FreediverApp Password recovery"; 
+                mail.Body = "Your new password: d8dj8923jd983j"; //TODO: generate password via freediver Crypto service class
+
+                //Create the SMTP Client that transmits via smtp.gmail.com
+                SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
+                smtpServer.Port = 587;
+                smtpServer.UseDefaultCredentials = false;
+                smtpServer.Credentials = new NetworkCredential("noreply.freediverteam@gmail.com", "JJ\"8fUo(8n3%2Gb/7fc");
+                smtpServer.EnableSsl = true;
+                ServicePointManager.ServerCertificateValidationCallback = delegate (object sender, X509Certificate certificate, X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
+                {
+                    return true;
+                };
+                smtpServer.Send(mail);
+                //TODO: store generated password to userdata with updateEntity function
+            }
+            catch (Exception ex)
+            {
+                Toast.MakeText(Application.Context, ex.ToString(), ToastLength.Long).Show();
+            }
         }
     }
 }

@@ -16,13 +16,19 @@
         android:textColor="@android:color/black"
         android:id="@+id/textview_register"/>
 
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:src="@drawable/icon_arrow"/>
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="80dp"
         android:layout_marginRight="80dp"
-        android:hint="@string/username_or_email"
+        android:hint="@string/email"
         android:id="@+id/textedit_username_email"
         android:textColor="@android:color/black"
         android:textColorHint="@android:color/black"/>

@@ -8,12 +8,19 @@
      **/
     public class Encryptor
     {
+        static string SALT = "";
+
         public static string Encrypt(string text) 
         {
             byte[] data = System.Text.Encoding.ASCII.GetBytes(text);
             data = new System.Security.Cryptography.SHA256Managed().ComputeHash(data);   
             string hash = System.Text.Encoding.ASCII.GetString(data);
             return hash;
+        }
+
+        public static string SaltClearText(string clearText) 
+        {
+            return clearText += SALT;
         }
     }
 }

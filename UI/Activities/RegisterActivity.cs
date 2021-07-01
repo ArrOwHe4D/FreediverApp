@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using Android.App;
 using Android.OS;
 using Android.Widget;
@@ -9,6 +8,7 @@ using Android.Content;
 using System.Collections.Generic;
 using Android.Content.PM;
 using FreediverApp.UI.Fragments;
+using FreediverApp.Utils;
 
 namespace FreediverApp
 {
@@ -111,14 +111,14 @@ namespace FreediverApp
             else
             {
                 //check if the entered email is valid, if not, print a error message on the UI.
-                if (!isValidEmail(email))
+                if (!FreediverHelper.validateEmail(email))
                 {
                     Toast.MakeText(this, Resource.String.register_email_not_valid, ToastLength.Long).Show();
                     return;
                 }
 
                 //check if the entered email is valid, if not, print a error message on the UI.
-                if (!isValidBirthday(dateofbirth))
+                if (!FreediverHelper.validateBirthdate(dateofbirth))
                 {
                     Toast.MakeText(this, "Birthday is not valid!", ToastLength.Long).Show();
                     return;
@@ -203,47 +203,6 @@ namespace FreediverApp
             string.IsNullOrEmpty(texteditDateOfBirth.Text.Trim())  ||
             string.IsNullOrEmpty(texteditWeight.Text.Trim())       ||
             string.IsNullOrEmpty(texteditHeight.Text.Trim());
-        }
-
-        /**
-         *  Helper function to determine if the entered email is valid. 
-         **/
-        private bool isValidEmail(string email)
-        {
-            try
-            {
-                var emailAdress = new System.Net.Mail.MailAddress(email);
-                return emailAdress.Address == email;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        /**
-         *  Helper function to determine if the birtdate entered is valid. 
-         **/
-        private bool isValidBirthday(string birthday)
-        {
-            try
-            {
-                birthday = birthday.Replace('.', Convert.ToChar(@"-"));
-                string pattern = "dd-MM-yyyy";
-
-                DateTime bday;
-                DateTime.TryParseExact(birthday, pattern, null, DateTimeStyles.None, out bday);
-
-                if (bday.Date <= DateTime.Now.Date)
-                    return true;
-                else
-                    return false;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return false;
-            }
         }
     }
 }
