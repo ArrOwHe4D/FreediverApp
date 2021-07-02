@@ -81,16 +81,16 @@ namespace FreediverApp
                 MailMessage mail = new MailMessage();
 
                 //Create the Mailobject
-                mail.From = new MailAddress("noreply.freediverteam@gmail.com");
+                mail.From = new MailAddress(AuthenticationHelper.RECOVERY_SERVICE_EMAIL);
                 mail.To.Add(txtEmail.Text);
                 mail.Subject = "FreediverApp Password recovery"; 
                 mail.Body = "Your new password: d8dj8923jd983j"; //TODO: generate password via freediver Crypto service class
 
                 //Create the SMTP Client that transmits via smtp.gmail.com
-                SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
+                SmtpClient smtpServer = new SmtpClient(AuthenticationHelper.RECOVERY_SERVICE_MAILSERVER);
                 smtpServer.Port = 587;
                 smtpServer.UseDefaultCredentials = false;
-                smtpServer.Credentials = new NetworkCredential("noreply.freediverteam@gmail.com", "JJ\"8fUo(8n3%2Gb/7fc");
+                smtpServer.Credentials = new NetworkCredential(AuthenticationHelper.RECOVERY_SERVICE_EMAIL, AuthenticationHelper.RECOVERY_SERVICE_PASSWORD);
                 smtpServer.EnableSsl = true;
                 ServicePointManager.ServerCertificateValidationCallback = delegate (object sender, X509Certificate certificate, X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
                 {

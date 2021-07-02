@@ -183,7 +183,7 @@ namespace FreediverApp.DatabaseConnector
                     var obj = (User)objectToSave;
                     saveData.Put("email", obj.email);
                     saveData.Put("username", obj.username);
-                    saveData.Put("password", Encryptor.Encrypt(obj.password));
+                    saveData.Put("password", CryptoService.Encrypt(obj.password));
                     saveData.Put("firstname", obj.firstname);
                     saveData.Put("lastname", obj.lastname);
                     saveData.Put("birthday", obj.dateOfBirth);

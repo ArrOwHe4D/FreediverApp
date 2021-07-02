@@ -6,7 +6,7 @@
      *  to db for example. This class should be extended in future versions with salting or 
      *  other algorithms and security functions if needed.
      **/
-    public class Encryptor
+    public class CryptoService
     {
         static string SALT = "";
 

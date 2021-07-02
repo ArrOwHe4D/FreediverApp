@@ -188,7 +188,7 @@ namespace FreediverApp
                 {
                     if (editPasswordField.Text == checkPasswordField.Text)
                     {
-                        userDataListener.updateEntity("users", TemporaryData.CURRENT_USER.id, "password", Encryptor.Encrypt(editPasswordField.Text));
+                        userDataListener.updateEntity("users", TemporaryData.CURRENT_USER.id, "password", CryptoService.Encrypt(editPasswordField.Text));
                         Toast.MakeText(Context, "Wert wurde erfolgreich geändert!", ToastLength.Long).Show();
                         retrieveAccountData();
                         dialogBuilder.Dispose();

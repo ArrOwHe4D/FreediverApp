@@ -163,7 +163,7 @@ namespace FreediverApp
             if (userList != null)
             {
                 //username was found now check for password match
-                if (userList[0].username == texteditUsername.Text && userList[0].password == Encryptor.Encrypt(texteditPassword.Text))
+                if (userList[0].username == texteditUsername.Text && userList[0].password == CryptoService.Encrypt(texteditPassword.Text))
                 {
                     //set temporary user data (just for convenience purposes to populate queries easier that refer the user inside the app) 
                     TemporaryData.CURRENT_USER = userList[0];
