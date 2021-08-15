@@ -48,7 +48,7 @@ namespace FreediverApp
         private IBluetoothLE ble;
         private IAdapter bleAdapter;
         private ObservableCollection<IDevice> bleDeviceList;
-        private List<ScanResult> wifiDeviceList;
+        private IList<ScanResult> wifiDeviceList;
         private FirebaseDataListener diveSessionListener;
         private List<DiveSession> diveSessionsFromDatabase;
         private ProgressDialog dataTransferDialog;
@@ -178,7 +178,7 @@ namespace FreediverApp
          **/
         private void scanButtonOnClick(object sender, EventArgs eventArgs)
         {
-            //bluetoothScan();
+            bluetoothScan();
             wifiScan();
         }
 
@@ -208,7 +208,7 @@ namespace FreediverApp
         {
             scanIndicator.Visibility = ViewStates.Visible;
             wifiConnector.scan();
-            Thread.Sleep(8000);
+            Thread.Sleep(4000);
             scanIndicator.Visibility = ViewStates.Gone;
             refreshGui();
         }
@@ -285,7 +285,8 @@ namespace FreediverApp
          **/
         private void refreshGui()
         {
-            //listViewBluetoothDevices.Adapter = new BluetoothListViewAdapter(bleDeviceList);
+            listViewBluetoothDevices.Adapter = new BluetoothListViewAdapter(bleDeviceList);
+
             wifiDeviceList = WifiConnector.wifiNetworks;
             listViewWifiDevices.Adapter = new WifiListViewAdapter(wifiDeviceList);
         }
@@ -738,7 +739,7 @@ namespace FreediverApp
                 }
             }
 
-            // if the connection has been interrupted the last divesession is most likly incomplete
+            // if the connection has been interrupted the last divesession is most likely incomplete
             // because of that we want to remove it
             diveSessions.Remove(diveSessions.Last());            
             foreach (DiveSession ds in diveSessions)

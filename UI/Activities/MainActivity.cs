@@ -51,7 +51,7 @@ namespace FreediverApp
             NavigationView navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
             navigationView.SetNavigationItemSelectedListener(this);
 
-            FragmentTransaction menuTransaction = this.FragmentManager.BeginTransaction();
+            FragmentTransaction menuTransaction = FragmentManager.BeginTransaction();
             MainFragment mainContent = new MainFragment();
             menuTransaction.Add(Resource.Id.framelayout, mainContent).Commit();
         }

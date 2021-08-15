@@ -1,6 +1,7 @@
 ﻿using System;
 using Android.App;
 using Android.Bluetooth;
+using Android.Content;
 using Android.Content.Res;
 using Android.OS;
 using Android.Views;
@@ -23,6 +24,8 @@ namespace FreediverApp
         private Button btnSave;
         private BluetoothDeviceReceiver btReceiver;
         private Spinner spinnerLanguage;
+        private ArrayAdapter spinnerAdapter;
+        private bool initiateCall = true;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -47,17 +50,25 @@ namespace FreediverApp
             switchBluetooth.Checked = btReceiver.m_adapter.IsEnabled;
 
             spinnerLanguage = view.FindViewById<Spinner>(Resource.Id.spinner_language);
+            spinnerAdapter = ArrayAdapter.CreateFromResource(Context, Resource.Array.languages_array, Android.Resource.Layout.SimpleSpinnerItem);
+            spinnerAdapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+            spinnerLanguage.Adapter = spinnerAdapter;
             spinnerLanguage.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(languageSpinner_ItemSelected);
-            var adapter = ArrayAdapter.CreateFromResource(Context, Resource.Array.languages_array, Android.Resource.Layout.SimpleSpinnerItem);
-            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
-            spinnerLanguage.Adapter = adapter;
-                
+
             return view;
         }
 
         private void languageSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e) 
         {
+            if (initiateCall) 
+            {
+                initiateCall = false;
+                return;
+            }
+
             Spinner spinner = (Spinner)sender;
+            var selectedItem = spinner.SelectedItem;
+            
             string languageChangedMessage = string.Format("Current Language is set to: {0}", spinner.GetItemAtPosition(e.Position));
             Toast.MakeText(Context, languageChangedMessage, ToastLength.Long).Show();
 
@@ -84,6 +95,21 @@ namespace FreediverApp
                     break;
                 }
             }
+            restartMainActivity();
+            refreshFragment();
+        }
+
+        private void refreshFragment() 
+        {
+            FragmentTransaction menuTransaction = FragmentManager.BeginTransaction();
+            SettingsFragment settingsFragment = new SettingsFragment();
+            menuTransaction.Replace(Resource.Id.framelayout, settingsFragment).AddToBackStack(null).Commit();
+        }
+
+        private void restartMainActivity()
+        {
+            var mainActivity = new Intent(Context, typeof(MainActivity));
+            StartActivity(mainActivity);
         }
 
         /**

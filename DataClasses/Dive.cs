@@ -371,8 +371,6 @@ namespace FreediverApp
             }            
         }
 
-
-
         public void UpdateAll()
         {
             heartFreqMax = GetHeartFreqMax();

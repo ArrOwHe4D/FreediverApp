@@ -110,9 +110,6 @@ namespace FreediverApp
             return false;
         }
 
-
-
-
         /**
          *  This function redirects to a new activity in which the user is able to restore his password 
          *  NOTE: Password recovery is not implemented in this version so the activity has no logic and only the frontend is setup!
@@ -128,13 +125,11 @@ namespace FreediverApp
          **/
         private void redirectToRegisterActivity(object sender, EventArgs eventArgs) 
         {
+            var registerActivity = new Intent(this, typeof(RegisterActivity));
+            StartActivity(registerActivity);
 
-            FtpConnector ftpConnector = new FtpConnector(this);
-            ftpConnector.downloadFile_v3();
-
-
-            //var registerActivity = new Intent(this, typeof(RegisterActivity));
-            //StartActivity(registerActivity);
+            //FtpConnector ftpConnector = new FtpConnector(this);
+            //ftpConnector.downloadFile_v3();
         }
 
         /**

@@ -18,10 +18,10 @@ namespace FreediverApp.UI.Components
 
         public WifiDeviceViewHolder(View itemView) : base(itemView)
         {
-            Icon = itemView.FindViewById<ImageView>(Resource.Id.imgview_btdv_info);
-            Name = itemView.FindViewById<TextView>(Resource.Id.txtview_btdv_name);
-            Frequency = itemView.FindViewById<TextView>(Resource.Id.txtview_btdv_mac_adress);
-            Capabilities = itemView.FindViewById<TextView>(Resource.Id.txtview_btdv_con_state);
+            Icon = itemView.FindViewById<ImageView>(Resource.Id.imgview_wifi_info_icon);
+            Name = itemView.FindViewById<TextView>(Resource.Id.textview_wifi_name);
+            Frequency = itemView.FindViewById<TextView>(Resource.Id.textview_wifi_capabilities);
+            Capabilities = itemView.FindViewById<TextView>(Resource.Id.textview_wifi_status);
         }
     }
 }

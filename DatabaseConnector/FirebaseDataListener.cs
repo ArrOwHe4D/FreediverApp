@@ -51,14 +51,20 @@ namespace FreediverApp.DatabaseConnector
             tableRef.OrderByChild(field).EqualTo(value).AddListenerForSingleValueEvent(this);
         }
 
+        public void QueryParameterizedMulti(string tablename, string field, string value, string field2, string value2) 
+        {
+            DatabaseReference tableRef = DBConnector.GetDatabase().GetReference(tablename);
+            tableRef.OrderByChild(field).EqualTo(value).OrderByChild(field2).EqualTo(value2).AddListenerForSingleValueEvent(this);
+        }
+
         //Error handler
         public void OnCancelled(DatabaseError error)
         {
-            
+            Console.WriteLine(error.Message);
         }
 
         //Handles the results and instatiates a DataObject in our app for every dataset that was retrieved from db
-        public void createEntitiesFromSnapshot(DataSnapshot snapshot) 
+        private void createEntitiesFromSnapshot(DataSnapshot snapshot) 
         {
             string tablename = snapshot.Ref.Key;
             var dataResult = snapshot.Children.ToEnumerable<DataSnapshot>();
@@ -274,6 +280,7 @@ namespace FreediverApp.DatabaseConnector
             }
         }
 
+        //Updates the value of the given "field" from a dataset with the given "id" with the parameter "value"
         public void updateEntity(string tablename, string id, string field, string value) 
         {
             DatabaseReference entityRef = DBConnector.GetDatabase().GetReference(tablename).Child(id);
@@ -316,7 +323,7 @@ namespace FreediverApp.DatabaseConnector
         }
 
         //Event that is invoked to store our result lists inside our eventhandler with the DataEventArgs. 
-        public void invokeDataRetrievedEvent(DataSnapshot snapshot) 
+        private void invokeDataRetrievedEvent(DataSnapshot snapshot) 
         {
             string tablename = snapshot.Ref.Key;
 
@@ -342,7 +349,7 @@ namespace FreediverApp.DatabaseConnector
             }
         }
 
-        public void clearDataLists() 
+        private void clearDataLists() 
         {
             userList.Clear();
             divesessionList.Clear();

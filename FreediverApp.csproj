@@ -82,7 +82,8 @@
     <Compile Include="BluetoothCommunication\BluetoothServiceData.cs" />
     <Compile Include="UI\Components\BluetoothDeviceViewHolder.cs" />
     <Compile Include="UI\Components\BluetoothListViewAdapter.cs" />
-    <Compile Include="DatabaseConnector\Encryptor.cs" />
+    <Compile Include="Utils\AuthenticationHelper.cs" />
+    <Compile Include="Utils\CryptoService.cs" />
     <Compile Include="DatabaseConnector\TemporaryData.cs" />
     <Compile Include="DatabaseConnector\FirebaseDataListener.cs" />
     <Compile Include="DataClasses\Dive.cs" />

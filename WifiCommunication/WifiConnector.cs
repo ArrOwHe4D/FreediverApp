@@ -15,7 +15,7 @@ namespace FreediverApp.WifiCommunication
         private Context context = null;
         private static WifiManager wifiManager;
         private WifiReceiver wifiReceiver;
-        public static List<ScanResult> wifiNetworks;
+        public static IList<ScanResult> wifiNetworks;
 
         // OLD STUFF
         private NetworkCallback callback;
@@ -63,7 +63,17 @@ namespace FreediverApp.WifiCommunication
             // Start a scan and register the Broadcast receiver to get the list of Wifi Networks
             wifiReceiver = new WifiReceiver();
             context.RegisterReceiver(wifiReceiver, new IntentFilter(WifiManager.ScanResultsAvailableAction));
-            wifiManager.StartScan();
+            bool success = wifiManager.StartScan();
+
+            if (!success) 
+            { 
+                Console.WriteLine("WIFI SCAN FAILED!");
+                wifiNetworks = wifiManager.ScanResults;
+            }
+            else 
+            {
+                wifiNetworks = wifiManager.ScanResults;
+            }
         }
 
         //public void findWifiNetworks(object sender, DoWorkEventArgs e)

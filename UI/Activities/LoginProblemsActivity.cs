@@ -84,7 +84,7 @@ namespace FreediverApp
                 mail.From = new MailAddress(AuthenticationHelper.RECOVERY_SERVICE_EMAIL);
                 mail.To.Add(txtEmail.Text);
                 mail.Subject = "FreediverApp Password recovery"; 
-                mail.Body = "Your new password: d8dj8923jd983j"; //TODO: generate password via freediver Crypto service class
+                mail.Body = "Your new password: " + CryptoService.GeneratePassword(12, 65, 122);
 
                 //Create the SMTP Client that transmits via smtp.gmail.com
                 SmtpClient smtpServer = new SmtpClient(AuthenticationHelper.RECOVERY_SERVICE_MAILSERVER);

@@ -116,8 +116,7 @@ namespace FreediverApp
                         Color = color
                     });
                 }
-            }
-            
+            } 
 
             //create a new chart with the data entries and a custom display configuration
             var chart = new BarChart { Entries = dataList, LabelTextSize = 20f, LabelOrientation = Microcharts.Orientation.Horizontal, ValueLabelOrientation = Microcharts.Orientation.Horizontal };

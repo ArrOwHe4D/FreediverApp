@@ -4,7 +4,7 @@
     tools:showIn="navigation_view">
 
     <item android:title="Navigation">
-      <group android:checkableBehavior="single">
+      <menu>
           <item
               android:id="@+id/nav_dive_sessions"
               android:icon="@drawable/icon_dive_sessions"
@@ -25,7 +25,7 @@
               android:id="@+id/nav_logout"
               android:icon="@drawable/icon_logout"
               android:title="@string/logout" />
-      </group>
+      </menu>
     </item>
 
 </menu>

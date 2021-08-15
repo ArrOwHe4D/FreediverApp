@@ -13,9 +13,9 @@ namespace FreediverApp
      **/
     public class WifiListViewAdapter : BaseAdapter<ScanResult>
     {
-        List<ScanResult> wifiDevices;
+        IList<ScanResult> wifiDevices;
 
-        public WifiListViewAdapter(List<ScanResult> wifiDevices)
+        public WifiListViewAdapter(IList<ScanResult> wifiDevices)
         {
             this.wifiDevices = wifiDevices;
         }
@@ -69,8 +69,8 @@ namespace FreediverApp
             {
                 holder.Name.Text = wifiDevices[position].Ssid;
             }
-            holder.Frequency.Text = "FREQ: " + wifiDevices[position].CenterFreq0.ToString();
-            holder.Capabilities.Text = wifiDevices[position].Capabilities;
+            holder.Frequency.Text = "MAC: " + wifiDevices[position].Bssid.ToString();//wifiDevices[position].CenterFreq0.ToString();
+            holder.Capabilities.Text = "CAPS"; 
 
             return view;
         }

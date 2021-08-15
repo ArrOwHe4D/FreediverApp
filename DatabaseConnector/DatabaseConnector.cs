@@ -39,10 +39,5 @@ namespace FreediverApp.DatabaseConnector
 
             return database;
         }
-
-        public static DatabaseReference GetTable(string tablename) 
-        {
-            return GetDatabase().GetReference(tablename);
-        }
     }
 }
