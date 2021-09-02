@@ -18,8 +18,6 @@ namespace FreediverApp.WifiCommunication
             this.context = context;
         }
 
-        
-
         //public void downloadFile()
         //{
         //    //FtpClient ftpClient = new FtpClient(url);
@@ -62,14 +60,10 @@ namespace FreediverApp.WifiCommunication
 
         public async Task downloadFile_v2(string url, string username, string password, string filename)
         {
-
-
             //using (WebClient client = new WebClient())
             //{
             //    client.DownloadFile(url, filename);
             //}
-
-
 
             try
             {
@@ -88,7 +82,8 @@ namespace FreediverApp.WifiCommunication
                     Console.WriteLine(dataString);
                     //return dataString;
                 }
-            } catch(Exception exp)
+            } 
+            catch(Exception exp)
             {
                 Console.WriteLine("------ ERROR ------ ERROR ------ ERROR ------");
                 Console.WriteLine(exp);
@@ -112,7 +107,8 @@ namespace FreediverApp.WifiCommunication
                 await client.ConnectAsync();
                 client.Rename("/divelog25.txt", "/divelog30.txt");
                 client.Disconnect();
-            } catch(Exception e)
+            } 
+            catch(Exception e)
             {
                 Console.WriteLine("------------------ ERROR START --------------------");
                 Console.WriteLine(e);

@@ -39,6 +39,7 @@ namespace FreediverApp.WifiCommunication
         public WifiConnector(Context context)
         {
             this.context = context;
+            Initialize();
 
             callback = new NetworkCallback
             {
@@ -55,10 +56,8 @@ namespace FreediverApp.WifiCommunication
 
         public void scan()
         {
+            Initialize();
             wifiNetworks = new List<ScanResult>();
-
-            // Get a handle to the Wifi
-            wifiManager = (WifiManager)context.GetSystemService(Context.WifiService);
 
             // Start a scan and register the Broadcast receiver to get the list of Wifi Networks
             wifiReceiver = new WifiReceiver();
@@ -99,6 +98,23 @@ namespace FreediverApp.WifiCommunication
         //        }
         //    }
         //}
+
+        public void Initialize() 
+        {
+            // Get a handle to the Wifi
+            wifiManager = (WifiManager)context.GetSystemService(Context.WifiService);
+        }
+
+        public void SetWifiEnabled(bool enabled) 
+        {
+            Initialize();
+            wifiManager.SetWifiEnabled(enabled);
+        }
+
+        public bool IsWifiEnabled() 
+        {
+            return wifiManager.IsWifiEnabled;
+        }
 
         public void SuggestNetwork()
         {

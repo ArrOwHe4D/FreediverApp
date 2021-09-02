@@ -91,7 +91,7 @@
     <Compile Include="DataClasses\DiveSession.cs" />
     <Compile Include="UI\Activities\DiveSessionDetailViewActivity.cs" />
     <Compile Include="BluetoothCommunication\BluetoothDeviceReceiver.cs" />
-    <Compile Include="UI\Fragments\BluetoothDevicesFragment.cs" />
+    <Compile Include="UI\Fragments\ConnectiveDevicesFragment.cs" />
     <Compile Include="DatabaseConnector\DatabaseConnector.cs" />
     <Compile Include="UI\Fragments\DatePickerFragment.cs" />
     <Compile Include="UI\Fragments\DiveSessionsFragment.cs" />

@@ -92,24 +92,6 @@ namespace FreediverApp
             //Console.WriteLine(" this should be your data");
         }
 
-
-        public bool isWifiConnected()
-        {
-            var wifiManager = Application.Context.GetSystemService(Context.WifiService) as WifiManager;
-
-            if (wifiManager != null)
-            {
-                // Check state is enabled.
-                return wifiManager.IsWifiEnabled &&
-                    // Check for network id equal to -1
-                    (wifiManager.ConnectionInfo.NetworkId != -1
-                    // Check for SSID having default value of "<unknown SSID>"
-                    && wifiManager.ConnectionInfo.SSID != "<unknown ssid>");
-            }
-
-            return false;
-        }
-
         /**
          *  This function redirects to a new activity in which the user is able to restore his password 
          *  NOTE: Password recovery is not implemented in this version so the activity has no logic and only the frontend is setup!

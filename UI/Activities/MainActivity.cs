@@ -113,7 +113,7 @@ namespace FreediverApp
             }
             else if (id == Resource.Id.nav_connected_devices)
             {
-                BluetoothDevicesFragment bluetoothDevicesFragment = new BluetoothDevicesFragment();
+                ConnectiveDevicesFragment bluetoothDevicesFragment = new ConnectiveDevicesFragment();
                 menuTransaction.Replace(Resource.Id.framelayout, bluetoothDevicesFragment).AddToBackStack(null).Commit();
             }
             else if (id == Resource.Id.nav_profile)

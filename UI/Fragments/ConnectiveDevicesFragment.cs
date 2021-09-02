@@ -25,19 +25,14 @@ using Android.Bluetooth;
 
 //WIFI-TESTING
 using Android.Net.Wifi;
-using Android.App;
 using FreediverApp.WifiCommunication;
-using System.Net;
-using System.IO;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net.Sockets;
 using Android.Content;
+using static Android.Gms.Common.Apis.GoogleApi;
 
 namespace FreediverApp
 {
     [Obsolete]
-    public class BluetoothDevicesFragment : Fragment
+    public class ConnectiveDevicesFragment : Fragment
     {
         /*Member Variables including UI components from XML and all needed BLE components*/
         private ListView listViewBluetoothDevices;
@@ -53,11 +48,14 @@ namespace FreediverApp
         private List<DiveSession> diveSessionsFromDatabase;
         private ProgressDialog dataTransferDialog;
         private WifiConnector wifiConnector;
+        private FtpConnector ftpConnector;
         private string ssid = "yournetworkname";
         private string pass = "yourcode";
         private bool suggestNetwork;
         private bool requestNetwork;
         private bool alreadyConnected = false;
+
+        System.Timers.Timer scanProcessTimer;
 
         public class WifiEventArgs : EventArgs
         {
@@ -85,6 +83,9 @@ namespace FreediverApp
             suggestNetwork = false;
             requestNetwork = false;
 
+            //setup ftp connector
+            ftpConnector = new FtpConnector(Context);
+            
             //setup the bluetooth low energy component
             ble = CrossBluetoothLE.Current;
 
@@ -103,6 +104,7 @@ namespace FreediverApp
 
             //init ui components
             listViewBluetoothDevices = view.FindViewById<ListView>(Resource.Id.listview_bluetooth_devices);
+            listViewBluetoothDevices.Visibility = ViewStates.Gone;
             listViewWifiDevices = view.FindViewById<ListView>(Resource.Id.listview_wifi_devices);
             btnScan = view.FindViewById<Button>(Resource.Id.bt_scan_btn);
 
@@ -122,6 +124,11 @@ namespace FreediverApp
             retrieveDiveSessions();
 
             checkWifiPermission();
+
+            if (!wifiConnector.IsWifiEnabled()) 
+            {
+                runWifiActivationDialog();
+            }
 
             //different error handlings for errors that can occur while initializing ble
             if (ble == null)
@@ -168,7 +175,7 @@ namespace FreediverApp
         private void ListViewWifiDevices_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             var device = wifiDeviceList[e.Position];
-            //runBluetoothConnectionDialog(device);
+            runWifiConnectionDialog(device);
         }
 
         /**
@@ -178,7 +185,7 @@ namespace FreediverApp
          **/
         private void scanButtonOnClick(object sender, EventArgs eventArgs)
         {
-            bluetoothScan();
+            //bluetoothScan();
             wifiScan();
         }
 
@@ -206,11 +213,20 @@ namespace FreediverApp
 
         private void wifiScan() 
         {
-            scanIndicator.Visibility = ViewStates.Visible;
-            wifiConnector.scan();
-            Thread.Sleep(4000);
-            scanIndicator.Visibility = ViewStates.Gone;
-            refreshGui();
+            if (wifiConnector.IsWifiEnabled())
+            {
+                scanIndicator.Visibility = ViewStates.Visible;
+                scanProcessTimer = new System.Timers.Timer(4000);
+                scanProcessTimer.Start();
+                wifiConnector.scan();
+                //Thread.Sleep(4000);   
+                refreshGui();
+                //scanIndicator.Visibility = ViewStates.Gone;
+            }
+            else 
+            {
+                runWifiActivationDialog();
+            }
         }
 
         /**
@@ -287,6 +303,7 @@ namespace FreediverApp
         {
             listViewBluetoothDevices.Adapter = new BluetoothListViewAdapter(bleDeviceList);
 
+            wifiDeviceList.Clear();
             wifiDeviceList = WifiConnector.wifiNetworks;
             listViewWifiDevices.Adapter = new WifiListViewAdapter(wifiDeviceList);
         }
@@ -294,14 +311,15 @@ namespace FreediverApp
         private void runWifiActivationDialog()
         {
             //setup UI for the activation dialog
-            SupportV7.AlertDialog.Builder bluetoothActivationDialog = new SupportV7.AlertDialog.Builder(Context);
-            bluetoothActivationDialog.SetTitle("Wifi not activated");
-            bluetoothActivationDialog.SetMessage("Do you want to activate WiFi on your device?");
+            SupportV7.AlertDialog.Builder wifiActivationDialog = new SupportV7.AlertDialog.Builder(Context);
+            wifiActivationDialog.SetTitle("Wifi not activated");
+            wifiActivationDialog.SetMessage("Do you want to activate WiFi on your device?");
 
-            bluetoothActivationDialog.SetPositiveButton(Resource.String.dialog_accept, (senderAlert, args) =>
+            wifiActivationDialog.SetPositiveButton(Resource.String.dialog_accept, (senderAlert, args) =>
             {
-                //lambda expression that handles the case that the user accepted to activate bluetooth.
-                btReceiver.m_adapter.Enable();
+                //lambda expression that handles the case that the user accepted to activate wifi.
+                //wifiConnector.SetWifiEnabled(true);
+                StartActivity(new Intent(Android.Provider.Settings.ActionWifiSettings));
 
                 //We let the main thread sleep for 2,5 sec since we encountered that on some phones it takes a bit to activate bluetooth 
                 //and to prevent that activation is not working even if it would work, we wait some seconds to ensure that activation was successfull 
@@ -313,22 +331,22 @@ namespace FreediverApp
                 refreshBleAdapter();
 
                 //print a toast message whether or not the bt adapter was sucessfully activated
-                if (btReceiver.m_adapter.IsEnabled)
+                if (wifiConnector.IsWifiEnabled())
                 {
-                    Toast.MakeText(Context, Resource.String.bluetooth_activated, ToastLength.Long).Show();
+                    Toast.MakeText(Context, "Wifi activated!", ToastLength.Long).Show();
                 }
                 else
                 {
-                    Toast.MakeText(Context, Resource.String.bluetooth_activation_failed, ToastLength.Long).Show();
+                    Toast.MakeText(Context, "Failed to activate Wifi!", ToastLength.Long).Show();
                 }
             });
-            bluetoothActivationDialog.SetNegativeButton(Resource.String.dialog_cancel, (senderAlert, args) =>
+            wifiActivationDialog.SetNegativeButton(Resource.String.dialog_cancel, (senderAlert, args) =>
             {
                 //close dialog on cancel
-                bluetoothActivationDialog.Dispose();
+                wifiActivationDialog.Dispose();
             });
 
-            bluetoothActivationDialog.Show();
+            wifiActivationDialog.Show();
         }
 
         /**
@@ -373,6 +391,48 @@ namespace FreediverApp
             });
 
             bluetoothActivationDialog.Show();
+        }
+
+        private void runWifiConnectionDialog(ScanResult clickedDevice)
+        {
+            //build the dialog
+            LayoutInflater layoutInflater = LayoutInflater.From(Context);
+            View dialogView = layoutInflater.Inflate(Resource.Layout.BluetoothConnectionDialog, null);
+            SupportV7.AlertDialog.Builder dialogBuilder = new SupportV7.AlertDialog.Builder(this.Context);
+            dialogBuilder.SetView(dialogView);
+            dialogBuilder.SetTitle(Resource.String.dialog_connect_to_device);
+            dialogBuilder.SetIcon(Resources.GetDrawable(Resource.Drawable.icon_wifi));
+
+            //init dialog textviews 
+            var textViewDeviceName = dialogView.FindViewById<TextView>(Resource.Id.textview_device_name);
+            var textViewMacAddress = dialogView.FindViewById<TextView>(Resource.Id.textview_mac_address);
+            var textViewConState = dialogView.FindViewById<TextView>(Resource.Id.textview_con_state);
+
+            //set textview values
+            textViewDeviceName.Text = clickedDevice.Ssid;
+            textViewMacAddress.Text = "MAC: " + clickedDevice.Bssid;
+            textViewConState.Text = /*clickedDevice. == DeviceState.Connected ? "Connected" : */"Disconnected";
+
+            dialogBuilder.SetCancelable(false)
+                .SetPositiveButton(Resource.String.dialog_connect, async delegate
+                {
+                    try
+                    {
+                        //DO FTP STUFF HERE
+                    }
+                    catch (Exception ex) 
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                    dialogBuilder.Dispose();
+                })
+                .SetNegativeButton(Resource.String.dialog_cancel, delegate
+                {
+                    dialogBuilder.Dispose();
+                });
+
+            SupportV7.AlertDialog dialog = dialogBuilder.Create();
+            dialog.Show();
         }
 
         /**

@@ -11,7 +11,7 @@
               android:title="@string/dive_sessions" />
           <item
               android:id="@+id/nav_connected_devices"
-              android:icon="@drawable/icon_connected_devices"
+              android:icon="@drawable/icon_wifi"
               android:title="@string/connected_devices" />
           <item
               android:id="@+id/nav_profile"
