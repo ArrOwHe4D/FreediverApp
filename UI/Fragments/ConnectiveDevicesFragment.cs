@@ -429,12 +429,14 @@ namespace FreediverApp
                             dataTransferDialog.SetCancelable(false);
                             dataTransferDialog.Show();
 
+                            //Attempt to sync data and start parsing it afterwards
                             Toast.MakeText(Context, "Connected to DiveComputer: " + clickedDevice.Ssid, ToastLength.Long).Show();
                             Console.WriteLine("Starting to sync log directory...");
                             await connector.downloadDirectory(Xamarin.Essentials.FileSystem.AppDataDirectory, "/logFiles/");
-                            FreediverApp.Utils.FileParser fp = new Utils.FileParser();
+                            Utils.FileParser fp = new Utils.FileParser();
                             fp.parseDirectory(Xamarin.Essentials.FileSystem.AppDataDirectory);
 
+                            //Close data transfer dialog
                             dataTransferDialog.Dismiss();
                         }
                         else 
