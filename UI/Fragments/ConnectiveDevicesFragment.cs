@@ -425,9 +425,9 @@ namespace FreediverApp
                         {
                             Toast.MakeText(Context, "Connected to DiveComputer: " + clickedDevice.Ssid, ToastLength.Long).Show();
                             Console.WriteLine("Starting to sync log directory...");
-                            await connector.downloadDirectory(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "/logFiles/");
+                            await connector.downloadDirectory(Xamarin.Essentials.FileSystem.AppDataDirectory, "/logFiles/");
                             FreediverApp.Utils.FileParser fp = new Utils.FileParser();
-                            fp.parseDirectory(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal));
+                            fp.parseDirectory(Xamarin.Essentials.FileSystem.AppDataDirectory);
                         }
                         else 
                         {
