@@ -161,6 +161,11 @@ namespace FreediverApp
             bleAdapter.ScanTimeoutElapsed += stopScan;
         }
 
+        private void refreshWifiAdapter() 
+        {
+            
+        }
+
         /**
          *  When a device inside the bluetooth listview was clicked, run the connection dialog
          *  that displays the device information and initiates the data transmission between the dive
@@ -216,12 +221,11 @@ namespace FreediverApp
             if (wifiConnector.IsWifiEnabled())
             {
                 scanIndicator.Visibility = ViewStates.Visible;
-                scanProcessTimer = new System.Timers.Timer(4000);
-                scanProcessTimer.Start();
                 wifiConnector.scan();
-                //Thread.Sleep(4000);   
-                refreshGui();
-                //scanIndicator.Visibility = ViewStates.Gone;
+                //refreshGui();
+                //wifiDeviceList.Clear();
+                wifiDeviceList = WifiConnector.wifiNetworks;
+                listViewWifiDevices.Adapter = new WifiListViewAdapter(wifiDeviceList);
             }
             else 
             {
@@ -302,10 +306,6 @@ namespace FreediverApp
         private void refreshGui()
         {
             listViewBluetoothDevices.Adapter = new BluetoothListViewAdapter(bleDeviceList);
-
-            wifiDeviceList.Clear();
-            wifiDeviceList = WifiConnector.wifiNetworks;
-            listViewWifiDevices.Adapter = new WifiListViewAdapter(wifiDeviceList);
         }
 
         private void runWifiActivationDialog()
@@ -419,6 +419,20 @@ namespace FreediverApp
                     try
                     {
                         //DO FTP STUFF HERE
+                        FtpConnector connector = new FtpConnector(Context, "192.168.4.1", "user", "pass");
+
+                        if (connector.isConnected())
+                        {
+                            Toast.MakeText(Context, "Connected to DiveComputer: " + clickedDevice.Ssid, ToastLength.Long).Show();
+                            Console.WriteLine("Starting to sync log directory...");
+                            await connector.downloadDirectory(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "/logFiles/");
+                            FreediverApp.Utils.FileParser fp = new Utils.FileParser();
+                            fp.parseDirectory(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal));
+                        }
+                        else 
+                        {
+                            Toast.MakeText(Context, "Connection failed, aborting transmission..." + clickedDevice.Ssid, ToastLength.Long).Show();
+                        }
                     }
                     catch (Exception ex) 
                     {

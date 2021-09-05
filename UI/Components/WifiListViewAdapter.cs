@@ -13,11 +13,12 @@ namespace FreediverApp
      **/
     public class WifiListViewAdapter : BaseAdapter<ScanResult>
     {
-        IList<ScanResult> wifiDevices;
+        public ObservableCollection<ScanResult> wifiDevices;
 
         public WifiListViewAdapter(IList<ScanResult> wifiDevices)
         {
-            this.wifiDevices = wifiDevices;
+            this.wifiDevices = new ObservableCollection<ScanResult>();
+            update(wifiDevices);
         }
 
         public override ScanResult this[int position]
@@ -25,6 +26,15 @@ namespace FreediverApp
             get
             {
                 return wifiDevices[position];
+            }
+        }
+
+        public void update(IList<ScanResult> updatedList) 
+        {
+            this.wifiDevices.Clear();
+            foreach (ScanResult item in updatedList) 
+            {
+                this.wifiDevices.Add(item);
             }
         }
 
