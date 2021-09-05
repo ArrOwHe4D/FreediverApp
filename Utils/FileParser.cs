@@ -1,14 +1,5 @@
-﻿using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FreediverApp.Utils
@@ -32,7 +23,6 @@ namespace FreediverApp.Utils
                 return false;
             }
 
-            var count = 0;
             using (var reader = new StreamReader(absoluteFilePath, true))
             {
                 string line;
