@@ -6,8 +6,10 @@ using Android.Views;
 using Android.Widget;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FreediverApp.Utils
 {
@@ -20,9 +22,27 @@ namespace FreediverApp.Utils
 
         }
 
-        public bool parseFile(string filePath) 
+        public async Task<bool> parseFile(string filePath, string fileName) 
         {
-            return false;
+            var absoluteFilePath = Path.Combine(filePath, fileName);
+
+            if (absoluteFilePath == null || !File.Exists(absoluteFilePath))
+            {
+                Console.WriteLine("Error reading file: " + absoluteFilePath);
+                return false;
+            }
+
+            var count = 0;
+            using (var reader = new StreamReader(absoluteFilePath, true))
+            {
+                string line;
+                while ((line = await reader.ReadLineAsync()) != null)
+                {
+                    //PARSING LOGIC FOR EACH LINE
+                }
+            }
+
+            return true;
         }
 
         public bool parseDirectory(string directoryPath) 
