@@ -80,7 +80,7 @@ namespace FreediverApp
                 holder.Name.Text = wifiDevices[position].Ssid;
             }
             holder.Frequency.Text = "MAC: " + wifiDevices[position].Bssid.ToString();//wifiDevices[position].CenterFreq0.ToString();
-            holder.Capabilities.Text = "CAPS"; 
+            holder.Capabilities.Text = wifiDevices[position].Frequency.ToString() + " MHz";
 
             return view;
         }

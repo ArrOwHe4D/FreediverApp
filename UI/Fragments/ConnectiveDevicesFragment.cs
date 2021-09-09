@@ -39,7 +39,7 @@ namespace FreediverApp
         private ListView listViewWifiDevices;
         private BluetoothDeviceReceiver btReceiver;
         private Button btnScan;
-        private ProgressBar scanIndicator;
+        private static ProgressBar scanIndicator;
         private IBluetoothLE ble;
         private IAdapter bleAdapter;
         private ObservableCollection<IDevice> bleDeviceList;
@@ -54,8 +54,7 @@ namespace FreediverApp
         private bool suggestNetwork;
         private bool requestNetwork;
         private bool alreadyConnected = false;
-
-        System.Timers.Timer scanProcessTimer;
+        private Thread scanIntervalThread;
 
         public class WifiEventArgs : EventArgs
         {
@@ -220,7 +219,7 @@ namespace FreediverApp
         {
             if (wifiConnector.IsWifiEnabled())
             {
-                scanIndicator.Visibility = ViewStates.Visible;
+                runScanIntervalThread();
                 wifiConnector.scan();
                 //refreshGui();
                 //wifiDeviceList.Clear();
@@ -231,6 +230,21 @@ namespace FreediverApp
             {
                 runWifiActivationDialog();
             }
+        }
+
+        private void runScanIntervalThread() 
+        {
+            scanIntervalThread = new Thread(new ThreadStart(this.scanIntervalTask));
+            scanIntervalThread.IsBackground = true;
+            scanIntervalThread.Start();
+        }
+
+        private void scanIntervalTask() 
+        {
+            this.Activity.RunOnUiThread(() => { scanIndicator.Visibility = ViewStates.Visible; }); 
+            Thread.Sleep(3000);
+            this.Activity.RunOnUiThread(() => { scanIndicator.Visibility = ViewStates.Gone; });
+            scanIntervalThread.Abort();
         }
 
         /**
@@ -433,15 +447,16 @@ namespace FreediverApp
                             Toast.MakeText(Context, "Connected to DiveComputer: " + clickedDevice.Ssid, ToastLength.Long).Show();
                             Console.WriteLine("Starting to sync log directory...");
                             await connector.downloadDirectory(Xamarin.Essentials.FileSystem.AppDataDirectory, "/logFiles/");
-                            Utils.FileParser fp = new Utils.FileParser();
-                            fp.parseDirectory(Xamarin.Essentials.FileSystem.AppDataDirectory);
+
+                            Utils.FileParser fileParser = new Utils.FileParser();
+                            fileParser.parseDirectory(Xamarin.Essentials.FileSystem.AppDataDirectory);
 
                             //Close data transfer dialog
                             dataTransferDialog.Dismiss();
                         }
                         else 
                         {
-                            Toast.MakeText(Context, "Connection failed, aborting transmission..." + clickedDevice.Ssid, ToastLength.Long).Show();
+                            Toast.MakeText(Context, "Connection to " + clickedDevice.Ssid + " failed, aborting transmission...", ToastLength.Long).Show();
                         }
                     }
                     catch (Exception ex) 

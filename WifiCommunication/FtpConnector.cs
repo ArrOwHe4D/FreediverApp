@@ -31,7 +31,7 @@ namespace FreediverApp.WifiCommunication
             this.username = username;
             this.password = password;
             client = new FtpClient(address_v4, username, password);
-            client.ConnectAsync();
+            serverProfile = client.AutoConnect();
         }
 
         public async Task<List<FtpResult>> downloadDirectory(string localDirectory, string remoteDirectory) 
