@@ -35,7 +35,7 @@ namespace FreediverApp
     public class ConnectiveDevicesFragment : Fragment
     {
         /*Member Variables including UI components from XML and all needed BLE components*/
-        private ListView listViewBluetoothDevices;
+        //private ListView listViewBluetoothDevices;
         private ListView listViewWifiDevices;
         private BluetoothDeviceReceiver btReceiver;
         private Button btnScan;
@@ -71,7 +71,7 @@ namespace FreediverApp
          **/
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            var view = inflater.Inflate(Resource.Layout.BluetoothDevicesPage, container, false);
+            var view = inflater.Inflate(Resource.Layout.ConnectiveDevicesPage, container, false);
 
             //setup default bluetooth adapter
             btReceiver = new BluetoothDeviceReceiver();
@@ -102,8 +102,8 @@ namespace FreediverApp
             wifiDeviceList = new List<ScanResult>();
 
             //init ui components
-            listViewBluetoothDevices = view.FindViewById<ListView>(Resource.Id.listview_bluetooth_devices);
-            listViewBluetoothDevices.Visibility = ViewStates.Gone;
+            //listViewBluetoothDevices = view.FindViewById<ListView>(Resource.Id.listview_bluetooth_devices);
+            //listViewBluetoothDevices.Visibility = ViewStates.Gone;
             listViewWifiDevices = view.FindViewById<ListView>(Resource.Id.listview_wifi_devices);
             btnScan = view.FindViewById<Button>(Resource.Id.bt_scan_btn);
 
@@ -112,7 +112,7 @@ namespace FreediverApp
 
             //setup onclick listeners for scan button and listview items
             btnScan.Click += scanButtonOnClick;
-            listViewBluetoothDevices.ItemClick += ListViewBluetoothDevices_ItemClick;
+            //listViewBluetoothDevices.ItemClick += ListViewBluetoothDevices_ItemClick;
             listViewWifiDevices.ItemClick += ListViewWifiDevices_ItemClick;
 
             //setup the db listener to be able to query data from firebase
@@ -221,10 +221,7 @@ namespace FreediverApp
             {
                 runScanIntervalThread();
                 wifiConnector.scan();
-                //refreshGui();
-                //wifiDeviceList.Clear();
-                wifiDeviceList = WifiConnector.wifiNetworks;
-                listViewWifiDevices.Adapter = new WifiListViewAdapter(wifiDeviceList);
+                refreshGui();
             }
             else 
             {
@@ -319,7 +316,10 @@ namespace FreediverApp
          **/
         private void refreshGui()
         {
-            listViewBluetoothDevices.Adapter = new BluetoothListViewAdapter(bleDeviceList);
+            //listViewBluetoothDevices.Adapter = new BluetoothListViewAdapter(bleDeviceList);
+            wifiDeviceList.Clear();
+            wifiDeviceList = WifiConnector.wifiNetworks;
+            listViewWifiDevices.Adapter = new WifiListViewAdapter(wifiDeviceList);
         }
 
         private void runWifiActivationDialog()

@@ -205,7 +205,7 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\BluetoothDevicesPage.xml">
+    <AndroidResource Include="Resources\layout\ConnectiveDevicesPage.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\AccountPanelPage.xml">
