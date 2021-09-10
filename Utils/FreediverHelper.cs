@@ -36,5 +36,10 @@ namespace FreediverApp.Utils
                 return false;
             }
         }
+
+        public static bool darkModeActive(Android.Content.Context context)
+        {
+            return context.Resources.Configuration.UiMode == (Android.Content.Res.UiMode.NightYes | Android.Content.Res.UiMode.TypeNormal);
+        }
     }
 }

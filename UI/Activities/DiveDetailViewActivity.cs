@@ -3,6 +3,7 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Widget;
 using FreediverApp.DatabaseConnector;
+using FreediverApp.Utils;
 using Microcharts;
 using Microcharts.Droid;
 using SkiaSharp;
@@ -91,14 +92,16 @@ namespace FreediverApp
         {
             TemporaryData.CURRENT_DIVE.measurepoints = e.Measurepoints;
             measurepointList = e.Measurepoints;
-            generateChart();
+            SKColor valueLabelColor = FreediverHelper.darkModeActive(this) ? SKColor.Parse("#8d9094") : SKColor.Parse("#000000");
+            SKColor backgroundColor = FreediverHelper.darkModeActive(this) ? SKColor.Parse("#1d1e1f") : SKColor.Parse("#ffffff");
+            generateChart(valueLabelColor, backgroundColor);
         }
 
         /**
          *  This function generates the chart based on the measurepoint data that was retrieved from the db listener. 
          *  The duration in seconds is displayed on the X-axis and the depth on the Y-axis.
          **/
-        private void generateChart()
+        private void generateChart(SKColor valueLabelColor, SKColor backgroundColor)
         {
             List<ChartEntry> dataList = new List<ChartEntry>();
 
@@ -129,12 +132,20 @@ namespace FreediverApp
                 {
                     Label = ts.ToString(@"mm\:ss"),
                     ValueLabel = measurepointList[i].depth.Split(",")[0] + " m",
+                    ValueLabelColor = valueLabelColor,
                     Color = color
                 });
             }
 
             //create a new chart with the data entries and a custom display configuration
-            var chart = new LineChart { Entries = dataList, LabelTextSize = 20f, LabelOrientation = Microcharts.Orientation.Horizontal, ValueLabelOrientation = Microcharts.Orientation.Horizontal };
+            var chart = new LineChart 
+            { 
+                Entries = dataList, 
+                LabelTextSize = 20f, 
+                LabelOrientation = Microcharts.Orientation.Horizontal, 
+                ValueLabelOrientation = Microcharts.Orientation.Horizontal,
+                BackgroundColor = backgroundColor
+            };
             chartView.Chart = chart;
         }
     }

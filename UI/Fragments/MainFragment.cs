@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using Microcharts;
 using SkiaSharp;
 using Microcharts.Droid;
+using FreediverApp.Utils;
+using FreediverApp.UI.Components;
 
 namespace FreediverApp.FragmentActivities
 {
@@ -87,7 +89,9 @@ namespace FreediverApp.FragmentActivities
             {
                 updateDiveSessionStatistics();
 
-                generateChart();
+                SKColor valueLabelColor = FreediverHelper.darkModeActive(Context) ? SKColor.Parse("#8d9094") : SKColor.Parse("#000000");
+                SKColor backgroundColor = FreediverHelper.darkModeActive(Context) ? SKColor.Parse("#1d1e1f") : SKColor.Parse("#ffffff");
+                generateChart(valueLabelColor, backgroundColor);
 
                 //textViewTotalDiveSessionCount.Text = "Anzahl bisheriger Tauchsessions: " + diveSessionList.Count;
                 //textViewTotalWaterTime.Text        = "Gesamte Tauchzeit: " + totalWaterTime + " sec";
@@ -130,17 +134,18 @@ namespace FreediverApp.FragmentActivities
             }
         }
 
-        private void generateChart()
+        private void generateChart(SKColor valueLabelColor, SKColor backgroundColor) 
         {
             if (sessionDataAcquired()) 
             {
                 List<ChartEntry> dataList = new List<ChartEntry>();
 
-                //Add a new chartEntry to the dataList containing the depth value of the current measurepoint
+                //Add a new chartEntry to the dataList containing statistic values 
                 dataList.Add(new ChartEntry(diveSessionList.Count)
                 {
                     Label = "Anzahl Sessions",
                     ValueLabel = diveSessionList.Count.ToString(),
+                    ValueLabelColor = valueLabelColor,
                     Color = SKColor.Parse("#03f8fc") //aqua blue
                 });
 
@@ -148,6 +153,7 @@ namespace FreediverApp.FragmentActivities
                 {
                     Label = "Zeit unter Wasser",
                     ValueLabel = totalWaterTime.ToString() + " sec",
+                    ValueLabelColor = valueLabelColor,
                     Color = SKColor.Parse("#032cfc") //blue
                 });
 
@@ -155,6 +161,7 @@ namespace FreediverApp.FragmentActivities
                 {
                     Label = "Längste Session",
                     ValueLabel = longestSessionWaterTime.ToString() + " sec",
+                    ValueLabelColor = valueLabelColor,
                     Color = SKColor.Parse("#03fc5e") //mint green
                 });
 
@@ -162,6 +169,7 @@ namespace FreediverApp.FragmentActivities
                 {
                     Label = "Max Temp",
                     ValueLabel = warmestWaterTemperature.ToString() + " °C",
+                    ValueLabelColor = valueLabelColor,
                     Color = SKColor.Parse("#fc6f03") //sunny orange
                 });
 
@@ -169,11 +177,20 @@ namespace FreediverApp.FragmentActivities
                 {
                     Label = "Min Temp",
                     ValueLabel = coldestWaterTemperature.ToString() + " °C",
+                    ValueLabelColor = valueLabelColor,
                     Color = SKColor.Parse("#69c8ff") //ice blue
                 });
 
                 //create a new chart with the data entries and a custom display configuration
-                var chart = new BarChart { Entries = dataList, LabelTextSize = 20f, LabelOrientation = Microcharts.Orientation.Horizontal, ValueLabelOrientation = Microcharts.Orientation.Horizontal };
+                var chart = new BarChart 
+                { 
+                    Entries = dataList, 
+                    LabelTextSize = 20f, 
+                    LabelOrientation = 
+                    Microcharts.Orientation.Horizontal, 
+                    ValueLabelOrientation = Microcharts.Orientation.Horizontal, 
+                    BackgroundColor = backgroundColor
+                };
                 chartView.Chart = chart;
             }
         }

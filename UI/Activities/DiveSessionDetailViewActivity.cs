@@ -6,6 +6,7 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Widget;
 using FreediverApp.DatabaseConnector;
+using FreediverApp.Utils;
 using Microcharts;
 using Microcharts.Droid;
 using SkiaSharp;
@@ -79,7 +80,9 @@ namespace FreediverApp
         private void DiveDataListener_DataRetrieved(object sender, FirebaseDataListener.DataEventArgs e)
         {            
             TemporaryData.CURRENT_DIVESESSION.dives = e.Dives;
-            generateChart();
+            SKColor valueLabelColor = FreediverHelper.darkModeActive(this) ? SKColor.Parse("#8d9094") : SKColor.Parse("#000000");
+            SKColor backgroundColor = FreediverHelper.darkModeActive(this) ? SKColor.Parse("#1d1e1f") : SKColor.Parse("#ffffff");
+            generateChart(valueLabelColor, backgroundColor);
         }
 
         /**
@@ -97,7 +100,7 @@ namespace FreediverApp
          *  of the current selected divesession. It displays the timestamp where the dive was started on the 
          *  bottom and the max depth of the dive on the top.
          **/
-        private void generateChart()
+        private void generateChart(SKColor valueLabelColor, SKColor backgroundColor)
         {
             List<ChartEntry> dataList = new List<ChartEntry>();
             if (TemporaryData.CURRENT_DIVESESSION.dives != null)
@@ -111,13 +114,21 @@ namespace FreediverApp
                     {
                         Label = dive.timestampBegin,
                         ValueLabel = dive.maxDepth.Split(",")[0] + " m",
+                        ValueLabelColor = valueLabelColor,
                         Color = color
                     });
                 }
             } 
 
             //create a new chart with the data entries and a custom display configuration
-            var chart = new BarChart { Entries = dataList, LabelTextSize = 20f, LabelOrientation = Microcharts.Orientation.Horizontal, ValueLabelOrientation = Microcharts.Orientation.Horizontal };
+            var chart = new BarChart 
+            { 
+                Entries = dataList, 
+                LabelTextSize = 20f, 
+                LabelOrientation = Microcharts.Orientation.Horizontal, 
+                ValueLabelOrientation = Microcharts.Orientation.Horizontal,
+                BackgroundColor = backgroundColor
+            };
             chartView.Chart = chart;
         }
     }

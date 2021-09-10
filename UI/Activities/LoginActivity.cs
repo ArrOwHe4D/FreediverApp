@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
-using Android.Net;
-using Android.Net.Wifi;
 using Android.OS;
 using Android.Widget;
 using FreediverApp.DatabaseConnector;
-using FreediverApp.WifiCommunication;
 using Xamarin.Essentials;
 
 namespace FreediverApp
@@ -63,11 +60,8 @@ namespace FreediverApp
          *  This function represents the whole login process up to the point where the user is successfully logged in and
          *  redirected to our main menu (MainActivity).
          **/
-        private async void login(object sender, EventArgs eventArgs)
+        private void login(object sender, EventArgs eventArgs)
         {
-            WifiConnector wifiConnector = new WifiConnector(this);
-            wifiConnector.requestNetwork();
-
             var connectionState = Connectivity.NetworkAccess;
 
             //check if the phone is connected to the internet, otherwise print a error message.
@@ -76,20 +70,12 @@ namespace FreediverApp
                 //setup the db listener and wait for results to be fetched by the eventlistener
                 //while the results are being fetched, show a loading dialog to notify the user that data is being retrieved right now
                 retrieveUserData();
-                loginDialog = new ProgressDialog(this);
-                loginDialog.SetMessage(ApplicationContext.Resources.GetString(Resource.String.dialog_logging_in));
-                loginDialog.SetCancelable(false);
-                loginDialog.Show();
+                runLoginDialog();
             }
             else
             {
                 Toast.MakeText(this, "Your Phone is not connected to the internet, please establish a connection first!", ToastLength.Long).Show();
             }
-
-            //FTP-STUFF
-            //ftpConnector.downloadFile("192.168.4.1", "diver", "diverpass", "divelog25.txt");
-            //await ftpConnector.downloadFile_v2("ftp://192.168.4.1", "diver", "diverpass", "divelog25.txt");
-            //Console.WriteLine(" this should be your data");
         }
 
         /**
@@ -109,9 +95,6 @@ namespace FreediverApp
         {
             var registerActivity = new Intent(this, typeof(RegisterActivity));
             StartActivity(registerActivity);
-
-            //FtpConnector ftpConnector = new FtpConnector(this);
-            //ftpConnector.downloadFile_v3();
         }
 
         /**
@@ -164,6 +147,14 @@ namespace FreediverApp
                 loginDialog.Dismiss();
                 Toast.MakeText(this, Resource.String.wrong_username_or_pass, ToastLength.Long).Show();
             }
+        }
+
+        private void runLoginDialog() 
+        {
+            loginDialog = new ProgressDialog(this);
+            loginDialog.SetMessage(ApplicationContext.Resources.GetString(Resource.String.dialog_logging_in));
+            loginDialog.SetCancelable(false);
+            loginDialog.Show();
         }
     }
 }
