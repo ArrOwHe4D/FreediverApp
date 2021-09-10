@@ -5,6 +5,9 @@ using Android.Widget;
 using System;
 using FreediverApp.DatabaseConnector;
 using System.Collections.Generic;
+using Microcharts;
+using SkiaSharp;
+using Microcharts.Droid;
 
 namespace FreediverApp.FragmentActivities
 {
@@ -16,12 +19,20 @@ namespace FreediverApp.FragmentActivities
     public class MainFragment : Fragment
     {
         private TextView textViewWelcomeMessage;
-        private TextView textViewDeepestDive;
-        private TextView textViewLongestDive;
-        private List<DiveSession> diveSessionList;
+        private TextView textViewTotalDiveSessionCount;
+        private TextView textViewTotalWaterTime;
+        private TextView textViewLongestDiveSession;
+        private TextView textViewWarmestDiveSession;
+        private TextView textViewColdestDiveSession;
+        private ChartView chartView;
 
+        private List<DiveSession> diveSessionList;
         private FirebaseDataListener diveSessionDataListener;
 
+        private int longestSessionWaterTime;
+        private int totalWaterTime;
+        private float coldestWaterTemperature;
+        private float warmestWaterTemperature;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -36,16 +47,23 @@ namespace FreediverApp.FragmentActivities
         {
             var view = inflater.Inflate(Resource.Layout.LandingPage, container, false);
 
-            textViewWelcomeMessage = view.FindViewById<TextView>(Resource.Id.titleWelcome);
+            textViewWelcomeMessage = view.FindViewById<TextView>(Resource.Id.textview_welcome);
             textViewWelcomeMessage.Text = Context.GetString(Resource.String.welcome) + " " + TemporaryData.CURRENT_USER.username + " !";
 
-            textViewDeepestDive = view.FindViewById<TextView>(Resource.Id.textview_deepest_dive);
-            textViewLongestDive = view.FindViewById<TextView>(Resource.Id.textview_longest_dive);
+            chartView = view.FindViewById<ChartView>(Resource.Id.chartview_divesession_statistic);
 
-            textViewDeepestDive.Text += " 94 m";
-            textViewLongestDive.Text += " 9 sec";
+            //textViewTotalDiveSessionCount = view.FindViewById<TextView>(Resource.Id.textview_total_divesession_count);
+            //textViewTotalWaterTime = view.FindViewById<TextView>(Resource.Id.textview_total_watertime);
+            //textViewLongestDiveSession = view.FindViewById<TextView>(Resource.Id.textview_longest_divesession);
+            //textViewWarmestDiveSession = view.FindViewById<TextView>(Resource.Id.textview_warmest_divesession);
+            //textViewColdestDiveSession = view.FindViewById<TextView>(Resource.Id.textview_coldest_divesession);
 
-            //RetrieveDiveSessionData();
+            longestSessionWaterTime = 0;
+            totalWaterTime = 0;
+            coldestWaterTemperature = 1000.0f;
+            warmestWaterTemperature = 0.0f;
+
+            RetrieveDiveSessionData();
 
             return view;
         }
@@ -53,7 +71,7 @@ namespace FreediverApp.FragmentActivities
         private void RetrieveDiveSessionData()
         {
             diveSessionDataListener = new FirebaseDataListener();
-            diveSessionDataListener.QueryParameterized("dives", "ref_user", TemporaryData.CURRENT_USER.id);
+            diveSessionDataListener.QueryParameterized("divesessions", "ref_user", TemporaryData.CURRENT_USER.id);
             diveSessionDataListener.DataRetrieved += DiveSessionDataListener_DataRetrieved;
         }
 
@@ -65,68 +83,99 @@ namespace FreediverApp.FragmentActivities
 
         private void fillStatisticsView() 
         {
-            if (diveSessionList != null) 
+            if (sessionDataAcquired()) 
             {
-                Dive deepestDive = getDeepestDive();
-                Dive longestDive = getLongestDive();
+                updateDiveSessionStatistics();
 
-                textViewDeepestDive.Text += deepestDive.maxDepth + " m";
-                textViewLongestDive.Text += longestDive.GetTotalTime() + " sec";
+                generateChart();
+
+                //textViewTotalDiveSessionCount.Text = "Anzahl bisheriger Tauchsessions: " + diveSessionList.Count;
+                //textViewTotalWaterTime.Text        = "Gesamte Tauchzeit: " + totalWaterTime + " sec";
+                //textViewLongestDiveSession.Text    = "Längste Tauchsession: " + longestSessionWaterTime + " sec";
+                //textViewWarmestDiveSession.Text    = "Höchste Wassertemperatur: " + warmestWaterTemperature + " °C";
+                //textViewColdestDiveSession.Text    = "Niedrigste Wassertemperatur: " + coldestWaterTemperature + " °C";
             }
         }
 
-        Dive getDeepestDive() 
+        private bool sessionDataAcquired() 
         {
-            int maxDepth = 0;
-            foreach (DiveSession session in diveSessionList) 
-            {
-                foreach (Dive dive in session.dives) 
-                {
-                    int currentDiveMaxDepth = int.Parse(dive.maxDepth);
-
-                    if (maxDepth < currentDiveMaxDepth) 
-                    {
-                        maxDepth = currentDiveMaxDepth;
-                    }
-                }
-
-                foreach (Dive dive in session.dives)
-                {
-                    if (int.Parse(dive.maxDepth) == maxDepth)
-                    {
-                        return dive;
-                    }
-                }
-            }
-
-            return null;
+            return diveSessionList != null;
         }
 
-        Dive getLongestDive() 
+        private void updateDiveSessionStatistics() 
         {
-            int maxDuration = 0;
             foreach (DiveSession session in diveSessionList)
             {
-                foreach (Dive dive in session.dives)
-                {
-                    int currentDiveMaxDuration = int.Parse(dive.GetTotalTime());
+                int sessionWaterTime = int.Parse(session.watertime);
+                float sessionTemperature = float.Parse(session.weatherTemperature);
+                totalWaterTime += sessionWaterTime;
 
-                    if (maxDuration < currentDiveMaxDuration)
-                    {
-                        maxDuration = currentDiveMaxDuration;
-                    }
+                //Longest Divesession
+                if (sessionWaterTime > longestSessionWaterTime) 
+                {
+                    longestSessionWaterTime = sessionWaterTime;
                 }
 
-                foreach (Dive dive in session.dives)
+                //Warmest Divesession
+                if (sessionTemperature > warmestWaterTemperature) 
                 {
-                    if (int.Parse(dive.maxDepth) == maxDuration)
-                    {
-                        return dive;
-                    }
+                    warmestWaterTemperature = sessionTemperature;
+                }
+
+                //Coldest Divesession
+                if (sessionTemperature < coldestWaterTemperature) 
+                {
+                    coldestWaterTemperature = sessionTemperature;
                 }
             }
+        }
 
-            return null;
+        private void generateChart()
+        {
+            if (sessionDataAcquired()) 
+            {
+                List<ChartEntry> dataList = new List<ChartEntry>();
+
+                //Add a new chartEntry to the dataList containing the depth value of the current measurepoint
+                dataList.Add(new ChartEntry(diveSessionList.Count)
+                {
+                    Label = "Anzahl Sessions",
+                    ValueLabel = diveSessionList.Count.ToString(),
+                    Color = SKColor.Parse("#03f8fc") //aqua blue
+                });
+
+                dataList.Add(new ChartEntry(totalWaterTime)
+                {
+                    Label = "Zeit unter Wasser",
+                    ValueLabel = totalWaterTime.ToString() + " sec",
+                    Color = SKColor.Parse("#032cfc") //blue
+                });
+
+                dataList.Add(new ChartEntry(longestSessionWaterTime)
+                {
+                    Label = "Längste Session",
+                    ValueLabel = longestSessionWaterTime.ToString() + " sec",
+                    Color = SKColor.Parse("#03fc5e") //mint green
+                });
+
+                dataList.Add(new ChartEntry(warmestWaterTemperature)
+                {
+                    Label = "Max Temp",
+                    ValueLabel = warmestWaterTemperature.ToString() + " °C",
+                    Color = SKColor.Parse("#fc6f03") //sunny orange
+                });
+
+                dataList.Add(new ChartEntry(coldestWaterTemperature)
+                {
+                    Label = "Min Temp",
+                    ValueLabel = coldestWaterTemperature.ToString() + " °C",
+                    Color = SKColor.Parse("#69c8ff") //ice blue
+                });
+
+                //create a new chart with the data entries and a custom display configuration
+                var chart = new BarChart { Entries = dataList, LabelTextSize = 20f, LabelOrientation = Microcharts.Orientation.Horizontal, ValueLabelOrientation = Microcharts.Orientation.Horizontal };
+                chartView.Chart = chart;
+            }
         }
     }
 }
