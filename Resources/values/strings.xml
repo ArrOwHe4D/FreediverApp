@@ -45,6 +45,7 @@
     <string name="delete_account">Delete Account</string>
     <string name="dive_session">Dive Session</string>
     <string name="dive_sessions">Dive Sessions</string>
+    <string name="home">Home</string>
     <string name="add_dive_session">Add Divesession</string>
     <string name="add">Add</string>
     <string name="abort">Abort</string>

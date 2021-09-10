@@ -106,6 +106,11 @@ namespace FreediverApp
             int id = item.ItemId;
             FragmentTransaction menuTransaction = this.FragmentManager.BeginTransaction();
 
+            if (id == Resource.Id.nav_landing_page)
+            {
+                MainFragment landingPageFragment = new MainFragment();
+                menuTransaction.Replace(Resource.Id.framelayout, landingPageFragment).AddToBackStack(null).Commit();
+            }
             if (id == Resource.Id.nav_dive_sessions)
             {
                 DiveSessionsFragment divesessionsFragment = new DiveSessionsFragment();

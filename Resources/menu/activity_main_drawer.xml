@@ -6,6 +6,10 @@
     <item android:title="Navigation">
       <menu>
           <item
+              android:id="@+id/nav_landing_page"
+              android:icon="@drawable/icon_landing_page"
+              android:title="@string/home" />
+          <item
               android:id="@+id/nav_dive_sessions"
               android:icon="@drawable/icon_dive_sessions"
               android:title="@string/dive_sessions" />

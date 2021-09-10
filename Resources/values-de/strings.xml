@@ -34,6 +34,7 @@
   <string name="delete_account">Account Löschen</string>
   <string name="dive_session">Tauchsitzung</string>
   <string name="dive_sessions">Tauchsitzungen</string>
+  <string name="home">Startseite</string>
   <string name="add_dive_session">Divesession Hinzufügen</string>
   <string name="add">Hinzufügen</string>
   <string name="abort">Abbrechen</string>
