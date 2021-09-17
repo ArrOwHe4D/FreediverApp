@@ -130,21 +130,21 @@ namespace FreediverApp
             }
 
             //different error handlings for errors that can occur while initializing ble
-            if (ble == null)
-            {
-                //If we cannot init ble print a error message in form of a android toast
-                Toast.MakeText(Context, Resource.String.bluetooth_not_supported, ToastLength.Long).Show();
-            }
-            if (ble.State == BluetoothState.Off)
-            {
-                //If bluetooth is turned off, print a dialog that asks the user to activate bluetooth
-                runBluetoothActivationDialog();
-            }
-            else
-            {
-                //If bluetooth is on, fill the listview with already connected and paired devices from ble adapter
-                initBluetoothListView();
-            }
+            //if (ble == null)
+            //{
+            //    //If we cannot init ble print a error message in form of a android toast
+            //    Toast.MakeText(Context, Resource.String.bluetooth_not_supported, ToastLength.Long).Show();
+            //}
+            //if (ble.State == BluetoothState.Off)
+            //{
+            //    //If bluetooth is turned off, print a dialog that asks the user to activate bluetooth
+            //    runBluetoothActivationDialog();
+            //}
+            //else
+            //{
+            //    //If bluetooth is on, fill the listview with already connected and paired devices from ble adapter
+            //    initBluetoothListView();
+            //}
             return view;
         }
 
