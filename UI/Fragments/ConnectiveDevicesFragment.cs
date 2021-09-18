@@ -433,7 +433,7 @@ namespace FreediverApp
                     try
                     {
                         //DO FTP STUFF HERE - The connector immediately tries to connect to the given host after it is constructed
-                        FtpConnector connector = new FtpConnector(Context, "192.168.4.1", "user", "pass");
+                        FtpConnector connector = new FtpConnector(Context, "192.168.4.1", "diver", "diverpass");
 
                         if (connector.isConnected())
                         {
