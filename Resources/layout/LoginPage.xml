@@ -39,6 +39,29 @@
         android:textColor="@android:color/black"
         android:textColorHint="@android:color/black"/>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp">
+
+        <CheckBox
+            android:layout_width="25dp"
+            android:layout_height="25dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Remember"
+            android:gravity="left"
+            android:textColor="@android:color/black"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:id="@+id/textview_cantlogin"/>
+
+    </LinearLayout>
+
     <Button
         android:text="@string/login"
         android:textColor="@android:color/white"

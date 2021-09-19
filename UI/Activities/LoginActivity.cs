@@ -64,6 +64,10 @@ namespace FreediverApp
         {
             var connectionState = Connectivity.NetworkAccess;
 
+            var profiles = Connectivity.ConnectionProfiles;
+
+            
+
             //check if the phone is connected to the internet, otherwise print a error message.
             if (connectionState == NetworkAccess.Internet)
             {
@@ -105,7 +109,7 @@ namespace FreediverApp
         public void retrieveUserData() 
         {
             userDataListener = new FirebaseDataListener();
-            userDataListener.QueryParameterized("users", "username", texteditUsername.Text);
+            userDataListener.QueryParameterized("users", "username", texteditUsername.Text.Trim());
             userDataListener.DataRetrieved += userDataListener_UserDataRetrieved;         
         }
 
@@ -123,7 +127,7 @@ namespace FreediverApp
             if (userList != null)
             {
                 //username was found now check for password match
-                if (userList[0].username == texteditUsername.Text && userList[0].password == CryptoService.Encrypt(texteditPassword.Text))
+                if (userList[0].username == texteditUsername.Text.Trim() && userList[0].password == CryptoService.Encrypt(texteditPassword.Text))
                 {
                     //set temporary user data (just for convenience purposes to populate queries easier that refer the user inside the app) 
                     TemporaryData.CURRENT_USER = userList[0];

@@ -34,6 +34,146 @@ namespace FreediverApp.WifiCommunication
             serverProfile = client.AutoConnect();
         }
 
+        public void synchronizeData()
+        {
+            // FtpClient client = new FtpClient("192.168.4.1", "diver", "diverpass");
+            // client.AutoConnect();
+            try
+            {
+                string filepath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);//Environment.GetFolderPath(Environment.SpecialFolder.Personal);  ApplicationData);
+
+                //var res = File.ReadAllText(filepath + "/sessions.log");
+
+                if (File.Exists(filepath + "/sessions.log"))
+                {
+                    File.Delete(filepath + "/sessions.log");
+                }
+
+                downloadFile_old(filepath, "/sessions.log");
+
+
+                //--
+                downloadDirectory_v2(filepath, "/09_02_22/");
+
+
+                //--
+
+
+                List<string> sessions = new List<string>();
+                List<string> results = new List<string>();
+                using (StreamReader sr = new StreamReader(File.Open(filepath + "/sessions.log", FileMode.Open)))
+                {
+                    while (!sr.EndOfStream)
+                    {
+                        sessions.Add(sr.ReadLine());
+                    }
+                }
+                sessions.ForEach((string session) =>
+                {
+                    downloadDirectory_v2(filepath, "/" + session);
+                    using (StreamReader sr = new StreamReader(File.Open(filepath + "/" + session, FileMode.Open)))
+                    {
+                        while (!sr.EndOfStream)
+                        {
+                            results.Add(sr.ReadLine());
+                        }
+                    }
+                });
+            } 
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            
+        }
+
+        public void downloadFile_old(string filepath, string filename)
+        {
+            try
+            {
+                string fullFilepath = filepath + filename;
+
+                FtpStatus successful = client.DownloadFile(@fullFilepath, filename);
+
+
+
+                var res = File.ReadAllText(@fullFilepath);
+
+
+                if (successful == FtpStatus.Success)
+                    Console.WriteLine("------ SUCCESS -------");
+                else
+                    Console.WriteLine("------ ERROR NO SUCCESS -------");
+
+                string content;
+                using (StreamReader sr = new StreamReader(File.Open(fullFilepath, FileMode.Open)))
+                {
+                    content = sr.ReadToEnd();
+                }
+                Console.WriteLine("------------ SESSION.LOG-----------");
+                Console.WriteLine(content);
+                Console.WriteLine("------------ SESSION.LOG-----------");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("------------------ ERROR START --------------------");
+                Console.WriteLine(e);
+                Console.WriteLine("------------------ ERROR END --------------------");
+            }
+        }
+
+        public void downloadDirectory_v2(string filepath, string remoteDirectory)
+        {
+            try
+            {
+                //var fullFilepath = Path.Combine(filepath, filename);
+                string fullFilepath = filepath + remoteDirectory;
+
+                List<FtpResult> results = client.DownloadDirectory(@fullFilepath, "/logFiles" + remoteDirectory, FtpFolderSyncMode.Update);
+
+
+
+                //var res = File.ReadAllText(@fullFilepath);
+
+                string content2;
+                using (StreamReader sr = new StreamReader(File.Open(fullFilepath, FileMode.Open)))
+                {
+                    content2 = sr.ReadToEnd();
+                }
+
+
+
+                if (results.Count > 0)
+                    Console.WriteLine("------ SUCCESS -------");
+                else
+                    Console.WriteLine("------ ERROR NO SUCCESS -------");
+
+                List<string> filenames = new List<string>();
+                foreach(FtpResult result in results)
+                {
+                    filenames.Add(result.Name);
+                }
+
+                string content;
+
+                foreach(string name in filenames)
+                {
+                    using (StreamReader sr = new StreamReader(File.Open(fullFilepath + "/" + name, FileMode.Open)))
+                    {
+                        content = sr.ReadToEnd();
+                        Console.WriteLine(content);
+                    }
+                }
+                
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("------------------ ERROR START --------------------");
+                Console.WriteLine(e);
+                Console.WriteLine("------------------ ERROR END --------------------");
+            }
+        }
+
         public async Task<List<FtpResult>> downloadDirectory(string localDirectory, string remoteDirectory) 
         {
             List<FtpResult> result;
@@ -88,7 +228,7 @@ namespace FreediverApp.WifiCommunication
             }
         }
 
-        public async Task<bool> synchronizeData()
+        public async Task<bool> synchronizeData_old()
         {
             FtpClient client = new FtpClient("192.168.4.1", "diver", "diverpass");
             client.AutoConnect();
@@ -111,10 +251,10 @@ namespace FreediverApp.WifiCommunication
                     sessions.Add(sr.ReadLine());
                 }
             }
-            sessions.ForEach(async (string session) =>
+            sessions.ForEach((Action<string>)(async (string session) =>
             {
                 List<FtpResult> result;
-                result = await downloadDirectory(localDirectory, "/logFiles/" + session);
+                result = await this.downloadDirectory((string)localDirectory, (string)("/logFiles/" + session));
                 success = result.Count > 0;
                 using (StreamReader sr = new StreamReader(File.Open(localDirectory + session, FileMode.Open)))
                 {
@@ -123,7 +263,7 @@ namespace FreediverApp.WifiCommunication
                         results.Add(sr.ReadLine());
                     }
                 }
-            });
+            }));
             return success;
         }
 

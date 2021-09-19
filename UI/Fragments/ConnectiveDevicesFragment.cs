@@ -190,7 +190,44 @@ namespace FreediverApp
         private void scanButtonOnClick(object sender, EventArgs eventArgs)
         {
             //bluetoothScan();
-            wifiScan();
+            //wifiScan();
+
+
+            try
+            {
+                //DO FTP STUFF HERE - The connector immediately tries to connect to the given host after it is constructed
+                FtpConnector connector = new FtpConnector(base.Context, "192.168.4.1", "diver", "diverpass");
+
+                if (connector.isConnected())
+                {
+                    //Show data transfer dialog
+                    dataTransferDialog = new ProgressDialog(base.Context);
+                    dataTransferDialog.SetMessage(base.Context.Resources.GetString(Resource.String.dialog_receiving_data));
+                    dataTransferDialog.SetCancelable(false);
+                    dataTransferDialog.Show();
+
+                    //Attempt to sync data and start parsing it afterwards
+                    Toast.MakeText(base.Context, "Connected to DiveComputer: " + "DC_25836", ToastLength.Long).Show();
+                    Console.WriteLine("Starting to sync log directory...");
+                    //await connector.downloadDirectory((string)Xamarin.Essentials.FileSystem.AppDataDirectory, (string)"/logFiles/");
+                    connector.synchronizeData();
+
+                    Utils.FileParser fileParser = new Utils.FileParser();
+                    fileParser.parseDirectory(Xamarin.Essentials.FileSystem.AppDataDirectory);
+
+                    //Close data transfer dialog
+                    dataTransferDialog.Dismiss();
+                }
+                else
+                {
+                    Toast.MakeText(base.Context, "Connection to " + "DC_25836" + " failed, aborting transmission...", ToastLength.Long).Show();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
         }
 
         private async void bluetoothScan() 
@@ -428,25 +465,26 @@ namespace FreediverApp
             textViewConState.Text = /*clickedDevice. == DeviceState.Connected ? "Connected" : */"Disconnected";
 
             dialogBuilder.SetCancelable(false)
-                .SetPositiveButton(Resource.String.dialog_connect, async delegate
+                .SetPositiveButton(Resource.String.dialog_connect, (EventHandler<DialogClickEventArgs>)async delegate
                 {
                     try
                     {
                         //DO FTP STUFF HERE - The connector immediately tries to connect to the given host after it is constructed
-                        FtpConnector connector = new FtpConnector(Context, "192.168.4.1", "diver", "diverpass");
+                        FtpConnector connector = new FtpConnector(base.Context, "192.168.4.1", "diver", "diverpass");
 
                         if (connector.isConnected())
                         {
                             //Show data transfer dialog
-                            dataTransferDialog = new ProgressDialog(Context);
-                            dataTransferDialog.SetMessage(Context.Resources.GetString(Resource.String.dialog_receiving_data));
+                            dataTransferDialog = new ProgressDialog(base.Context);
+                            dataTransferDialog.SetMessage(base.Context.Resources.GetString(Resource.String.dialog_receiving_data));
                             dataTransferDialog.SetCancelable(false);
                             dataTransferDialog.Show();
 
                             //Attempt to sync data and start parsing it afterwards
-                            Toast.MakeText(Context, "Connected to DiveComputer: " + clickedDevice.Ssid, ToastLength.Long).Show();
+                            Toast.MakeText(base.Context, "Connected to DiveComputer: " + clickedDevice.Ssid, ToastLength.Long).Show();
                             Console.WriteLine("Starting to sync log directory...");
-                            await connector.downloadDirectory(Xamarin.Essentials.FileSystem.AppDataDirectory, "/logFiles/");
+                            //await connector.downloadDirectory((string)Xamarin.Essentials.FileSystem.AppDataDirectory, (string)"/logFiles/");
+                            connector.synchronizeData();
 
                             Utils.FileParser fileParser = new Utils.FileParser();
                             fileParser.parseDirectory(Xamarin.Essentials.FileSystem.AppDataDirectory);
@@ -456,7 +494,7 @@ namespace FreediverApp
                         }
                         else 
                         {
-                            Toast.MakeText(Context, "Connection to " + clickedDevice.Ssid + " failed, aborting transmission...", ToastLength.Long).Show();
+                            Toast.MakeText(base.Context, "Connection to " + clickedDevice.Ssid + " failed, aborting transmission...", ToastLength.Long).Show();
                         }
                     }
                     catch (Exception ex) 
