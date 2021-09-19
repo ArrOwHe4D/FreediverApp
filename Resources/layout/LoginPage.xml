@@ -48,7 +48,9 @@
 
         <CheckBox
             android:layout_width="25dp"
-            android:layout_height="25dp"/>
+            android:layout_height="25dp"
+            android:id="@+id/checkbox_remember"/>
+
 
         <TextView
             android:layout_width="match_parent"
@@ -57,8 +59,7 @@
             android:gravity="left"
             android:textColor="@android:color/black"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:id="@+id/textview_cantlogin"/>
+            android:layout_marginRight="10dp"/>
 
     </LinearLayout>
 

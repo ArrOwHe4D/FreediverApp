@@ -21,6 +21,7 @@ namespace FreediverApp
         private TextView textviewCantLogin;
         private Button buttonRegister, buttonLogin;
         private EditText texteditUsername, texteditPassword;
+        private CheckBox checkboxRemember;
 
         private FirebaseDataListener userDataListener;
         private List<User> userList;
@@ -33,11 +34,13 @@ namespace FreediverApp
          * by getting there IDs from the corresponding frontend XML files. At the end the list
          * that will hold the data retrieved from our db listener will also be initialized.
          **/
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override async void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.LoginPage);
+
+            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
 
             buttonLogin = FindViewById<Button>(Resource.Id.button_login);
             buttonLogin.Click += login;
@@ -47,6 +50,21 @@ namespace FreediverApp
             texteditPassword = FindViewById<EditText>(Resource.Id.textedit_password);
             texteditPassword.InputType = Android.Text.InputTypes.TextVariationPassword | Android.Text.InputTypes.ClassText;
 
+            checkboxRemember = FindViewById<CheckBox>(Resource.Id.checkbox_remember);
+            try
+            {
+                var rememberMeChecked = await SecureStorage.GetAsync("rememberMeChecked");
+                if(rememberMeChecked == "true")
+                {
+                    checkboxRemember.Checked = true;
+                    autoFillUserCredentials();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+
             buttonRegister = FindViewById<Button>(Resource.Id.button_register);
             buttonRegister.Click += redirectToRegisterActivity;
 
@@ -54,19 +72,32 @@ namespace FreediverApp
             textviewCantLogin.Click += redirectToLoginProblemsActivity;
 
             userList = new List<User>();
+
         }
 
         /**
          *  This function represents the whole login process up to the point where the user is successfully logged in and
          *  redirected to our main menu (MainActivity).
          **/
-        private void login(object sender, EventArgs eventArgs)
+        private async void login(object sender, EventArgs eventArgs)
         {
             var connectionState = Connectivity.NetworkAccess;
 
             var profiles = Connectivity.ConnectionProfiles;
 
-            
+            if(checkboxRemember.Checked)
+            {
+                try
+                {
+                    await SecureStorage.SetAsync("rememberMeChecked", "true");
+                    await SecureStorage.SetAsync("username", texteditUsername.Text);
+                    await SecureStorage.SetAsync("password", texteditPassword.Text);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+            }
 
             //check if the phone is connected to the internet, otherwise print a error message.
             if (connectionState == NetworkAccess.Internet)
@@ -159,6 +190,24 @@ namespace FreediverApp
             loginDialog.SetMessage(ApplicationContext.Resources.GetString(Resource.String.dialog_logging_in));
             loginDialog.SetCancelable(false);
             loginDialog.Show();
+        }
+
+        /**
+         *  This function reads user credentials from Android Secure Storage API to automatically fill the login text fields.
+         **/
+        private async void autoFillUserCredentials()
+        {
+            try
+            {
+                var username = await SecureStorage.GetAsync("username");
+                var password = await SecureStorage.GetAsync("password");
+                texteditUsername.Text = username;
+                texteditPassword.Text = password;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
     }
 }
