@@ -73,6 +73,7 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataClasses\DownloadReport.cs" />
     <Compile Include="DataClasses\SavedSession.cs" />
     <Compile Include="DataClasses\WeatherData.cs" />
     <Compile Include="UI\Components\WifiDeviceViewHolder.cs" />

@@ -28,6 +28,10 @@ using Android.Net.Wifi;
 using FreediverApp.WifiCommunication;
 using Android.Content;
 using static Android.Gms.Common.Apis.GoogleApi;
+using System.IO;
+using System.Text;
+using FreediverApp.DataClasses;
+using FreediverApp.Utils;
 
 namespace FreediverApp
 {
@@ -192,6 +196,13 @@ namespace FreediverApp
             //bluetoothScan();
             //wifiScan();
 
+            if ((ContextCompat.CheckSelfPermission(Context, Manifest.Permission.WriteExternalStorage) != (int)Permission.Granted)
+            || (ContextCompat.CheckSelfPermission(Context, Manifest.Permission.ReadExternalStorage) != (int)Permission.Granted))
+            {
+                ActivityCompat.RequestPermissions(this.Activity, new string[] { Manifest.Permission.ReadExternalStorage, Manifest.Permission.WriteExternalStorage }, 1000);
+            }
+
+            
 
             try
             {
@@ -210,10 +221,11 @@ namespace FreediverApp
                     Toast.MakeText(base.Context, "Connected to DiveComputer: " + "DC_25836", ToastLength.Long).Show();
                     Console.WriteLine("Starting to sync log directory...");
                     //await connector.downloadDirectory((string)Xamarin.Essentials.FileSystem.AppDataDirectory, (string)"/logFiles/");
-                    connector.synchronizeData();
+                    DownloadReport downloadReport = connector.synchronizeData();
 
-                    Utils.FileParser fileParser = new Utils.FileParser();
-                    fileParser.parseDirectory(Xamarin.Essentials.FileSystem.AppDataDirectory);
+                    FileParser fileParser = new FileParser(downloadReport);
+                    fileParser.iterateThroughFiles();
+                    //fileParser.parseDirectory(Xamarin.Essentials.FileSystem.AppDataDirectory);
 
                     //Close data transfer dialog
                     dataTransferDialog.Dismiss();
@@ -486,8 +498,8 @@ namespace FreediverApp
                             //await connector.downloadDirectory((string)Xamarin.Essentials.FileSystem.AppDataDirectory, (string)"/logFiles/");
                             connector.synchronizeData();
 
-                            Utils.FileParser fileParser = new Utils.FileParser();
-                            fileParser.parseDirectory(Xamarin.Essentials.FileSystem.AppDataDirectory);
+                            //Utils.FileParser fileParser = new Utils.FileParser();
+                            //fileParser.parseDirectory(Xamarin.Essentials.FileSystem.AppDataDirectory);
 
                             //Close data transfer dialog
                             dataTransferDialog.Dismiss();
