@@ -18,6 +18,15 @@ namespace FreediverApp
         public string timestampEnd;
         public string id;
 
+        private string heartFreqMax;
+        private string heartFreqMin;
+        private string luminanceMax;
+        private string luminanceMin;
+        public string maxDepth;
+        private string oxygenSaturationMax;
+        private string oxygenSaturationMin;
+        private string waterTemperatureMax;
+
         public Dive(string _refDiveSession, string reihenfolge)
         {
             refDivesession = _refDiveSession;
@@ -26,7 +35,6 @@ namespace FreediverApp
 
         public Dive() { } 
 
-        private string heartFreqMax;
         public string HeartFreqMax
         {
             get
@@ -44,7 +52,6 @@ namespace FreediverApp
             set { heartFreqMax = value; }
         }
 
-        private string heartFreqMin;
 
         public string HeartFreqMin
         {
@@ -63,7 +70,6 @@ namespace FreediverApp
             set { heartFreqMin = value; }
         }
 
-        private string luminanceMax;
 
         public string LuminanceMax
         {
@@ -82,7 +88,6 @@ namespace FreediverApp
             set { luminanceMax = value; }
         }
 
-        private string luminanceMin;
 
         public string LuminanceMin
         {
@@ -101,9 +106,7 @@ namespace FreediverApp
             set { luminanceMin = value; }
         }
 
-        public string maxDepth;
-
-        private string oxygenSaturationMax;
+       
 
         public string OxygenSaturationMax
         {
@@ -122,7 +125,6 @@ namespace FreediverApp
             set { oxygenSaturationMax = value; }
         }
 
-        private string oxygenSaturationMin;
 
         public string OxygenSaturationMin
         {
@@ -141,7 +143,6 @@ namespace FreediverApp
             set { oxygenSaturationMin = value; }
         }                
 
-        private string waterTemperatureMax;
 
         public string WaterTemperatureMax
         {

@@ -1,4 +1,5 @@
-﻿using FreediverApp.DataClasses;
+﻿using FreediverApp.DatabaseConnector;
+using FreediverApp.DataClasses;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,28 +17,37 @@ namespace FreediverApp.Utils
             this.downloadReport = downloadReport;
         }
 
-        public async Task<bool> iterateThroughFiles()
+        public async Task<List<DiveSession>> iterateThroughFiles()
         {
+            List<DiveSession> diveSessions = new List<DiveSession>();
             foreach(var session in downloadReport.getFilesToDownload())
             {
                 string directorySessionPath = downloadReport.getDirectoryPath() + "/" + session.Key + "/";
+                DiveSession diveSession = new DiveSession(TemporaryData.CURRENT_USER.id);
 
                 foreach(var dive in session.Value)
                 {
                     var directorySessionDivePath = Path.Combine(directorySessionPath, dive);
+                    string diveId = dive.Substring(2).Split(".")[0];
+                    Dive newDive = new Dive(diveSession.Id, diveId);
 
                     if (directorySessionDivePath == null || !File.Exists(directorySessionDivePath))
                     {
                         Console.WriteLine("Error reading file: " + directorySessionDivePath);
-                        return false;
+                        continue;
                     }
-
                     List<Measurepoint> measurepoints = await parseFile(directorySessionDivePath);
-                }
+                    newDive.measurepoints = new List<Measurepoint>(measurepoints);
+                    newDive.UpdateAll();
+                    diveSession.dives.Add(newDive);
 
+                }
+                diveSessions.Add(diveSession);
             }
-            return true;
+            return diveSessions;
         }
+
+
 
         public async Task<List<Measurepoint>> parseFile(string filePath) 
         {

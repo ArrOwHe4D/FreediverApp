@@ -53,6 +53,7 @@ namespace FreediverApp
         private ProgressDialog dataTransferDialog;
         private WifiConnector wifiConnector;
         private FtpConnector ftpConnector;
+        private FirebaseDataListener database;
         private string ssid = "yournetworkname";
         private string pass = "yourcode";
         private bool suggestNetwork;
@@ -88,7 +89,10 @@ namespace FreediverApp
 
             //setup ftp connector
             ftpConnector = new FtpConnector(Context);
-            
+
+            //setup firebase data listener
+            database = new FirebaseDataListener();
+
             //setup the bluetooth low energy component
             ble = CrossBluetoothLE.Current;
 
@@ -191,7 +195,7 @@ namespace FreediverApp
          *  It is defined as async so we wait for a scan result asynchronously and add all found devices
          *  to our list that is passed to the listview in form of a adapter component.
          **/
-        private void scanButtonOnClick(object sender, EventArgs eventArgs)
+        private async void scanButtonOnClick(object sender, EventArgs eventArgs)
         {
             //bluetoothScan();
             //wifiScan();
@@ -224,7 +228,39 @@ namespace FreediverApp
                     DownloadReport downloadReport = connector.synchronizeData();
 
                     FileParser fileParser = new FileParser(downloadReport);
-                    fileParser.iterateThroughFiles();
+                    List<DiveSession> diveSessions = await fileParser.iterateThroughFiles();
+                    List<string> existingSessions = getExistingSessions(diveSessions);
+
+                    //save all divesessions from the result set into db
+                    foreach (DiveSession DS in diveSessions)
+                    {
+                        //save all measurepoints and all dives to db
+                        foreach (Dive D in DS.dives)
+                        {
+                            foreach (Measurepoint MP in D.measurepoints)
+                            {
+                                database.saveEntity("measurepoints", MP);
+                            }
+                            database.saveEntity("dives", D);
+                        }
+
+                        //if the session not exists in db, set the divesession data to empty strings but save 
+                        //it in db anyway without weather and location data so that we don´t loose any collected data from arduino side
+                        if (!existingSessions.Contains(DS.date))
+                        {
+                            DS.location_lat = "";
+                            DS.location_lon = "";
+                            DS.weatherCondition_description = "";
+                            DS.weatherCondition_main = "";
+                            DS.weatherHumidity = "";
+                            DS.weatherPressure = "";
+                            DS.weatherTemperature = "";
+                            DS.weatherTemperatureFeelsLike = "";
+                            DS.weatherWindGust = "";
+                            DS.weatherWindSpeed = "";
+                            database.saveEntity("divesessions", DS);
+                        }
+                    }
                     //fileParser.parseDirectory(Xamarin.Essentials.FileSystem.AppDataDirectory);
 
                     //Close data transfer dialog
@@ -896,6 +932,36 @@ namespace FreediverApp
                 ds.UpdateAll();
             }
             return diveSessions;
+        }
+
+        //Check if a divesession already exists in db and set the ref_divesession field to
+        //the id of the existing divesession to realize the 1:n relation of divession and dives
+        private List<string> getExistingSessions(List<DiveSession> diveSessions)
+        {
+            //Store dates of existing sessions and setup a new listener to save Dives and Measurepoints after 
+            //creating the correct reference to a existing divesession
+            List<string> existingSessions = new List<string>();
+
+            if (diveSessionsFromDatabase != null)
+            {
+                foreach (DiveSession dsDB in diveSessionsFromDatabase)
+                {
+                    foreach (DiveSession ds in diveSessions)
+                    {
+                        if (dsDB.date == ds.date)
+                        {
+                            existingSessions.Add(ds.date);
+                            foreach (Dive d in ds.dives)
+                            {
+                                d.refDivesession = dsDB.Id;
+                            }
+                            int watertime = Convert.ToInt32(dsDB.watertime) + Convert.ToInt32(ds.watertime);
+                            database.updateEntity("divesessions", dsDB.key, "watertime", watertime.ToString());
+                        }
+                    }
+                }
+            }
+            return existingSessions;
         }
 
         /**
