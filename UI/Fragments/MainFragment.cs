@@ -110,26 +110,34 @@ namespace FreediverApp.FragmentActivities
         {
             foreach (DiveSession session in diveSessionList)
             {
-                int sessionWaterTime = int.Parse(session.watertime);
-                float sessionTemperature = float.Parse(session.weatherTemperature);
-                totalWaterTime += sessionWaterTime;
-
-                //Longest Divesession
-                if (sessionWaterTime > longestSessionWaterTime) 
+                try
                 {
-                    longestSessionWaterTime = sessionWaterTime;
+                    int sessionWaterTime = int.Parse(session.watertime);
+                    float sessionTemperature = float.Parse(session.weatherTemperature);
+                    totalWaterTime += sessionWaterTime;
+
+                    //Longest Divesession
+                    if (sessionWaterTime > longestSessionWaterTime)
+                    {
+                        longestSessionWaterTime = sessionWaterTime;
+                    }
+
+                    //Warmest Divesession
+                    if (sessionTemperature > warmestWaterTemperature)
+                    {
+                        warmestWaterTemperature = sessionTemperature;
+                    }
+
+                    //Coldest Divesession
+                    if (sessionTemperature < coldestWaterTemperature)
+                    {
+                        coldestWaterTemperature = sessionTemperature;
+                    }
                 }
-
-                //Warmest Divesession
-                if (sessionTemperature > warmestWaterTemperature) 
+                catch(Exception ex)
                 {
-                    warmestWaterTemperature = sessionTemperature;
-                }
-
-                //Coldest Divesession
-                if (sessionTemperature < coldestWaterTemperature) 
-                {
-                    coldestWaterTemperature = sessionTemperature;
+                    Console.WriteLine(ex);
+                    coldestWaterTemperature = 0.0f;
                 }
             }
         }
