@@ -54,7 +54,19 @@
         android:layout_marginBottom="60dp"/>
 
     <Button
-        android:text="Scan"
+        android:text="Connect"
+        android:textColor="@android:color/white"
+        android:backgroundTint="?android:attr/colorPrimary"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_connect"/>
+
+    <Button
+        android:text="Transfer"
         android:textColor="@android:color/white"
         android:backgroundTint="?android:attr/colorPrimary"
         android:layout_gravity="center_horizontal"
@@ -64,5 +76,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/bt_scan_btn"/>
+
+    <Button
+       android:text="SYNC"
+       android:background="@drawable/button_round"
+       android:textColor="@android:color/white"
+       android:textSize="10pt"
+       android:layout_width="90dp"
+       android:layout_height="90dp"
+       android:layout_alignParentRight="true"
+       android:layout_alignParentBottom="true"
+       android:id="@+id/button_sync"
+       android:layout_marginBottom="20dp"
+       android:layout_marginRight="20dp" />
 
 </RelativeLayout>

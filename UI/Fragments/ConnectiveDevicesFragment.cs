@@ -42,7 +42,9 @@ namespace FreediverApp
         //private ListView listViewBluetoothDevices;
         private ListView listViewWifiDevices;
         private BluetoothDeviceReceiver btReceiver;
-        private Button btnScan;
+        private Button buttonScan;
+        private Button buttonConnect;
+        private Button buttonSync;
         private static ProgressBar scanIndicator;
         private IBluetoothLE ble;
         private IAdapter bleAdapter;
@@ -113,15 +115,21 @@ namespace FreediverApp
             //listViewBluetoothDevices = view.FindViewById<ListView>(Resource.Id.listview_bluetooth_devices);
             //listViewBluetoothDevices.Visibility = ViewStates.Gone;
             listViewWifiDevices = view.FindViewById<ListView>(Resource.Id.listview_wifi_devices);
-            btnScan = view.FindViewById<Button>(Resource.Id.bt_scan_btn);
+            buttonScan = view.FindViewById<Button>(Resource.Id.bt_scan_btn);
 
             scanIndicator = view.FindViewById<ProgressBar>(Resource.Id.scan_indicator);
             scanIndicator.Visibility = ViewStates.Gone;
 
             //setup onclick listeners for scan button and listview items
-            btnScan.Click += scanButtonOnClick;
+            buttonScan.Click += scanButtonOnClick;
             //listViewBluetoothDevices.ItemClick += ListViewBluetoothDevices_ItemClick;
             listViewWifiDevices.ItemClick += ListViewWifiDevices_ItemClick;
+
+            buttonConnect = view.FindViewById<Button>(Resource.Id.button_connect);
+            buttonConnect.Click += buttonConnectOnClick;
+
+            buttonSync = view.FindViewById<Button>(Resource.Id.button_sync);
+            buttonSync.Click += buttonSyncOnClick;
 
             //setup the db listener to be able to query data from firebase
             diveSessionListener = new FirebaseDataListener();
@@ -190,6 +198,17 @@ namespace FreediverApp
             runWifiConnectionDialog(device);
         }
 
+        private void buttonSyncOnClick(object sender, EventArgs eventArgs)
+        {
+            wifiConnector.SetWifiEnabled(false);
+        }
+
+        private void buttonConnectOnClick(object sender, EventArgs eventArgs) 
+        {
+            // Switch to native Android wifi Menu
+            StartActivity(new Intent(Android.Provider.Settings.ActionWifiSettings));
+        }
+
         /**
          *  This function initiates the scan process to find bluetooth devices in near range.
          *  It is defined as async so we wait for a scan result asynchronously and add all found devices
@@ -205,8 +224,6 @@ namespace FreediverApp
             {
                 ActivityCompat.RequestPermissions(this.Activity, new string[] { Manifest.Permission.ReadExternalStorage, Manifest.Permission.WriteExternalStorage }, 1000);
             }
-
-            
 
             try
             {
@@ -275,7 +292,6 @@ namespace FreediverApp
             {
                 Console.WriteLine(ex.Message);
             }
-
         }
 
         private async void bluetoothScan() 
