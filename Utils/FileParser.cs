@@ -1,5 +1,4 @@
 ﻿using FreediverApp.DatabaseConnector;
-using FreediverApp.DataClasses;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,56 +6,46 @@ using System.Threading.Tasks;
 
 namespace FreediverApp.Utils
 {
-    class FileParser
+    static class FileParser
     {
-        private DownloadReport downloadReport;
-
-
-        public FileParser(DownloadReport downloadReport) 
+        public async Task<DiveSession> createDiveSessionFromFile(object session)
         {
-            this.downloadReport = downloadReport;
-        }
+            string directoryPath = "/storage/emulated/0/FreediverApp";
+            Directory.CreateDirectory(directoryPath);
 
-        public async Task<List<DiveSession>> iterateThroughFiles()
-        {
-            List<DiveSession> diveSessions = new List<DiveSession>();
-            foreach(var session in downloadReport.getFilesToDownload())
+            string directorySessionPath = directoryPath + "/" + session.Key + "/";
+            DiveSession diveSession = new DiveSession(TemporaryData.CURRENT_USER.id);
+            diveSession.date = session.Key.Replace("_", ".");
+            diveSession.date.Split(".")[2] = "20" + diveSession.date.Split(".")[2]; //restore full year string (2021 instead of 21)
+
+            foreach(var dive in session.Value)
             {
-                string directorySessionPath = downloadReport.getDirectoryPath() + "/" + session.Key + "/";
-                DiveSession diveSession = new DiveSession(TemporaryData.CURRENT_USER.id);
-                diveSession.date = session.Key.Replace("_", ".");
+                var directorySessionDivePath = Path.Combine(directorySessionPath, dive);
+                string diveId = dive.Substring(2).Split(".")[0];
+                Dive newDive = new Dive(diveSession.Id, diveId);
 
-                foreach(var dive in session.Value)
+                if (directorySessionDivePath == null || !File.Exists(directorySessionDivePath))
                 {
-                    var directorySessionDivePath = Path.Combine(directorySessionPath, dive);
-                    string diveId = dive.Substring(2).Split(".")[0];
-                    Dive newDive = new Dive(diveSession.Id, diveId);
-
-                    if (directorySessionDivePath == null || !File.Exists(directorySessionDivePath))
-                    {
-                        Console.WriteLine("Error reading file: " + directorySessionDivePath);
-                        continue;
-                    }
-
-                    using (var reader = new StreamReader(directorySessionDivePath, true))
-                    {
-                        string time;
-                        time = await reader.ReadLineAsync();
-                        newDive.timestampBegin = time;
-                    }
-
-                    List<Measurepoint> measurepoints = await parseFile(newDive.id, directorySessionDivePath); ;
-                    newDive.measurepoints = new List<Measurepoint>(measurepoints);
-                    diveSession.dives.Add(newDive);
-
+                    Console.WriteLine("Error reading file: " + directorySessionDivePath);
+                    continue;
                 }
-                diveSession.UpdateAll();
-                diveSessions.Add(diveSession);
+
+                using (var reader = new StreamReader(directorySessionDivePath, true))
+                {
+                    string time;
+                    time = await reader.ReadLineAsync();
+                    newDive.timestampBegin = time;
+                }
+
+                List<Measurepoint> measurepoints = await parseFile(newDive.id, directorySessionDivePath);
+                newDive.measurepoints = new List<Measurepoint>(measurepoints);
+                diveSession.dives.Add(newDive);
+
             }
-            return diveSessions;
+            diveSession.UpdateAll();
+
+            return diveSession;
         }
-
-
 
         public async Task<List<Measurepoint>> parseFile(string diveID, string filePath) 
         {

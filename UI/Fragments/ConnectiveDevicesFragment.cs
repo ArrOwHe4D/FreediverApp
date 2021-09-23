@@ -121,7 +121,7 @@ namespace FreediverApp
             scanIndicator.Visibility = ViewStates.Gone;
 
             //setup onclick listeners for scan button and listview items
-            buttonScan.Click += scanButtonOnClick;
+            buttonScan.Click += transferButtonOnClick;
             //listViewBluetoothDevices.ItemClick += ListViewBluetoothDevices_ItemClick;
             listViewWifiDevices.ItemClick += ListViewWifiDevices_ItemClick;
 
@@ -200,7 +200,16 @@ namespace FreediverApp
 
         private void buttonSyncOnClick(object sender, EventArgs eventArgs)
         {
-            wifiConnector.SetWifiEnabled(false);
+            while (true) 
+            {
+                var session = readSessionFromFile();
+                if (session == null) 
+                {
+                    break;
+                }
+                saveDiveData()
+            }
+            //TODO: SAVE DIVEDATA JSON OBJECT...
         }
 
         private void buttonConnectOnClick(object sender, EventArgs eventArgs) 
@@ -214,7 +223,7 @@ namespace FreediverApp
          *  It is defined as async so we wait for a scan result asynchronously and add all found devices
          *  to our list that is passed to the listview in form of a adapter component.
          **/
-        private async void scanButtonOnClick(object sender, EventArgs eventArgs)
+        private async void transferButtonOnClick(object sender, EventArgs eventArgs)
         {
             //bluetoothScan();
             //wifiScan();
@@ -222,7 +231,7 @@ namespace FreediverApp
             if ((ContextCompat.CheckSelfPermission(Context, Manifest.Permission.WriteExternalStorage) != (int)Permission.Granted)
             || (ContextCompat.CheckSelfPermission(Context, Manifest.Permission.ReadExternalStorage) != (int)Permission.Granted))
             {
-                ActivityCompat.RequestPermissions(this.Activity, new string[] { Manifest.Permission.ReadExternalStorage, Manifest.Permission.WriteExternalStorage }, 1000);
+                ActivityCompat.RequestPermissions(Activity, new string[] { Manifest.Permission.ReadExternalStorage, Manifest.Permission.WriteExternalStorage }, 1000);
             }
 
             try
@@ -239,59 +248,99 @@ namespace FreediverApp
                     dataTransferDialog.Show();
 
                     //Attempt to sync data and start parsing it afterwards
-                    Toast.MakeText(base.Context, "Connected to DiveComputer: " + "DC_25836", ToastLength.Long).Show();
+                    Toast.MakeText(base.Context, "Connected to DiveComputer, starting data transfer...", ToastLength.Long).Show();
                     Console.WriteLine("Starting to sync log directory...");
-                    //await connector.downloadDirectory((string)Xamarin.Essentials.FileSystem.AppDataDirectory, (string)"/logFiles/");
                     DownloadReport downloadReport = connector.synchronizeData();
-
-                    FileParser fileParser = new FileParser(downloadReport);
-                    List<DiveSession> diveSessions = await fileParser.iterateThroughFiles();
-                    List<string> existingSessions = getExistingSessions(diveSessions);
-
-                    //save all divesessions from the result set into db
-                    foreach (DiveSession DS in diveSessions)
-                    {
-                        //save all measurepoints and all dives to db
-                        foreach (Dive D in DS.dives)
-                        {
-                            foreach (Measurepoint MP in D.measurepoints)
-                            {
-                                database.saveEntity("measurepoints", MP);
-                            }
-                            database.saveEntity("dives", D);
-                        }
-
-                        //if the session not exists in db, set the divesession data to empty strings but save 
-                        //it in db anyway without weather and location data so that we don´t loose any collected data from arduino side
-                        if (!existingSessions.Contains(DS.date))
-                        {
-                            DS.location_lat = "";
-                            DS.location_lon = "";
-                            DS.weatherCondition_description = "";
-                            DS.weatherCondition_main = "";
-                            DS.weatherHumidity = "";
-                            DS.weatherPressure = "";
-                            DS.weatherTemperature = "";
-                            DS.weatherTemperatureFeelsLike = "";
-                            DS.weatherWindGust = "";
-                            DS.weatherWindSpeed = "";
-                            DS.UpdateAll();
-                            database.saveEntity("divesessions", DS);
-                        }
-                    }
-                    //fileParser.parseDirectory(Xamarin.Essentials.FileSystem.AppDataDirectory);
+                    saveDownloadReport(downloadReport);
 
                     //Close data transfer dialog
                     dataTransferDialog.Dismiss();
                 }
                 else
                 {
-                    Toast.MakeText(base.Context, "Connection to " + "DC_25836" + " failed, aborting transmission...", ToastLength.Long).Show();
+                    Toast.MakeText(base.Context, "Verbindung fehlgeschlagen, stellen Sie sicher, dass Sie mit dem Tauchcomputer per WLAN verbunden sind.", ToastLength.Long).Show();
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                Toast.MakeText(Context, "Verbindung fehlgeschlagen, stellen Sie sicher, dass Sie mit dem Tauchcomputer per WLAN verbunden sind.", ToastLength.Long);
+            }
+        }
+
+        private void saveDownloadReport(DownloadReport downloadReport) 
+        {
+            string filePath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData) + "/pending_sessions.ps";
+
+            using (StreamWriter sr = new StreamWriter(File.Open(filePath, FileMode.OpenOrCreate)))
+            {
+                foreach (var session in downloadReport.getFilesToDownload())
+                {
+                    string sessionAsJson = JsonConvert.SerializeObject(session);
+                    Console.WriteLine(sessionAsJson);
+                    sr.WriteLine(sessionAsJson);
+                }
+            }
+        }
+
+        private KeyValuePair<string, string> readSessionFromFile() 
+        {
+            string filePath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData) + "/pending_sessions.ps";
+
+            List<string> sessions = (List<string>)File.ReadLines(filePath);
+
+            int lastSessionIndex = sessions.Count - 1;
+
+            //get last session as result
+            string result = sessions.ElementAt(lastSessionIndex);
+
+            //remove last session to mark it as read
+            sessions.RemoveAt(lastSessionIndex);
+
+            //write all remaining sessions back to the file (overwrite)
+            File.WriteAllLines(filePath, sessions);
+
+            KeyValuePair<string, string> jsonSessionObject = (KeyValuePair<string, string>)JsonConvert.DeserializeObject(result);
+
+            return jsonSessionObject;
+        }
+
+        private async void saveSessionData(object session) 
+        {
+            FileParser fileParser = new FileParser(downloadReport);
+            List<DiveSession> diveSessions = await fileParser.iterateThroughFiles();
+            List<string> existingSessions = getExistingSessions(diveSessions);
+
+            //save all divesessions from the result set into db
+            foreach (DiveSession DS in diveSessions)
+            {
+                //save all measurepoints and all dives to db
+                foreach (Dive D in DS.dives)
+                {
+                    foreach (Measurepoint MP in D.measurepoints)
+                    {
+                        database.saveEntity("measurepoints", MP);
+                    }
+                    database.saveEntity("dives", D);
+                }
+
+                //if the session not exists in db, set the divesession data to empty strings but save 
+                //it in db anyway without weather and location data so that we don´t loose any collected data from arduino side
+                if (!existingSessions.Contains(DS.date))
+                {
+                    DS.location_lat = "";
+                    DS.location_lon = "";
+                    DS.weatherCondition_description = "";
+                    DS.weatherCondition_main = "";
+                    DS.weatherHumidity = "";
+                    DS.weatherPressure = "";
+                    DS.weatherTemperature = "";
+                    DS.weatherTemperatureFeelsLike = "";
+                    DS.weatherWindGust = "";
+                    DS.weatherWindSpeed = "";
+                    DS.UpdateAll();
+                    database.saveEntity("divesessions", DS);
+                }
             }
         }
 
@@ -1058,6 +1107,39 @@ namespace FreediverApp
         private void database_diveSessionDataRetrieved(object sender, FirebaseDataListener.DataEventArgs args)
         {
             diveSessionsFromDatabase = args.DiveSessions;
+        }
+
+        void createPopupDialog() 
+        {
+            LayoutInflater layoutInflater = LayoutInflater.From(Context);
+            View dialogView = layoutInflater.Inflate(Resource.Layout.PopupDialog, null);
+
+            SupportV7.AlertDialog.Builder dialogBuilder = createPopupDialog("Info", 
+                "Bitte trennen sie die Verbindung zum Tauchcomputer und stellen sie eine Internetverbindung her. " +
+                "Drücken Sie anschließend auf den SYNC Button, um die Tauchdaten in der Datenbank abzuspeichern.", Resource.Drawable.icon_info, dialogView);
+
+            dialogBuilder.SetCancelable(false)
+                .SetPositiveButton("OK", delegate
+                {
+                    dialogBuilder.Dispose();
+                });
+
+            SupportV7.AlertDialog dialog = dialogBuilder.Create();
+            dialog.Show();
+        }
+
+        public SupportV7.AlertDialog.Builder createPopupDialog(string title, string messageText, int iconId, View parentView)
+        {
+            SupportV7.AlertDialog.Builder dialogBuilder = new SupportV7.AlertDialog.Builder(Context);
+            dialogBuilder.SetView(parentView);
+
+            var textViewMessage = parentView.FindViewById<TextView>(Resource.Id.textview_message);
+            textViewMessage.Text = messageText;
+
+            dialogBuilder.SetTitle(title);
+            dialogBuilder.SetIcon(iconId);
+                   
+            return dialogBuilder;
         }
     }
 }

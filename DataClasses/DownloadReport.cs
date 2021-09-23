@@ -42,5 +42,10 @@ namespace FreediverApp.DataClasses
             return sessions.ToList();
         }
 
+        public DownloadReport fromJsonObject(object jsonObject) 
+        {
+
+            return new DownloadReport();
+        }
     }
 }

@@ -4,7 +4,6 @@ using System;
 using Android.Content;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using FreediverApp.DataClasses;
 
 namespace FreediverApp.WifiCommunication
@@ -93,10 +92,7 @@ namespace FreediverApp.WifiCommunication
 
                 FtpStatus successful = client.DownloadFile(@fullFilepath, filename);
 
-
-
                 var res = File.ReadAllText(@fullFilepath);
-
 
                 if (successful == FtpStatus.Success)
                     Console.WriteLine("------ SUCCESS -------");
@@ -124,16 +120,9 @@ namespace FreediverApp.WifiCommunication
         {
             try
             {
-                //var fullFilepath = Path.Combine(filepath, filename);
                 string fullFilepath = directoryPath + remoteDirectory;
 
                 List<FtpResult> results = client.DownloadDirectory(@fullFilepath, "/logFiles" + remoteDirectory, FtpFolderSyncMode.Update);
-
-
-
-                //var res = File.ReadAllText(@fullFilepath);
-
-
 
                 if (results.Count > 0)
                     Console.WriteLine("------ SUCCESS -------");
@@ -248,15 +237,6 @@ namespace FreediverApp.WifiCommunication
         {
             directoryPath = "/storage/emulated/0/FreediverApp";
             Directory.CreateDirectory(directoryPath);
-        }
-
-
-        
-
-
-
-
-
-        
+        }  
     }
 }
