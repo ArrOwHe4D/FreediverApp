@@ -275,6 +275,7 @@ namespace FreediverApp
                             DS.weatherTemperatureFeelsLike = "";
                             DS.weatherWindGust = "";
                             DS.weatherWindSpeed = "";
+                            DS.UpdateAll();
                             database.saveEntity("divesessions", DS);
                         }
                     }

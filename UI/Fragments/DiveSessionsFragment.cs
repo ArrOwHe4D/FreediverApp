@@ -86,10 +86,17 @@ namespace FreediverApp
                 {
                     if (item.date != null)
                     {
-                        double location_lat = float.Parse(item.location_lat.ToString().Replace(',', '.'), CultureInfo.GetCultureInfo("en").NumberFormat);
-                        double location_lon = float.Parse(item.location_lon.ToString().Replace(',', '.'), CultureInfo.GetCultureInfo("en").NumberFormat);
-                        await geoLocationService.getLocation_name(location_lat, location_lon);
-                        dives.Add(item.date + " | " + geoLocationService.location_locality);
+                        if (!String.IsNullOrEmpty(item.location_lat) || !String.IsNullOrEmpty(item.location_lon))
+                        {
+                            double location_lat = float.Parse(item.location_lat.ToString().Replace(',', '.'), CultureInfo.GetCultureInfo("en").NumberFormat);
+                            double location_lon = float.Parse(item.location_lon.ToString().Replace(',', '.'), CultureInfo.GetCultureInfo("en").NumberFormat);
+                            await geoLocationService.getLocation_name(location_lat, location_lon);
+                            dives.Add(item.date + " | " + geoLocationService.location_locality);
+                        }
+                        else
+                        {
+                            dives.Add(item.date + " | " + "n/a");
+                        }
                     }
                 }
 
@@ -108,19 +115,27 @@ namespace FreediverApp
         {
             TemporaryData.CURRENT_DIVESESSION = TemporaryData.CURRENT_USER.diveSessions[e.Position];
 
-            double location_lat = float.Parse(TemporaryData.CURRENT_DIVESESSION.location_lat.ToString().Replace(',', '.'), CultureInfo.GetCultureInfo("en").NumberFormat);
-            double location_lon = float.Parse(TemporaryData.CURRENT_DIVESESSION.location_lon.ToString().Replace(',', '.'), CultureInfo.GetCultureInfo("en").NumberFormat);
+            if (!String.IsNullOrEmpty(TemporaryData.CURRENT_DIVESESSION.location_lat) || !String.IsNullOrEmpty(TemporaryData.CURRENT_DIVESESSION.location_lon))
+            {
+                double location_lat = float.Parse(TemporaryData.CURRENT_DIVESESSION.location_lat.ToString().Replace(',', '.'), CultureInfo.GetCultureInfo("en").NumberFormat);
+                double location_lon = float.Parse(TemporaryData.CURRENT_DIVESESSION.location_lon.ToString().Replace(',', '.'), CultureInfo.GetCultureInfo("en").NumberFormat);
+                GeoLocationService geoLocationSevice = new GeoLocationService();
+                try
+                {
+                    await geoLocationSevice.getLocation_name(location_lat, location_lon);
+                }
+                catch (Exception exp)
+                {
+                    Console.WriteLine(exp);
+                }
+                TemporaryData.CURRENT_DIVESESSION.location_locality = geoLocationSevice.location_locality;
+            }
+            else
+            {
+                TemporaryData.CURRENT_DIVESESSION.location_locality = "n/a";
+            }
 
-            GeoLocationService geoLocationSevice = new GeoLocationService();
-            try
-            {
-                await geoLocationSevice.getLocation_name(location_lat, location_lon);
-            }
-            catch(Exception exp)
-            {
-                Console.WriteLine(exp);
-            }
-            TemporaryData.CURRENT_DIVESESSION.location_locality = geoLocationSevice.location_locality;
+            
 
             var diveSessionDetailViewActivity = new Intent(Context, typeof(DiveSessionDetailViewActivity));
             StartActivity(diveSessionDetailViewActivity);

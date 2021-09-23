@@ -24,6 +24,7 @@ namespace FreediverApp.Utils
             {
                 string directorySessionPath = downloadReport.getDirectoryPath() + "/" + session.Key + "/";
                 DiveSession diveSession = new DiveSession(TemporaryData.CURRENT_USER.id);
+                diveSession.date = session.Key.Replace("_", ".");
 
                 foreach(var dive in session.Value)
                 {
@@ -36,12 +37,20 @@ namespace FreediverApp.Utils
                         Console.WriteLine("Error reading file: " + directorySessionDivePath);
                         continue;
                     }
-                    List<Measurepoint> measurepoints = await parseFile(directorySessionDivePath);
+
+                    using (var reader = new StreamReader(directorySessionDivePath, true))
+                    {
+                        string time;
+                        time = await reader.ReadLineAsync();
+                        newDive.timestampBegin = time;
+                    }
+
+                    List<Measurepoint> measurepoints = await parseFile(newDive.id, directorySessionDivePath); ;
                     newDive.measurepoints = new List<Measurepoint>(measurepoints);
-                    newDive.UpdateAll();
                     diveSession.dives.Add(newDive);
 
                 }
+                diveSession.UpdateAll();
                 diveSessions.Add(diveSession);
             }
             return diveSessions;
@@ -49,7 +58,7 @@ namespace FreediverApp.Utils
 
 
 
-        public async Task<List<Measurepoint>> parseFile(string filePath) 
+        public async Task<List<Measurepoint>> parseFile(string diveID, string filePath) 
         {
             if (filePath == null || !File.Exists(filePath))
             {
@@ -68,11 +77,17 @@ namespace FreediverApp.Utils
                 }
             }
 
+            //First line has to be removed. It contains the timestamp.
+            measurepointJsonList.RemoveAt(0);
+
             List<Measurepoint> measurepoints = new List<Measurepoint>();
 
             foreach(var measurepoint in measurepointJsonList)
             {
                 Measurepoint mp = Measurepoint.fromJson(measurepoint);
+
+                //We have to reference the dive to which this measurepoint belongs.
+                mp.ref_dive = diveID;
                 measurepoints.Add(mp);
             }
 
