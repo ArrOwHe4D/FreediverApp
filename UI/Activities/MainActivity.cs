@@ -52,8 +52,19 @@ namespace FreediverApp
             navigationView.SetNavigationItemSelectedListener(this);
 
             FragmentTransaction menuTransaction = FragmentManager.BeginTransaction();
-            MainFragment mainContent = new MainFragment();
-            menuTransaction.Add(Resource.Id.framelayout, mainContent).Commit();
+            
+            
+            bool sessionCreated = Intent.GetBooleanExtra("sessionCreated", false);
+            if(sessionCreated)
+            {
+                DiveSessionsFragment divesessionsFragment = new DiveSessionsFragment();
+                menuTransaction.Replace(Resource.Id.framelayout, divesessionsFragment).AddToBackStack(null).Commit();
+            }
+            else
+            {
+                MainFragment mainContent = new MainFragment();
+                menuTransaction.Add(Resource.Id.framelayout, mainContent).Commit();
+            }
         }
 
         /**

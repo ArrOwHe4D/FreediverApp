@@ -90,7 +90,9 @@
   <string name="session_already_exists">"Es existiert bereits eine Session für dieses Datum!"</string>
   <string name="saving_successful">Ihre Einstellungen wurden erfolgreich gespeichert!</string>
   <string name="no_data_uploaded_yet">"Für diese Session wurden noch keine Daten hochgeladen!"</string>
-  
+  <string name="data_transfer_complete">"Die Tauchdaten wurden erfolgreich übertragen!"</string>
+  <string name="data_sync_complete">"Die Tauchdaten wurden erfolgreich mit der Cloud synchronisiert!"</string>
+
   <!--Dialog Strings (DE)-->
   <string name="dialog_save_user_info">Konto erstellen</string>
   <string name="dialog_delete_account">Konto löschen</string>

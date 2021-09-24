@@ -12,6 +12,7 @@ using Android.Support.V4.Content;
 using Android.Support.V4.App;
 using FreediverApp.DatabaseConnector;
 using System.Collections.Generic;
+using Android.Content;
 
 namespace FreediverApp
 {
@@ -88,6 +89,11 @@ namespace FreediverApp
                 database.saveEntity("divesessions", diveSession);
                 SavedSession savedSession = new SavedSession(TemporaryData.CURRENT_USER.id, DateTime.Now.Date.ToString("dd.MM.yyyy"));
                 database.saveEntity("savedsessions", savedSession);
+
+                var mainActivity = new Intent(this, typeof(MainActivity));
+                mainActivity.PutExtra("sessionCreated", true);
+                StartActivity(mainActivity);
+                Finish();
             }
             else 
             {

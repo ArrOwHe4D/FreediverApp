@@ -147,8 +147,11 @@ namespace FreediverApp
          **/
         void buttonAdd_Click(object sender, EventArgs eventArgs)
         {
+            FragmentManager.BeginTransaction().Detach(this).Attach(this).Commit();
             var addSessionActivity = new Intent(Context, typeof(AddSessionActivity));
             StartActivity(addSessionActivity);
         }
+
+
     }
 }

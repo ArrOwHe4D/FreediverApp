@@ -5,19 +5,20 @@ using Android.Content;
 using System.Collections.Generic;
 using System.IO;
 using FreediverApp.DataClasses;
+using System.Linq;
+using Android.Widget;
 
 namespace FreediverApp.WifiCommunication
 {
     class FtpConnector
     {
         private Context context;
-        private string address_v4;
-        private string username;
-        private string password;
         private FtpProfile serverProfile;
         private FtpClient client;
         private string directoryPath;
         private List<string> filenames = new List<string>();
+        private string filepath;
+        private string sessionsPathOnEsp = "/sessions.log";
 
         public FtpConnector(Context context)
         {
@@ -28,12 +29,10 @@ namespace FreediverApp.WifiCommunication
         public FtpConnector(Context context, string address_v4, string username, string password) 
         {
             this.context = context;
-            this.address_v4 = address_v4;
-            this.username = username;
-            this.password = password;
             buildFilePath();
             client = new FtpClient(address_v4, username, password);
             serverProfile = client.AutoConnect();
+            filepath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         }
 
         public DownloadReport synchronizeData()
@@ -42,18 +41,17 @@ namespace FreediverApp.WifiCommunication
             downloadReport.setDirectoryPath(directoryPath);
             try
             {
-                string filepath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
-                if (File.Exists(filepath + "/sessions.log"))
+                if (File.Exists(filepath + sessionsPathOnEsp))
                 {
-                    File.Delete(filepath + "/sessions.log");
+                    File.Delete(filepath + sessionsPathOnEsp);
                 }
 
-                downloadFile(filepath, "/sessions.log");
+                downloadFile(filepath, sessionsPathOnEsp);
 
                 List<string> sessions = new List<string>();
                 List<string> results = new List<string>();
-                using (StreamReader sr = new StreamReader(File.Open(filepath + "/sessions.log", FileMode.Open)))
+                using (StreamReader sr = new StreamReader(File.Open(filepath + sessionsPathOnEsp, FileMode.Open)))
                 {
                     while (!sr.EndOfStream)
                     {
@@ -65,6 +63,15 @@ namespace FreediverApp.WifiCommunication
                     string absoluteDirectoryPath = directoryPath + "/" + session;
                     Directory.CreateDirectory(absoluteDirectoryPath);
                     downloadDirectory(directoryPath, "/" + session);
+
+                    bool isSuccess = updateSessionFileOnEsp(filepath, sessionsPathOnEsp);
+
+                    if (!isSuccess)
+                    {
+                        Toast.MakeText(context, Resource.String.no_dives_available, ToastLength.Long).Show();
+                        return;
+                    }
+
                     downloadReport.addSession(new KeyValuePair<string, List<string>>(session, new List<string>(filenames)));
                     filenames.Clear();
 
@@ -174,6 +181,41 @@ namespace FreediverApp.WifiCommunication
                 return false;
             }     
         }
+
+        private bool updateSessionFileOnEsp(string filePath, string filename)
+        {
+            string fullFilePath = filePath + filename;
+            FtpStatus ftpStatus = FtpStatus.Failed;
+            int count = 0;
+            while(ftpStatus != FtpStatus.Success)
+            {
+                ftpStatus = client.DownloadFile(@fullFilePath, filename);
+                if(count == 10)
+                {
+                    return false;
+                }
+                count++;
+            }
+            List<string> sessions = File.ReadLines(fullFilePath).ToList();
+            sessions.RemoveAt(sessions.Count - 1);
+            File.WriteAllLines(fullFilePath, sessions);
+
+            client.DeleteFile(filename);
+
+            ftpStatus = FtpStatus.Failed;
+            count = 0;
+            while (ftpStatus != FtpStatus.Success)
+            {
+                ftpStatus = client.UploadFile(fullFilePath, filename);
+                if(count == 10)
+                {
+                    return false;
+                }
+                count++;
+            }
+            return true;
+        }
+
 
         private void handleError(FtpStatus errorcode) 
         {

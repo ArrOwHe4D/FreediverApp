@@ -103,6 +103,8 @@
     <string name="session_already_exists">"There does already exist a session for this date!"</string>
     <string name="saving_successful">Your settings have been saved successfully!</string>
     <string name="no_data_uploaded_yet">"There was no dive data uploaded for this session yet!"</string>
+    <string name="data_transfer_complete">"The dive data was successfully transmitted!"</string>
+    <string name="data_sync_complete">"The dive data was successfully synchronized with the cloud!"</string>
   
     <!--Dialog Strings (EN_US)-->
     <string name="dialog_save_user_info">Save User Information</string>
