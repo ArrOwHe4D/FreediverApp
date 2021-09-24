@@ -203,13 +203,12 @@ namespace FreediverApp
             while (true) 
             {
                 var session = readSessionFromFile();
-                if (session == null) 
+                if (session.Key == null || session.Value == null) 
                 {
                     break;
                 }
-                saveDiveData()
+                saveSessionData(session);
             }
-            //TODO: SAVE DIVEDATA JSON OBJECT...
         }
 
         private void buttonConnectOnClick(object sender, EventArgs eventArgs) 
@@ -283,64 +282,67 @@ namespace FreediverApp
             }
         }
 
-        private KeyValuePair<string, string> readSessionFromFile() 
+        private KeyValuePair<string, List<string>> readSessionFromFile() 
         {
             string filePath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData) + "/pending_sessions.ps";
+                    
+            List<string> sessions = File.ReadLines(filePath).ToList();
 
-            List<string> sessions = (List<string>)File.ReadLines(filePath);
+            if (sessions.Count > 0)
+            {
+                int lastSessionIndex = sessions.Count - 1;
 
-            int lastSessionIndex = sessions.Count - 1;
+                //get last session as result
+                string result = sessions.ElementAt(lastSessionIndex);
 
-            //get last session as result
-            string result = sessions.ElementAt(lastSessionIndex);
+                //remove last session to mark it as read
+                sessions.RemoveAt(lastSessionIndex);
 
-            //remove last session to mark it as read
-            sessions.RemoveAt(lastSessionIndex);
+                //write all remaining sessions back to the file (overwrite)
+                File.WriteAllLines(filePath, sessions);
 
-            //write all remaining sessions back to the file (overwrite)
-            File.WriteAllLines(filePath, sessions);
+                KeyValuePair<string, List<string>> jsonSessionObject = JsonConvert.DeserializeObject<KeyValuePair<string, List<string>>>(result);
 
-            KeyValuePair<string, string> jsonSessionObject = (KeyValuePair<string, string>)JsonConvert.DeserializeObject(result);
-
-            return jsonSessionObject;
+                return jsonSessionObject;
+            }
+            else 
+            {
+                Toast.MakeText(Context, "Es wurden keine ausstehenden Daten für die Synchronisierung gefunden!", ToastLength.Long).Show();
+            }
+            return new KeyValuePair<string, List<string>>(null, null);
         }
 
-        private async void saveSessionData(object session) 
+        private void saveSessionData(KeyValuePair<string, List<string>> session) 
         {
-            FileParser fileParser = new FileParser(downloadReport);
-            List<DiveSession> diveSessions = await fileParser.iterateThroughFiles();
-            List<string> existingSessions = getExistingSessions(diveSessions);
+            DiveSession diveSession = FileParser.parseSession(session);
+            string existingSessionDate = getRelatedExistingSessionDate(diveSession);
 
-            //save all divesessions from the result set into db
-            foreach (DiveSession DS in diveSessions)
+            //save all measurepoints and all dives from the current parsed session to db
+            foreach (Dive dive in diveSession.dives)
             {
-                //save all measurepoints and all dives to db
-                foreach (Dive D in DS.dives)
+                foreach (Measurepoint measurepoint in dive.measurepoints)
                 {
-                    foreach (Measurepoint MP in D.measurepoints)
-                    {
-                        database.saveEntity("measurepoints", MP);
-                    }
-                    database.saveEntity("dives", D);
+                    database.saveEntity("measurepoints", measurepoint);
                 }
-
-                //if the session not exists in db, set the divesession data to empty strings but save 
-                //it in db anyway without weather and location data so that we don´t loose any collected data from arduino side
-                if (!existingSessions.Contains(DS.date))
-                {
-                    DS.location_lat = "";
-                    DS.location_lon = "";
-                    DS.weatherCondition_description = "";
-                    DS.weatherCondition_main = "";
-                    DS.weatherHumidity = "";
-                    DS.weatherPressure = "";
-                    DS.weatherTemperature = "";
-                    DS.weatherTemperatureFeelsLike = "";
-                    DS.weatherWindGust = "";
-                    DS.weatherWindSpeed = "";
-                    DS.UpdateAll();
-                    database.saveEntity("divesessions", DS);
-                }
+                database.saveEntity("dives", dive);
+            }
+            
+            //if the session not exists in db, set the divesession data to empty strings but save 
+            //it in db anyway without weather and location data so that we don´t loose any collected data from arduino side
+            if (existingSessionDate != diveSession.date)
+            {
+                diveSession.location_lat = "";
+                diveSession.location_lon = "";
+                diveSession.weatherCondition_description = "";
+                diveSession.weatherCondition_main = "";
+                diveSession.weatherHumidity = "";
+                diveSession.weatherPressure = "";
+                diveSession.weatherTemperature = "";
+                diveSession.weatherTemperatureFeelsLike = "";
+                diveSession.weatherWindGust = "";
+                diveSession.weatherWindSpeed = "";
+                diveSession.UpdateAll();
+                database.saveEntity("divesessions", diveSession);
             }
         }
 
@@ -1002,32 +1004,29 @@ namespace FreediverApp
 
         //Check if a divesession already exists in db and set the ref_divesession field to
         //the id of the existing divesession to realize the 1:n relation of divession and dives
-        private List<string> getExistingSessions(List<DiveSession> diveSessions)
+        private string getRelatedExistingSessionDate(DiveSession diveSession)
         {
             //Store dates of existing sessions and setup a new listener to save Dives and Measurepoints after 
             //creating the correct reference to a existing divesession
-            List<string> existingSessions = new List<string>();
+            string existingSessionDate = "";
 
             if (diveSessionsFromDatabase != null)
             {
-                foreach (DiveSession dsDB in diveSessionsFromDatabase)
+                foreach (DiveSession savedSession in diveSessionsFromDatabase)
                 {
-                    foreach (DiveSession ds in diveSessions)
+                    if (savedSession.date == diveSession.date)
                     {
-                        if (dsDB.date == ds.date)
+                        existingSessionDate = diveSession.date;
+                        foreach (Dive dive in diveSession.dives)
                         {
-                            existingSessions.Add(ds.date);
-                            foreach (Dive d in ds.dives)
-                            {
-                                d.refDivesession = dsDB.Id;
-                            }
-                            int watertime = Convert.ToInt32(dsDB.watertime) + Convert.ToInt32(ds.watertime);
-                            database.updateEntity("divesessions", dsDB.key, "watertime", watertime.ToString());
+                            dive.refDivesession = savedSession.Id;
                         }
+                        int watertime = Convert.ToInt32(savedSession.watertime) + Convert.ToInt32(diveSession.watertime);
+                        database.updateEntity("divesessions", savedSession.key, "watertime", watertime.ToString());
                     }
                 }
             }
-            return existingSessions;
+            return existingSessionDate;
         }
 
         /**

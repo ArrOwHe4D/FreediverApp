@@ -2,13 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FreediverApp.Utils
 {
     static class FileParser
     {
-        public async Task<DiveSession> createDiveSessionFromFile(object session)
+        public static DiveSession parseSession(KeyValuePair<string, List<string>> session)
         {
             string directoryPath = "/storage/emulated/0/FreediverApp";
             Directory.CreateDirectory(directoryPath);
@@ -16,7 +17,11 @@ namespace FreediverApp.Utils
             string directorySessionPath = directoryPath + "/" + session.Key + "/";
             DiveSession diveSession = new DiveSession(TemporaryData.CURRENT_USER.id);
             diveSession.date = session.Key.Replace("_", ".");
-            diveSession.date.Split(".")[2] = "20" + diveSession.date.Split(".")[2]; //restore full year string (2021 instead of 21)
+
+            string tempDateWithoutYear = diveSession.date.Substring(0, 6);
+            string fullYear = "20" + diveSession.date.Split(".")[2]; //restore full year string (2021 instead of 21)
+
+            diveSession.date = tempDateWithoutYear + fullYear;
 
             foreach(var dive in session.Value)
             {
@@ -30,24 +35,19 @@ namespace FreediverApp.Utils
                     continue;
                 }
 
-                using (var reader = new StreamReader(directorySessionDivePath, true))
-                {
-                    string time;
-                    time = await reader.ReadLineAsync();
-                    newDive.timestampBegin = time;
-                }
+                //read the first line of a dive file to set the timestamp when the dive was started
+                newDive.timestampBegin = File.ReadLines(directorySessionDivePath).First();
 
-                List<Measurepoint> measurepoints = await parseFile(newDive.id, directorySessionDivePath);
+                List<Measurepoint> measurepoints = parseFile(newDive.id, directorySessionDivePath);
                 newDive.measurepoints = new List<Measurepoint>(measurepoints);
                 diveSession.dives.Add(newDive);
-
             }
             diveSession.UpdateAll();
 
             return diveSession;
         }
 
-        public async Task<List<Measurepoint>> parseFile(string diveID, string filePath) 
+        public static List<Measurepoint> parseFile(string diveID, string filePath)
         {
             if (filePath == null || !File.Exists(filePath))
             {
@@ -60,7 +60,7 @@ namespace FreediverApp.Utils
             using (var reader = new StreamReader(filePath, true))
             {
                 string line;
-                while ((line = await reader.ReadLineAsync()) != null)
+                while ((line = reader.ReadLine()) != null)
                 {
                     measurepointJsonList.Add(line);
                 }
@@ -71,7 +71,7 @@ namespace FreediverApp.Utils
 
             List<Measurepoint> measurepoints = new List<Measurepoint>();
 
-            foreach(var measurepoint in measurepointJsonList)
+            foreach (var measurepoint in measurepointJsonList)
             {
                 Measurepoint mp = Measurepoint.fromJson(measurepoint);
 
@@ -83,7 +83,7 @@ namespace FreediverApp.Utils
             return measurepoints;
         }
 
-        public bool parseDirectory(string directoryPath) 
+        public static bool parseDirectory(string directoryPath)
         {
             return false;
         }

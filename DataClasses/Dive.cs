@@ -31,6 +31,19 @@ namespace FreediverApp
         {
             refDivesession = _refDiveSession;
             id = refDivesession + "_" + reihenfolge;
+
+            timestampBegin = "";
+            timestampEnd = "";
+            heartFreqMax = "";
+            heartFreqMin = "";
+            luminanceMax = "";
+            luminanceMin = "";
+            maxDepth = "";
+            oxygenSaturationMax = "";
+            oxygenSaturationMin = "";
+            waterTemperatureMax = "";
+            waterTemperatureMin = "";
+            duration = "";
         }
 
         public Dive() { } 

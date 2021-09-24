@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -83,7 +84,8 @@ namespace FreediverApp
         {
             var connectionState = Connectivity.NetworkAccess;
 
-            var profiles = Connectivity.ConnectionProfiles;
+            //File.WriteAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData) + "/pending_sessions.ps", "");
+            //string content = File.ReadAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData) + "/pending_sessions.ps");
 
             if(checkboxRemember.Checked)
             {
