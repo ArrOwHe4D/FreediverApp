@@ -12,13 +12,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
         android:id="@+id/textView1" />
 
     <TextView
         android:text="1. Press the Connect Button and Connect to your Divecomputer using the Android Wifi Menu."
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textAlignment="center"
         android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:id="@+id/textView2" />
 
     <Button
@@ -37,6 +41,9 @@
         android:text="2. After you successfully connected to the Divecomputer, go back to this Menu and press the Transfer button."
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textAlignment="center"
         android:id="@+id/textView3" />
 
     <Button
@@ -54,21 +61,30 @@
         android:text="3. After you transferred the data to your phone successfully, disconnect from the arduino using the Android Wifi Menu."
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textAlignment="center"
         android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:id="@+id/textView4" />
 
     <TextView
         android:text="4. Enable a working internet connection via Wifi or Mobile Data on your phone."
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textAlignment="center"
         android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:id="@+id/textView5" />
 
     <TextView
         android:text="5. Press the Sync button to upload your data to the cloud."
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textAlignment="center"
         android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:id="@+id/textView6" />
 
     <Button

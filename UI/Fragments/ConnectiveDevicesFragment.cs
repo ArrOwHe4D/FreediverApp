@@ -29,7 +29,6 @@ namespace FreediverApp
         private Button buttonTransfer;
         private Button buttonConnect;
         private Button buttonSync;
-        private static ProgressBar scanIndicator;
         private FirebaseDataListener diveSessionListener;
         private List<DiveSession> diveSessionsFromDatabase;
         private ProgressDialog dataTransferDialog;
@@ -55,9 +54,6 @@ namespace FreediverApp
             database = new FirebaseDataListener();
 
             buttonTransfer = view.FindViewById<Button>(Resource.Id.bt_scan_btn);
-
-            scanIndicator = view.FindViewById<ProgressBar>(Resource.Id.scan_indicator);
-            scanIndicator.Visibility = ViewStates.Gone;
 
             //setup onclick listeners for scan button and listview items
             buttonTransfer.Click += transferButtonOnClick;
