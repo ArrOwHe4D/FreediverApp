@@ -9,7 +9,6 @@ using Microcharts;
 using SkiaSharp;
 using Microcharts.Droid;
 using FreediverApp.Utils;
-using FreediverApp.UI.Components;
 
 namespace FreediverApp.FragmentActivities
 {
@@ -21,11 +20,6 @@ namespace FreediverApp.FragmentActivities
     public class MainFragment : Fragment
     {
         private TextView textViewWelcomeMessage;
-        private TextView textViewTotalDiveSessionCount;
-        private TextView textViewTotalWaterTime;
-        private TextView textViewLongestDiveSession;
-        private TextView textViewWarmestDiveSession;
-        private TextView textViewColdestDiveSession;
         private ChartView chartView;
 
         private List<DiveSession> diveSessionList;
@@ -53,12 +47,6 @@ namespace FreediverApp.FragmentActivities
             textViewWelcomeMessage.Text = Context.GetString(Resource.String.welcome) + " " + TemporaryData.CURRENT_USER.username + " !";
 
             chartView = view.FindViewById<ChartView>(Resource.Id.chartview_divesession_statistic);
-
-            //textViewTotalDiveSessionCount = view.FindViewById<TextView>(Resource.Id.textview_total_divesession_count);
-            //textViewTotalWaterTime = view.FindViewById<TextView>(Resource.Id.textview_total_watertime);
-            //textViewLongestDiveSession = view.FindViewById<TextView>(Resource.Id.textview_longest_divesession);
-            //textViewWarmestDiveSession = view.FindViewById<TextView>(Resource.Id.textview_warmest_divesession);
-            //textViewColdestDiveSession = view.FindViewById<TextView>(Resource.Id.textview_coldest_divesession);
 
             longestSessionWaterTime = 0;
             totalWaterTime = 0;
@@ -92,12 +80,6 @@ namespace FreediverApp.FragmentActivities
                 SKColor valueLabelColor = FreediverHelper.darkModeActive(Context) ? SKColor.Parse("#8d9094") : SKColor.Parse("#000000");
                 SKColor backgroundColor = FreediverHelper.darkModeActive(Context) ? SKColor.Parse("#1d1e1f") : SKColor.Parse("#ffffff");
                 generateChart(valueLabelColor, backgroundColor);
-
-                //textViewTotalDiveSessionCount.Text = "Anzahl bisheriger Tauchsessions: " + diveSessionList.Count;
-                //textViewTotalWaterTime.Text        = "Gesamte Tauchzeit: " + totalWaterTime + " sec";
-                //textViewLongestDiveSession.Text    = "Längste Tauchsession: " + longestSessionWaterTime + " sec";
-                //textViewWarmestDiveSession.Text    = "Höchste Wassertemperatur: " + warmestWaterTemperature + " °C";
-                //textViewColdestDiveSession.Text    = "Niedrigste Wassertemperatur: " + coldestWaterTemperature + " °C";
             }
         }
 
@@ -194,8 +176,7 @@ namespace FreediverApp.FragmentActivities
                 { 
                     Entries = dataList, 
                     LabelTextSize = 20f, 
-                    LabelOrientation = 
-                    Microcharts.Orientation.Horizontal, 
+                    LabelOrientation = Microcharts.Orientation.Horizontal, 
                     ValueLabelOrientation = Microcharts.Orientation.Horizontal, 
                     BackgroundColor = backgroundColor
                 };

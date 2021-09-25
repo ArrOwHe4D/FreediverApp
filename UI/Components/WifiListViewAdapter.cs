@@ -84,6 +84,5 @@ namespace FreediverApp
 
             return view;
         }
-
     }
 }

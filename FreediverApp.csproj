@@ -112,7 +112,6 @@
     <Compile Include="Utils\FileParser.cs" />
     <Compile Include="Utils\FreediverHelper.cs" />
     <Compile Include="WifiCommunication\FtpConnector.cs" />
-    <Compile Include="WifiCommunication\RestService.cs" />
     <Compile Include="WifiCommunication\WifiConnector.cs" />
   </ItemGroup>
   <ItemGroup>

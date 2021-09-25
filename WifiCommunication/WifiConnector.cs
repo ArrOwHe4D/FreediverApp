@@ -1,12 +1,7 @@
-﻿using Android.App;
-using Android.Content;
-using Android.Net;
+﻿using Android.Content;
 using Android.Net.Wifi;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace FreediverApp.WifiCommunication
 {
@@ -16,13 +11,6 @@ namespace FreediverApp.WifiCommunication
         private static WifiManager wifiManager;
         private WifiReceiver wifiReceiver;
         public static IList<ScanResult> wifiNetworks;
-
-        // OLD STUFF
-        private NetworkCallback callback;
-        private string ssid = "23PSE";
-        private string passphrase = "ZZZDiveZZZ";
-        public ConnectivityManager connectivityManager;
-        private bool requested;
 
         public class WifiReceiver : BroadcastReceiver
         {
@@ -40,18 +28,6 @@ namespace FreediverApp.WifiCommunication
         {
             this.context = context;
             Initialize();
-
-            callback = new NetworkCallback
-            {
-                NetworkAvailable = network =>
-                {
-                    Console.WriteLine("Request network available");
-                },
-                NetworkUnavailable = () =>
-                {
-                    Console.WriteLine("Request network unavailable");
-                }
-            };
         }
 
         public void scan()
@@ -75,33 +51,8 @@ namespace FreediverApp.WifiCommunication
             }
         }
 
-        //public void findWifiNetworks(object sender, DoWorkEventArgs e)
-        //{
-        //    var worker = (BackgroundWorker)sender;
-        //    worker.DoWork -= findWifiNetworks;
-
-        //    if (worker.CancellationPending)
-        //    {
-        //        e.Cancel = true; //Cancel the BackgroungWorker Properly.                    
-        //    }
-        //    else
-        //    {
-        //        wifi = (WifiManager)context.GetSystemService(Context.WifiService);
-        //        if (wifi.WifiState == WifiState.Enabled)
-        //        {
-        //            wifi.StartScan();
-        //            Thread.Sleep(5000);
-        //            foreach (ScanResult scanResult in wifi.ScanResults) 
-        //            {
-        //                networks.Add(scanResult);
-        //            }
-        //        }
-        //    }
-        //}
-
         public void Initialize() 
         {
-            // Get a handle to the Wifi
             wifiManager = (WifiManager)context.GetSystemService(Context.WifiService);
         }
 
@@ -114,72 +65,6 @@ namespace FreediverApp.WifiCommunication
         public bool IsWifiEnabled() 
         {
             return wifiManager.IsWifiEnabled;
-        }
-
-        public void SuggestNetwork()
-        {
-            var suggestion = new WifiNetworkSuggestion.Builder()
-                .SetSsid(ssid)
-                .SetWpa2Passphrase(passphrase)
-                .Build();
-
-            var suggestions = new[] { suggestion };
-
-            var wifiManager = Application.Context.GetSystemService(Android.Content.Context.WifiService) as WifiManager;
-            var status = wifiManager.AddNetworkSuggestions(suggestions);
-
-            var statusText = status switch
-            {
-                NetworkStatus.SuggestionsSuccess => "Suggestion Success",
-                NetworkStatus.SuggestionsErrorAddDuplicate => "Suggestion Duplicate Added",
-                NetworkStatus.SuggestionsErrorAddExceedsMaxPerApp => "Suggestion Exceeds Max Per App"
-            };
-
-            Console.WriteLine(statusText);
-        }
-
-        public void requestNetwork() 
-        {
-            var specifier = new WifiNetworkSpecifier.Builder()
-                .SetSsid(ssid)
-                .SetWpa2Passphrase(passphrase)
-                .Build();
-
-            var request = new NetworkRequest.Builder()
-                .AddTransportType(TransportType.Wifi)
-                .SetNetworkSpecifier(specifier)
-                .Build();
-
-            connectivityManager = Application.Context.GetSystemService(Android.Content.Context.ConnectivityService) as ConnectivityManager;
-
-            if (requested)
-            {
-                connectivityManager.UnregisterNetworkCallback(callback);
-            }
-
-            connectivityManager.RequestNetwork(request, callback);
-            requested = true;
-
-            //while(!connectivityManager.ActiveNetworkInfo.IsConnected) { }
-
-        }
-
-        private class NetworkCallback : ConnectivityManager.NetworkCallback
-        {
-            public Action<Network> NetworkAvailable { get; set; }
-            public Action NetworkUnavailable { get; set; }
-
-            public override void OnAvailable(Network network)
-            {
-                base.OnAvailable(network);
-                NetworkAvailable?.Invoke(network);
-            }
-
-            public override void OnUnavailable()
-            {
-                base.OnUnavailable();
-                NetworkUnavailable?.Invoke();
-            }
         }
     }
 }

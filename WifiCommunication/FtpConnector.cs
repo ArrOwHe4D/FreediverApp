@@ -41,7 +41,6 @@ namespace FreediverApp.WifiCommunication
             downloadReport.setDirectoryPath(directoryPath);
             try
             {
-
                 if (File.Exists(filepath + sessionsPathOnEsp))
                 {
                     File.Delete(filepath + sessionsPathOnEsp);
@@ -74,14 +73,6 @@ namespace FreediverApp.WifiCommunication
 
                     downloadReport.addSession(new KeyValuePair<string, List<string>>(session, new List<string>(filenames)));
                     filenames.Clear();
-
-                    //using (StreamReader sr = new StreamReader(File.Open(filepath + "/" + session, FileMode.Open)))
-                    //{
-                    //    while (!sr.EndOfStream)
-                    //    {
-                    //        results.Add(sr.ReadLine());
-                    //    }
-                    //}
                 });
             } 
             catch(Exception e)
@@ -161,8 +152,6 @@ namespace FreediverApp.WifiCommunication
             }
         }
 
-        
-
         public async void disconnect() 
         {
             await client.DisconnectAsync();
@@ -215,65 +204,6 @@ namespace FreediverApp.WifiCommunication
             }
             return true;
         }
-
-
-        private void handleError(FtpStatus errorcode) 
-        {
-            switch (errorcode) 
-            {
-                case FtpStatus.Success: 
-                {
-                    Console.WriteLine("Ftp Operation successful!");
-                    break;
-                }
-                case FtpStatus.Failed: 
-                case FtpStatus.Skipped: 
-                {
-                    Console.WriteLine("Error while processing requested Ftp Operation!");
-                    break;
-                }
-                default: { break; }
-            }
-        }
-
-        //public async Task<bool> synchronizeData_old()
-        //{
-        //    FtpClient client = new FtpClient("192.168.4.1", "diver", "diverpass");
-        //    client.AutoConnect();
-
-        //    bool success = false;
-
-        //    if (File.Exists(localDirectory + "/sessions.log"))
-        //    {
-        //        File.Delete(localDirectory + "/sessions.log");
-        //    }
-
-        //    success = await downloadFile(localDirectory, "/", "sessions.log");
-
-        //    List<string> sessions = new List<string>();
-        //    List<string> results = new List<string>();
-        //    using (StreamReader sr = new StreamReader(File.Open(localDirectory + "/sessions.log", FileMode.Open)))
-        //    {
-        //        while (!sr.EndOfStream)
-        //        {
-        //            sessions.Add(sr.ReadLine());
-        //        }
-        //    }
-        //    sessions.ForEach((Action<string>)(async (string session) =>
-        //    {
-        //        List<FtpResult> result;
-        //        result = await this.downloadDirectory((string)localDirectory, (string)("/logFiles/" + session));
-        //        success = result.Count > 0;
-        //        using (StreamReader sr = new StreamReader(File.Open(localDirectory + session, FileMode.Open)))
-        //        {
-        //            while (!sr.EndOfStream)
-        //            {
-        //                results.Add(sr.ReadLine());
-        //            }
-        //        }
-        //    }));
-        //    return success;
-        //}
 
         private void buildFilePath()
         {

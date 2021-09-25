@@ -5,31 +5,18 @@ using System.Threading;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
-using FreediverApp.BluetoothCommunication;
 using Android.Content.PM;
 using Android;
 using Android.Support.V4.Content;
 using Android.Support.V4.App;
 using Fragment = Android.App.Fragment;
 using SupportV7 = Android.Support.V7.App;
-using Plugin.BLE.Abstractions.Contracts;
-using IAdapter = Plugin.BLE.Abstractions.Contracts.IAdapter;
-using System.Collections.ObjectModel;
-using Plugin.BLE;
-using Plugin.BLE.Abstractions;
-using System.Threading.Tasks;
 using FreediverApp.DatabaseConnector;
 using Newtonsoft.Json;
 using Android.App;
-using Android.Bluetooth;
-
-//WIFI-TESTING
-using Android.Net.Wifi;
 using FreediverApp.WifiCommunication;
 using Android.Content;
-using static Android.Gms.Common.Apis.GoogleApi;
 using System.IO;
-using System.Text;
 using FreediverApp.DataClasses;
 using FreediverApp.Utils;
 

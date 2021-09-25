@@ -134,9 +134,7 @@ namespace FreediverApp
             {
                 TemporaryData.CURRENT_DIVESESSION.location_locality = "n/a";
             }
-
-            
-
+        
             var diveSessionDetailViewActivity = new Intent(Context, typeof(DiveSessionDetailViewActivity));
             StartActivity(diveSessionDetailViewActivity);
         }
@@ -151,7 +149,5 @@ namespace FreediverApp
             var addSessionActivity = new Intent(Context, typeof(AddSessionActivity));
             StartActivity(addSessionActivity);
         }
-
-
     }
 }

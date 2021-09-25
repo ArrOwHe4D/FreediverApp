@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -41,7 +40,7 @@ namespace FreediverApp
 
             SetContentView(Resource.Layout.LoginPage);
 
-            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
+            Platform.Init(this, savedInstanceState);
 
             buttonLogin = FindViewById<Button>(Resource.Id.button_login);
             buttonLogin.Click += login;
