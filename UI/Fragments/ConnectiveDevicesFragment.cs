@@ -150,8 +150,6 @@ namespace FreediverApp
             }
         }
 
-        
-
         private void saveDownloadReport(DownloadReport downloadReport) 
         {
             string filePath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData) + "/pending_sessions.ps";
