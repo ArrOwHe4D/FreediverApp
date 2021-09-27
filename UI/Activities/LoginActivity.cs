@@ -6,6 +6,7 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Widget;
 using FreediverApp.DatabaseConnector;
+using FreediverApp.Utils;
 using Xamarin.Essentials;
 
 namespace FreediverApp
@@ -86,7 +87,7 @@ namespace FreediverApp
             //File.WriteAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData) + "/pending_sessions.ps", "");
             //string content = File.ReadAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData) + "/pending_sessions.ps");
 
-            if(checkboxRemember.Checked)
+            if (checkboxRemember.Checked)
             {
                 try
                 {

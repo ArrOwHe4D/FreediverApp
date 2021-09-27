@@ -81,16 +81,25 @@ namespace FreediverApp
 
         private void buttonSyncOnClick(object sender, EventArgs eventArgs)
         {
-            while (true) 
+            bool connection = FreediverHelper.isConnectionToDatabase();
+
+            if(connection)
             {
-                var session = readSessionFromFile();
-                if (session.Key == null || session.Value == null) 
+                while (true) 
                 {
-                    break;
+                    var session = readSessionFromFile();
+                    if (session.Key == null || session.Value == null) 
+                    {
+                        break;
+                    }
+                    saveSessionData(session);
+                    Toast.MakeText(Context, Resource.String.data_sync_complete, ToastLength.Long).Show();
                 }
-                saveSessionData(session);
             }
-            Toast.MakeText(Context, Resource.String.data_sync_complete, ToastLength.Long).Show();
+            else
+            {
+                Toast.MakeText(Context, Resource.String.no_internet_connection, ToastLength.Long).Show();
+            }
         }
 
         private void buttonConnectOnClick(object sender, EventArgs eventArgs) 

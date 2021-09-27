@@ -8426,8 +8426,8 @@ namespace FreediverApp
 			// aapt resource value: 0x7F0F00BA
 			public const int navigation_drawer_open = 2131689658;
 			
-			// aapt resource value: 0x7F0F00BE
-			public const int notes = 2131689662;
+			// aapt resource value: 0x7F0F00BF
+			public const int notes = 2131689663;
 			
 			// aapt resource value: 0x7F0F00BB
 			public const int no_data_uploaded_yet = 2131689659;
@@ -8438,110 +8438,113 @@ namespace FreediverApp
 			// aapt resource value: 0x7F0F00BD
 			public const int no_dives_available = 2131689661;
 			
-			// aapt resource value: 0x7F0F00BF
-			public const int page_header_accountpanel = 2131689663;
+			// aapt resource value: 0x7F0F00BE
+			public const int no_internet_connection = 2131689662;
 			
 			// aapt resource value: 0x7F0F00C0
-			public const int page_header_connected_devices = 2131689664;
+			public const int page_header_accountpanel = 2131689664;
 			
 			// aapt resource value: 0x7F0F00C1
-			public const int page_header_divesessions = 2131689665;
+			public const int page_header_connected_devices = 2131689665;
 			
 			// aapt resource value: 0x7F0F00C2
-			public const int page_header_settings = 2131689666;
+			public const int page_header_divesessions = 2131689666;
 			
 			// aapt resource value: 0x7F0F00C3
-			public const int password = 2131689667;
+			public const int page_header_settings = 2131689667;
 			
 			// aapt resource value: 0x7F0F00C4
-			public const int password_acc_panel = 2131689668;
+			public const int password = 2131689668;
 			
 			// aapt resource value: 0x7F0F00C5
-			public const int password_toggle_content_description = 2131689669;
+			public const int password_acc_panel = 2131689669;
 			
 			// aapt resource value: 0x7F0F00C6
-			public const int path_password_eye = 2131689670;
+			public const int password_toggle_content_description = 2131689670;
 			
 			// aapt resource value: 0x7F0F00C7
-			public const int path_password_eye_mask_strike_through = 2131689671;
+			public const int path_password_eye = 2131689671;
 			
 			// aapt resource value: 0x7F0F00C8
-			public const int path_password_eye_mask_visible = 2131689672;
+			public const int path_password_eye_mask_strike_through = 2131689672;
 			
 			// aapt resource value: 0x7F0F00C9
-			public const int path_password_strike_through = 2131689673;
+			public const int path_password_eye_mask_visible = 2131689673;
 			
 			// aapt resource value: 0x7F0F00CA
-			public const int recover_password = 2131689674;
+			public const int path_password_strike_through = 2131689674;
 			
 			// aapt resource value: 0x7F0F00CB
-			public const int register = 2131689675;
-			
-			// aapt resource value: 0x7F0F00D0
-			public const int registered_since = 2131689680;
+			public const int recover_password = 2131689675;
 			
 			// aapt resource value: 0x7F0F00CC
-			public const int register_email_exists = 2131689676;
-			
-			// aapt resource value: 0x7F0F00CD
-			public const int register_email_not_valid = 2131689677;
-			
-			// aapt resource value: 0x7F0F00CE
-			public const int register_fill_all_fields = 2131689678;
-			
-			// aapt resource value: 0x7F0F00CF
-			public const int register_username_exists = 2131689679;
+			public const int register = 2131689676;
 			
 			// aapt resource value: 0x7F0F00D1
-			public const int restore_account = 2131689681;
+			public const int registered_since = 2131689681;
+			
+			// aapt resource value: 0x7F0F00CD
+			public const int register_email_exists = 2131689677;
+			
+			// aapt resource value: 0x7F0F00CE
+			public const int register_email_not_valid = 2131689678;
+			
+			// aapt resource value: 0x7F0F00CF
+			public const int register_fill_all_fields = 2131689679;
+			
+			// aapt resource value: 0x7F0F00D0
+			public const int register_username_exists = 2131689680;
 			
 			// aapt resource value: 0x7F0F00D2
-			public const int save = 2131689682;
+			public const int restore_account = 2131689682;
 			
 			// aapt resource value: 0x7F0F00D3
-			public const int saving_successful = 2131689683;
+			public const int save = 2131689683;
 			
 			// aapt resource value: 0x7F0F00D4
-			public const int search_menu_title = 2131689684;
+			public const int saving_successful = 2131689684;
 			
 			// aapt resource value: 0x7F0F00D5
-			public const int session_already_exists = 2131689685;
+			public const int search_menu_title = 2131689685;
 			
 			// aapt resource value: 0x7F0F00D6
-			public const int session_overview = 2131689686;
+			public const int session_already_exists = 2131689686;
 			
 			// aapt resource value: 0x7F0F00D7
-			public const int status_bar_notification_info_overflow = 2131689687;
+			public const int session_overview = 2131689687;
 			
 			// aapt resource value: 0x7F0F00D8
-			public const int total_dive_time = 2131689688;
+			public const int status_bar_notification_info_overflow = 2131689688;
 			
 			// aapt resource value: 0x7F0F00D9
-			public const int username = 2131689689;
+			public const int total_dive_time = 2131689689;
 			
-			// aapt resource value: 0x7F0F00DB
-			public const int username_or_email = 2131689691;
+			// aapt resource value: 0x7F0F00DA
+			public const int username = 2131689690;
 			
 			// aapt resource value: 0x7F0F00DC
-			public const int weather = 2131689692;
+			public const int username_or_email = 2131689692;
 			
 			// aapt resource value: 0x7F0F00DD
-			public const int weather_condition = 2131689693;
+			public const int weather = 2131689693;
 			
 			// aapt resource value: 0x7F0F00DE
-			public const int weight = 2131689694;
+			public const int weather_condition = 2131689694;
 			
 			// aapt resource value: 0x7F0F00DF
-			public const int weight_acc_panel = 2131689695;
+			public const int weight = 2131689695;
 			
 			// aapt resource value: 0x7F0F00E0
-			public const int welcome = 2131689696;
+			public const int weight_acc_panel = 2131689696;
 			
 			// aapt resource value: 0x7F0F00E1
-			public const int wifi_devices = 2131689697;
+			public const int welcome = 2131689697;
 			
 			// aapt resource value: 0x7F0F00E2
-			public const int wrong_username_or_pass = 2131689698;
+			public const int wifi_devices = 2131689698;
+			
+			// aapt resource value: 0x7F0F00E3
+			public const int wrong_username_or_pass = 2131689699;
 			
 			static String()
 			{

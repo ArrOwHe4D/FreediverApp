@@ -92,6 +92,7 @@
   <string name="no_data_uploaded_yet">"Für diese Session wurden noch keine Daten hochgeladen!"</string>
   <string name="data_transfer_complete">"Die Tauchdaten wurden erfolgreich übertragen!"</string>
   <string name="data_sync_complete">"Die Tauchdaten wurden erfolgreich mit der Cloud synchronisiert!"</string>
+  <string name="no_internet_connection">"Keine aktive Internetverbindung!"</string>
 
   <!--Dialog Strings (DE)-->
   <string name="dialog_save_user_info">Konto erstellen</string>
