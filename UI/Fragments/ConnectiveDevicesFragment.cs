@@ -18,6 +18,7 @@ using Android.Content;
 using System.IO;
 using FreediverApp.DataClasses;
 using FreediverApp.Utils;
+using System.Threading;
 
 namespace FreediverApp
 {
@@ -129,16 +130,8 @@ namespace FreediverApp
                     dataTransferDialog.SetCancelable(false);
                     dataTransferDialog.Show();
 
-                    //Attempt to sync data and start parsing it afterwards
-                    Toast.MakeText(base.Context, "Connected to DiveComputer, starting data transfer...", ToastLength.Long).Show();
-                    Console.WriteLine("Starting to sync log directory...");
-                    DownloadReport downloadReport = connector.synchronizeData();
-                    saveDownloadReport(downloadReport);
-
-                    //Close data transfer dialog
-                    dataTransferDialog.Dismiss();
-                    Toast.MakeText(Context, Resource.String.data_transfer_complete, ToastLength.Long).Show();
-                    createPopupDialog();
+                    //Start Data Synchronization in background thread
+                    ThreadPool.QueueUserWorkItem(o => synchronizeDataTask(connector));
                 }
                 else
                 {
@@ -150,6 +143,20 @@ namespace FreediverApp
                 Console.WriteLine(ex.Message);
                 Toast.MakeText(Context, "Verbindung fehlgeschlagen, stellen Sie sicher, dass Sie mit dem Tauchcomputer per WLAN verbunden sind.", ToastLength.Long);
             }
+        }
+
+        private void synchronizeDataTask(FtpConnector connector) 
+        {
+            //Attempt to sync data and start parsing it afterwards
+            Activity.RunOnUiThread(() => Toast.MakeText(base.Context, "Connected to DiveComputer, starting data transfer...", ToastLength.Long).Show());
+            Console.WriteLine("Starting to sync log directory...");
+            DownloadReport downloadReport = connector.synchronizeData();
+            saveDownloadReport(downloadReport);
+
+            //Close data transfer dialog after completion
+            Activity.RunOnUiThread(() => dataTransferDialog.Dismiss());
+            Activity.RunOnUiThread(() => Toast.MakeText(Context, Resource.String.data_transfer_complete, ToastLength.Long).Show());
+            Activity.RunOnUiThread(() => createPopupDialog());
         }
 
         private void saveDownloadReport(DownloadReport downloadReport) 
