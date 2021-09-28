@@ -85,21 +85,36 @@ namespace FreediverApp
 
             if(connection)
             {
-                while (true) 
-                {
-                    var session = readSessionFromFile();
-                    if (session.Key == null || session.Value == null) 
-                    {
-                        break;
-                    }
-                    saveSessionData(session);
-                    Toast.MakeText(Context, Resource.String.data_sync_complete, ToastLength.Long).Show();
-                }
+                //Show data transfer dialog
+                dataTransferDialog = new ProgressDialog(base.Context);
+                dataTransferDialog.SetMessage("Uploading Divedata to the Cloud...");
+                dataTransferDialog.SetCancelable(false);
+                dataTransferDialog.Show();
+
+                //Start Data Synchronization in background thread
+                ThreadPool.QueueUserWorkItem(o => uploadDataTask());
             }
             else
             {
                 Toast.MakeText(Context, Resource.String.no_internet_connection, ToastLength.Long).Show();
             }
+        }
+
+        private void uploadDataTask() 
+        {
+            while (true)
+            {
+                var session = readSessionFromFile();
+                if (session.Key == null || session.Value == null)
+                {
+                    break;
+                }
+                saveSessionData(session);    
+            }
+
+            //Close data transfer dialog after completion
+            Activity.RunOnUiThread(() => dataTransferDialog.Dismiss());
+            Activity.RunOnUiThread(() => Toast.MakeText(Context, Resource.String.data_sync_complete, ToastLength.Long).Show());
         }
 
         private void buttonConnectOnClick(object sender, EventArgs eventArgs) 
