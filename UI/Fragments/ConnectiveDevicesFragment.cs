@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
@@ -115,11 +114,7 @@ namespace FreediverApp
          **/
         private void transferButtonOnClick(object sender, EventArgs eventArgs)
         {
-            if ((ContextCompat.CheckSelfPermission(Context, Manifest.Permission.WriteExternalStorage) != (int)Permission.Granted)
-            || (ContextCompat.CheckSelfPermission(Context, Manifest.Permission.ReadExternalStorage) != (int)Permission.Granted))
-            {
-                ActivityCompat.RequestPermissions(Activity, new string[] { Manifest.Permission.ReadExternalStorage, Manifest.Permission.WriteExternalStorage }, 1000);
-            }
+            requestStoragePermissions();
 
             try
             {
@@ -139,8 +134,6 @@ namespace FreediverApp
                     Console.WriteLine("Starting to sync log directory...");
                     DownloadReport downloadReport = connector.synchronizeData();
                     saveDownloadReport(downloadReport);
-
-
 
                     //Close data transfer dialog
                     dataTransferDialog.Dismiss();
@@ -239,10 +232,6 @@ namespace FreediverApp
             }
         }
 
-        
-
-        
-
         private void checkWifiPermission()
         {
             const int wifiPermissionsRequestCode = 1000;
@@ -273,13 +262,6 @@ namespace FreediverApp
                 //lambda expression that handles the case that the user accepted to activate wifi.
                 //wifiConnector.SetWifiEnabled(true);
                 StartActivity(new Intent(Android.Provider.Settings.ActionWifiSettings));
-
-                //We let the main thread sleep for 2,5 sec since we encountered that on some phones it takes a bit to activate bluetooth 
-                //and to prevent that activation is not working even if it would work, we wait some seconds to ensure that activation was successfull 
-                //on each of the different custom android versions from different manufacturers. 
-                //(Should have something to do with how internal system calls are handled on different android versions)
-                Thread.Sleep(2500);
-
 
                 //print a toast message whether or not the bt adapter was sucessfully activated
                 if (wifiConnector.IsWifiEnabled())
@@ -326,8 +308,6 @@ namespace FreediverApp
             }
             return existingSessionDate;
         }
-
-        
 
         /**
          *  This function queries for all divesessions that were created by the current user. We need
@@ -380,6 +360,15 @@ namespace FreediverApp
             dialogBuilder.SetIcon(iconId);
                    
             return dialogBuilder;
+        }
+
+        private void requestStoragePermissions() 
+        {
+            if ((ContextCompat.CheckSelfPermission(Context, Manifest.Permission.WriteExternalStorage) != (int)Permission.Granted)
+            || (ContextCompat.CheckSelfPermission(Context, Manifest.Permission.ReadExternalStorage) != (int)Permission.Granted))
+            {
+                ActivityCompat.RequestPermissions(Activity, new string[] { Manifest.Permission.ReadExternalStorage, Manifest.Permission.WriteExternalStorage }, 1000);
+            }
         }
     }
 }
