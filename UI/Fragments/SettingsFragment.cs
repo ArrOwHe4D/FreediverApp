@@ -1,13 +1,14 @@
 ﻿using System;
 using Android.App;
-using Android.Bluetooth;
 using Android.Content;
 using Android.Content.Res;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
-using FreediverApp.BluetoothCommunication;
 using Java.Util;
+using SupportV7 = Android.Support.V7.App;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FreediverApp
 {
@@ -20,12 +21,13 @@ namespace FreediverApp
     public class SettingsFragment : Fragment
     {
         /*Member variables (UI components from XML)*/
-        private Switch switchBluetooth;
-        private Button btnSave;
-        private BluetoothDeviceReceiver btReceiver;
         private Spinner spinnerLanguage;
         private ArrayAdapter spinnerAdapter;
         private bool initiateCall = true;
+        private TextView textViewSSID;
+        private TextView textViewPassword;
+        private ImageView buttonEditSSID;
+        private ImageView buttonEditPassword;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -38,16 +40,6 @@ namespace FreediverApp
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = inflater.Inflate(Resource.Layout.SettingsPage, container, false);
-            
-            btnSave = view.FindViewById<Button>(Resource.Id.button_save);
-            btnSave.Click += btnSaveOnClick;
-
-            btReceiver = new BluetoothDeviceReceiver();
-            btReceiver.m_adapter = BluetoothAdapter.DefaultAdapter;
-
-            switchBluetooth = view.FindViewById<Switch>(Resource.Id.switch_bluetooth);
-            switchBluetooth.Click += switchBluetoothOnClick;
-            switchBluetooth.Checked = btReceiver.m_adapter.IsEnabled;
 
             spinnerLanguage = view.FindViewById<Spinner>(Resource.Id.spinner_language);
             spinnerAdapter = ArrayAdapter.CreateFromResource(Context, Resource.Array.languages_array, Android.Resource.Layout.SimpleSpinnerItem);
@@ -55,7 +47,27 @@ namespace FreediverApp
             spinnerLanguage.Adapter = spinnerAdapter;
             spinnerLanguage.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(languageSpinner_ItemSelected);
 
+            textViewSSID = view.FindViewById<TextView>(Resource.Id.textview_ssid);
+
+            textViewPassword = view.FindViewById<TextView>(Resource.Id.textview_password);
+
+            buttonEditSSID = view.FindViewById<ImageView>(Resource.Id.button_edit_ssid);
+            buttonEditSSID.Click += editSSID;
+
+            buttonEditPassword = view.FindViewById<ImageView>(Resource.Id.button_edit_password);
+            buttonEditPassword.Click += editPassword;
+
             return view;
+        }
+
+        public override async void OnActivityCreated(Bundle savedInstanceState)
+        {
+            base.OnActivityCreated(savedInstanceState);
+
+            Dictionary<string, string> wifiCredentials = await readWifiCredentials();
+
+            textViewSSID.Text = wifiCredentials["ota_ssid"];
+            textViewPassword.Text = wifiCredentials["ota_password"];
         }
 
         private void languageSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e) 
@@ -112,33 +124,102 @@ namespace FreediverApp
             StartActivity(mainActivity);
         }
 
-        /**
-         *  This function represents the onclick handler of the bluetooth switch.
-         *  According to the current state of the bluetooth adapter, bluetooth is 
-         *  turned on or off.
-         **/
-        public void switchBluetoothOnClick(object sender, EventArgs args) 
+        public void editSSID(object sender, EventArgs eventArgs)
         {
-            if (btReceiver.m_adapter != null)
+            LayoutInflater layoutInflater = LayoutInflater.From(Context);
+            View dialogView = layoutInflater.Inflate(Resource.Layout.UserInputDialog, null);
+
+            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog("SSID ändern", "Neue SSID", Resource.Drawable.icon_pencil, dialogView);
+
+            var editValueField = dialogView.FindViewById<EditText>(Resource.Id.textfield_input);
+            editValueField.InputType = Android.Text.InputTypes.TextVariationEmailAddress;
+
+            dialogBuilder.SetCancelable(false)
+                .SetPositiveButton("Speichern", delegate
+                {
+                    textViewSSID.Text = editValueField.Text.Trim();
+                    saveWifiCredentials();
+                    Toast.MakeText(Context, "Wert wurde erfolgreich geändert!", ToastLength.Long).Show();
+                })
+                .SetNegativeButton("Abbrechen", delegate
+                {
+                    dialogBuilder.Dispose();
+                });
+
+            SupportV7.AlertDialog dialog = dialogBuilder.Create();
+            dialog.Show();
+        }
+
+        public void editPassword(object sender, EventArgs eventArgs)
+        {
+            LayoutInflater layoutInflater = LayoutInflater.From(Context);
+            View dialogView = layoutInflater.Inflate(Resource.Layout.UserInputDialog, null);
+
+            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog("Passwort ändern", "Neues Passwort", Resource.Drawable.icon_pencil, dialogView);
+
+            var editValueField = dialogView.FindViewById<EditText>(Resource.Id.textfield_input);
+            editValueField.InputType = Android.Text.InputTypes.TextVariationVisiblePassword;
+
+            dialogBuilder.SetCancelable(false)
+                .SetPositiveButton("Speichern", delegate
+                {
+                    textViewPassword.Text = editValueField.Text.Trim();
+                    saveWifiCredentials();
+                    Toast.MakeText(Context, "Wert wurde erfolgreich geändert!", ToastLength.Long).Show();
+                })
+                .SetNegativeButton("Abbrechen", delegate
+                {
+                    dialogBuilder.Dispose();
+                });
+
+            SupportV7.AlertDialog dialog = dialogBuilder.Create();
+            dialog.Show();
+        }
+
+        public SupportV7.AlertDialog.Builder createEditDialog(string title, string placeholder, int iconId, View parentView)
+        {
+            SupportV7.AlertDialog.Builder dialogBuilder = new SupportV7.AlertDialog.Builder(Context);
+            dialogBuilder.SetView(parentView);
+
+            dialogBuilder.SetTitle(title);
+            dialogBuilder.SetIcon(iconId);
+
+            var editValueField = parentView.FindViewById<EditText>(Resource.Id.textfield_input);
+            editValueField.Hint = placeholder;
+
+            return dialogBuilder;
+        }
+
+        private async void saveWifiCredentials()
+        {
+            try
             {
-                if (!btReceiver.m_adapter.IsEnabled)
-                {
-                    btReceiver.m_adapter.Enable();
-                }
-                else 
-                {
-                    btReceiver.m_adapter.Disable();
-                }
+                await Xamarin.Essentials.SecureStorage.SetAsync("ota_ssid", textViewSSID.Text);
+                await Xamarin.Essentials.SecureStorage.SetAsync("ota_password", textViewPassword.Text);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
             }
         }
 
-        /**
-         *  Onclick handler for the save button. Is currently not used but can be useful when 
-         *  additional settings are added to this fragment.
-         **/
-        public void btnSaveOnClick(object sender, EventArgs args) 
+        private async Task<Dictionary<string, string>> readWifiCredentials()
         {
-            Toast.MakeText(Context, Resource.String.saving_successful, ToastLength.Long).Show();
+            Dictionary<string, string> wifiCredentials = new Dictionary<string, string>();
+            wifiCredentials["ota_ssid"] = "n/a";
+            wifiCredentials["ota_password"] = "n/a";
+
+            try
+            {
+                wifiCredentials["ota_ssid"] = await Xamarin.Essentials.SecureStorage.GetAsync("ota_ssid");
+                wifiCredentials["ota_password"] = await Xamarin.Essentials.SecureStorage.GetAsync("ota_password");
+            }
+            catch (Exception ex) 
+            {
+                Console.WriteLine(ex);
+            }
+
+            return wifiCredentials;
         }
     }
 }

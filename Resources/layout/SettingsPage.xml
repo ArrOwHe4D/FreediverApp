@@ -15,93 +15,114 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <TableLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_marginLeft="10dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center"
-                android:textColor="@android:color/black"
-                android:textSize="12pt"
-                android:text="@string/app_settings"/>
-
-            <LinearLayout
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="30dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="40dp">
-
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/icon_connected_devices"
-                    android:id="@+id/imageview_bluetooth"/>
+                android:gravity="center">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:text="@string/app_settings"
                     android:textColor="@android:color/black"
-                    android:textSize="8pt"
-                    android:text="@string/bluetooth"/>
+                    android:textSize="12pt"/>
 
-                <Switch
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/switch_bluetooth"/>
+            </TableRow>
 
-            </LinearLayout>
-           
-            <LinearLayout
+            <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="30dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/icon_globe"
-                    android:id="@+id/imageview_language"/>
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:gravity="center">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_weight=".25"
                     android:textColor="@android:color/black"
                     android:textSize="8pt"
                     android:text="@string/language"/>
 
                 <Spinner
-                    android:layout_width="60dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="20dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".25"
                     android:id="@+id/spinner_language"/>
 
-             </LinearLayout>
+            </TableRow>
 
-            <Button
-                android:text="@string/save"
-                android:textColor="@android:color/white"
-                android:backgroundTint="?android:attr/colorPrimary"
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="80dp"
-                android:layout_marginRight="80dp"
-                android:layout_marginTop="60dp"
-                android:id="@+id/button_save"/>
+                android:layout_marginTop="20dp"
+                android:gravity="center">
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".25"
+                    android:text="SSID: "
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".25"
+                    android:singleLine="true"
+                    android:text="WifiNetwork_1"
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"
+                    android:id="@+id/textview_ssid"/>
+                
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/icon_pencil"
+                    android:contentDescription="change" 
+                    android:id="@+id/button_edit_ssid"/>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".25"
+                    android:text="Password: "
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".25"
+                    android:singleLine="true"
+                    android:text="Password"
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"
+                    android:id="@+id/textview_password"/>
+                
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/icon_pencil"
+                    android:contentDescription="change" 
+                    android:id="@+id/button_edit_password"/>
+
+            </TableRow>
+
+        </TableLayout>
 
     </android.support.v7.widget.CardView>
 
