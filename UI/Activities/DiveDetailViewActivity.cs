@@ -32,7 +32,7 @@ namespace FreediverApp
         private TextView textViewMinOxy;
         private ChartView chartView;
 
-        private FirebaseDataListener measurepointDataListener;
+        private FirestoreDataListener measurepointDataListener;
         private List<Measurepoint> measurepointList;
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -79,7 +79,7 @@ namespace FreediverApp
          **/
         private void RetrieveMeasurepointData(Dive dive)
         {
-            measurepointDataListener = new FirebaseDataListener();
+            measurepointDataListener = new FirestoreDataListener();
             measurepointDataListener.QueryParameterized("measurepoints", "ref_dive", dive.id);
             measurepointDataListener.DataRetrieved += MeasurepointDataListener_DataRetrieved;
         }
@@ -88,7 +88,7 @@ namespace FreediverApp
          *  Setup the event for the db listener. Set the datalists to the retrieved data and generate the 
          *  chart based on the retrieved measurepoints for this dive.
          **/
-        private void MeasurepointDataListener_DataRetrieved(object sender, FirebaseDataListener.DataEventArgs e)
+        private void MeasurepointDataListener_DataRetrieved(object sender, FirestoreDataListener.DataEventArgs e)
         {
             TemporaryData.CURRENT_DIVE.measurepoints = e.Measurepoints;
             measurepointList = e.Measurepoints;

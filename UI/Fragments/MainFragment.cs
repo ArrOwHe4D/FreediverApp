@@ -23,7 +23,7 @@ namespace FreediverApp.FragmentActivities
         private ChartView chartView;
 
         private List<DiveSession> diveSessionList;
-        private FirebaseDataListener diveSessionDataListener;
+        private FirestoreDataListener diveSessionDataListener;
 
         private int longestSessionWaterTime;
         private int totalWaterTime;
@@ -60,12 +60,12 @@ namespace FreediverApp.FragmentActivities
 
         private void RetrieveDiveSessionData()
         {
-            diveSessionDataListener = new FirebaseDataListener();
+            diveSessionDataListener = new FirestoreDataListener();
             diveSessionDataListener.QueryParameterized("divesessions", "ref_user", TemporaryData.CURRENT_USER.id);
             diveSessionDataListener.DataRetrieved += DiveSessionDataListener_DataRetrieved;
         }
 
-        private void DiveSessionDataListener_DataRetrieved(object sender, FirebaseDataListener.DataEventArgs e)
+        private void DiveSessionDataListener_DataRetrieved(object sender, FirestoreDataListener.DataEventArgs e)
         {
             diveSessionList = e.DiveSessions;
             fillStatisticsView();

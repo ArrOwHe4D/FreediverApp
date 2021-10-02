@@ -23,7 +23,7 @@ namespace FreediverApp
         private Button btnRecoverPassword;
         private ProgressDialog sendingMailDialog;
 
-        private FirebaseDataListener userDataListener;
+        private FirestoreDataListener userDataListener;
         private List<User> userList;
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -56,12 +56,12 @@ namespace FreediverApp
 
         private void retrieveUserData() 
         {
-            userDataListener = new FirebaseDataListener();
+            userDataListener = new FirestoreDataListener();
             userDataListener.QueryParameterized("users", "email", txtEmail.Text);
             userDataListener.DataRetrieved += UserDataListener_UserDataRetrieved;
         }
 
-        private void UserDataListener_UserDataRetrieved(object sender, FirebaseDataListener.DataEventArgs eventArgs) 
+        private void UserDataListener_UserDataRetrieved(object sender, FirestoreDataListener.DataEventArgs eventArgs) 
         {
             userList = eventArgs.Users;
 

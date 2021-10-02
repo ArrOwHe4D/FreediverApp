@@ -29,11 +29,11 @@ namespace FreediverApp
         private Button buttonTransfer;
         private Button buttonConnect;
         private Button buttonSync;
-        private FirebaseDataListener diveSessionListener;
+        private FirestoreDataListener diveSessionListener;
         private List<DiveSession> diveSessionsFromDatabase;
         private ProgressDialog dataTransferDialog;
         private WifiConnector wifiConnector;
-        private FirebaseDataListener database;
+        private FirestoreDataListener database;
         
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -51,7 +51,7 @@ namespace FreediverApp
             wifiConnector = new WifiConnector(Context);
 
             //setup firebase data listener
-            database = new FirebaseDataListener();
+            database = new FirestoreDataListener();
 
             buttonTransfer = view.FindViewById<Button>(Resource.Id.bt_scan_btn);
 
@@ -65,7 +65,7 @@ namespace FreediverApp
             buttonSync.Click += buttonSyncOnClick;
 
             //setup the db listener to be able to query data from firebase
-            diveSessionListener = new FirebaseDataListener();
+            diveSessionListener = new FirestoreDataListener();
 
             //query all divesessions of the current user since we need to determine if a session already exists when receiving data from arduino
 
@@ -346,7 +346,7 @@ namespace FreediverApp
          *  This function is called when divesession data was received by the db listener to check for existing sessions inside the list
          *  that is being set by this function. 
          **/
-        private void database_diveSessionDataRetrieved(object sender, FirebaseDataListener.DataEventArgs args)
+        private void database_diveSessionDataRetrieved(object sender, FirestoreDataListener.DataEventArgs args)
         {
             diveSessionsFromDatabase = args.DiveSessions;
         }

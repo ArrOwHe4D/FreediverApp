@@ -29,7 +29,7 @@ namespace FreediverApp
             texteditWeight, 
             texteditHeight;
 
-        private FirebaseDataListener userDataListener;
+        private FirestoreDataListener userDataListener;
         private List<User> userResult;
 
         private bool accountCreated = false;
@@ -74,7 +74,7 @@ namespace FreediverApp
          **/
         private void setupDataListener(object sender, EventArgs eventArgs) 
         {
-            userDataListener = new FirebaseDataListener();
+            userDataListener = new FirestoreDataListener();
             userDataListener.QueryFullTable("users");
             userDataListener.DataRetrieved += UserDataListener_UserDataRetrieved;
         }
@@ -83,7 +83,7 @@ namespace FreediverApp
          *  Event that is triggered when new userdata was retrieved from the db listener.
          *  After the result list is set, the registration process is initiated inside the createAccount function.
          **/
-        private void UserDataListener_UserDataRetrieved(object sender, FirebaseDataListener.DataEventArgs eventArgs)
+        private void UserDataListener_UserDataRetrieved(object sender, FirestoreDataListener.DataEventArgs eventArgs)
         {
             userResult = eventArgs.Users;
             createAccount();

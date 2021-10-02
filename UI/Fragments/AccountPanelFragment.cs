@@ -23,7 +23,7 @@ namespace FreediverApp
         private TextView titleUsername, titleRegisteredSince;
         private Button btnDeleteAccount;
 
-        private FirebaseDataListener userDataListener;
+        private FirestoreDataListener userDataListener;
         private List<User> userList;
 
         // use edit buttons as Imageviews as it is easier and costs less resources
@@ -103,7 +103,7 @@ namespace FreediverApp
          **/
         private void retrieveAccountData() 
         {
-            userDataListener = new FirebaseDataListener();
+            userDataListener = new FirestoreDataListener();
             userDataListener.QueryParameterized("users", "username", TemporaryData.CURRENT_USER.username);
             userDataListener.DataRetrieved += UserDataListener_UserDataRetrieved;
         }
@@ -112,7 +112,7 @@ namespace FreediverApp
          *  This function handles the retrieval of data from db. When data is retrieved, set it to the userList of this 
          *  fragment and then fill all the textfields with the received userdata.
          **/
-        private void UserDataListener_UserDataRetrieved(object sender, FirebaseDataListener.DataEventArgs e)
+        private void UserDataListener_UserDataRetrieved(object sender, FirestoreDataListener.DataEventArgs e)
         {
             userList = e.Users;
             fillUserData(userList);

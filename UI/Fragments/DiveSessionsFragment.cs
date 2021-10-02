@@ -22,7 +22,7 @@ namespace FreediverApp
         private List<string> dives;
         private ListView listViewDives;
         private Button buttonAdd;
-        private FirebaseDataListener diveSessionsDataListener;
+        private FirestoreDataListener diveSessionsDataListener;
         private List<DiveSession> diveSessionList;
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -56,7 +56,7 @@ namespace FreediverApp
          **/
         private void RetrieveDiveSessionData()
         {
-            diveSessionsDataListener = new FirebaseDataListener();
+            diveSessionsDataListener = new FirestoreDataListener();
             diveSessionsDataListener.QueryParameterized("divesessions", "ref_user", TemporaryData.CURRENT_USER.id);
             diveSessionsDataListener.DataRetrieved += DiveSessionsDataListener_DataRetrieved;
         }
@@ -65,7 +65,7 @@ namespace FreediverApp
          *  This function sets the divesessionlist to the list of retrieved divesessions from the db listener.
          *  After that the listview is populated with the retrieved divesession data.
          **/
-        private void DiveSessionsDataListener_DataRetrieved(object sender, FirebaseDataListener.DataEventArgs e)
+        private void DiveSessionsDataListener_DataRetrieved(object sender, FirestoreDataListener.DataEventArgs e)
         {
             diveSessionList = e.DiveSessions;
             fillDiveSessionData(diveSessionList);

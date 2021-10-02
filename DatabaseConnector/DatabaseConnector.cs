@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Firebase;
 using Firebase.Database;
+using Firebase.Firestore;
 
 namespace FreediverApp.DatabaseConnector
 {
@@ -17,7 +18,6 @@ namespace FreediverApp.DatabaseConnector
         public static FirebaseDatabase GetDatabase() 
         {
             var app = FirebaseApp.InitializeApp(Application.Context);
-            FirebaseDatabase database;
 
             if (app == null)
             {
@@ -29,15 +29,29 @@ namespace FreediverApp.DatabaseConnector
                     .Build();
 
                 app = FirebaseApp.InitializeApp(Application.Context, options);
-
-                database = FirebaseDatabase.GetInstance(app);
             }
-            else 
+
+            return FirebaseDatabase.GetInstance(app);
+        }
+
+        public static FirebaseFirestore GetFirestoreDatabase()
+        {
+            var app = FirebaseApp.InitializeApp(Application.Context);
+
+            if (app == null)
             {
-                database = FirebaseDatabase.GetInstance(app);
+                var options = new FirebaseOptions.Builder()
+                    .SetProjectId("freedivertest")
+                    .SetApplicationId("freedivertest")
+                    .SetApiKey("AIzaSyByFuMKrWcqYsIaObJfx5V4GaVgIAhHZEc")
+                    .SetDatabaseUrl("https://freedivertest.firebaseio.com")
+                    .SetStorageBucket("freedivertest.appspot.com")
+                    .Build();
+
+                app = FirebaseApp.InitializeApp(Application.Context, options);
             }
 
-            return database;
+            return FirebaseFirestore.GetInstance(app);
         }
     }
 }

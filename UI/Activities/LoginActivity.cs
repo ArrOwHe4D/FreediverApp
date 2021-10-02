@@ -6,7 +6,6 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Widget;
 using FreediverApp.DatabaseConnector;
-using FreediverApp.Utils;
 using Xamarin.Essentials;
 
 namespace FreediverApp
@@ -24,7 +23,7 @@ namespace FreediverApp
         private EditText texteditUsername, texteditPassword;
         private CheckBox checkboxRemember;
 
-        private FirebaseDataListener userDataListener;
+        private FirestoreDataListener userDataListener;
         private List<User> userList;
 
         private ProgressDialog loginDialog;
@@ -73,7 +72,6 @@ namespace FreediverApp
             textviewCantLogin.Click += redirectToLoginProblemsActivity;
 
             userList = new List<User>();
-
         }
 
         /**
@@ -141,7 +139,7 @@ namespace FreediverApp
          **/
         public void retrieveUserData() 
         {
-            userDataListener = new FirebaseDataListener();
+            userDataListener = new FirestoreDataListener();
             userDataListener.QueryParameterized("users", "username", texteditUsername.Text.Trim());
             userDataListener.DataRetrieved += userDataListener_UserDataRetrieved;         
         }
@@ -153,7 +151,7 @@ namespace FreediverApp
          *  logic for the logincheck. Since the saved password was hashed we need to compare the password
          *  with the hashed value of the text inside the password textedit.
          **/
-        private void userDataListener_UserDataRetrieved(object sender, FirebaseDataListener.DataEventArgs e) 
+        private void userDataListener_UserDataRetrieved(object sender, FirestoreDataListener.DataEventArgs e) 
         {
             userList = e.Users;
 

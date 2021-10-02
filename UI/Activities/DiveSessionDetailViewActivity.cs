@@ -31,7 +31,7 @@ namespace FreediverApp
         private TextView tvwWeather;
         private TextView tvwTimeInWater;
 
-        private FirebaseDataListener diveDataListener;
+        private FirestoreDataListener diveDataListener;
 
         /**
          *  This function initializes all member variables such as UI components
@@ -68,7 +68,7 @@ namespace FreediverApp
          **/
         private void RetrieveDiveData()
         {
-            diveDataListener = new FirebaseDataListener();
+            diveDataListener = new FirestoreDataListener();
             diveDataListener.QueryParameterized("dives", "ref_divesession", TemporaryData.CURRENT_DIVESESSION.Id);
             diveDataListener.DataRetrieved += DiveDataListener_DataRetrieved;
         }
@@ -77,7 +77,7 @@ namespace FreediverApp
          *  This function represents the event listener and sets the dive data retrieved from db to the current selected
          *  divesession. After that the chart is generated with that dive data.
          **/
-        private void DiveDataListener_DataRetrieved(object sender, FirebaseDataListener.DataEventArgs e)
+        private void DiveDataListener_DataRetrieved(object sender, FirestoreDataListener.DataEventArgs e)
         {            
             TemporaryData.CURRENT_DIVESESSION.dives = e.Dives;
             SKColor valueLabelColor = FreediverHelper.darkModeActive(this) ? SKColor.Parse("#8d9094") : SKColor.Parse("#000000");

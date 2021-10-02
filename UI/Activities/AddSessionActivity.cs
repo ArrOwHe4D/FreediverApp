@@ -32,7 +32,7 @@ namespace FreediverApp
         private TextView textViewDate;
         private TextView textViewDiveTime;
         private DiveSession diveSession;
-        private FirebaseDataListener database;
+        private FirestoreDataListener database;
         private List<SavedSession> savedSessions;
 
         private bool sessionExists;
@@ -65,7 +65,7 @@ namespace FreediverApp
             textViewDiveTime.Text = diveSession.watertime;
             sessionExists = false;
 
-            database = new FirebaseDataListener();
+            database = new FirestoreDataListener();
 
             retrieveSavedSessions();
         }
@@ -199,7 +199,7 @@ namespace FreediverApp
          *  to create a new one and prompt a error message instead so that user is notified that he already created a 
          *  divesession for today.
          **/
-        private void database_savedSessionsDataRetrieved(object sender, FirebaseDataListener.DataEventArgs args)
+        private void database_savedSessionsDataRetrieved(object sender, FirestoreDataListener.DataEventArgs args)
         {
             savedSessions = args.SavedSessions;
 
