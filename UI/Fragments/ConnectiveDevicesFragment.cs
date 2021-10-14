@@ -214,7 +214,7 @@ namespace FreediverApp
             }
             else 
             {
-                Toast.MakeText(Context, "Es wurden keine ausstehenden Daten für die Synchronisierung gefunden!", ToastLength.Long).Show();
+                Activity.RunOnUiThread(() => Toast.MakeText(Context, "Es wurden keine ausstehenden Daten für die Synchronisierung gefunden!", ToastLength.Long).Show());
             }
             return new KeyValuePair<string, List<string>>(null, null);
         }
