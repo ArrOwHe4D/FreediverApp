@@ -119,5 +119,6 @@
     <string name="dialog_connect_to_device">Connect to Device</string>
     <string name="dialog_logging_in">Logging in...</string>
     <string name="dialog_receiving_data">Receiving session data from dive computer...</string>
-    
+    <string name="dialog_sync_ota">Synchronizing OTA Data...</string>
+
 </resources>

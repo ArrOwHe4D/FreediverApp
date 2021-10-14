@@ -43,7 +43,7 @@ namespace FreediverApp.Utils
             return context.Resources.Configuration.UiMode == (Android.Content.Res.UiMode.NightYes | Android.Content.Res.UiMode.TypeNormal);
         }
 
-        public static bool isConnectionToDatabase()
+        public static bool isConnectedToDatabase()
         {
             int timeout = 1000;
             Ping ping = new Ping();

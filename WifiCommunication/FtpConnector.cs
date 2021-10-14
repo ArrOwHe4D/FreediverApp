@@ -7,6 +7,7 @@ using System.IO;
 using FreediverApp.DataClasses;
 using System.Linq;
 using Android.Widget;
+using Xamarin.Essentials;
 
 namespace FreediverApp.WifiCommunication
 {
@@ -80,6 +81,32 @@ namespace FreediverApp.WifiCommunication
                 Console.WriteLine(e);
             }
             return downloadReport;
+        }
+
+        public async void synchronizeOtaData() 
+        {
+            string otaCredentials = await SecureStorage.GetAsync("ota_ssid") + "\n" + await SecureStorage.GetAsync("ota_password");
+            string absoluteFilePath = filepath + "/ota_data.wfd";
+
+            File.WriteAllText(absoluteFilePath, otaCredentials);
+
+            try
+            {
+                client.DeleteFile("/ota_data.wfd");
+                FtpStatus successful = client.UploadFile(absoluteFilePath, "/");
+
+                if (successful == FtpStatus.Success)
+                    Console.WriteLine("------ SUCCESS -------");
+                else
+                    Console.WriteLine("------ ERROR NO SUCCESS -------");
+
+                File.Delete(absoluteFilePath);
+            }
+            catch (Exception ex) 
+            {
+                Console.WriteLine(ex);
+                File.Delete(absoluteFilePath);
+            }
         }
 
         public void downloadFile(string filepath, string filename)

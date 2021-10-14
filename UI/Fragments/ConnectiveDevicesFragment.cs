@@ -29,6 +29,7 @@ namespace FreediverApp
         private Button buttonTransfer;
         private Button buttonConnect;
         private Button buttonSync;
+        private Button buttonSyncOta;
         private FirestoreDataListener diveSessionListener;
         private List<DiveSession> diveSessionsFromDatabase;
         private ProgressDialog dataTransferDialog;
@@ -64,6 +65,9 @@ namespace FreediverApp
             buttonSync = view.FindViewById<Button>(Resource.Id.button_sync);
             buttonSync.Click += buttonSyncOnClick;
 
+            buttonSyncOta = view.FindViewById<Button>(Resource.Id.button_sync_ota);
+            buttonSyncOta.Click += buttonSyncOtaOnClick;
+
             //setup the db listener to be able to query data from firebase
             diveSessionListener = new FirestoreDataListener();
 
@@ -81,9 +85,7 @@ namespace FreediverApp
 
         private void buttonSyncOnClick(object sender, EventArgs eventArgs)
         {
-            bool connection = FreediverHelper.isConnectionToDatabase();
-
-            if(connection)
+            if (FreediverHelper.isConnectedToDatabase())
             {
                 //Show data transfer dialog
                 dataTransferDialog = new ProgressDialog(base.Context);
@@ -97,6 +99,36 @@ namespace FreediverApp
             else
             {
                 Toast.MakeText(Context, Resource.String.no_internet_connection, ToastLength.Long).Show();
+            }
+        }
+
+        private void buttonSyncOtaOnClick(object sender, EventArgs eventArgs)
+        {
+            try
+            {
+                //OTA UPDATE STUFF
+                FtpConnector connector = new FtpConnector(base.Context, "192.168.4.1", "diver", "diverpass");
+
+                if (connector.isConnected())
+                {
+                    //Show data transfer dialog
+                    dataTransferDialog = new ProgressDialog(base.Context);
+                    dataTransferDialog.SetMessage(base.Context.Resources.GetString(Resource.String.dialog_sync_ota));
+                    dataTransferDialog.SetCancelable(false);
+                    dataTransferDialog.Show();
+
+                    //Start Data Synchronization in background thread
+                    ThreadPool.QueueUserWorkItem(o => synchronizeOtaDataTask(connector));
+                }
+                else
+                {
+                    Toast.MakeText(base.Context, "Verbindung fehlgeschlagen, stellen Sie sicher, dass Sie mit dem Tauchcomputer per WLAN verbunden sind.", ToastLength.Long).Show();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Toast.MakeText(Context, "Verbindung fehlgeschlagen, stellen Sie sicher, dass Sie mit dem Tauchcomputer per WLAN verbunden sind.", ToastLength.Long);
             }
         }
 
@@ -167,6 +199,19 @@ namespace FreediverApp
             Console.WriteLine("Starting to sync log directory...");
             DownloadReport downloadReport = connector.synchronizeData();
             saveDownloadReport(downloadReport);
+
+            //Close data transfer dialog after completion
+            Activity.RunOnUiThread(() => dataTransferDialog.Dismiss());
+            Activity.RunOnUiThread(() => Toast.MakeText(Context, Resource.String.data_transfer_complete, ToastLength.Long).Show());
+            Activity.RunOnUiThread(() => createPopupDialog());
+        }
+
+        private void synchronizeOtaDataTask(FtpConnector connector)
+        {
+            //Attempt to sync data and start parsing it afterwards
+            Activity.RunOnUiThread(() => Toast.MakeText(base.Context, "Connected to DiveComputer, starting data transfer...", ToastLength.Long).Show());
+            Console.WriteLine("Starting to sync OTA Data...");
+            connector.synchronizeOtaData();
 
             //Close data transfer dialog after completion
             Activity.RunOnUiThread(() => dataTransferDialog.Dismiss());
