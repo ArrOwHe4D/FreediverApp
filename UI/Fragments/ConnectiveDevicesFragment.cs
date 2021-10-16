@@ -216,7 +216,6 @@ namespace FreediverApp
             //Close data transfer dialog after completion
             Activity.RunOnUiThread(() => dataTransferDialog.Dismiss());
             Activity.RunOnUiThread(() => Toast.MakeText(Context, Resource.String.data_transfer_complete, ToastLength.Long).Show());
-            Activity.RunOnUiThread(() => createPopupDialog());
         }
 
         private void saveDownloadReport(DownloadReport downloadReport) 

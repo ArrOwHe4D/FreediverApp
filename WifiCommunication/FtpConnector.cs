@@ -92,20 +92,34 @@ namespace FreediverApp.WifiCommunication
 
             try
             {
-                client.DeleteFile("/ota_data.wfd");
-                FtpStatus successful = client.UploadFile(absoluteFilePath, "/");
+                if (client.FileExists("/ota_data.wfd"))
+                {
+                    client.DeleteFile("/ota_data.wfd");
+                }
+                FtpStatus successful = client.UploadFile(absoluteFilePath, "/ota_data.wfd");
 
                 if (successful == FtpStatus.Success)
-                    Console.WriteLine("------ SUCCESS -------");
+                {
+                    Toast.MakeText(context, Resource.String.ota_transfer_successful, ToastLength.Long).Show();
+                }
                 else
-                    Console.WriteLine("------ ERROR NO SUCCESS -------");
+                {
+                    Toast.MakeText(context, Resource.String.ota_transfer_failed, ToastLength.Long).Show();
+                }
 
-                File.Delete(absoluteFilePath);
+                if (File.Exists(absoluteFilePath))
+                {
+                    File.Delete(absoluteFilePath);
+                }
             }
             catch (Exception ex) 
             {
                 Console.WriteLine(ex);
-                File.Delete(absoluteFilePath);
+                Toast.MakeText(context, Resource.String.ota_transfer_failed, ToastLength.Long).Show();
+                if (File.Exists(absoluteFilePath))
+                {
+                    File.Delete(absoluteFilePath);
+                }
             }
         }
 

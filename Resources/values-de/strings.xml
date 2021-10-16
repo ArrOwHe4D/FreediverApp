@@ -93,6 +93,8 @@
   <string name="data_transfer_complete">"Die Tauchdaten wurden erfolgreich übertragen!"</string>
   <string name="data_sync_complete">"Die Tauchdaten wurden erfolgreich mit der Cloud synchronisiert!"</string>
   <string name="no_internet_connection">"Keine aktive Internetverbindung!"</string>
+  <string name="ota_transfer_failed">"Synchronisierung der Netzwerkdaten für OTA fehlgeschlagen!"</string>
+  <string name="ota_transfer_successful">"Synchronisierung der Netzwerkdaten für OTA erfolgreich!"</string>
 
   <!--Dialog Strings (DE)-->
   <string name="dialog_save_user_info">Konto erstellen</string>
