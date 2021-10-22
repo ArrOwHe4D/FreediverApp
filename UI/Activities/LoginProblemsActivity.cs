@@ -79,12 +79,13 @@ namespace FreediverApp
             try
             {
                 MailMessage mail = new MailMessage();
+                string newPassword = CryptoService.GeneratePassword(12, 65, 122);
 
                 //Create the Mailobject
                 mail.From = new MailAddress(AuthenticationHelper.RECOVERY_SERVICE_EMAIL);
                 mail.To.Add(txtEmail.Text);
                 mail.Subject = "FreediverApp Password recovery"; 
-                mail.Body = "Your new password: " + CryptoService.GeneratePassword(12, 65, 122);
+                mail.Body = "Your new password: " + newPassword;
 
                 //Create the SMTP Client that transmits via smtp.gmail.com
                 SmtpClient smtpServer = new SmtpClient(AuthenticationHelper.RECOVERY_SERVICE_MAILSERVER);
@@ -97,7 +98,8 @@ namespace FreediverApp
                     return true;
                 };
                 smtpServer.Send(mail);
-                //TODO: store generated password to userdata with updateEntity function
+
+                userDataListener.updateEntity("users", userList[0].id, "password", newPassword);
             }
             catch (Exception ex)
             {
