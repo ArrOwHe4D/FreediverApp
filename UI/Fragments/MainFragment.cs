@@ -54,7 +54,6 @@ namespace FreediverApp.FragmentActivities
             warmestWaterTemperature = 0.0f;
 
             RetrieveDiveSessionData();
-
             return view;
         }
 
@@ -139,18 +138,26 @@ namespace FreediverApp.FragmentActivities
                     Color = SKColor.Parse("#03f8fc") //aqua blue
                 });
 
-                dataList.Add(new ChartEntry(totalWaterTime)
+                int min = totalWaterTime / 60;
+                int sec = totalWaterTime % 60;
+                float twt = min + (float)sec / 100;
+
+                dataList.Add(new ChartEntry(twt)
                 {
                     Label = "Zeit unter Wasser",
-                    ValueLabel = totalWaterTime.ToString() + " sec",
+                    ValueLabel = twt.ToString() + " min",
                     ValueLabelColor = valueLabelColor,
                     Color = SKColor.Parse("#032cfc") //blue
                 });
 
-                dataList.Add(new ChartEntry(longestSessionWaterTime)
+                min = longestSessionWaterTime / 60;
+                sec = longestSessionWaterTime % 60;
+                float lswt = min + (float)sec / 100;
+
+                dataList.Add(new ChartEntry(lswt)
                 {
                     Label = "Längste Session",
-                    ValueLabel = longestSessionWaterTime.ToString() + " sec",
+                    ValueLabel = lswt.ToString() + " min",
                     ValueLabelColor = valueLabelColor,
                     Color = SKColor.Parse("#03fc5e") //mint green
                 });
@@ -181,6 +188,10 @@ namespace FreediverApp.FragmentActivities
                     BackgroundColor = backgroundColor
                 };
                 chartView.Chart = chart;
+                //chartView.ScaleX = 0.9f;
+                //chartView.ScaleY = 0.9f;
+                chartView.Chart.Margin = 140;
+
             }
         }
     }
