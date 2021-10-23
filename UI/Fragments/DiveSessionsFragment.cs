@@ -78,6 +78,7 @@ namespace FreediverApp
          **/
         private async void fillDiveSessionData(List<DiveSession> diveSessions)
         {
+            diveSessionList.Sort((x, y) => Convert.ToDateTime(x.date).CompareTo(Convert.ToDateTime(y.date)));
             if (diveSessions != null)
             {
                 dives = new List<string>();
