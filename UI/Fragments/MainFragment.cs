@@ -172,12 +172,12 @@ namespace FreediverApp.FragmentActivities
                 });
 
                 //create a new chart with the data entries and a custom display configuration
-                var chart = new BarChart 
+                var chart = new RadarChart 
                 { 
                     Entries = dataList, 
                     LabelTextSize = 20f, 
-                    LabelOrientation = Microcharts.Orientation.Horizontal, 
-                    ValueLabelOrientation = Microcharts.Orientation.Horizontal, 
+                    //LabelOrientation = Microcharts.Orientation.Horizontal, 
+                    //ValueLabelOrientation = Microcharts.Orientation.Horizontal, 
                     BackgroundColor = backgroundColor
                 };
                 chartView.Chart = chart;
