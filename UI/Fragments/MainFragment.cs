@@ -95,7 +95,7 @@ namespace FreediverApp.FragmentActivities
                 try
                 {
                     int sessionWaterTime = int.Parse(session.watertime);
-                    float sessionTemperature = float.Parse(session.weatherTemperature);
+                    float sessionTemperature = string.IsNullOrEmpty(session.weatherTemperature) ? 0.0f : float.Parse(session.weatherTemperature);
                     totalWaterTime += sessionWaterTime;
 
                     //Longest Divesession
