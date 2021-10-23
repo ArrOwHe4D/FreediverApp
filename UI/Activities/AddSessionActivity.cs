@@ -13,6 +13,8 @@ using Android.Support.V4.App;
 using FreediverApp.DatabaseConnector;
 using System.Collections.Generic;
 using Android.Content;
+using Android.Views;
+using SupportV7 = Android.Support.V7.App;
 
 namespace FreediverApp
 {
@@ -51,6 +53,7 @@ namespace FreediverApp
             buttonAddSession.Click += btnAddSession_Click;
             buttonCancel = FindViewById<Button>(Resource.Id.button_cancel);
             buttonCancel.Click += buttonCancel_Click;
+
             textViewConnectedWith = FindViewById<TextView>(Resource.Id.textview_connected_with);
             textViewLocation = FindViewById<TextView>(Resource.Id.textview_location);
             textViewWeather = FindViewById<TextView>(Resource.Id.textview_weather);
@@ -148,6 +151,7 @@ namespace FreediverApp
                 ds.weatherHumidity = weatherData.humidity != null ? weatherData.humidity : "n/a";
                 ds.weatherWindSpeed = weatherData.windSpeed != null ? weatherData.windSpeed : "n/a";
                 ds.weatherWindGust = weatherData.windGust != null ? weatherData.windGust : "n/a";
+                ds.note = "-";
                 ds.watertime = "0";
             }
             else 

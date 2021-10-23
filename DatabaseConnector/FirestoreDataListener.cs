@@ -125,6 +125,7 @@ namespace FreediverApp.DatabaseConnector
                         divesession.weatherHumidity              = dataRecord.GetString("weather_humidity");
                         divesession.weatherWindSpeed             = dataRecord.GetString("weather_wind_speed");
                         divesession.weatherWindGust              = dataRecord.GetString("weather_wind_gust");
+                        divesession.note                         = dataRecord.GetString("note");
                         divesession.Id                           = dataRecord.GetString("id");
 
                         divesessionList.Add(divesession);
@@ -255,6 +256,7 @@ namespace FreediverApp.DatabaseConnector
                     saveData.Put("weather_humidity", obj.weatherHumidity);
                     saveData.Put("weather_wind_speed", obj.weatherWindSpeed);
                     saveData.Put("weather_wind_gust", obj.weatherWindGust);
+                    saveData.Put("note", "");
                     saveData.Put("id", obj.Id);
 
                     documentRef.Set(saveData);

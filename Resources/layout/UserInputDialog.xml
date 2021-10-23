@@ -11,6 +11,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:hint="Enter a value"
-        android:inputType="text" />
+        android:inputType="text"
+        android:maxLength="150"/>
 
 </LinearLayout>

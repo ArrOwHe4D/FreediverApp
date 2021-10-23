@@ -191,10 +191,19 @@
             android:layout_height="wrap_content"
             android:layout_weight="30"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="26dp"
             android:textColor="@android:color/black"
             android:textSize="8pt"
-            android:id="@+id/tvwDsdvNotesV" />
+            android:id="@+id/textview_notes" />
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/icon_pencil"
+            android:contentDescription="change" 
+            android:id="@+id/button_edit_notes"/>
 
     </LinearLayout>    
 
