@@ -46,14 +46,19 @@ namespace FreediverApp
             buttonLogin.Click += login;
 
             texteditUsername = FindViewById<EditText>(Resource.Id.textedit_username);
+            texteditUsername.TextChanged += texteditUsernameOnTextChanged;
 
             texteditPassword = FindViewById<EditText>(Resource.Id.textedit_password);
             texteditPassword.InputType = Android.Text.InputTypes.TextVariationPassword | Android.Text.InputTypes.ClassText;
+            texteditPassword.TextChanged += texteditPasswordOnTextChanged;
 
             checkboxRemember = FindViewById<CheckBox>(Resource.Id.checkbox_remember);
+            checkboxRemember.Click += checkBoxRememberOnClick;
+            
             try
             {
                 var rememberMeChecked = await SecureStorage.GetAsync("rememberMeChecked");
+
                 if(rememberMeChecked == "true")
                 {
                     checkboxRemember.Checked = true;
@@ -78,26 +83,9 @@ namespace FreediverApp
          *  This function represents the whole login process up to the point where the user is successfully logged in and
          *  redirected to our main menu (MainActivity).
          **/
-        private async void login(object sender, EventArgs eventArgs)
+        private void login(object sender, EventArgs eventArgs)
         {
             var connectionState = Connectivity.NetworkAccess;
-
-            //File.WriteAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData) + "/pending_sessions.ps", "");
-            //string content = File.ReadAllText(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData) + "/pending_sessions.ps");
-
-            if (checkboxRemember.Checked)
-            {
-                try
-                {
-                    await SecureStorage.SetAsync("rememberMeChecked", "true");
-                    await SecureStorage.SetAsync("username", texteditUsername.Text);
-                    await SecureStorage.SetAsync("password", texteditPassword.Text);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                }
-            }
 
             //check if the phone is connected to the internet, otherwise print a error message.
             if (connectionState == NetworkAccess.Internet)
@@ -207,6 +195,38 @@ namespace FreediverApp
             catch(Exception ex)
             {
                 Console.WriteLine(ex);
+            }
+        }
+
+        private async void checkBoxRememberOnClick(object sender, EventArgs eventArgs) 
+        {
+            if (checkboxRemember.Checked)
+            {
+                await SecureStorage.SetAsync("rememberMeChecked", "true");
+                await SecureStorage.SetAsync("username", texteditUsername.Text);
+                await SecureStorage.SetAsync("password", texteditPassword.Text);
+            }
+            else 
+            {
+                await SecureStorage.SetAsync("rememberMeChecked", "false");
+                SecureStorage.Remove("username");
+                SecureStorage.Remove("password");
+            }
+        }
+
+        private async void texteditUsernameOnTextChanged(object sender, EventArgs eventArgs) 
+        {
+            if (checkboxRemember.Checked) 
+            {
+                await SecureStorage.SetAsync("username", texteditUsername.Text);
+            }
+        }
+
+        private async void texteditPasswordOnTextChanged(object sender, EventArgs eventArgs) 
+        {
+            if (checkboxRemember.Checked)
+            {
+                await SecureStorage.SetAsync("password", texteditPassword.Text);
             }
         }
     }

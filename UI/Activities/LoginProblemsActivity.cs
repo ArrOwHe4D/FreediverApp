@@ -79,7 +79,7 @@ namespace FreediverApp
             try
             {
                 MailMessage mail = new MailMessage();
-                string newPassword = CryptoService.GeneratePassword(12, 65, 122);
+                string newPassword = CryptoService.GeneratePassword(12, 97, 122);
 
                 //Create the Mailobject
                 mail.From = new MailAddress(AuthenticationHelper.RECOVERY_SERVICE_EMAIL);
@@ -99,11 +99,12 @@ namespace FreediverApp
                 };
                 smtpServer.Send(mail);
 
-                userDataListener.updateEntity("users", userList[0].id, "password", newPassword);
+                userDataListener.updateEntity("users", userList[0].id, "password", CryptoService.Encrypt(newPassword));
             }
             catch (Exception ex)
             {
-                Toast.MakeText(Application.Context, ex.ToString(), ToastLength.Long).Show();
+                Toast.MakeText(Application.Context, "Versenden der Email fehlgeschlagen!", ToastLength.Long).Show();
+                Console.WriteLine(ex);
             }
         }
     }
