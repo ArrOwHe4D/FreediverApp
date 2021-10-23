@@ -54,11 +54,9 @@ namespace FreediverApp
             buttonCancel = FindViewById<Button>(Resource.Id.button_cancel);
             buttonCancel.Click += buttonCancel_Click;
 
-            textViewConnectedWith = FindViewById<TextView>(Resource.Id.textview_connected_with);
             textViewLocation = FindViewById<TextView>(Resource.Id.textview_location);
             textViewWeather = FindViewById<TextView>(Resource.Id.textview_weather);
             textViewDate = FindViewById<TextView>(Resource.Id.textview_date);
-            textViewDiveTime = FindViewById<TextView>(Resource.Id.textview_divetime);
 
             diveSession = createDiveSession();
             textViewConnectedWith.Text = TemporaryData.CONNECTED_DIVE_COMPUTER;
