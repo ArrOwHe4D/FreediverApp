@@ -82,9 +82,17 @@
   <string name="min_heart_freq">Min. heart frequency</string>
   <string name="max_oxygen_sat">Max. oxygen saturation</string>
   <string name="min_oxygen_sat">Min. oxygen saturation</string>
+  <string name="session_count">Number of sessions</string>
+  <string name="time_under_water">Total dive time</string>
+  <string name="longest_session">Longest session</string>
+  <string name="min_temperature">Min temperature</string>
+  <string name="max_temperature">Max temperature</string>
+  <string name="session_statistic">Session statistic</string>
   <string name="connect">Connect</string>
   <string name="transfer">Transfer</string>
   <string name="how_to_transfer_data">How to Transfer Data:</string>
+
+
 
   <!--Data transfer manual strings (EN_US)-->
   <string name="step_one">1. Press the \"Connect\" Button and Connect to your Divecomputer using the Android Wifi Menu.</string>
@@ -92,7 +100,7 @@
   <string name="step_three">3. After you transferred the data to your phone successfully, disconnect from the arduino using the Android Wifi Menu.</string>
   <string name="step_four">4. Enable a working internet connection via Wifi or Mobile Data on your phone.</string>
   <string name="step_five">5. Press the \"Sync\" button to upload your data to the cloud. This may take a while.</string>
-  
+
   <!--Toast Strings (EN_US)-->
   <string name="login_successful">Login successful!</string>
   <string name="logout_successful">You have been logged out!</string>
@@ -102,7 +110,7 @@
   <string name="register_email_exists">This email is already in use, please choose another one!</string>
   <string name="account_created">Your account has been created successfully!</string>
   <string name="account_deleted">Your account has been deleted successfully!</string>
-  <string name="register_username_exists">This username is already in use, please choose another one!</string> 
+  <string name="register_username_exists">This username is already in use, please choose another one!</string>
   <string name="bluetooth_not_supported">Your device does not support Bluetooth!</string>
   <string name="bluetooth_activated">Bluetooth activated!</string>
   <string name="bluetooth_activation_failed">Bluetooth activation failed!</string>
@@ -158,5 +166,6 @@
   <string name="dialog_wifi_not_activated">Wifi not activated</string>
   <string name="dialog_want_to_activate_wifi">Do you want to activate Wifi on your device?</string>
   <string name="dialog_disconnect_and_establish_internet_connection_to_sync">Please disconnect from the dive computer and establish an internet connection. Then press the SYNC button to save the dive data in the database.</string>
+
 
 </resources>

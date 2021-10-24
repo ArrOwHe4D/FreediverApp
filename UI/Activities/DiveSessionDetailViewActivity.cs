@@ -4,12 +4,14 @@ using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
+using Android.Views;
 using Android.Widget;
 using FreediverApp.DatabaseConnector;
 using FreediverApp.Utils;
 using Microcharts;
 using Microcharts.Droid;
 using SkiaSharp;
+using SupportV7 = Android.Support.V7.App;
 
 namespace FreediverApp
 {
@@ -26,10 +28,13 @@ namespace FreediverApp
         /*Member Variables*/
         private Button btnDivesPerSession;
         private ChartView chartView;
-        private TextView tvwSessionName;
-        private TextView tvwLocation;
-        private TextView tvwWeather;
-        private TextView tvwTimeInWater;
+        private TextView textviewSessionName;
+        private TextView textviewLocation;
+        private TextView textviewWeather;
+        private TextView textviewWaterTime;
+        private TextView textviewNotes;
+
+        private ImageView buttonEditNotes;
 
         private FirestoreDataListener diveDataListener;
 
@@ -45,19 +50,29 @@ namespace FreediverApp
 
             btnDivesPerSession = FindViewById<Button>(Resource.Id.btnDivesPerSession);
             btnDivesPerSession.Click += redirectToDivesPerSessionActivity;
-            tvwSessionName = FindViewById<TextView>(Resource.Id.tvwDsdvSessionName);
-            tvwLocation = FindViewById<TextView>(Resource.Id.tvwDsdvLocationV);
-            tvwWeather = FindViewById<TextView>(Resource.Id.tvwDsdvWeatherV);
-            tvwTimeInWater = FindViewById<TextView>(Resource.Id.tvwDsdvTimeInWaterV);
+            textviewSessionName = FindViewById<TextView>(Resource.Id.tvwDsdvSessionName);
+            textviewLocation = FindViewById<TextView>(Resource.Id.tvwDsdvLocationV);
+            textviewWeather = FindViewById<TextView>(Resource.Id.tvwDsdvWeatherV);
+            textviewWaterTime = FindViewById<TextView>(Resource.Id.tvwDsdvTimeInWaterV);
+            textviewNotes = FindViewById<TextView>(Resource.Id.textview_notes);
+
+            buttonEditNotes = FindViewById<ImageView>(Resource.Id.button_edit_notes);
+            buttonEditNotes.Click += buttonEditNotesOnClick;
+
             chartView = FindViewById<ChartView>(Resource.Id.chartview_divesession_detail);
 
             //set the textfield values below the chart using the current selected divesession that was stored in the TemporaryData class
-            tvwSessionName.Text = TemporaryData.CURRENT_DIVESESSION.date + "\n" + (TemporaryData.CURRENT_DIVESESSION.location_locality==null ? 
+            textviewSessionName.Text = TemporaryData.CURRENT_DIVESESSION.date + "\n" + (TemporaryData.CURRENT_DIVESESSION.location_locality == null ? 
                 TemporaryData.CURRENT_DIVESESSION.location_lat + " | " + TemporaryData.CURRENT_DIVESESSION.location_lon : TemporaryData.CURRENT_DIVESESSION.location_locality);
-            tvwLocation.Text = TemporaryData.CURRENT_DIVESESSION.location_lon + " | " + TemporaryData.CURRENT_DIVESESSION.location_lat + "\n\n" + (TemporaryData.CURRENT_DIVESESSION.location_locality == null ?
+           
+            textviewLocation.Text = TemporaryData.CURRENT_DIVESESSION.location_lon + " | " + TemporaryData.CURRENT_DIVESESSION.location_lat + "\n\n" + (TemporaryData.CURRENT_DIVESESSION.location_locality == null ?
                 TemporaryData.CURRENT_DIVESESSION.location_lat + " | " + TemporaryData.CURRENT_DIVESESSION.location_lon : TemporaryData.CURRENT_DIVESESSION.location_locality);
-            tvwWeather.Text = TemporaryData.CURRENT_DIVESESSION.weatherCondition_main + " | " + TemporaryData.CURRENT_DIVESESSION.weatherTemperature + " °C";
-            tvwTimeInWater.Text = TemporaryData.CURRENT_DIVESESSION.watertime + " sec";
+            
+            textviewWeather.Text = TemporaryData.CURRENT_DIVESESSION.weatherCondition_main + " | " + TemporaryData.CURRENT_DIVESESSION.weatherTemperature + " °C";
+            
+            textviewWaterTime.Text = TemporaryData.CURRENT_DIVESESSION.watertime + " sec";
+
+            textviewNotes.Text = TemporaryData.CURRENT_DIVESESSION.note;
             
             RetrieveDiveData();
         }
@@ -130,6 +145,48 @@ namespace FreediverApp
                 BackgroundColor = backgroundColor
             };
             chartView.Chart = chart;
+        }
+
+        private void buttonEditNotesOnClick(object sender, EventArgs eventArgs) 
+        {
+            LayoutInflater layoutInflater = LayoutInflater.From(this);
+            View dialogView = layoutInflater.Inflate(Resource.Layout.UserInputDialog, null);
+
+            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog("Notiz hinzufügen", "Notiz", Resource.Drawable.icon_pencil, dialogView);
+
+            var editValueField = dialogView.FindViewById<EditText>(Resource.Id.textfield_input);
+
+            dialogBuilder.SetCancelable(false)
+                .SetPositiveButton("Speichern", delegate
+                {
+                    diveDataListener.updateEntity("divesessions", TemporaryData.CURRENT_DIVESESSION.key, "note", editValueField.Text);
+                    textviewNotes.Text = editValueField.Text;
+                    TemporaryData.CURRENT_DIVESESSION.note = editValueField.Text;
+                    Toast.MakeText(this, "Wert wurde erfolgreich geändert!", ToastLength.Long).Show();
+                    dialogBuilder.Dispose();
+                })
+                .SetNegativeButton("Abbrechen", delegate
+                {
+                    dialogBuilder.Dispose();
+                });
+
+            SupportV7.AlertDialog dialog = dialogBuilder.Create();
+            dialog.Show();
+        }
+
+        private SupportV7.AlertDialog.Builder createEditDialog(string title, string placeholder, int iconId, View parentView)
+        {
+            SupportV7.AlertDialog.Builder dialogBuilder = new SupportV7.AlertDialog.Builder(this);
+            dialogBuilder.SetView(parentView);
+
+            dialogBuilder.SetTitle(title);
+            dialogBuilder.SetIcon(iconId);
+
+            var editValueField = parentView.FindViewById<EditText>(Resource.Id.textfield_input);
+            editValueField.Text = textviewNotes.Text;
+            editValueField.Hint = placeholder;
+
+            return dialogBuilder;
         }
     }
 }

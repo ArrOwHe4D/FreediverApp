@@ -292,6 +292,7 @@ namespace FreediverApp
                 diveSession.weatherTemperatureFeelsLike = "";
                 diveSession.weatherWindGust = "";
                 diveSession.weatherWindSpeed = "";
+                diveSession.note = "-";
                 diveSession.UpdateAll(); //maybe not neccessary
                 database.saveEntity("divesessions", diveSession);
                 database.saveEntity("savedsessions", new SavedSession(TemporaryData.CURRENT_USER.id, diveSession.date));

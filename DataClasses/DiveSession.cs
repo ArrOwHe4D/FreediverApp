@@ -23,6 +23,7 @@ namespace FreediverApp
         public string weatherHumidity;
         public string weatherWindSpeed;
         public string weatherWindGust;
+        public string note;
         public string key;
         private string id;
         public List<Dive> dives = new List<Dive>();

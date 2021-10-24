@@ -78,6 +78,7 @@ namespace FreediverApp
          **/
         private async void fillDiveSessionData(List<DiveSession> diveSessions)
         {
+            //diveSessionList.Sort((x, y) => Convert.ToDateTime(x.date).CompareTo(Convert.ToDateTime(y.date)));
             if (diveSessions != null)
             {
                 dives = new List<string>();
@@ -86,7 +87,7 @@ namespace FreediverApp
                 {
                     if (item.date != null)
                     {
-                        if (!String.IsNullOrEmpty(item.location_lat) || !String.IsNullOrEmpty(item.location_lon))
+                        if (!string.IsNullOrEmpty(item.location_lat) || !string.IsNullOrEmpty(item.location_lon))
                         {
                             double location_lat = float.Parse(item.location_lat.ToString().Replace(',', '.'), CultureInfo.GetCultureInfo("en").NumberFormat);
                             double location_lon = float.Parse(item.location_lon.ToString().Replace(',', '.'), CultureInfo.GetCultureInfo("en").NumberFormat);

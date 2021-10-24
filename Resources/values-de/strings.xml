@@ -37,7 +37,6 @@
   <string name="home">Startseite</string>
   <string name="add_dive_session">Divesession Hinzufügen</string>
   <string name="add">Hinzufügen</string>
-  <string name="abort">Abbrechen</string>
   <string name="depth">Tiefe</string>
   <string name="max_depth">Max. Tiefe</string>
   <string name="location">Standort</string>
@@ -70,6 +69,12 @@
   <string name="min_heart_freq">Min. Herzfrequenz</string>
   <string name="max_oxygen_sat">Max. Sauerstoffsättigung</string>
   <string name="min_oxygen_sat">Min. Sauerstoffsättigung</string>
+  <string name="session_count">Anzahl Sessions</string>
+  <string name="time_under_water">Zeit unter Wasser</string>
+  <string name="longest_session">Längste Session</string>
+  <string name="min_temperature">Min Temperatur</string>
+  <string name="max_temperature">Max Temperatur</string>
+  <string name="session_statistic">Session Statistik</string>
   <string name="connect">Verbinden</string>
   <string name="transfer">Übertragen</string>
   <string name="how_to_transfer_data">Wie man Daten überträgt:</string>
@@ -81,6 +86,8 @@
   <string name="step_three">3. Nachdem die Daten übertragen wurden, trennen Sie die Verbindung zum Tauchcomputer wieder.</string>
   <string name="step_four">4. Stellen Sie eine Internetverbindung her (z.B. über Wlan oder Mobile Daten).</string>
   <string name="step_five">5. Drücken sie den \"SYNC\"-Knopf, um ihre Daten mit der Cloud zu synchronisieren. Dies kann eine Weile dauern.</string>
+
+  
 
   <!--Toast Strings (DE)-->
   <string name="login_successful">Login erfolgreich!</string>
@@ -112,7 +119,7 @@
   <string name="no_pending_data">Es wurden keine ausstehenden Daten für die Synchronisierung gefunden!</string>
   <string name="wifi_activation_successful">Wlan aktiviert!</string>
   <string name="wifi_activation_failed">Wlan konnte nicht aktiviert werden!</string>
-  
+
   <!--Dialog Strings (DE)-->
   <string name="dialog_save_user_info">Konto erstellen</string>
   <string name="dialog_delete_account">Konto löschen</string>
@@ -146,5 +153,5 @@
   <string name="dialog_wifi_not_activated">Wlan deaktiviert</string>
   <string name="dialog_want_to_activate_wifi">Möchten Sie Wlan auf ihrem Gerät aktivieren?</string>
   <string name="dialog_disconnect_and_establish_internet_connection_to_sync">Bitte trennen sie die Verbindung zum Tauchcomputer und stellen sie eine Internetverbindung her. Drücken Sie anschließend auf den SYNC Button, um die Tauchdaten in der Datenbank abzuspeichern.</string>
-  
+
 </resources>

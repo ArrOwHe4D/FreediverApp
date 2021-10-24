@@ -38,33 +38,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="100"
-                tools:ignore="MissingDimension">
-
-                <TextView
-                    android:text="@string/connected_with"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="60"
-                    android:textColor="@android:color/black"
-                    android:textSize="8pt"
-                    android:id="@+id/label_connected_with" />
-
-                <TextView
-                    android:text="Tauchcomputer-RX2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="40"
-                    android:textColor="@android:color/black"
-                    android:textSize="8pt"
-                    android:id="@+id/textview_connected_with" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="100"
                 android:layout_marginTop="30dp"
                 tools:ignore="MissingDimension">
         
@@ -87,7 +60,6 @@
                     android:id="@+id/textview_location" />
 
             </LinearLayout>
-
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -117,7 +89,6 @@
 
             </LinearLayout>
 
-
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -146,35 +117,6 @@
 
             </LinearLayout>
 
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="100"
-                android:layout_marginTop="30dp"
-                tools:ignore="MissingDimension">
-
-                <TextView
-                    android:text="@string/dive_time"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="60"
-                    android:textColor="@android:color/black"
-                    android:textSize="8pt"
-                    android:id="@+id/label_divetime" />
-
-                <TextView
-                    android:text="1:13:54 Std"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="40"
-                    android:textColor="@android:color/black"
-                    android:textSize="8pt"
-                    android:id="@+id/textview_divetime" />
-
-            </LinearLayout>
-
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
@@ -199,7 +141,7 @@
             android:id="@+id/button_add_session" />
 
         <Button
-            android:text="@string/abort"
+            android:text="@string/dialog_cancel"
             android:textColor="@android:color/white"
             android:backgroundTint="?android:attr/colorPrimary"
             android:layout_width="match_parent"

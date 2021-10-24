@@ -13,6 +13,8 @@ using Android.Support.V4.App;
 using FreediverApp.DatabaseConnector;
 using System.Collections.Generic;
 using Android.Content;
+using Android.Views;
+using SupportV7 = Android.Support.V7.App;
 
 namespace FreediverApp
 {
@@ -26,11 +28,9 @@ namespace FreediverApp
     {
         private Button buttonAddSession;
         private Button buttonCancel;
-        private TextView textViewConnectedWith;
         private TextView textViewLocation;
         private TextView textViewWeather;
         private TextView textViewDate;
-        private TextView textViewDiveTime;
         private DiveSession diveSession;
         private FirestoreDataListener database;
         private List<SavedSession> savedSessions;
@@ -51,18 +51,15 @@ namespace FreediverApp
             buttonAddSession.Click += btnAddSession_Click;
             buttonCancel = FindViewById<Button>(Resource.Id.button_cancel);
             buttonCancel.Click += buttonCancel_Click;
-            textViewConnectedWith = FindViewById<TextView>(Resource.Id.textview_connected_with);
+
             textViewLocation = FindViewById<TextView>(Resource.Id.textview_location);
             textViewWeather = FindViewById<TextView>(Resource.Id.textview_weather);
             textViewDate = FindViewById<TextView>(Resource.Id.textview_date);
-            textViewDiveTime = FindViewById<TextView>(Resource.Id.textview_divetime);
 
             diveSession = createDiveSession();
-            textViewConnectedWith.Text = TemporaryData.CONNECTED_DIVE_COMPUTER;
             textViewLocation.Text = diveSession.location_lon + " | " + diveSession.location_lat;
             textViewWeather.Text = diveSession.weatherCondition_main + " | " + diveSession.weatherTemperature;
             textViewDate.Text = diveSession.date;
-            textViewDiveTime.Text = diveSession.watertime;
             sessionExists = false;
 
             database = new FirestoreDataListener();
@@ -148,6 +145,7 @@ namespace FreediverApp
                 ds.weatherHumidity = weatherData.humidity != null ? weatherData.humidity : "n/a";
                 ds.weatherWindSpeed = weatherData.windSpeed != null ? weatherData.windSpeed : "n/a";
                 ds.weatherWindGust = weatherData.windGust != null ? weatherData.windGust : "n/a";
+                ds.note = "-";
                 ds.watertime = "0";
             }
             else 

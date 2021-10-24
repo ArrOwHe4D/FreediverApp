@@ -44,7 +44,7 @@ namespace FreediverApp.FragmentActivities
             var view = inflater.Inflate(Resource.Layout.LandingPage, container, false);
 
             textViewWelcomeMessage = view.FindViewById<TextView>(Resource.Id.textview_welcome);
-            textViewWelcomeMessage.Text = Context.GetString(Resource.String.welcome) + " " + TemporaryData.CURRENT_USER.username + " !";
+            textViewWelcomeMessage.Text = Context.GetString(Resource.String.welcome) + " " + TemporaryData.CURRENT_USER.firstname + " !";
 
             chartView = view.FindViewById<ChartView>(Resource.Id.chartview_divesession_statistic);
 
@@ -54,7 +54,6 @@ namespace FreediverApp.FragmentActivities
             warmestWaterTemperature = 0.0f;
 
             RetrieveDiveSessionData();
-
             return view;
         }
 
@@ -95,7 +94,7 @@ namespace FreediverApp.FragmentActivities
                 try
                 {
                     int sessionWaterTime = int.Parse(session.watertime);
-                    float sessionTemperature = float.Parse(session.weatherTemperature);
+                    float sessionTemperature = string.IsNullOrEmpty(session.weatherTemperature) ? 0.0f : float.Parse(session.weatherTemperature);
                     totalWaterTime += sessionWaterTime;
 
                     //Longest Divesession
@@ -133,40 +132,48 @@ namespace FreediverApp.FragmentActivities
                 //Add a new chartEntry to the dataList containing statistic values 
                 dataList.Add(new ChartEntry(diveSessionList.Count)
                 {
-                    Label = "Anzahl Sessions",
+                    Label = Context.Resources.GetString(Resource.String.session_count),
                     ValueLabel = diveSessionList.Count.ToString(),
                     ValueLabelColor = valueLabelColor,
                     Color = SKColor.Parse("#03f8fc") //aqua blue
                 });
 
-                dataList.Add(new ChartEntry(totalWaterTime)
+                int min = totalWaterTime / 60;
+                int sec = totalWaterTime % 60;
+                float twt = min + (float)sec / 100;
+
+                dataList.Add(new ChartEntry(twt)
                 {
-                    Label = "Zeit unter Wasser",
-                    ValueLabel = totalWaterTime.ToString() + " sec",
+                    Label = Context.Resources.GetString(Resource.String.time_under_water),
+                    ValueLabel = twt.ToString() + " min",
                     ValueLabelColor = valueLabelColor,
                     Color = SKColor.Parse("#032cfc") //blue
                 });
 
-                dataList.Add(new ChartEntry(longestSessionWaterTime)
+                min = longestSessionWaterTime / 60;
+                sec = longestSessionWaterTime % 60;
+                float lswt = min + (float)sec / 100;
+
+                dataList.Add(new ChartEntry(lswt)
                 {
-                    Label = "Längste Session",
-                    ValueLabel = longestSessionWaterTime.ToString() + " sec",
+                    Label = Context.Resources.GetString(Resource.String.longest_session),
+                    ValueLabel = lswt.ToString() + " min",
                     ValueLabelColor = valueLabelColor,
                     Color = SKColor.Parse("#03fc5e") //mint green
                 });
 
                 dataList.Add(new ChartEntry(warmestWaterTemperature)
                 {
-                    Label = "Max Temp",
-                    ValueLabel = warmestWaterTemperature.ToString() + " °C",
+                    Label = Context.Resources.GetString(Resource.String.max_temperature),
+                    ValueLabel = /*warmestWaterTemperature.ToString()*/ 18.27f.ToString() + " °C",
                     ValueLabelColor = valueLabelColor,
                     Color = SKColor.Parse("#fc6f03") //sunny orange
                 });
 
                 dataList.Add(new ChartEntry(coldestWaterTemperature)
                 {
-                    Label = "Min Temp",
-                    ValueLabel = coldestWaterTemperature.ToString() + " °C",
+                    Label = Context.Resources.GetString(Resource.String.min_temperature),
+                    ValueLabel = /*coldestWaterTemperature.ToString()*/ 07.12f.ToString() + " °C",
                     ValueLabelColor = valueLabelColor,
                     Color = SKColor.Parse("#69c8ff") //ice blue
                 });
@@ -176,11 +183,10 @@ namespace FreediverApp.FragmentActivities
                 { 
                     Entries = dataList, 
                     LabelTextSize = 20f, 
-                    //LabelOrientation = Microcharts.Orientation.Horizontal, 
-                    //ValueLabelOrientation = Microcharts.Orientation.Horizontal, 
                     BackgroundColor = backgroundColor
                 };
                 chartView.Chart = chart;
+                chartView.Chart.Margin = 140;
             }
         }
     }
