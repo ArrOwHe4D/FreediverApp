@@ -89,7 +89,7 @@ namespace FreediverApp
             {
                 //Show data transfer dialog
                 dataTransferDialog = new ProgressDialog(base.Context);
-                dataTransferDialog.SetMessage("Uploading Divedata to the Cloud...");
+                dataTransferDialog.SetMessage(base.Context.Resources.GetString(Resource.String.dialog_upload_data_to_cloud));
                 dataTransferDialog.SetCancelable(false);
                 dataTransferDialog.Show();
 
@@ -122,13 +122,13 @@ namespace FreediverApp
                 }
                 else
                 {
-                    Toast.MakeText(base.Context, "Verbindung fehlgeschlagen, stellen Sie sicher, dass Sie mit dem Tauchcomputer per WLAN verbunden sind.", ToastLength.Long).Show();
+                    Toast.MakeText(base.Context, Resource.String.connection_to_device_failed_ensure_wifi_connection, ToastLength.Long).Show();
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                Toast.MakeText(Context, "Verbindung fehlgeschlagen, stellen Sie sicher, dass Sie mit dem Tauchcomputer per WLAN verbunden sind.", ToastLength.Long);
+                Toast.MakeText(Context, Resource.String.connection_to_device_failed_ensure_wifi_connection, ToastLength.Long);
             }
         }
 
@@ -182,20 +182,20 @@ namespace FreediverApp
                 }
                 else
                 {
-                    Toast.MakeText(base.Context, "Verbindung fehlgeschlagen, stellen Sie sicher, dass Sie mit dem Tauchcomputer per WLAN verbunden sind.", ToastLength.Long).Show();
+                    Toast.MakeText(base.Context, Resource.String.connection_to_device_failed_ensure_wifi_connection, ToastLength.Long).Show();
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                Toast.MakeText(Context, "Verbindung fehlgeschlagen, stellen Sie sicher, dass Sie mit dem Tauchcomputer per WLAN verbunden sind.", ToastLength.Long);
+                Toast.MakeText(Context, Resource.String.connection_to_device_failed_ensure_wifi_connection, ToastLength.Long);
             }
         }
 
         private void synchronizeDataTask(FtpConnector connector) 
         {
             //Attempt to sync data and start parsing it afterwards
-            Activity.RunOnUiThread(() => Toast.MakeText(base.Context, "Connected to DiveComputer, starting data transfer...", ToastLength.Long).Show());
+            Activity.RunOnUiThread(() => Toast.MakeText(base.Context, Resource.String.connected_to_device_starting_data_transfer, ToastLength.Long).Show());
             Console.WriteLine("Starting to sync log directory...");
             DownloadReport downloadReport = connector.synchronizeData();
             saveDownloadReport(downloadReport);
@@ -209,7 +209,7 @@ namespace FreediverApp
         private void synchronizeOtaDataTask(FtpConnector connector)
         {
             //Attempt to sync data and start parsing it afterwards
-            Activity.RunOnUiThread(() => Toast.MakeText(base.Context, "Connected to DiveComputer, starting data transfer...", ToastLength.Long).Show());
+            Activity.RunOnUiThread(() => Toast.MakeText(base.Context, Resource.String.connected_to_device_starting_data_transfer, ToastLength.Long).Show());
             Console.WriteLine("Starting to sync OTA Data...");
             connector.synchronizeOtaData();
 
@@ -258,7 +258,7 @@ namespace FreediverApp
             }
             else 
             {
-                Activity.RunOnUiThread(() => Toast.MakeText(Context, "Es wurden keine ausstehenden Daten für die Synchronisierung gefunden!", ToastLength.Long).Show());
+                Activity.RunOnUiThread(() => Toast.MakeText(Context, Resource.String.no_pending_data, ToastLength.Long).Show());
             }
             return new KeyValuePair<string, List<string>>(null, null);
         }
@@ -320,8 +320,8 @@ namespace FreediverApp
         {
             //setup UI for the activation dialog
             SupportV7.AlertDialog.Builder wifiActivationDialog = new SupportV7.AlertDialog.Builder(Context);
-            wifiActivationDialog.SetTitle("Wifi not activated");
-            wifiActivationDialog.SetMessage("Do you want to activate WiFi on your device?");
+            wifiActivationDialog.SetTitle(base.Context.Resources.GetString(Resource.String.dialog_wifi_not_activated));
+            wifiActivationDialog.SetMessage(base.Context.Resources.GetString(Resource.String.dialog_want_to_activate_wifi));
 
             wifiActivationDialog.SetPositiveButton(Resource.String.dialog_accept, (senderAlert, args) =>
             {
@@ -332,11 +332,11 @@ namespace FreediverApp
                 //print a toast message whether or not the bt adapter was sucessfully activated
                 if (wifiConnector.IsWifiEnabled())
                 {
-                    Toast.MakeText(Context, "Wifi activated!", ToastLength.Long).Show();
+                    Toast.MakeText(Context, Resource.String.wifi_activation_successful, ToastLength.Long).Show();
                 }
                 else
                 {
-                    Toast.MakeText(Context, "Failed to activate Wifi!", ToastLength.Long).Show();
+                    Toast.MakeText(Context, Resource.String.wifi_activation_failed, ToastLength.Long).Show();
                 }
             });
             wifiActivationDialog.SetNegativeButton(Resource.String.dialog_cancel, (senderAlert, args) =>
@@ -400,9 +400,7 @@ namespace FreediverApp
             LayoutInflater layoutInflater = LayoutInflater.From(Context);
             View dialogView = layoutInflater.Inflate(Resource.Layout.PopupDialog, null);
 
-            SupportV7.AlertDialog.Builder dialogBuilder = createPopupDialog("Info", 
-                "Bitte trennen sie die Verbindung zum Tauchcomputer und stellen sie eine Internetverbindung her. " +
-                "Drücken Sie anschließend auf den SYNC Button, um die Tauchdaten in der Datenbank abzuspeichern.", Resource.Drawable.icon_info, dialogView);
+            SupportV7.AlertDialog.Builder dialogBuilder = createPopupDialog("Info", base.Context.Resources.GetString(Resource.String.dialog_disconnect_and_establish_internet_connection_to_sync), Resource.Drawable.icon_info, dialogView);
 
             dialogBuilder.SetCancelable(false)
                 .SetPositiveButton("OK", delegate

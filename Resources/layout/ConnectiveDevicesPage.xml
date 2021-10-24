@@ -7,7 +7,7 @@
     android:id="@+id/frameLayout">
 
     <TextView
-        android:text="How to Transfer Data:"
+        android:text="@string/how_to_transfer_data"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
         android:id="@+id/textView1" />
 
     <TextView
-        android:text="1. Press the Connect Button and Connect to your Divecomputer using the Android Wifi Menu."
+        android:text="@string/step_one"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
@@ -26,7 +26,7 @@
         android:id="@+id/textView2" />
 
     <Button
-        android:text="Connect"
+        android:text="@string/connect"
         android:textColor="@android:color/white"
         android:backgroundTint="?android:attr/colorPrimary"
         android:layout_gravity="center_horizontal"
@@ -38,7 +38,7 @@
         android:id="@+id/button_connect"/>
 
     <TextView
-        android:text="2. After you successfully connected to the Divecomputer, go back to this Menu and press the Transfer button."
+        android:text="@string/step_two"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
@@ -47,7 +47,7 @@
         android:id="@+id/textView3" />
 
     <Button
-        android:text="Transfer"
+        android:text="@string/transfer"
         android:textColor="@android:color/white"
         android:backgroundTint="?android:attr/colorPrimary"
         android:layout_gravity="center_horizontal"
@@ -58,7 +58,7 @@
         android:id="@+id/bt_scan_btn"/>
 
     <TextView
-        android:text="3. After you transferred the data to your phone successfully, disconnect from the arduino using the Android Wifi Menu."
+        android:text="@string/step_three"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
@@ -68,7 +68,7 @@
         android:id="@+id/textView4" />
 
     <TextView
-        android:text="4. Enable a working internet connection via Wifi or Mobile Data on your phone."
+        android:text="@string/step_four"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
@@ -78,7 +78,7 @@
         android:id="@+id/textView5" />
 
     <TextView
-        android:text="5. Press the Sync button to upload your data to the cloud."
+        android:text="@string/step_five"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"

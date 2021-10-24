@@ -129,19 +129,20 @@ namespace FreediverApp
             LayoutInflater layoutInflater = LayoutInflater.From(Context);
             View dialogView = layoutInflater.Inflate(Resource.Layout.UserInputDialog, null);
 
-            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog("SSID ändern", "Neue SSID", Resource.Drawable.icon_pencil, dialogView);
+            Android.Content.Res.Resources res = this.Resources;
+            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog(res.GetString(Resource.String.dialog_change_ssid), res.GetString(Resource.String.dialog_new_ssid), Resource.Drawable.icon_pencil, dialogView);
 
             var editValueField = dialogView.FindViewById<EditText>(Resource.Id.textfield_input);
             editValueField.InputType = Android.Text.InputTypes.TextVariationEmailAddress;
 
             dialogBuilder.SetCancelable(false)
-                .SetPositiveButton("Speichern", delegate
+                .SetPositiveButton(Resource.String.dialog_save, delegate
                 {
                     textViewSSID.Text = editValueField.Text.Trim();
                     saveWifiCredentials();
-                    Toast.MakeText(Context, "Wert wurde erfolgreich geändert!", ToastLength.Long).Show();
+                    Toast.MakeText(Context, Resource.String.saving_successful, ToastLength.Long).Show();
                 })
-                .SetNegativeButton("Abbrechen", delegate
+                .SetNegativeButton(Resource.String.dialog_cancel, delegate
                 {
                     dialogBuilder.Dispose();
                 });
@@ -155,19 +156,20 @@ namespace FreediverApp
             LayoutInflater layoutInflater = LayoutInflater.From(Context);
             View dialogView = layoutInflater.Inflate(Resource.Layout.UserInputDialog, null);
 
-            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog("Passwort ändern", "Neues Passwort", Resource.Drawable.icon_pencil, dialogView);
+            Android.Content.Res.Resources res = this.Resources;
+            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog(res.GetString(Resource.String.dialog_change_password), res.GetString(Resource.String.dialog_new_password), Resource.Drawable.icon_pencil, dialogView);
 
             var editValueField = dialogView.FindViewById<EditText>(Resource.Id.textfield_input);
             editValueField.InputType = Android.Text.InputTypes.TextVariationVisiblePassword;
 
             dialogBuilder.SetCancelable(false)
-                .SetPositiveButton("Speichern", delegate
+                .SetPositiveButton(Resource.String.dialog_save, delegate
                 {
                     textViewPassword.Text = editValueField.Text.Trim();
                     saveWifiCredentials();
-                    Toast.MakeText(Context, "Wert wurde erfolgreich geändert!", ToastLength.Long).Show();
+                    Toast.MakeText(Context, Resource.String.saving_successful, ToastLength.Long).Show();
                 })
-                .SetNegativeButton("Abbrechen", delegate
+                .SetNegativeButton(Resource.String.dialog_cancel, delegate
                 {
                     dialogBuilder.Dispose();
                 });

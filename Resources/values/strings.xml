@@ -1,126 +1,162 @@
 <resources>
-    <!--Common Strings-->
-    <string name="app_name">Freediver App</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="action_settings">Settings</string>
+  <!--Common Strings-->
+  <string name="app_name">Freediver App</string>
+  <string name="navigation_drawer_open">Open navigation drawer</string>
+  <string name="navigation_drawer_close">Close navigation drawer</string>
+  <string name="action_settings">Settings</string>
 
-    <!--Page Headers-->
-    <string name="page_header_accountpanel">Freediver App - Account Panel</string>
-    <string name="page_header_divesessions">Freediver App - Divesessions</string>
-    <string name="page_header_connected_devices">Freediver App - Connected Devices</string>
-    <string name="page_header_settings">Freediver App - Settings</string>
+  <!--Page Headers-->
+  <string name="page_header_accountpanel">Freediver App - Account Panel</string>
+  <string name="page_header_divesessions">Freediver App - Divesessions</string>
+  <string name="page_header_connected_devices">Freediver App - Connected Devices</string>
+  <string name="page_header_settings">Freediver App - Settings</string>
 
-    <!--Languages for Spinner-->
-    <string-array name="languages_array">
-      <item>Deutsch</item>
-      <item>English</item>
-    </string-array>
+  <!--Languages for Spinner-->
+  <string-array name="languages_array">
+    <item>Deutsch</item>
+    <item>English</item>
+  </string-array>
 
-    <!--Language Strings (EN_US)-->
-    <string name="login">Login</string>
-    <string name="logout">Logout</string>
-    <string name="register">Register</string>
-    <string name="restore_account">Restore Account</string>
-    <string name="registered_since">registered since:</string>
-    <string name="cant_login">Can´t login?</string>
-    <string name="email">E-Mail</string>
-    <string name="email_acc_panel">E-Mail: </string>
-    <string name="username">Username</string>
-    <string name="username_or_email">Username/E-Mail</string>
-    <string name="password">Password</string>
-    <string name="password_acc_panel">Password: </string>
-    <string name="recover_password">Recover Password</string>
-    <string name="firstname">Firstname</string>
-    <string name="firstname_acc_panel">Firstname: </string>
-    <string name="lastname">Lastname</string>
-    <string name="lastname_acc_panel">Lastname: </string>
-    <string name="date_of_birth">Date of Birth</string>
-    <string name="date_of_birth_acc_panel">Date of Birth: </string>
-    <string name="weight">Weight (kg)</string>
-    <string name="weight_acc_panel">Weight: </string>
-    <string name="height">Height (cm)</string>
-    <string name="height_acc_panel">Height: </string>
-    <string name="create_account">Create Account</string>
-    <string name="delete_account">Delete Account</string>
-    <string name="dive_session">Dive Session</string>
-    <string name="dive_sessions">Dive Sessions</string>
-    <string name="home">Home</string>
-    <string name="add_dive_session">Add Divesession</string>
-    <string name="add">Add</string>
-    <string name="abort">Abort</string>
-    <string name="depth">Depth</string>
-    <string name="max_depth">Max. Depth</string>
-    <string name="location">Location</string>
-    <string name="weather_condition">Weather Condition</string>
-    <string name="weather">Weather</string>
-    <string name="total_dive_time">Total Dive Time</string>
-    <string name="bluetooth">Bluetooth</string>
-    <string name="connected_devices">Connected Devices</string>
-    <string name="connected_with">Connected with</string>
-    <string name="bluetooth_devices">Bluetooth Devices</string>
-    <string name="wifi_devices">Wifi Devices</string>
-    <string name="connected">Connected</string>
-    <string name="disconnected">Disconnected</string>
-    <string name="account">Account</string>
-    <string name="account_information">Account Information</string>
-    <string name="app_settings">App Settings</string>
-    <string name="language">Language</string>
-    <string name="design">Design</string>
-    <string name="dive_progression">Dive Progression</string>
-    <string name="save">Save</string>
-    <string name="welcome">Welcome</string>
-    <string name="no_device_connected">"No device connected"</string>
-    <string name="session_overview">Session Overview</string>
-    <string name="date">Date</string>
-    <string name="dive_time">Dive time</string>
-    <string name="notes">Notes</string>
-    <string name="dives">Dives</string>
-    <string name="dive">Dive</string>
-    <string name="duration">Duration</string>
-    <string name="max_heart_freq">Max. heart frequency</string>
-    <string name="min_heart_freq">Min. heart frequency</string>
-    <string name="max_oxygen_sat">Max. oxygen saturation</string>
-    <string name="min_oxygen_sat">Min. oxygen saturation</string>
+  <!--Language Strings (EN_US)-->
+  <string name="login">Login</string>
+  <string name="logout">Logout</string>
+  <string name="register">Register</string>
+  <string name="restore_account">Restore Account</string>
+  <string name="registered_since">registered since:</string>
+  <string name="cant_login">Can´t login?</string>
+  <string name="email">E-Mail</string>
+  <string name="email_acc_panel">E-Mail: </string>
+  <string name="username">Username</string>
+  <string name="username_or_email">Username/E-Mail</string>
+  <string name="password">Password</string>
+  <string name="password_acc_panel">Password: </string>
+  <string name="recover_password">Recover Password</string>
+  <string name="firstname">Firstname</string>
+  <string name="firstname_acc_panel">Firstname: </string>
+  <string name="lastname">Lastname</string>
+  <string name="lastname_acc_panel">Lastname: </string>
+  <string name="date_of_birth">Date of Birth</string>
+  <string name="date_of_birth_acc_panel">Date of Birth: </string>
+  <string name="weight">Weight (kg)</string>
+  <string name="weight_acc_panel">Weight: </string>
+  <string name="height">Height (cm)</string>
+  <string name="height_acc_panel">Height: </string>
+  <string name="create_account">Create Account</string>
+  <string name="delete_account">Delete Account</string>
+  <string name="dive_session">Dive Session</string>
+  <string name="dive_sessions">Dive Sessions</string>
+  <string name="home">Home</string>
+  <string name="add_dive_session">Add Divesession</string>
+  <string name="add">Add</string>
+  <string name="abort">Abort</string>
+  <string name="depth">Depth</string>
+  <string name="max_depth">Max. Depth</string>
+  <string name="location">Location</string>
+  <string name="weather_condition">Weather Condition</string>
+  <string name="weather">Weather</string>
+  <string name="total_dive_time">Total Dive Time</string>
+  <string name="bluetooth">Bluetooth</string>
+  <string name="connected_devices">Connected Devices</string>
+  <string name="connected_with">Connected with</string>
+  <string name="bluetooth_devices">Bluetooth Devices</string>
+  <string name="wifi_devices">Wifi Devices</string>
+  <string name="connected">Connected</string>
+  <string name="disconnected">Disconnected</string>
+  <string name="account">Account</string>
+  <string name="account_information">Account Information</string>
+  <string name="app_settings">App Settings</string>
+  <string name="language">Language</string>
+  <string name="design">Design</string>
+  <string name="dive_progression">Dive Progression</string>
+  <string name="save">Save</string>
+  <string name="welcome">Welcome</string>
+  <string name="no_device_connected">"No device connected"</string>
+  <string name="session_overview">Session Overview</string>
+  <string name="date">Date</string>
+  <string name="dive_time">Dive time</string>
+  <string name="notes">Notes</string>
+  <string name="dives">Dives</string>
+  <string name="dive">Dive</string>
+  <string name="duration">Duration</string>
+  <string name="max_heart_freq">Max. heart frequency</string>
+  <string name="min_heart_freq">Min. heart frequency</string>
+  <string name="max_oxygen_sat">Max. oxygen saturation</string>
+  <string name="min_oxygen_sat">Min. oxygen saturation</string>
+  <string name="connect">Connect</string>
+  <string name="transfer">Transfer</string>
+  <string name="how_to_transfer_data">How to Transfer Data:</string>
 
-    <!--Toast Strings (EN_US)-->
-    <string name="login_successful">Login successful!</string>
-    <string name="logout_successful">You have been logged out!</string>
-    <string name="wrong_username_or_pass">You entered a wrong username or password!</string>
-    <string name="register_fill_all_fields">Please fill all the fields in order to register a new account!</string>
-    <string name="register_email_not_valid">This email is not valid, please choose another one!</string>
-    <string name="register_email_exists">This email is already in use, please choose another one!</string>
-    <string name="account_created">Your account has been created successfully!</string>
-    <string name="account_deleted">Your account has been deleted successfully!</string>
-    <string name="register_username_exists">This username is already in use, please choose another one!</string> 
-    <string name="bluetooth_not_supported">Your device does not support Bluetooth!</string>
-    <string name="bluetooth_activated">Bluetooth activated!</string>
-    <string name="bluetooth_activation_failed">Bluetooth activation failed!</string>
-    <string name="connection_to_device_failed">Connection to device failed!</string>
-    <string name="no_dives_available">There are no dives available!</string>
-    <string name="could_not_retrieve_location_and_weather">"Could not retrieve location and weather data. Please make sure to enable the location service on your phone!"</string>
-    <string name="enable_location_service">"Please enable Location services on your device!"</string>
-    <string name="session_already_exists">"There does already exist a session for this date!"</string>
-    <string name="saving_successful">Your settings have been saved successfully!</string>
-    <string name="no_data_uploaded_yet">"There was no dive data uploaded for this session yet!"</string>
-    <string name="data_transfer_complete">"The dive data was successfully transmitted!"</string>
-    <string name="data_sync_complete">"The dive data was successfully synchronized with the cloud!"</string>
-    <string name="no_internet_connection">"No active internet connection!"</string>
-    <string name="ota_transfer_failed">"Synchronization of network credentials for OTA failed!"</string>
-    <string name="ota_transfer_successful">"Synchronization of network credentials for OTA successful!"</string>
+  <!--Data transfer manual strings (EN_US)-->
+  <string name="step_one">1. Press the \"Connect\" Button and Connect to your Divecomputer using the Android Wifi Menu.</string>
+  <string name="step_two">2. After you successfully connected to the Divecomputer, go back to this Menu and press the \"Transfer\" button. This may take a while.</string>
+  <string name="step_three">3. After you transferred the data to your phone successfully, disconnect from the arduino using the Android Wifi Menu.</string>
+  <string name="step_four">4. Enable a working internet connection via Wifi or Mobile Data on your phone.</string>
+  <string name="step_five">5. Press the \"Sync\" button to upload your data to the cloud. This may take a while.</string>
+  
+  <!--Toast Strings (EN_US)-->
+  <string name="login_successful">Login successful!</string>
+  <string name="logout_successful">You have been logged out!</string>
+  <string name="wrong_username_or_pass">You entered a wrong username or password!</string>
+  <string name="register_fill_all_fields">Please fill all the fields in order to register a new account!</string>
+  <string name="register_email_not_valid">This email is not valid, please choose another one!</string>
+  <string name="register_email_exists">This email is already in use, please choose another one!</string>
+  <string name="account_created">Your account has been created successfully!</string>
+  <string name="account_deleted">Your account has been deleted successfully!</string>
+  <string name="register_username_exists">This username is already in use, please choose another one!</string> 
+  <string name="bluetooth_not_supported">Your device does not support Bluetooth!</string>
+  <string name="bluetooth_activated">Bluetooth activated!</string>
+  <string name="bluetooth_activation_failed">Bluetooth activation failed!</string>
+  <string name="connection_to_device_failed">Connection to device failed!</string>
+  <string name="no_dives_available">There are no dives available!</string>
+  <string name="could_not_retrieve_location_and_weather">"Could not retrieve location and weather data. Please make sure to enable the location service on your phone!"</string>
+  <string name="enable_location_service">"Please enable Location services on your device!"</string>
+  <string name="session_already_exists">"There does already exist a session for this date!"</string>
+  <string name="saving_successful">Your settings have been saved successfully!</string>
+  <string name="no_data_uploaded_yet">"There was no dive data uploaded for this session yet!"</string>
+  <string name="data_transfer_complete">"The dive data was successfully transmitted!"</string>
+  <string name="data_sync_complete">"The dive data was successfully synchronized with the cloud!"</string>
+  <string name="no_internet_connection">"No active internet connection!"</string>
+  <string name="ota_transfer_failed">"Synchronization of network credentials for OTA failed!"</string>
+  <string name="ota_transfer_successful">"Synchronization of network credentials for OTA successful!"</string>
+  <string name="passwords_dont_match">"The given passwords don't match!"</string>
+  <string name="connection_to_device_failed_ensure_wifi_connection">Connection failed. Make sure you are connected to the dive computer\'s wifi network.</string>
+  <string name="connected_to_device_starting_data_transfer">Connected to dive computer, starting data transfer...</string>
+  <string name="no_pending_data">No pending data found!</string>
+  <string name="wifi_activation_successful">Wifi activated!</string>
+  <string name="wifi_activation_failed">Failed to activate Wifi!</string>
 
   <!--Dialog Strings (EN_US)-->
-    <string name="dialog_save_user_info">Save User Information</string>
-    <string name="dialog_delete_account">Delete User Account</string>
-    <string name="dialog_are_you_sure">Are you sure?</string>
-    <string name="dialog_accept">Accept</string>
-    <string name="dialog_cancel">Cancel</string>
-    <string name="dialog_bluetooth_not_activated">Bluetooth is not activated!</string>
-    <string name="dialog_do_you_want_to_activate_blueooth">Do you want to activate Bluetooth on your device?</string>
-    <string name="dialog_connect">Connect</string>
-    <string name="dialog_connect_to_device">Connect to Device</string>
-    <string name="dialog_logging_in">Logging in...</string>
-    <string name="dialog_receiving_data">Receiving session data from dive computer...</string>
-    <string name="dialog_sync_ota">Synchronizing OTA Data...</string>
+  <string name="dialog_save_user_info">Save User Information</string>
+  <string name="dialog_delete_account">Delete User Account</string>
+  <string name="dialog_are_you_sure">Are you sure?</string>
+  <string name="dialog_accept">Accept</string>
+  <string name="dialog_cancel">Cancel</string>
+  <string name="dialog_bluetooth_not_activated">Bluetooth is not activated!</string>
+  <string name="dialog_do_you_want_to_activate_blueooth">Do you want to activate Bluetooth on your device?</string>
+  <string name="dialog_connect">Connect</string>
+  <string name="dialog_connect_to_device">Connect to Device</string>
+  <string name="dialog_logging_in">Logging in...</string>
+  <string name="dialog_receiving_data">Receiving session data from dive computer...</string>
+  <string name="dialog_sync_ota">Synchronizing OTA Data...</string>
+  <string name="dialog_change_ssid">Change SSID</string>
+  <string name="dialog_new_ssid">New SSID</string>
+  <string name="dialog_save">Save</string>
+  <string name="dialog_change_password">Change password</string>
+  <string name="dialog_new_password">New password</string>
+  <string name="dialog_confirm_new_password">Confirm new password</string>
+  <string name="dialog_change_email">Change email</string>
+  <string name="dialog_new_email">New email</string>
+  <string name="dialog_change_first_name">Change first name</string>
+  <string name="dialog_new_first_name">New first name</string>
+  <string name="dialog_change_last_name">Change last name</string>
+  <string name="dialog_new_last_name">New last name</string>
+  <string name="dialog_change_height">Change height</string>
+  <string name="dialog_new_height">New height (cm)</string>
+  <string name="dialog_change_weight">Change weight</string>
+  <string name="dialog_new_weight">New weight (kg)</string>
+  <string name="dialog_upload_data_to_cloud">Uploading dive data to the cloud...</string>
+  <string name="dialog_wifi_not_activated">Wifi not activated</string>
+  <string name="dialog_want_to_activate_wifi">Do you want to activate Wifi on your device?</string>
+  <string name="dialog_disconnect_and_establish_internet_connection_to_sync">Please disconnect from the dive computer and establish an internet connection. Then press the SYNC button to save the dive data in the database.</string>
 
 </resources>

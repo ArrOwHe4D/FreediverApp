@@ -16,6 +16,7 @@ namespace FreediverApp
      *  delete his account with a button on the bottom of the form. All dive data from that user still remains inside the databse 
      *  after deletion.
      **/
+    [Obsolete]
     public class AccountPanelFragment : Fragment
     {
         /*Member Variables (UI Components from XML)*/
@@ -25,6 +26,8 @@ namespace FreediverApp
 
         private FirestoreDataListener userDataListener;
         private List<User> userList;
+
+        private Android.Content.Res.Resources res;
 
         // use edit buttons as Imageviews as it is easier and costs less resources
         ImageView btnEditEmail, btnEditPassword, btnEditFirstname, btnEditLastname, btnEditDateOfBirth, btnEditHeight, btnEditWeight;
@@ -69,6 +72,8 @@ namespace FreediverApp
             btnEditDateOfBirth.Click += editDateOfBirth;
             btnEditHeight.Click += editHeight;
             btnEditWeight.Click += editWeight;
+
+            res = this.Resources;
 
             //setup the db listener to retrieve userdata from db
             retrieveAccountData();
@@ -149,22 +154,22 @@ namespace FreediverApp
         public void editEmail(object sender, EventArgs eventArgs)
         {
             LayoutInflater layoutInflater = LayoutInflater.From(Context);
-            View dialogView = layoutInflater.Inflate(Resource.Layout.UserInputDialog, null);     
+            View dialogView = layoutInflater.Inflate(Resource.Layout.UserInputDialog, null);
 
-            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog("Email ändern", "Neue Email-Adresse", Resource.Drawable.icon_pencil, dialogView);
+            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog(res.GetString(Resource.String.dialog_change_email), res.GetString(Resource.String.dialog_new_email), Resource.Drawable.icon_pencil, dialogView);
 
             var editValueField = dialogView.FindViewById<EditText>(Resource.Id.textfield_input);
             editValueField.InputType = Android.Text.InputTypes.TextVariationEmailAddress;
 
             dialogBuilder.SetCancelable(false)
-                .SetPositiveButton("Speichern", delegate
+                .SetPositiveButton(Resource.String.dialog_save, delegate
                 {
                     userDataListener.updateEntity("users", TemporaryData.CURRENT_USER.id, "email", editValueField.Text);
-                    Toast.MakeText(Context, "Wert wurde erfolgreich geändert!", ToastLength.Long).Show();
+                    Toast.MakeText(Context, Resource.String.saving_successful, ToastLength.Long).Show();
                     retrieveAccountData();
                     dialogBuilder.Dispose();
                 })
-                .SetNegativeButton("Abbrechen", delegate
+                .SetNegativeButton(Resource.String.dialog_cancel, delegate
                 {
                     dialogBuilder.Dispose();
                 });
@@ -178,27 +183,27 @@ namespace FreediverApp
             LayoutInflater layoutInflater = LayoutInflater.From(Context);
             View dialogView = layoutInflater.Inflate(Resource.Layout.UserPasswordInputDialog, null);
 
-            SupportV7.AlertDialog.Builder dialogBuilder = createEditPasswordDialog("Passwort ändern", "Neues Passwort", "Neues Passwort bestätigen", Resource.Drawable.icon_pencil, dialogView);
+            SupportV7.AlertDialog.Builder dialogBuilder = createEditPasswordDialog(res.GetString(Resource.String.dialog_change_password), res.GetString(Resource.String.dialog_new_password), res.GetString(Resource.String.dialog_confirm_new_password), Resource.Drawable.icon_pencil, dialogView);
             
             var editPasswordField = dialogView.FindViewById<EditText>(Resource.Id.textview_password_input);
             var checkPasswordField = dialogView.FindViewById<EditText>(Resource.Id.textview_password_check_input);
 
             dialogBuilder.SetCancelable(false)
-                .SetPositiveButton("Speichern", delegate
+                .SetPositiveButton(Resource.String.dialog_save, delegate
                 {
                     if (editPasswordField.Text == checkPasswordField.Text)
                     {
                         userDataListener.updateEntity("users", TemporaryData.CURRENT_USER.id, "password", CryptoService.Encrypt(editPasswordField.Text));
-                        Toast.MakeText(Context, "Wert wurde erfolgreich geändert!", ToastLength.Long).Show();
+                        Toast.MakeText(Context, Resource.String.saving_successful, ToastLength.Long).Show();
                         retrieveAccountData();
                         dialogBuilder.Dispose();
                     }
                     else 
                     {
-                        Toast.MakeText(Context, "Passwörter stimmen nicht überein!", ToastLength.Long).Show();
+                        Toast.MakeText(Context, Resource.String.passwords_dont_match, ToastLength.Long).Show();
                     }
                 })
-                .SetNegativeButton("Abbrechen", delegate
+                .SetNegativeButton(Resource.String.dialog_cancel, delegate
                 {
                     dialogBuilder.Dispose();
                 });
@@ -212,19 +217,19 @@ namespace FreediverApp
             LayoutInflater layoutInflater = LayoutInflater.From(Context);
             View dialogView = layoutInflater.Inflate(Resource.Layout.UserInputDialog, null);
 
-            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog("Vornamen ändern", "Neuer Vorname", Resource.Drawable.icon_pencil, dialogView);
+            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog(res.GetString(Resource.String.dialog_change_first_name), res.GetString(Resource.String.dialog_new_first_name), Resource.Drawable.icon_pencil, dialogView);
 
             var editValueField = dialogView.FindViewById<EditText>(Resource.Id.textfield_input);
 
             dialogBuilder.SetCancelable(false)
-                .SetPositiveButton("Speichern", delegate
+                .SetPositiveButton(Resource.String.dialog_save, delegate
                 {
                     userDataListener.updateEntity("users", TemporaryData.CURRENT_USER.id, "firstname", editValueField.Text);
-                    Toast.MakeText(Context, "Wert wurde erfolgreich geändert!", ToastLength.Long).Show();
+                    Toast.MakeText(Context, Resource.String.saving_successful, ToastLength.Long).Show();
                     retrieveAccountData();
                     dialogBuilder.Dispose();
                 })
-                .SetNegativeButton("Abbrechen", delegate
+                .SetNegativeButton(Resource.String.dialog_cancel, delegate
                 {
                     dialogBuilder.Dispose();
                 });
@@ -238,19 +243,19 @@ namespace FreediverApp
             LayoutInflater layoutInflater = LayoutInflater.From(Context);
             View dialogView = layoutInflater.Inflate(Resource.Layout.UserInputDialog, null);
 
-            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog("Nachnamen ändern", "Neuer Nachname", Resource.Drawable.icon_pencil, dialogView);
+            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog(res.GetString(Resource.String.dialog_change_last_name), res.GetString(Resource.String.dialog_new_last_name), Resource.Drawable.icon_pencil, dialogView);
 
             var editValueField = dialogView.FindViewById<EditText>(Resource.Id.textfield_input);
 
             dialogBuilder.SetCancelable(false)
-                .SetPositiveButton("Speichern", delegate
+                .SetPositiveButton(Resource.String.dialog_save, delegate
                 {
                     userDataListener.updateEntity("users", TemporaryData.CURRENT_USER.id, "lastname", editValueField.Text);
-                    Toast.MakeText(Context, "Wert wurde erfolgreich geändert!", ToastLength.Long).Show();
+                    Toast.MakeText(Context, Resource.String.saving_successful, ToastLength.Long).Show();
                     retrieveAccountData();
                     dialogBuilder.Dispose();
                 })
-                .SetNegativeButton("Abbrechen", delegate
+                .SetNegativeButton(Resource.String.dialog_cancel, delegate
                 {
                     dialogBuilder.Dispose();
                 });
@@ -264,7 +269,7 @@ namespace FreediverApp
             DatePickerFragment datePicker = DatePickerFragment.NewInstance(delegate (DateTime dateTime) 
             { 
                 userDataListener.updateEntity("users", TemporaryData.CURRENT_USER.id, "birthday", dateTime.ToShortDateString());
-                Toast.MakeText(Context, "Wert wurde erfolgreich geändert!", ToastLength.Long).Show();
+                Toast.MakeText(Context, Resource.String.saving_successful, ToastLength.Long).Show();
                 retrieveAccountData();
             });
 
@@ -276,19 +281,19 @@ namespace FreediverApp
             LayoutInflater layoutInflater = LayoutInflater.From(Context);
             View dialogView = layoutInflater.Inflate(Resource.Layout.UserInputDialog, null);
 
-            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog("Körpergröße ändern", "Neuer Wert (cm)", Resource.Drawable.icon_pencil, dialogView);
+            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog(res.GetString(Resource.String.dialog_change_height), res.GetString(Resource.String.dialog_new_height), Resource.Drawable.icon_pencil, dialogView);
 
             var editValueField = dialogView.FindViewById<EditText>(Resource.Id.textfield_input);
 
             dialogBuilder.SetCancelable(false)
-                .SetPositiveButton("Speichern", delegate
+                .SetPositiveButton(Resource.String.dialog_save, delegate
                 {
                     userDataListener.updateEntity("users", TemporaryData.CURRENT_USER.id, "height", editValueField.Text);
-                    Toast.MakeText(Context, "Wert wurde erfolgreich geändert!", ToastLength.Long).Show();
+                    Toast.MakeText(Context, Resource.String.saving_successful, ToastLength.Long).Show();
                     retrieveAccountData();
                     dialogBuilder.Dispose();
                 })
-                .SetNegativeButton("Abbrechen", delegate
+                .SetNegativeButton(Resource.String.dialog_cancel, delegate
                 {
                     dialogBuilder.Dispose();
                 });
@@ -302,19 +307,19 @@ namespace FreediverApp
             LayoutInflater layoutInflater = LayoutInflater.From(Context);
             View dialogView = layoutInflater.Inflate(Resource.Layout.UserInputDialog, null);
 
-            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog("Körpergewicht ändern", "Neuer Wert (kg)", Resource.Drawable.icon_pencil, dialogView);
+            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog(res.GetString(Resource.String.dialog_change_weight), res.GetString(Resource.String.dialog_new_weight), Resource.Drawable.icon_pencil, dialogView);
 
             var editValueField = dialogView.FindViewById<EditText>(Resource.Id.textfield_input);
 
             dialogBuilder.SetCancelable(false)
-                .SetPositiveButton("Speichern", delegate
+                .SetPositiveButton(Resource.String.dialog_save, delegate
                 {                 
                     userDataListener.updateEntity("users", TemporaryData.CURRENT_USER.id, "weight", editValueField.Text);
-                    Toast.MakeText(Context, "Wert wurde erfolgreich geändert!", ToastLength.Long).Show();
+                    Toast.MakeText(Context, Resource.String.saving_successful, ToastLength.Long).Show();
                     retrieveAccountData();
                     dialogBuilder.Dispose();
                 })
-                .SetNegativeButton("Abbrechen", delegate
+                .SetNegativeButton(Resource.String.dialog_cancel, delegate
                 {
                     dialogBuilder.Dispose();
                 });
