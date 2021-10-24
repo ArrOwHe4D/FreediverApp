@@ -141,7 +141,7 @@
             android:id="@+id/button_add_session" />
 
         <Button
-            android:text="@string/abort"
+            android:text="@string/dialog_cancel"
             android:textColor="@android:color/white"
             android:backgroundTint="?android:attr/colorPrimary"
             android:layout_width="match_parent"

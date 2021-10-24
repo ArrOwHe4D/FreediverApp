@@ -37,7 +37,6 @@
   <string name="home">Startseite</string>
   <string name="add_dive_session">Divesession Hinzufügen</string>
   <string name="add">Hinzufügen</string>
-  <string name="abort">Abbrechen</string>
   <string name="depth">Tiefe</string>
   <string name="max_depth">Max. Tiefe</string>
   <string name="location">Standort</string>
@@ -70,6 +69,12 @@
   <string name="min_heart_freq">Min. Herzfrequenz</string>
   <string name="max_oxygen_sat">Max. Sauerstoffsättigung</string>
   <string name="min_oxygen_sat">Min. Sauerstoffsättigung</string>
+  <string name="session_count">Anzahl Sessions</string>
+  <string name="time_under_water">Zeit unter Wasser</string>
+  <string name="longest_session">Längste Session</string>
+  <string name="min_temperature">Min Temperatur</string>
+  <string name="max_temperature">Max Temperatur</string>
+  <string name="session_statistic">Session Statistik</string>
 
   <!--Toast Strings (DE)-->
   <string name="login_successful">Login erfolgreich!</string>

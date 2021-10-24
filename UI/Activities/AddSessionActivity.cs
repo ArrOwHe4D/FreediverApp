@@ -28,11 +28,9 @@ namespace FreediverApp
     {
         private Button buttonAddSession;
         private Button buttonCancel;
-        private TextView textViewConnectedWith;
         private TextView textViewLocation;
         private TextView textViewWeather;
         private TextView textViewDate;
-        private TextView textViewDiveTime;
         private DiveSession diveSession;
         private FirestoreDataListener database;
         private List<SavedSession> savedSessions;
@@ -59,11 +57,9 @@ namespace FreediverApp
             textViewDate = FindViewById<TextView>(Resource.Id.textview_date);
 
             diveSession = createDiveSession();
-            textViewConnectedWith.Text = TemporaryData.CONNECTED_DIVE_COMPUTER;
             textViewLocation.Text = diveSession.location_lon + " | " + diveSession.location_lat;
             textViewWeather.Text = diveSession.weatherCondition_main + " | " + diveSession.weatherTemperature;
             textViewDate.Text = diveSession.date;
-            textViewDiveTime.Text = diveSession.watertime;
             sessionExists = false;
 
             database = new FirestoreDataListener();
