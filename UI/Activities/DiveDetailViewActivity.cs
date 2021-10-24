@@ -111,12 +111,14 @@ namespace FreediverApp
             {
                 SKColor color;
 
+                float depth = float.Parse(measurepointList[i].depth.Replace(",", "."));
+
                 //assign the color based on the depth value of the current measurepoint
-                if (float.Parse(measurepointList[i].depth) <= 8.0f)
+                if (depth <= 8.0f)
                 {
                     color = SKColor.Parse("#5cf739"); //green
                 }
-                else if (float.Parse(measurepointList[i].depth) <= 18.0f)
+                else if (depth <= 18.0f)
                 {
                     color = SKColor.Parse("#f7c139"); //yellow
                 }

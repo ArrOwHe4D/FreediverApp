@@ -78,7 +78,7 @@
   <string name="connect">Verbinden</string>
   <string name="transfer">Übertragen</string>
   <string name="how_to_transfer_data">Wie man Daten überträgt:</string>
-
+  <string name="transfer_data">Daten übertragen</string>
 
   <!--Data transfer manual strings-->
   <string name="step_one">1. Drücken Sie auf \"Verbinden\" und verbinden Sie ihr Mobilgerät über das Android-Wlan-Menü mit dem Tauchcomputer.</string>
@@ -86,8 +86,6 @@
   <string name="step_three">3. Nachdem die Daten übertragen wurden, trennen Sie die Verbindung zum Tauchcomputer wieder.</string>
   <string name="step_four">4. Stellen Sie eine Internetverbindung her (z.B. über Wlan oder Mobile Daten).</string>
   <string name="step_five">5. Drücken sie den \"SYNC\"-Knopf, um ihre Daten mit der Cloud zu synchronisieren. Dies kann eine Weile dauern.</string>
-
-  
 
   <!--Toast Strings (DE)-->
   <string name="login_successful">Login erfolgreich!</string>

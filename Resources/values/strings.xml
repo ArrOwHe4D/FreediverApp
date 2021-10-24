@@ -1,15 +1,10 @@
 <resources>
+
   <!--Common Strings-->
   <string name="app_name">Freediver App</string>
   <string name="navigation_drawer_open">Open navigation drawer</string>
   <string name="navigation_drawer_close">Close navigation drawer</string>
   <string name="action_settings">Settings</string>
-
-  <!--Page Headers-->
-  <string name="page_header_accountpanel">Freediver App - Account Panel</string>
-  <string name="page_header_divesessions">Freediver App - Divesessions</string>
-  <string name="page_header_connected_devices">Freediver App - Connected Devices</string>
-  <string name="page_header_settings">Freediver App - Settings</string>
 
   <!--Languages for Spinner-->
   <string-array name="languages_array">
@@ -91,8 +86,7 @@
   <string name="connect">Connect</string>
   <string name="transfer">Transfer</string>
   <string name="how_to_transfer_data">How to Transfer Data:</string>
-
-
+  <string name="transfer_data">Transfer data</string>
 
   <!--Data transfer manual strings (EN_US)-->
   <string name="step_one">1. Press the \"Connect\" Button and Connect to your Divecomputer using the Android Wifi Menu.</string>
@@ -166,6 +160,5 @@
   <string name="dialog_wifi_not_activated">Wifi not activated</string>
   <string name="dialog_want_to_activate_wifi">Do you want to activate Wifi on your device?</string>
   <string name="dialog_disconnect_and_establish_internet_connection_to_sync">Please disconnect from the dive computer and establish an internet connection. Then press the SYNC button to save the dive data in the database.</string>
-
 
 </resources>
