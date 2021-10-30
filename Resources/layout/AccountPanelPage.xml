@@ -219,6 +219,38 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".25"
+                    android:text="@string/gender_acc_panel"
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".25"
+                    android:text="Mustermann"
+                    android:textColor="@android:color/black"
+                    android:textSize="8pt"
+                    android:id="@+id/txtview_gender"/>
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/icon_pencil"
+                    android:contentDescription="change" 
+                    android:id="@+id/btn_edit_gender"/>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".25"
                     android:text="@string/date_of_birth_acc_panel"
                     android:textColor="@android:color/black"
                     android:textSize="8pt"/>

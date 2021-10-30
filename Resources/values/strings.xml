@@ -8,8 +8,13 @@
 
   <!--Languages for Spinner-->
   <string-array name="languages_array">
-    <item>Deutsch</item>
+    <item>German</item>
     <item>English</item>
+  </string-array>
+  <string-array name="gender_array">
+    <item>Male</item>
+    <item>Female</item>
+    <item>Diverse</item>
   </string-array>
 
   <!--Language Strings (EN_US)-->
@@ -30,6 +35,7 @@
   <string name="firstname_acc_panel">Firstname: </string>
   <string name="lastname">Lastname</string>
   <string name="lastname_acc_panel">Lastname: </string>
+  <string name="gender_acc_panel">Gender: </string>
   <string name="date_of_birth">Date of Birth</string>
   <string name="date_of_birth_acc_panel">Date of Birth: </string>
   <string name="weight">Weight (kg)</string>
@@ -156,6 +162,7 @@
   <string name="dialog_new_height">New height (cm)</string>
   <string name="dialog_change_weight">Change weight</string>
   <string name="dialog_new_weight">New weight (kg)</string>
+  <string name="dialog_change_gender">Change gender</string>
   <string name="dialog_upload_data_to_cloud">Uploading dive data to the cloud...</string>
   <string name="dialog_wifi_not_activated">Wifi not activated</string>
   <string name="dialog_want_to_activate_wifi">Do you want to activate Wifi on your device?</string>

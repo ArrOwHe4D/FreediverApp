@@ -100,6 +100,7 @@ namespace FreediverApp.DatabaseConnector
                         user.dateOfBirth                         = dataRecord.GetString("birthday");
                         user.weight                              = dataRecord.GetString("weight");
                         user.height                              = dataRecord.GetString("height");
+                        user.gender                              = dataRecord.GetString("gender");
                         user.registerdate                        = dataRecord.GetString("registerdate");
 
                         userList.Add(user);
@@ -214,6 +215,7 @@ namespace FreediverApp.DatabaseConnector
                     saveData.Put("birthday", obj.dateOfBirth);
                     saveData.Put("weight", obj.weight);
                     saveData.Put("height", obj.height);
+                    saveData.Put("gender", obj.gender);
                     saveData.Put("registerdate", DateTime.Now.Date.ToString("dd.MM.yyyy"));
 
                     documentRef.Set(saveData);

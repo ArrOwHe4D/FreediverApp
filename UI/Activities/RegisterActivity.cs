@@ -29,6 +29,10 @@ namespace FreediverApp
             texteditWeight, 
             texteditHeight;
 
+        private Spinner spinnerGender;
+
+        private string gender;
+
         private FirestoreDataListener userDataListener;
         private List<User> userResult;
 
@@ -53,6 +57,12 @@ namespace FreediverApp
 
             texteditWeight = FindViewById<EditText>(Resource.Id.textedit_weight);
             texteditHeight = FindViewById<EditText>(Resource.Id.textedit_height);
+
+            spinnerGender = FindViewById<Spinner>(Resource.Id.spinner_gender);
+            spinnerGender.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(onSpinnerGenderItemSelected);
+            var spinnerAdapter = ArrayAdapter.CreateFromResource(this, Resource.Array.gender_array, Android.Resource.Layout.SimpleSpinnerItem);
+            spinnerAdapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+            spinnerGender.Adapter = spinnerAdapter;
 
             userResult = new List<User>();
 
@@ -160,7 +170,7 @@ namespace FreediverApp
                     //If all error checks are successfull, create a user instance and save that instance to db
                     if (!userNameExists && !emailExists)
                     {
-                        User saveUser = new User("", username, email, password, firstname, lastname, dateofbirth, weight, height);
+                        User saveUser = new User("", username, email, password, firstname, lastname, dateofbirth, weight, height, gender);
 
                         //Create a confirmation dialog that needs to be accepted in order to complete the registration
                         SupportV7.AlertDialog.Builder saveDataDialog = new SupportV7.AlertDialog.Builder(this);
@@ -203,6 +213,12 @@ namespace FreediverApp
             string.IsNullOrEmpty(texteditDateOfBirth.Text.Trim())  ||
             string.IsNullOrEmpty(texteditWeight.Text.Trim())       ||
             string.IsNullOrEmpty(texteditHeight.Text.Trim());
+        }
+
+        private void onSpinnerGenderItemSelected(object sender, AdapterView.ItemSelectedEventArgs e) 
+        {
+            Spinner spinner = (Spinner)sender;
+            gender = spinner.GetItemAtPosition(e.Position).ToString();
         }
     }
 }

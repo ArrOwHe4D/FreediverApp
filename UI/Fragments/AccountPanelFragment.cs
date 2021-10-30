@@ -20,7 +20,7 @@ namespace FreediverApp
     public class AccountPanelFragment : Fragment
     {
         /*Member Variables (UI Components from XML)*/
-        private TextView txtViewEmail, txtViewPassword, txtViewFirstname, txtViewLastname, txtViewDateOfBirth, txtViewHeight, txtViewWeight;
+        private TextView txtViewEmail, txtViewPassword, txtViewFirstname, txtViewLastname, txtViewDateOfBirth, txtViewHeight, txtViewWeight, txtViewGender;
         private TextView titleUsername, titleRegisteredSince;
         private Button btnDeleteAccount;
 
@@ -29,8 +29,10 @@ namespace FreediverApp
 
         private Android.Content.Res.Resources res;
 
+        private string gender;
+
         // use edit buttons as Imageviews as it is easier and costs less resources
-        ImageView btnEditEmail, btnEditPassword, btnEditFirstname, btnEditLastname, btnEditDateOfBirth, btnEditHeight, btnEditWeight;
+        ImageView btnEditEmail, btnEditPassword, btnEditFirstname, btnEditLastname, btnEditDateOfBirth, btnEditHeight, btnEditWeight, btnEditGender;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -52,6 +54,7 @@ namespace FreediverApp
             txtViewDateOfBirth = view.FindViewById<TextView>(Resource.Id.txtview_date_of_birth);
             txtViewHeight = view.FindViewById<TextView>(Resource.Id.txtview_height);
             txtViewWeight = view.FindViewById<TextView>(Resource.Id.txtview_weight);
+            txtViewGender = view.FindViewById<TextView>(Resource.Id.txtview_gender);
 
             titleUsername = view.FindViewById<TextView>(Resource.Id.title_username);
             titleRegisteredSince = view.FindViewById<TextView>(Resource.Id.title_registered_since);
@@ -64,6 +67,7 @@ namespace FreediverApp
             btnEditDateOfBirth = view.FindViewById<ImageView>(Resource.Id.btn_edit_date_of_birth);
             btnEditHeight = view.FindViewById<ImageView>(Resource.Id.btn_edit_height);
             btnEditWeight = view.FindViewById<ImageView>(Resource.Id.btn_edit_weight);
+            btnEditGender = view.FindViewById<ImageView>(Resource.Id.btn_edit_gender);
 
             btnEditEmail.Click += editEmail;
             btnEditPassword.Click += editPassword;
@@ -72,6 +76,7 @@ namespace FreediverApp
             btnEditDateOfBirth.Click += editDateOfBirth;
             btnEditHeight.Click += editHeight;
             btnEditWeight.Click += editWeight;
+            btnEditGender.Click += editGender;
 
             res = this.Resources;
 
@@ -94,6 +99,7 @@ namespace FreediverApp
                 txtViewPassword.Text = "********";
                 txtViewFirstname.Text = userdata[0].firstname;
                 txtViewLastname.Text = userdata[0].lastname;
+                txtViewGender.Text = userdata[0].gender;
                 txtViewDateOfBirth.Text = userdata[0].dateOfBirth;
                 txtViewWeight.Text = userdata[0].weight + " kg";
                 txtViewHeight.Text = userdata[0].height + " cm";
@@ -264,6 +270,36 @@ namespace FreediverApp
             dialog.Show();
         }
 
+        public void editGender(object sender, EventArgs eventArgs) 
+        {
+            LayoutInflater layoutInflater = LayoutInflater.From(Context);
+            View dialogView = layoutInflater.Inflate(Resource.Layout.UserSpinnerInputDialog, null);
+
+            SupportV7.AlertDialog.Builder dialogBuilder = createEditGenderDialog(res.GetString(Resource.String.dialog_change_gender), Resource.Drawable.icon_pencil, dialogView);
+
+            var editValueSpinner = dialogView.FindViewById<Spinner>(Resource.Id.spinner_input);
+            editValueSpinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(onSpinnerGenderItemSelected);
+            var spinnerAdapter = ArrayAdapter.CreateFromResource(Context, Resource.Array.gender_array, Android.Resource.Layout.SimpleSpinnerItem);
+            spinnerAdapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+            editValueSpinner.Adapter = spinnerAdapter;
+
+            dialogBuilder.SetCancelable(false)
+                .SetPositiveButton(Resource.String.dialog_save, delegate
+                {
+                    userDataListener.updateEntity("users", TemporaryData.CURRENT_USER.id, "gender", gender);
+                    Toast.MakeText(Context, Resource.String.saving_successful, ToastLength.Long).Show();
+                    retrieveAccountData();
+                    dialogBuilder.Dispose();
+                })
+                .SetNegativeButton(Resource.String.dialog_cancel, delegate
+                {
+                    dialogBuilder.Dispose();
+                });
+
+            SupportV7.AlertDialog dialog = dialogBuilder.Create();
+            dialog.Show();
+        }
+
         public void editDateOfBirth(object sender, EventArgs eventArgs)
         {
             DatePickerFragment datePicker = DatePickerFragment.NewInstance(delegate (DateTime dateTime) 
@@ -357,6 +393,23 @@ namespace FreediverApp
             checkPasswordField.Hint = placeholderPasswordCheck;
 
             return dialogBuilder;
+        }
+
+        public SupportV7.AlertDialog.Builder createEditGenderDialog(string title, int iconId, View parentView)
+        {
+            SupportV7.AlertDialog.Builder dialogBuilder = new SupportV7.AlertDialog.Builder(Context);
+            dialogBuilder.SetView(parentView);
+
+            dialogBuilder.SetTitle(title);
+            dialogBuilder.SetIcon(iconId);
+
+            return dialogBuilder;
+        }
+
+        private void onSpinnerGenderItemSelected(object sender, AdapterView.ItemSelectedEventArgs e) 
+        {
+            Spinner spinner = (Spinner)sender;
+            gender = spinner.GetItemAtPosition(e.Position).ToString();
         }
     }
 }

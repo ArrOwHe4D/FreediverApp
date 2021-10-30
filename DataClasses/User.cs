@@ -17,6 +17,7 @@ namespace FreediverApp
         public string dateOfBirth;
         public string weight;
         public string height;
+        public string gender;
         public string registerdate;
 
         public List<DiveSession> diveSessions = new List<DiveSession>();
@@ -28,7 +29,7 @@ namespace FreediverApp
             diveSessions = _diveSessions;
         }
 
-        public User(string id, string username, string email, string password, string firstname, string lastname, string dateOfBirth, string weight, string height) 
+        public User(string id, string username, string email, string password, string firstname, string lastname, string dateOfBirth, string weight, string height, string gender) 
         {
             this.id = id;
             this.username = username;
@@ -39,6 +40,7 @@ namespace FreediverApp
             this.dateOfBirth = dateOfBirth;
             this.weight = weight;
             this.height = height;
+            this.gender = gender;
             this.registerdate = DateTime.Now.Date.ToString("dd.MM.yyyy");
         }
     }

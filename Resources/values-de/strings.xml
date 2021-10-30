@@ -1,9 +1,21 @@
 ﻿<resources>
+
   <!--Common Strings-->
   <string name="app_name">Freediver App</string>
   <string name="navigation_drawer_open">Open navigation drawer</string>
   <string name="navigation_drawer_close">Close navigation drawer</string>
   <string name="action_settings">Settings</string>
+
+  <!--Languages for Spinner-->
+  <string-array name="languages_array">
+    <item>Deutsch</item>
+    <item>Englisch</item>
+  </string-array>
+  <string-array name="gender_array">
+    <item>Männlich</item>
+    <item>Weiblich</item>
+    <item>Divers</item>
+  </string-array>
 
   <!--Language Strings (DE)-->
   <string name="login">Einloggen</string>
@@ -24,6 +36,7 @@
   <string name="firstname_acc_panel">Vorname: </string>
   <string name="lastname">Nachname</string>
   <string name="lastname_acc_panel">Nachname: </string>
+  <string name="gender_acc_panel">Geschlecht: </string>
   <string name="date_of_birth">Geburtsdatum</string>
   <string name="date_of_birth_acc_panel">Geburtsdatum: </string>
   <string name="weight">Gewicht (kg)</string>
@@ -147,6 +160,7 @@
   <string name="dialog_new_height">Neuer Wert (cm)</string>
   <string name="dialog_change_weight">Gewicht ändern</string>
   <string name="dialog_new_weight">Neues Gewicht (kg)</string>
+  <string name="dialog_change_gender">Geschlecht ändern</string>
   <string name="dialog_upload_data_to_cloud">Tauchdaten werden in die Cloud geladen...</string>
   <string name="dialog_wifi_not_activated">Wlan deaktiviert</string>
   <string name="dialog_want_to_activate_wifi">Möchten Sie Wlan auf ihrem Gerät aktivieren?</string>

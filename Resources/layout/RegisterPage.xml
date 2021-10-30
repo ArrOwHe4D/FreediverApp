@@ -92,6 +92,14 @@
                android:textColor="@android:color/black"
                android:textColorHint="@android:color/black"/>
 
+            <Spinner
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="15dp"
+               android:layout_marginLeft="80dp"
+               android:layout_marginRight="80dp"
+               android:id="@+id/spinner_gender"/>
+
             <EditText
                android:inputType="date"
                android:focusable="false"
