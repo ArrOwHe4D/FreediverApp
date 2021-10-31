@@ -120,7 +120,7 @@ namespace FreediverApp
             {
                 SKColor color;
 
-                float depth = float.Parse(scaledMeasurePoints[i].depth.Replace(",", "."));
+                float depth = (float)Math.Round(double.Parse(scaledMeasurePoints[i].depth.Replace(",", ".")), 2);
 
                 //assign the color based on the depth value of the current measurepoint
                 if (depth <= 8.0f)
@@ -142,7 +142,7 @@ namespace FreediverApp
                 dataList.Add(new ChartEntry(depth)
                 {
                     Label = ts.ToString(@"mm\:ss"),
-                    ValueLabel = measurepointList[i].depth.Split(",")[0] + " m",
+                    ValueLabel = depth.ToString() + " m",
                     ValueLabelColor = valueLabelColor,
                     Color = color
                 });
