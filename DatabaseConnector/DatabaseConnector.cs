@@ -41,11 +41,11 @@ namespace FreediverApp.DatabaseConnector
             if (app == null)
             {
                 var options = new FirebaseOptions.Builder()
-                    .SetProjectId("freedivertest")
-                    .SetApplicationId("freedivertest")
-                    .SetApiKey("AIzaSyByFuMKrWcqYsIaObJfx5V4GaVgIAhHZEc")
-                    .SetDatabaseUrl("https://freedivertest.firebaseio.com")
-                    .SetStorageBucket("freedivertest.appspot.com")
+                    .SetProjectId("freediver-eca91")
+                    .SetApplicationId("freediver")
+                    .SetApiKey("AIzaSyCRepKGafGq36s5QLabDOQo46XwdoZcO88")
+                    .SetDatabaseUrl("https://freediver.firebaseio.com")
+                    .SetStorageBucket("freediver-eca91.appspot.com")
                     .Build();
 
                 app = FirebaseApp.InitializeApp(Application.Context, options);
