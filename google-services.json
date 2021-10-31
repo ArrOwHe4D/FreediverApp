@@ -1,13 +1,14 @@
 {
   "project_info": {
     "project_number": "527002472758",
+    "firebase_url": "https://freediver-eca91-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "freediver-eca91",
     "storage_bucket": "freediver-eca91.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:527002472758:android:3795d9e563c42b65bde397",
+        "mobilesdk_app_id": "1:527002472758:android:ae1743c8f36d8f76bde397",
         "android_client_info": {
           "package_name": "com.project.freediverapp"
         }

@@ -277,7 +277,7 @@ namespace FreediverApp
         {
             try
             {
-                int oxygenSaturationMax = Convert.ToInt32(measurepoints.First().luminance);
+                int oxygenSaturationMax = Convert.ToInt32(measurepoints.First().oxygen_saturation);
                 foreach (var item in measurepoints)
                 {
                     if (Convert.ToInt32(item.oxygen_saturation) > oxygenSaturationMax)
@@ -297,7 +297,7 @@ namespace FreediverApp
         {
             try
             {
-                int oxygenSaturationMin = Convert.ToInt32(measurepoints.First().luminance);
+                int oxygenSaturationMin = Convert.ToInt32(measurepoints.First().oxygen_saturation);
                 foreach (var item in measurepoints)
                 {
                     if (Convert.ToInt32(item.oxygen_saturation) < oxygenSaturationMin)
@@ -317,7 +317,7 @@ namespace FreediverApp
         {
             try
             {
-                int waterTemperatureMax = Convert.ToInt32(measurepoints.First().luminance);
+                int waterTemperatureMax = Convert.ToInt32(measurepoints.First().water_temp);
                 foreach (var item in measurepoints)
                 {
                     if (Convert.ToInt32(item.water_temp) > waterTemperatureMax)
@@ -337,7 +337,7 @@ namespace FreediverApp
         {
             try
             {
-                int waterTemperatureMin = Convert.ToInt32(measurepoints.First().luminance);
+                int waterTemperatureMin = Convert.ToInt32(measurepoints.First().water_temp);
                 foreach (var item in measurepoints)
                 {
                     if (Convert.ToInt32(item.water_temp) < waterTemperatureMin)
