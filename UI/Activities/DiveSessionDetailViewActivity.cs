@@ -157,7 +157,7 @@ namespace FreediverApp
             var editValueField = dialogView.FindViewById<EditText>(Resource.Id.textfield_input);
 
             dialogBuilder.SetCancelable(false)
-                .SetPositiveButton("Speichern", delegate
+                .SetPositiveButton(Resource.String.dialog_save, delegate
                 {
                     diveDataListener.updateEntity("divesessions", TemporaryData.CURRENT_DIVESESSION.key, "note", editValueField.Text);
                     textviewNotes.Text = editValueField.Text;
@@ -165,7 +165,7 @@ namespace FreediverApp
                     Toast.MakeText(this, Resource.String.saving_successful, ToastLength.Long).Show();
                     dialogBuilder.Dispose();
                 })
-                .SetNegativeButton("Abbrechen", delegate
+                .SetNegativeButton(Resource.String.dialog_cancel, delegate
                 {
                     dialogBuilder.Dispose();
                 });
