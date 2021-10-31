@@ -162,7 +162,7 @@ namespace FreediverApp
                     diveDataListener.updateEntity("divesessions", TemporaryData.CURRENT_DIVESESSION.key, "note", editValueField.Text);
                     textviewNotes.Text = editValueField.Text;
                     TemporaryData.CURRENT_DIVESESSION.note = editValueField.Text;
-                    Toast.MakeText(this, "Wert wurde erfolgreich geändert!", ToastLength.Long).Show();
+                    Toast.MakeText(this, Resource.String.saving_successful, ToastLength.Long).Show();
                     dialogBuilder.Dispose();
                 })
                 .SetNegativeButton("Abbrechen", delegate
