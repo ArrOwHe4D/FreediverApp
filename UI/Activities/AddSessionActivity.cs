@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using Android.Content;
 using Android.Views;
 using SupportV7 = Android.Support.V7.App;
+using System.Globalization;
 
 namespace FreediverApp
 {
@@ -133,8 +134,9 @@ namespace FreediverApp
                     Console.WriteLine(ex.Message);
                     Toast.MakeText(this, Resource.String.could_not_retrieve_location_and_weather, ToastLength.Long).Show();
                 }
-  
-                ds.date = DateTime.Now.ToShortDateString();
+
+                CultureInfo cultureInfo = new CultureInfo("de-DE");
+                ds.date = DateTime.Now.ToString("d", cultureInfo);
                 ds.location_lat = location != null ? location.Latitude.ToString() : "n/a";
                 ds.location_lon = location != null ? location.Longitude.ToString() : "n/a";
                 ds.weatherTemperature = weatherData.temp != null ? weatherData.temp : "n/a";

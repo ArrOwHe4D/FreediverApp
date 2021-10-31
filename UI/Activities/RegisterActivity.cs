@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using Android.Content.PM;
 using FreediverApp.UI.Fragments;
 using FreediverApp.Utils;
+using System.Globalization;
 
 namespace FreediverApp
 {
@@ -72,7 +73,8 @@ namespace FreediverApp
 
         private void openDatePickerDialog(object sender, EventArgs eventArgs) 
         {
-            DatePickerFragment datePicker = DatePickerFragment.NewInstance(delegate (DateTime dateTime) { texteditDateOfBirth.Text = dateTime.ToShortDateString(); });
+            CultureInfo cultureInfo = new CultureInfo("de-DE");
+            DatePickerFragment datePicker = DatePickerFragment.NewInstance(delegate (DateTime dateTime) { texteditDateOfBirth.Text = dateTime.ToString("d", cultureInfo); });
             datePicker.Show(FragmentManager, DatePickerFragment.TAG);
         }
 

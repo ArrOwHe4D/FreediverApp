@@ -8,6 +8,7 @@ using Android.Views;
 using Android.Widget;
 using FreediverApp.DatabaseConnector;
 using SupportV7 = Android.Support.V7.App;
+using System.Globalization;
 
 namespace FreediverApp
 {
@@ -303,8 +304,9 @@ namespace FreediverApp
         public void editDateOfBirth(object sender, EventArgs eventArgs)
         {
             DatePickerFragment datePicker = DatePickerFragment.NewInstance(delegate (DateTime dateTime) 
-            { 
-                userDataListener.updateEntity("users", TemporaryData.CURRENT_USER.id, "birthday", dateTime.ToShortDateString());
+            {
+                CultureInfo cultureInfo = new CultureInfo("de-DE");
+                userDataListener.updateEntity("users", TemporaryData.CURRENT_USER.id, "birthday", dateTime.ToString("d", cultureInfo));
                 Toast.MakeText(Context, Resource.String.saving_successful, ToastLength.Long).Show();
                 retrieveAccountData();
             });
