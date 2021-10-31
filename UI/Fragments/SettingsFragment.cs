@@ -21,9 +21,6 @@ namespace FreediverApp
     public class SettingsFragment : Fragment
     {
         /*Member variables (UI components from XML)*/
-        private Spinner spinnerLanguage;
-        private ArrayAdapter spinnerAdapter;
-        private bool initiateCall = true;
         private TextView textViewSSID;
         private TextView textViewPassword;
         private ImageView buttonEditSSID;
@@ -41,14 +38,7 @@ namespace FreediverApp
         {
             var view = inflater.Inflate(Resource.Layout.SettingsPage, container, false);
 
-            spinnerLanguage = view.FindViewById<Spinner>(Resource.Id.spinner_language);
-            spinnerAdapter = ArrayAdapter.CreateFromResource(Context, Resource.Array.languages_array, Android.Resource.Layout.SimpleSpinnerItem);
-            spinnerAdapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
-            spinnerLanguage.Adapter = spinnerAdapter;
-            spinnerLanguage.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(languageSpinner_ItemSelected);
-
             textViewSSID = view.FindViewById<TextView>(Resource.Id.textview_ssid);
-
             textViewPassword = view.FindViewById<TextView>(Resource.Id.textview_password);
 
             buttonEditSSID = view.FindViewById<ImageView>(Resource.Id.button_edit_ssid);
@@ -68,60 +58,6 @@ namespace FreediverApp
 
             textViewSSID.Text = wifiCredentials["ota_ssid"];
             textViewPassword.Text = wifiCredentials["ota_password"];
-        }
-
-        private void languageSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e) 
-        {
-            if (initiateCall) 
-            {
-                initiateCall = false;
-                return;
-            }
-
-            Spinner spinner = (Spinner)sender;
-            var selectedItem = spinner.SelectedItem;
-            
-            string languageChangedMessage = string.Format("Current Language is set to: {0}", spinner.GetItemAtPosition(e.Position));
-            Toast.MakeText(Context, languageChangedMessage, ToastLength.Long).Show();
-
-            string selectedLanguage = (string) spinner.GetItemAtPosition(e.Position);
-
-            switch (selectedLanguage) 
-            {
-                case "Deutsch": 
-                {
-                    Locale locale = new Locale("de");
-                    Locale.SetDefault(Locale.Category.Display, locale);
-                    Configuration config = new Configuration();
-                    config.Locale = locale;
-                    Context.Resources.UpdateConfiguration(config, Context.Resources.DisplayMetrics);
-                    break;
-                }
-                case "English": 
-                {
-                    Locale locale = new Locale("en");
-                    Locale.SetDefault(Locale.Category.Display, locale);
-                    Configuration config = new Configuration();
-                    config.Locale = locale;
-                    Context.Resources.UpdateConfiguration(config, Context.Resources.DisplayMetrics);
-                    break;
-                }
-            }
-            restartMainActivity();
-            refreshFragment();
-        }
-
-        private void refreshFragment() 
-        {
-            FragmentTransaction menuTransaction = FragmentManager.BeginTransaction();
-            SettingsFragment settingsFragment = new SettingsFragment();
-            menuTransaction.Replace(Resource.Id.framelayout, settingsFragment).AddToBackStack(null).Commit();
-        }
-
-        private void restartMainActivity()
-        {
-            var mainActivity = new Intent(Context, typeof(MainActivity));
-            StartActivity(mainActivity);
         }
 
         public void editSSID(object sender, EventArgs eventArgs)

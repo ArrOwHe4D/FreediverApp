@@ -6,11 +6,7 @@
   <string name="navigation_drawer_close">Close navigation drawer</string>
   <string name="action_settings">Settings</string>
 
-  <!--Languages for Spinner-->
-  <string-array name="languages_array">
-    <item>German</item>
-    <item>English</item>
-  </string-array>
+  <!--Spinner arrays-->
   <string-array name="gender_array">
     <item>Male</item>
     <item>Female</item>
