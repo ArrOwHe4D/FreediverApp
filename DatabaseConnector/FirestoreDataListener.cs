@@ -64,6 +64,15 @@ namespace FreediverApp.DatabaseConnector
                 .Get().AddOnSuccessListener(this);
         }
 
+        public void QueryParameterizedOrderBy(string tablename, string field, string value, string orderfield) 
+        {
+            lastQueriedTableName = tablename;
+            DBConnector.GetFirestoreDatabase().Collection(tablename)
+                .WhereEqualTo(field, value)
+                .OrderBy(orderfield)
+                .Get().AddOnSuccessListener(this);
+        }
+
         //Updates the value of the given "field" from a dataset with the given "id" with the parameter "value"
         public void updateEntity(string tablename, string id, string field, string value)
         {

@@ -80,7 +80,7 @@ namespace FreediverApp
         private void RetrieveMeasurepointData(Dive dive)
         {
             measurepointDataListener = new FirestoreDataListener();
-            measurepointDataListener.QueryParameterized("measurepoints", "ref_dive", dive.id);
+            measurepointDataListener.QueryParameterizedOrderBy("measurepoints", "ref_dive", dive.id, "duration");
             measurepointDataListener.DataRetrieved += MeasurepointDataListener_DataRetrieved;
         }
 
@@ -107,11 +107,20 @@ namespace FreediverApp
 
             int hop = measurepointList.Count / 10;
 
-            for (int i = 0; i < measurepointList.Count; i += hop)
+            List<Measurepoint> scaledMeasurePoints = new List<Measurepoint>();
+
+            for (int i = 0; i < measurepointList.Count; i += hop) 
+            {
+                scaledMeasurePoints.Add(measurepointList[i]);
+            }
+
+            scaledMeasurePoints.Sort((x, y) => long.Parse(x.duration).CompareTo(long.Parse(y.duration)));
+
+            for (int i = 0; i < scaledMeasurePoints.Count; i++)
             {
                 SKColor color;
 
-                float depth = float.Parse(measurepointList[i].depth.Replace(",", "."));
+                float depth = float.Parse(scaledMeasurePoints[i].depth.Replace(",", "."));
 
                 //assign the color based on the depth value of the current measurepoint
                 if (depth <= 8.0f)
@@ -127,10 +136,10 @@ namespace FreediverApp
                     color = SKColor.Parse("#f75939"); //red
                 }
 
-                TimeSpan ts = TimeSpan.FromMilliseconds(double.Parse(measurepointList[i].duration));
+                TimeSpan ts = TimeSpan.FromMilliseconds(long.Parse(scaledMeasurePoints[i].duration));
 
                 //Add a new chartEntry to the dataList containing the depth value of the current measurepoint
-                dataList.Add(new ChartEntry(float.Parse(measurepointList[i].depth))
+                dataList.Add(new ChartEntry(depth)
                 {
                     Label = ts.ToString(@"mm\:ss"),
                     ValueLabel = measurepointList[i].depth.Split(",")[0] + " m",

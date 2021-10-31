@@ -57,7 +57,7 @@ namespace FreediverApp
         private void RetrieveDiveSessionData()
         {
             diveSessionsDataListener = new FirestoreDataListener();
-            diveSessionsDataListener.QueryParameterized("divesessions", "ref_user", TemporaryData.CURRENT_USER.id);
+            diveSessionsDataListener.QueryParameterizedOrderBy("divesessions", "ref_user", TemporaryData.CURRENT_USER.id, "date");
             diveSessionsDataListener.DataRetrieved += DiveSessionsDataListener_DataRetrieved;
         }
 
