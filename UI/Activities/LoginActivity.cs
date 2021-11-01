@@ -19,6 +19,7 @@ namespace FreediverApp
     {
         /*Member variables of this activity*/
         private TextView textviewCantLogin;
+        private TextView textviewRememberMe;
         private Button buttonRegister, buttonLogin;
         private EditText texteditUsername, texteditPassword;
         private CheckBox checkboxRemember;
@@ -75,6 +76,9 @@ namespace FreediverApp
 
             textviewCantLogin = FindViewById<TextView>(Resource.Id.textview_cantlogin);
             textviewCantLogin.Click += redirectToLoginProblemsActivity;
+
+            textviewRememberMe = FindViewById<TextView>(Resource.Id.textview_remember_me);
+            textviewRememberMe.Text = Resources.GetString(Resource.String.remember_me);
 
             userList = new List<User>();
         }

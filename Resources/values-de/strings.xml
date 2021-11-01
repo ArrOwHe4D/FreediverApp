@@ -88,6 +88,7 @@
   <string name="transfer">Übertragen</string>
   <string name="how_to_transfer_data">Wie man Daten überträgt:</string>
   <string name="transfer_data">Daten übertragen</string>
+  <string name="remember_me">Merken</string>
 
   <!--Data transfer manual strings-->
   <string name="step_one">1. Drücken Sie auf \"Verbinden\" und verbinden Sie ihr Mobilgerät über das Android-Wlan-Menü mit dem Tauchcomputer.</string>

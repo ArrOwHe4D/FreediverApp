@@ -54,11 +54,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Remember"
+            android:text="Remember me"
             android:gravity="left"
             android:textColor="@android:color/black"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp"
+            android:id="@+id/textview_remember_me"/>
 
     </LinearLayout>
 
