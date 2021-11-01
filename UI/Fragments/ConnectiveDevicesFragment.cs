@@ -107,7 +107,7 @@ namespace FreediverApp
             try
             {
                 //OTA UPDATE STUFF
-                FtpConnector connector = new FtpConnector(base.Context, "192.168.4.1", "diver", "diverpass");
+                FtpConnector connector = new FtpConnector(base.Context, "192.168.4.1", "diver", "diverpass");               
 
                 if (connector.isConnected())
                 {
@@ -134,6 +134,7 @@ namespace FreediverApp
 
         private void uploadDataTask() 
         {
+            int sessionCount = 0;
             while (true)
             {
                 var session = readSessionFromFile();
@@ -141,12 +142,17 @@ namespace FreediverApp
                 {
                     break;
                 }
+                sessionCount++;
                 saveSessionData(session);    
             }
 
             //Close data transfer dialog after completion
             Activity.RunOnUiThread(() => dataTransferDialog.Dismiss());
-            Activity.RunOnUiThread(() => Toast.MakeText(Context, Resource.String.data_sync_complete, ToastLength.Long).Show());
+
+            if (sessionCount > 0) 
+            {
+                Activity.RunOnUiThread(() => Toast.MakeText(Context, Resource.String.data_sync_complete, ToastLength.Long).Show());
+            }
         }
 
         private void buttonConnectOnClick(object sender, EventArgs eventArgs) 
@@ -160,9 +166,10 @@ namespace FreediverApp
          *  It is defined as async so we wait for a scan result asynchronously and add all found devices
          *  to our list that is passed to the listview in form of a adapter component.
          **/
-        private void transferButtonOnClick(object sender, EventArgs eventArgs)
+        private async void transferButtonOnClick(object sender, EventArgs eventArgs)
         {
             requestStoragePermissions();
+            Toast.MakeText(base.Context, Resource.String.dialog_connecting_to_dive_computer, ToastLength.Long).Show();
 
             try
             {

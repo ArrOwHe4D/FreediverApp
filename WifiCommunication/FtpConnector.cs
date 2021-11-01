@@ -203,7 +203,7 @@ namespace FreediverApp.WifiCommunication
             try
             {
                 ConnectivityManager connectivityManager = (ConnectivityManager)context.GetSystemService(Context.ConnectivityService);
-                return connectivityManager.ActiveNetworkInfo.IsConnectedOrConnecting;
+                return connectivityManager.ActiveNetworkInfo.IsConnectedOrConnecting && serverProfile != null;
             }
             catch (Exception ex) 
             {

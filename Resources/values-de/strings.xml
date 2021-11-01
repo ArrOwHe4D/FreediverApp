@@ -139,6 +139,7 @@
   <string name="dialog_connect_to_device">Mit Gerät verbinden</string>
   <string name="dialog_logging_in">Einloggen...</string>
   <string name="dialog_receiving_data">Empfange Session Daten vom Tauchcomputer...</string>
+  <string name="dialog_connecting_to_dive_computer">Verbindung zum Tauchcomputer wird hergestellt...</string>
   <string name="dialog_sync_ota">Synchronisiere OTA Daten...</string>
   <string name="dialog_change_ssid">SSID ändern</string>
   <string name="dialog_new_ssid">Neue SSID</string>
