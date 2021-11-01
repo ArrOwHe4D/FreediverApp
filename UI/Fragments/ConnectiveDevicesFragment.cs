@@ -19,6 +19,7 @@ using System.IO;
 using FreediverApp.DataClasses;
 using FreediverApp.Utils;
 using System.Threading;
+using Xamarin.Essentials;
 
 namespace FreediverApp
 {
@@ -57,7 +58,7 @@ namespace FreediverApp
             buttonTransfer = view.FindViewById<Button>(Resource.Id.bt_scan_btn);
 
             //setup onclick listeners for scan button and listview items
-            buttonTransfer.Click += transferButtonOnClick;
+            buttonTransfer.Click += buttonTransferOnClick;
 
             buttonConnect = view.FindViewById<Button>(Resource.Id.button_connect);
             buttonConnect.Click += buttonConnectOnClick;
@@ -166,7 +167,7 @@ namespace FreediverApp
          *  It is defined as async so we wait for a scan result asynchronously and add all found devices
          *  to our list that is passed to the listview in form of a adapter component.
          **/
-        private void transferButtonOnClick(object sender, EventArgs eventArgs)
+        private void buttonTransferOnClick(object sender, EventArgs eventArgs)
         {
             requestStoragePermissions();
             Toast.MakeText(base.Context, Resource.String.dialog_connecting_to_dive_computer, ToastLength.Long).Show();
@@ -242,8 +243,14 @@ namespace FreediverApp
 
         private KeyValuePair<string, List<string>> readSessionFromFile() 
         {
-            string filePath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData) + "/pending_sessions.ps";
-                    
+            string filePath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData) + "/pending_sessions.ps";          
+
+            if (!File.Exists(filePath))
+            {
+                Activity.RunOnUiThread(() => Toast.MakeText(Context, Resource.String.no_pending_data, ToastLength.Long).Show());
+                return new KeyValuePair<string, List<string>>(null, null);
+            }
+
             List<string> sessions = File.ReadLines(filePath).ToList();
 
             if (sessions.Count > 0)

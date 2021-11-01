@@ -9,6 +9,7 @@ using Microcharts;
 using SkiaSharp;
 using Microcharts.Droid;
 using FreediverApp.Utils;
+using System.Globalization;
 
 namespace FreediverApp.FragmentActivities
 {
@@ -93,8 +94,19 @@ namespace FreediverApp.FragmentActivities
             {
                 try
                 {
+                    float sessionTemperature;
+                    CultureInfo cultureInfo = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+
+                    if (cultureInfo.Name == "de-DE")
+                    {
+                        sessionTemperature = string.IsNullOrEmpty(session.weatherTemperature) ? 0.0f : float.Parse(session.weatherTemperature.Replace(".", ","), cultureInfo);
+                    }
+                    else
+                    {
+                        sessionTemperature = string.IsNullOrEmpty(session.weatherTemperature) ? 0.0f : float.Parse(session.weatherTemperature, cultureInfo);
+                    }
+
                     int sessionWaterTime = int.Parse(session.watertime);
-                    float sessionTemperature = string.IsNullOrEmpty(session.weatherTemperature) ? 0.0f : float.Parse(session.weatherTemperature);
                     totalWaterTime += sessionWaterTime;
 
                     //Longest Divesession
@@ -112,7 +124,10 @@ namespace FreediverApp.FragmentActivities
                     //Coldest Divesession
                     if (sessionTemperature < coldestWaterTemperature)
                     {
-                        coldestWaterTemperature = sessionTemperature;
+                        if (!string.IsNullOrEmpty(session.weatherTemperature)) 
+                        {
+                            coldestWaterTemperature = sessionTemperature;
+                        }
                     }
                 }
                 catch(Exception ex)
@@ -165,7 +180,7 @@ namespace FreediverApp.FragmentActivities
                 dataList.Add(new ChartEntry(warmestWaterTemperature)
                 {
                     Label = Context.Resources.GetString(Resource.String.max_temperature),
-                    ValueLabel = /*warmestWaterTemperature.ToString()*/ 18.27f.ToString() + " °C",
+                    ValueLabel = warmestWaterTemperature.ToString() + " °C",
                     ValueLabelColor = valueLabelColor,
                     Color = SKColor.Parse("#fc6f03") //sunny orange
                 });
@@ -173,7 +188,7 @@ namespace FreediverApp.FragmentActivities
                 dataList.Add(new ChartEntry(coldestWaterTemperature)
                 {
                     Label = Context.Resources.GetString(Resource.String.min_temperature),
-                    ValueLabel = /*coldestWaterTemperature.ToString()*/ 07.12f.ToString() + " °C",
+                    ValueLabel = coldestWaterTemperature.ToString() + " °C",
                     ValueLabelColor = valueLabelColor,
                     Color = SKColor.Parse("#69c8ff") //ice blue
                 });

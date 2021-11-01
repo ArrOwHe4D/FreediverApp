@@ -93,10 +93,10 @@
   <string name="str_long">lang</string>
 
   <!--Data transfer manual strings-->
-  <string name="step_one">1. Drücken Sie auf \"Verbinden\" und verbinden Sie ihr Mobilgerät über das Android-Wlan-Menü mit dem Tauchcomputer.</string>
+  <string name="step_one">1. Drücken Sie auf \"Verbinden\" und verbinden Sie ihr Mobilgerät über das Android-WLAN-Menü mit dem Tauchcomputer.</string>
   <string name="step_two">2. Nachdem Sie sich erfolgreich verbunden haben, kehren Sie in dieses Menü zurück und klicken Sie auf \"Übertragen\". Dies kann eine Weile dauern.</string>
   <string name="step_three">3. Nachdem die Daten übertragen wurden, trennen Sie die Verbindung zum Tauchcomputer wieder.</string>
-  <string name="step_four">4. Stellen Sie eine Internetverbindung her (z.B. über Wlan oder Mobile Daten).</string>
+  <string name="step_four">4. Stellen Sie eine Internetverbindung her (z.B. über WLAN oder Mobile Daten).</string>
   <string name="step_five">5. Drücken sie den \"SYNC\"-Knopf, um ihre Daten mit der Cloud zu synchronisieren. Dies kann eine Weile dauern.</string>
 
   <!--Toast Strings (DE)-->
@@ -124,11 +124,11 @@
   <string name="ota_transfer_failed">"Synchronisierung der Netzwerkdaten für OTA fehlgeschlagen!"</string>
   <string name="ota_transfer_successful">"Synchronisierung der Netzwerkdaten für OTA erfolgreich!"</string>
   <string name="passwords_dont_match">"Die Passwörter stimmen nicht überein!"</string>
-  <string name="connection_to_device_failed_ensure_wifi_connection">Verbindung fehlgeschlagen. Stellen Sie sicher, dass Sie mit dem Wlan-Netzwerk des Tauchcomputers verbunden sind.</string>
+  <string name="connection_to_device_failed_ensure_wifi_connection">Verbindung fehlgeschlagen. Stellen Sie sicher, dass Sie mit dem WLAN-Netzwerk des Tauchcomputers verbunden sind.</string>
   <string name="connected_to_device_starting_data_transfer">Mit Tauchcomputer verbunden, starte Datentransfer...</string>
   <string name="no_pending_data">Es wurden keine ausstehenden Daten für die Synchronisierung gefunden!</string>
-  <string name="wifi_activation_successful">Wlan aktiviert!</string>
-  <string name="wifi_activation_failed">Wlan konnte nicht aktiviert werden!</string>
+  <string name="wifi_activation_successful">WLAN aktiviert!</string>
+  <string name="wifi_activation_failed">WLAN konnte nicht aktiviert werden!</string>
 
   <!--Dialog Strings (DE)-->
   <string name="dialog_save_user_info">Konto erstellen</string>
@@ -164,8 +164,8 @@
   <string name="dialog_add_note">Notiz hinzufügen</string>
   <string name="dialog_new_note">Neue Notiz</string>
   <string name="dialog_upload_data_to_cloud">Tauchdaten werden in die Cloud geladen...</string>
-  <string name="dialog_wifi_not_activated">Wlan deaktiviert</string>
-  <string name="dialog_want_to_activate_wifi">Möchten Sie Wlan auf ihrem Gerät aktivieren?</string>
+  <string name="dialog_wifi_not_activated">WLAN deaktiviert</string>
+  <string name="dialog_want_to_activate_wifi">Möchten Sie WLAN auf ihrem Gerät aktivieren?</string>
   <string name="dialog_disconnect_and_establish_internet_connection_to_sync">Bitte trennen sie die Verbindung zum Tauchcomputer und stellen sie eine Internetverbindung her. Drücken Sie anschließend auf den SYNC Button, um die Tauchdaten in der Datenbank abzuspeichern.</string>
 
 </resources>
