@@ -65,7 +65,7 @@ namespace FreediverApp
         private void fillTextView()
         {
             textViewDiveSessionTitle.Text = Resources.GetString(Resource.String.dive) + " #" + Intent.GetStringExtra("index");
-            textViewGraphTitle.Text = "Last Dive (" + TemporaryData.CURRENT_DIVE.maxDepth + " m deep and " + TemporaryData.CURRENT_DIVE.duration + " sec long)";
+            textViewGraphTitle.Text = Resources.GetString(Resource.String.last_dive) + " (" + TemporaryData.CURRENT_DIVE.maxDepth + " m " + Resources.GetString(Resource.String.deep_and) + " " + TemporaryData.CURRENT_DIVE.duration + " sec " + Resources.GetString(Resource.String.str_long) + ")";
             textViewDepth.Text = TemporaryData.CURRENT_DIVE.maxDepth + " m";
             textViewDuration.Text = TemporaryData.CURRENT_DIVE.duration + " sec";
             textViewMaxHF.Text = TemporaryData.CURRENT_DIVE.HeartFreqMax + " bpm";
@@ -136,11 +136,11 @@ namespace FreediverApp
                 }
 
                 //assign the color based on the depth value of the current measurepoint
-                if (depth <= 8.0f)
+                if (depth <= 20.0f)
                 {
                     color = SKColor.Parse("#5cf739"); //green
                 }
-                else if (depth <= 18.0f)
+                else if (depth <= 60.0f)
                 {
                     color = SKColor.Parse("#f7c139"); //yellow
                 }

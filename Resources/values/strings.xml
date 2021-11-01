@@ -90,6 +90,9 @@
   <string name="how_to_transfer_data">How to Transfer Data:</string>
   <string name="transfer_data">Transfer data</string>
   <string name="remember_me">Remember me</string>
+  <string name="last_dive">Last dive</string>
+  <string name="deep_and">deep and</string>
+  <string name="str_long">long</string>
 
   <!--Data transfer manual strings (EN_US)-->
   <string name="step_one">1. Press the \"Connect\" Button and Connect to your Divecomputer using the Android Wifi Menu.</string>
