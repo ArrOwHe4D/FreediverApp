@@ -166,7 +166,7 @@ namespace FreediverApp
          *  It is defined as async so we wait for a scan result asynchronously and add all found devices
          *  to our list that is passed to the listview in form of a adapter component.
          **/
-        private async void transferButtonOnClick(object sender, EventArgs eventArgs)
+        private void transferButtonOnClick(object sender, EventArgs eventArgs)
         {
             requestStoragePermissions();
             Toast.MakeText(base.Context, Resource.String.dialog_connecting_to_dive_computer, ToastLength.Long).Show();
