@@ -129,13 +129,6 @@ namespace FreediverApp
                     return;
                 }
 
-                //check if the entered email is valid, if not, print a error message on the UI.
-                if (!FreediverHelper.validateBirthdate(dateofbirth))
-                {
-                    Toast.MakeText(this, "Birthday is not valid!", ToastLength.Long).Show();
-                    return;
-                }
-
                 bool userNameExists = false;
                 bool emailExists = false;
 

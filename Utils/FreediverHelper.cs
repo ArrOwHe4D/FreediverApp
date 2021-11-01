@@ -19,25 +19,6 @@ namespace FreediverApp.Utils
             }
         }
 
-        public static bool validateBirthdate(string birthday)
-        {
-            try
-            {
-                birthday = birthday.Replace('.', Convert.ToChar(@"-"));
-                string pattern = "dd-MM-yyyy";
-
-                DateTime bday;
-                DateTime.TryParseExact(birthday, pattern, null, DateTimeStyles.None, out bday);
-
-                return bday.Date <= DateTime.Now.Date;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return false;
-            }
-        }
-
         public static bool darkModeActive(Android.Content.Context context)
         {
             return context.Resources.Configuration.UiMode == (Android.Content.Res.UiMode.NightYes | Android.Content.Res.UiMode.TypeNormal);
