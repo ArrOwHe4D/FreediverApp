@@ -73,7 +73,7 @@ namespace FreediverApp
             textviewWaterTime.Text = TemporaryData.CURRENT_DIVESESSION.watertime + " sec";
 
             textviewNotes.Text = TemporaryData.CURRENT_DIVESESSION.note;
-            
+
             RetrieveDiveData();
         }
 
@@ -152,7 +152,7 @@ namespace FreediverApp
             LayoutInflater layoutInflater = LayoutInflater.From(this);
             View dialogView = layoutInflater.Inflate(Resource.Layout.UserInputDialog, null);
 
-            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog("Notiz hinzufügen", "Notiz", Resource.Drawable.icon_pencil, dialogView);
+            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog(Resources.GetString(Resource.String.dialog_add_note), Resources.GetString(Resource.String.dialog_new_note), Resource.Drawable.icon_pencil, dialogView);
 
             var editValueField = dialogView.FindViewById<EditText>(Resource.Id.textfield_input);
 

@@ -28,8 +28,6 @@ namespace FreediverApp
         private FirestoreDataListener userDataListener;
         private List<User> userList;
 
-        private Android.Content.Res.Resources res;
-
         private string gender;
 
         // use edit buttons as Imageviews as it is easier and costs less resources
@@ -78,8 +76,6 @@ namespace FreediverApp
             btnEditHeight.Click += editHeight;
             btnEditWeight.Click += editWeight;
             btnEditGender.Click += editGender;
-
-            res = this.Resources;
 
             //setup the db listener to retrieve userdata from db
             retrieveAccountData();
@@ -163,7 +159,7 @@ namespace FreediverApp
             LayoutInflater layoutInflater = LayoutInflater.From(Context);
             View dialogView = layoutInflater.Inflate(Resource.Layout.UserInputDialog, null);
 
-            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog(res.GetString(Resource.String.dialog_change_email), res.GetString(Resource.String.dialog_new_email), Resource.Drawable.icon_pencil, dialogView);
+            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog(Resources.GetString(Resource.String.dialog_change_email), Resources.GetString(Resource.String.dialog_new_email), Resource.Drawable.icon_pencil, dialogView);
 
             var editValueField = dialogView.FindViewById<EditText>(Resource.Id.textfield_input);
             editValueField.InputType = Android.Text.InputTypes.TextVariationEmailAddress;
@@ -190,7 +186,7 @@ namespace FreediverApp
             LayoutInflater layoutInflater = LayoutInflater.From(Context);
             View dialogView = layoutInflater.Inflate(Resource.Layout.UserPasswordInputDialog, null);
 
-            SupportV7.AlertDialog.Builder dialogBuilder = createEditPasswordDialog(res.GetString(Resource.String.dialog_change_password), res.GetString(Resource.String.dialog_new_password), res.GetString(Resource.String.dialog_confirm_new_password), Resource.Drawable.icon_pencil, dialogView);
+            SupportV7.AlertDialog.Builder dialogBuilder = createEditPasswordDialog(Resources.GetString(Resource.String.dialog_change_password), Resources.GetString(Resource.String.dialog_new_password), Resources.GetString(Resource.String.dialog_confirm_new_password), Resource.Drawable.icon_pencil, dialogView);
             
             var editPasswordField = dialogView.FindViewById<EditText>(Resource.Id.textview_password_input);
             var checkPasswordField = dialogView.FindViewById<EditText>(Resource.Id.textview_password_check_input);
@@ -224,7 +220,7 @@ namespace FreediverApp
             LayoutInflater layoutInflater = LayoutInflater.From(Context);
             View dialogView = layoutInflater.Inflate(Resource.Layout.UserInputDialog, null);
 
-            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog(res.GetString(Resource.String.dialog_change_first_name), res.GetString(Resource.String.dialog_new_first_name), Resource.Drawable.icon_pencil, dialogView);
+            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog(Resources.GetString(Resource.String.dialog_change_first_name), Resources.GetString(Resource.String.dialog_new_first_name), Resource.Drawable.icon_pencil, dialogView);
 
             var editValueField = dialogView.FindViewById<EditText>(Resource.Id.textfield_input);
 
@@ -250,7 +246,7 @@ namespace FreediverApp
             LayoutInflater layoutInflater = LayoutInflater.From(Context);
             View dialogView = layoutInflater.Inflate(Resource.Layout.UserInputDialog, null);
 
-            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog(res.GetString(Resource.String.dialog_change_last_name), res.GetString(Resource.String.dialog_new_last_name), Resource.Drawable.icon_pencil, dialogView);
+            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog(Resources.GetString(Resource.String.dialog_change_last_name), Resources.GetString(Resource.String.dialog_new_last_name), Resource.Drawable.icon_pencil, dialogView);
 
             var editValueField = dialogView.FindViewById<EditText>(Resource.Id.textfield_input);
 
@@ -276,7 +272,7 @@ namespace FreediverApp
             LayoutInflater layoutInflater = LayoutInflater.From(Context);
             View dialogView = layoutInflater.Inflate(Resource.Layout.UserSpinnerInputDialog, null);
 
-            SupportV7.AlertDialog.Builder dialogBuilder = createEditGenderDialog(res.GetString(Resource.String.dialog_change_gender), Resource.Drawable.icon_pencil, dialogView);
+            SupportV7.AlertDialog.Builder dialogBuilder = createEditGenderDialog(Resources.GetString(Resource.String.dialog_change_gender), Resource.Drawable.icon_pencil, dialogView);
 
             var editValueSpinner = dialogView.FindViewById<Spinner>(Resource.Id.spinner_input);
             editValueSpinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(onSpinnerGenderItemSelected);
@@ -319,7 +315,7 @@ namespace FreediverApp
             LayoutInflater layoutInflater = LayoutInflater.From(Context);
             View dialogView = layoutInflater.Inflate(Resource.Layout.UserInputDialog, null);
 
-            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog(res.GetString(Resource.String.dialog_change_height), res.GetString(Resource.String.dialog_new_height), Resource.Drawable.icon_pencil, dialogView);
+            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog(Resources.GetString(Resource.String.dialog_change_height), Resources.GetString(Resource.String.dialog_new_height), Resource.Drawable.icon_pencil, dialogView);
 
             var editValueField = dialogView.FindViewById<EditText>(Resource.Id.textfield_input);
 
@@ -345,7 +341,7 @@ namespace FreediverApp
             LayoutInflater layoutInflater = LayoutInflater.From(Context);
             View dialogView = layoutInflater.Inflate(Resource.Layout.UserInputDialog, null);
 
-            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog(res.GetString(Resource.String.dialog_change_weight), res.GetString(Resource.String.dialog_new_weight), Resource.Drawable.icon_pencil, dialogView);
+            SupportV7.AlertDialog.Builder dialogBuilder = createEditDialog(Resources.GetString(Resource.String.dialog_change_weight), Resources.GetString(Resource.String.dialog_new_weight), Resource.Drawable.icon_pencil, dialogView);
 
             var editValueField = dialogView.FindViewById<EditText>(Resource.Id.textfield_input);
 
