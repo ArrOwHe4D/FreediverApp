@@ -9,6 +9,7 @@ using Microcharts.Droid;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace FreediverApp
 {
@@ -119,8 +120,20 @@ namespace FreediverApp
             for (int i = 0; i < scaledMeasurePoints.Count; i++)
             {
                 SKColor color;
+                float depth = 0.0f;
 
-                float depth = (float)Math.Round(double.Parse(scaledMeasurePoints[i].depth.Replace(",", ".")), 2);
+                CultureInfo cultureInfo = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+
+                if (cultureInfo.Name == "de-DE")
+                {
+                    depth = scaledMeasurePoints[i].depth.Length > 1 ? float.Parse(scaledMeasurePoints[i].depth.Substring(0, 5).Replace(".", ","), cultureInfo)
+                                                                    : float.Parse(scaledMeasurePoints[i].depth.Replace(".", ","), cultureInfo);
+                }
+                else 
+                {
+                    depth = scaledMeasurePoints[i].depth.Length > 1 ? float.Parse(scaledMeasurePoints[i].depth.Substring(0, 5), cultureInfo)
+                                                                    : float.Parse(scaledMeasurePoints[i].depth, cultureInfo);
+                }
 
                 //assign the color based on the depth value of the current measurepoint
                 if (depth <= 8.0f)
