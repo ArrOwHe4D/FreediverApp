@@ -8663,35 +8663,35 @@ namespace FreediverApp
 			// aapt resource value: 0x7F0F0106
 			public const int username = 2131689734;
 			
+			// aapt resource value: 0x7F0F0107
+			public const int username_or_email = 2131689735;
+			
 			// aapt resource value: 0x7F0F0108
-			public const int username_or_email = 2131689736;
+			public const int weather = 2131689736;
 			
 			// aapt resource value: 0x7F0F0109
-			public const int weather = 2131689737;
+			public const int weather_condition = 2131689737;
 			
 			// aapt resource value: 0x7F0F010A
-			public const int weather_condition = 2131689738;
+			public const int weight = 2131689738;
 			
 			// aapt resource value: 0x7F0F010B
-			public const int weight = 2131689739;
+			public const int weight_acc_panel = 2131689739;
 			
 			// aapt resource value: 0x7F0F010C
-			public const int weight_acc_panel = 2131689740;
+			public const int welcome = 2131689740;
 			
 			// aapt resource value: 0x7F0F010D
-			public const int welcome = 2131689741;
+			public const int wifi_activation_failed = 2131689741;
 			
 			// aapt resource value: 0x7F0F010E
-			public const int wifi_activation_failed = 2131689742;
+			public const int wifi_activation_successful = 2131689742;
 			
 			// aapt resource value: 0x7F0F010F
-			public const int wifi_activation_successful = 2131689743;
+			public const int wifi_devices = 2131689743;
 			
 			// aapt resource value: 0x7F0F0110
-			public const int wifi_devices = 2131689744;
-			
-			// aapt resource value: 0x7F0F0111
-			public const int wrong_username_or_pass = 2131689745;
+			public const int wrong_username_or_pass = 2131689744;
 			
 			static String()
 			{
